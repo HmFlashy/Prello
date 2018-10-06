@@ -11,8 +11,8 @@ steps:
   inputs:
     versionSpec: '8.x'
   displayName: 'Install Node.js'
-
 - script: |
     npm install
+    npm test
     npm run build
   displayName: 'npm install and build'
