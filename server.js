@@ -1,12 +1,9 @@
+require("dotenv").config();
 const express = require('express');
 const path = require('path');
 const app = express();
 const port = process.env.PORT || 5000;
 
-// API calls
-app.get('/api/hello', (req, res) => {
-    res.send({ express: 'Hello From Express' });
-});
 if (process.env.NODE_ENV === 'production') {
     // Serve any static files
     app.use(express.static(path.join(__dirname, 'client', 'build')));
@@ -15,4 +12,21 @@ if (process.env.NODE_ENV === 'production') {
         res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
     });
 }
+app.options("*", (req, res) => {
+    var headers = {};
+    // IE8 does not allow domains to be specified, just the *
+    // headers["Access-Control-Allow-Origin"] = req.headers.origin;
+    headers["Access-Control-Allow-Origin"] = "*";
+    headers["Access-Control-Allow-Methods"] = "POST, GET, PUT, DELETE, OPTIONS";
+    headers["Access-Control-Allow-Credentials"] = false;
+    headers["Access-Control-Max-Age"] = '86400'; // 24 hours
+    headers["Access-Control-Allow-Headers"] = "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept";
+    res.writeHead(200, headers);
+    res.end();
+})
+
+// API calls
+app.use('/api', require("./api"));
+
+
 app.listen(port, () => console.log(`Listening on port ${port}`));
