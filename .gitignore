@@ -90,3 +90,5 @@ fabric.properties
 .idea
 
 client/node_modules
+
+data
