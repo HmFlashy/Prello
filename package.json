@@ -1,17 +1,26 @@
 {
-  "name": "prello-server",
+  "name": "prello",
+  "description": "Project manager using boards, lists and cards",
   "version": "1.0.0",
   "scripts": {
     "client": "cd client && npm start",
     "server": "nodemon server.js",
     "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
-    "start": "node server.js",
-    "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
+    "start": "node server.js"
   },
   "dependencies": {
-    "express": "^4.16.2"
+    "body-parser": "^1.18.3",
+    "dotenv": "^6.1.0",
+    "express": "^4.16.2",
+    "helmet": "^3.14.0",
+    "mongoose": "^5.3.3"
   },
   "devDependencies": {
     "concurrently": "^3.5.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HmFlashy/prello.git"
+  },
+  "license": "ISC"
 }
