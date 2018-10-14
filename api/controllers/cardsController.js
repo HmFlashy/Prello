@@ -1,7 +1,7 @@
 
-const getCardById = () => 'My card'
+const getCardById = () => 'My card';
 
 
 module.exports = {
-  getCardById
-}
+  getCardById,
+};

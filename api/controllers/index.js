@@ -1,3 +1,5 @@
+const cardsController = require('./cardsController')
+
 module.exports = {
-  cardsController: require("./cardsController")
-}
+  cardsController
+};
