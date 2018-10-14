@@ -1,10 +1,9 @@
-
+const CardController = require('../../controllers/cardsController')
 
 module.exports = (req, res) => {
-  res.status(200).json({
-    card: {
-      name: 'My card',
-      id: req.params.idCard,
-    },
-  });
-};
+    CardController.getCardById(req).then((data) => {
+        res.status(201).json(data)
+    }).catch((err) => {
+        res.status(err.code).json(err.message)
+    })
+}
