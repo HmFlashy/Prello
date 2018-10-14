@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 
 mongoose.set('debug', true);
 mongoose.Promise = global.Promise;
-mongoose.connect(process.env.MONGODB_URL);
 
 module.exports.Card = require('./Card');
 module.exports.Board = require('./Board');
