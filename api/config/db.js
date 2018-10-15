@@ -4,7 +4,9 @@ const mongoose = require('mongoose');
 connect()
 
 function connect(){
-return mongoose.connect(process.env.URL_MONGODB)
+return mongoose.connect(process.env.URL_MONGODB, {
+    useNewUrlParser: true
+})
 }
 
 mongoose.connection.once('open', function() {
