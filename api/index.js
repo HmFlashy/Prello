@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+require('dotenv').config();
 
 const router = express.Router();
 const mongoose = require('mongoose');
@@ -22,7 +23,7 @@ module.exports = router;
 connect()
 
 function connect(){
-  return mongoose.connect('mongodb://mongo/prello')
+  return mongoose.connect(process.env.URL_MONGODB)
 }
 
 mongoose.connection.once('open', function() {
