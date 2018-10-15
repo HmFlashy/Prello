@@ -5,14 +5,15 @@ import './App.css';
 import { connect } from 'react-redux';
 import { simpleAction } from './redux/actions/simpleAction'
 import createHistory from 'history/createBrowserHistory'
+import Card from './components/App/Card'
  
 const history = createHistory()
 
 class App extends Component {
 
-    simpleAction = (event) => {
+    simpleAction(event){
         this.props.simpleAction();
-       }
+    }
 
     render() {
         return (
@@ -23,9 +24,7 @@ class App extends Component {
                     <Link to="/contact">Contact</Link>
                     <Switch>
                         <Route path="/login">
-                            <div>
-                                Mdr salut !
-                            </div>
+                            <Card></Card>
                         </Route>
                         <Route path= "">
                             <div>
