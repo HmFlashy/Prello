@@ -2,18 +2,12 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch, Link } from 'react-router-dom'
 import logo from './logo.svg';
 import './App.css';
-import { connect } from 'react-redux';
-import { simpleAction } from './redux/actions/simpleAction'
 import createHistory from 'history/createBrowserHistory'
 import Card from './components/App/Card'
  
 const history = createHistory()
 
 class App extends Component {
-
-    simpleAction(event){
-        this.props.simpleAction();
-    }
 
     render() {
         return (
@@ -28,12 +22,6 @@ class App extends Component {
                         </Route>
                         <Route path= "">
                             <div>
-                            <button onClick={this.simpleAction}>Test redux action</button>
-                            <pre>
-                            {
-                            JSON.stringify(this.props)
-                            }
-                            </pre>
                                 <header className="App-header">
                                     <img src={logo} className="App-logo" alt="logo" />
                                     <h1 className="App-title">Welcome to React</h1>
@@ -47,16 +35,4 @@ class App extends Component {
         );
     }
 }
-export default connect(
-    state =>
-        ({
-        ...state
-    })
-    ,
-    dispatch => {
-        return {
-            simpleAction: () => {
-                dispatch(simpleAction())
-            }
-        }
-    })(App)
+export default App;

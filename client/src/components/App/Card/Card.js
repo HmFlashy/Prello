@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import './Card.css'
+import { changeCardNameAction } from '../../../redux/actions/cardActions'
+
 class Card extends Component {
 
     constructor(props){
@@ -9,13 +11,18 @@ class Card extends Component {
     }
 
     changeCardName(name) {
-
+        this.props.changeCardNameAction(name)
     }
 
     render(){
         return (
             <div className="card">
-                MDR
+                <button onClick={this.changeCardName}>Test redux action</button>
+                <pre>
+                    {
+                        JSON.stringify(this.props)
+                    }
+                </pre>
             </div>
         )
     }
@@ -23,9 +30,11 @@ class Card extends Component {
 
 export default connect(
     state => ({...state}),
-    dispatch => ({
-        changeCardName: () => {
-            dispatch(changeCardName())
+    dispatch => {
+        return {
+            changeCardNameAction: (name) => {
+                dispatch(changeCardNameAction(name))
+            }
         }
-    })
+    }
 )(Card);
