@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "scripts": {
     "client": "cd client && npm start",
-    "server": "nodemon server.js",
+    "server": "./node_modules/.bin/nodemon server.js",
     "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
     "start": "node server.js",
     "install:all:prod": "npm install --only=production && cd client && npm install --only=production",
@@ -21,7 +21,8 @@
     "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
-    "concurrently": "^3.5.0"
+    "concurrently": "^3.5.0",
+    "nodemon": "^1.18.4"
   },
   "repository": {
     "type": "git",
