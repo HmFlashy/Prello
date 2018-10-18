@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "scripts": {
     "client": "cd client && npm start",
-    "server": "nodemon server.js",
+    "server": "./node_modules/.bin/nodemon server.js",
     "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
     "start": "node server.js",
     "install:all:prod": "npm install --only=production && cd client && npm install --only=production",
@@ -12,13 +12,18 @@
   },
   "dependencies": {
     "body-parser": "^1.18.3",
+    "cors": "^2.8.4",
     "dotenv": "^6.1.0",
     "express": "^4.16.2",
     "helmet": "^3.14.0",
-    "mongoose": "^5.3.3"
+    "history": "^4.7.2",
+    "mongoose": "^5.3.3",
+    "prop-types": "^15.6.2",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
-    "concurrently": "^3.5.0"
+    "concurrently": "^3.5.0",
+    "nodemon": "^1.18.4"
   },
   "repository": {
     "type": "git",
