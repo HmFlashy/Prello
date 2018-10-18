@@ -2,7 +2,7 @@
 import io from 'socket.io-client';
 import urlConfig from '../config/UrlConfig'
 
-const socket = io.connect(urlConfig.API)
+const socket = io(urlConfig.SOCKET)
 
 socket.on("connect", () => {
     console.log("Connected !")
