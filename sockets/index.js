@@ -7,7 +7,7 @@ module.exports.listen = function(server) {
     io.adapter(redisAdapter({ host: 'localhost', port: 6379 }));
     
      io.sockets.on('connection', function (socket) {
-     	
+     	console.log("Connected")
         //On place nos events ici
      	socket.on('action', function() {
         
@@ -18,7 +18,6 @@ module.exports.listen = function(server) {
 		** pour permettre à d'autres fichiers d'utiliser le même socket
 		** par exemple :
 		*/
-		require('un/autre/fichier').sockets(socket, io.sockets);
              
 		/*
     	** J'exporte le socket ainsi que les sockets 
