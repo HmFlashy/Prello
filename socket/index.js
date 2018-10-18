@@ -6,7 +6,7 @@ module.exports.listen = (server) => {
 	const io = socketio(server);
     io.adapter(redisAdapter(process.env.REDIS_URL));
     
-	io.of('/').on('connection', (socket) => {
+	io.on('connection', (socket) => {
 		console.log("Connected")
 		//On place nos events ici
 
@@ -17,6 +17,8 @@ module.exports.listen = (server) => {
 		socket.on("error", (error) => {
 			console.log(error)
 		})
+
+		socket.emit('cardUpdated')
 
 	});
 };
