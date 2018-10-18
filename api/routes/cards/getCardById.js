@@ -1,9 +1,10 @@
 const CardController = require('../../controllers/cardsController')
 
 module.exports = (req, res) => {
-    return CardController.getCardById(req.params.id).then((data) => {
-        res.status(201).json(data)
+    console.log(req.params)
+    return CardController.getCardById(req.params.idCard).then((data) => {
+        res.status(200).json(data)
     }).catch((err) => {
-        res.status(err.code).json(err.message)
+        res.status(404).json(err.message)
     })
 }
