@@ -24,4 +24,4 @@ app.use('/api', require("./api"));
 
 
 const server = app.listen(port, () => console.log(`Listening on port ${port}`));
-require('./sockets').listen(server)
+require('./socket').listen(server)
