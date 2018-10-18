@@ -23,4 +23,5 @@ app.use(helmet());
 app.use('/api', require("./api"));
 
 
-app.listen(port, () => console.log(`Listening on port ${port}`));
+const server = app.listen(port, () => console.log(`Listening on port ${port}`));
+require('./sockets').listen(server)

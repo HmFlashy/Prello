@@ -11,3 +11,13 @@ services:
         ports:
             - 27017:27017
         command: mongod --smallfiles --logpath=/dev/null # --quiet
+        restart: always
+    redis:
+        container_name: redis
+        image: redis
+        ports:
+          - "6379:6379"
+        volumes:
+          - ./data/redis:/data
+        restart: always
+        
