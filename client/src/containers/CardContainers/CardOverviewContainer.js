@@ -6,19 +6,19 @@ import cardServices from '../../services/CardServices'
 const mapStateToProps = (state, ownProps) => {
     return {
         //card: state.boardReducer.lists[ownProps.listIndex].card[ownProps.cardIndex]
-        card: {
-            name: "Test"
-        }
+        card: state.boardReducer.card
     }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        async updateName(card) {
-            return cardServices.updateCardNameApi(card._id, card.name).then(
-                card => dispatch(actionUpdateCardName(card._id, card.name)),
-                error => dispatch(failedActionUpdateCardName(card._id, card.name))
-            )
+        async updateName(cardId, name) {
+            try {
+                await cardServices.updateCardNameApi(cardId, name)
+            } catch(error) {
+                console.log(error)
+                return dispatch(failedActionUpdateCardName(error))
+            }
         }
     }
 }

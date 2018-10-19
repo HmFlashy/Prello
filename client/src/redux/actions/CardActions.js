@@ -12,6 +12,13 @@ export const failedActionUpdateCardName = (error) => {
     }
 }
 
+export const actionCardNameUpdated = (card) => {
+    return {
+        type: 'CARD_NAME_UPDATED',
+        payload: card
+    }
+}
+
 export const actionGetCard = (card) => {
     return {
         type: 'GET_CARD',

@@ -28,8 +28,7 @@ class CardOverview extends Component {
         this.setState({
             isNameUpdating: false
         })
-        this.props.card.name = name
-        this.props.updateName(this.props.card)
+        this.props.updateName(this.props.card._id, name)
     }
 
     render(){
