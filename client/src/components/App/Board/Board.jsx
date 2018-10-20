@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import './Board.css'
 import '../../../containers/CardContainers/CardOverviewContainer'
 import ListContainer from '../../../containers/ListContainer';
-import { Segment, Container, List } from 'semantic-ui-react'
+import NewListContainer from '../../../containers/ListContainers/NewListContainer';
+import { List } from 'semantic-ui-react'
 
 class Board extends Component {
 
@@ -17,6 +18,7 @@ class Board extends Component {
                 { this.props.board.lists.map(listId => (
                     <List.Item className='no-padding-top'><ListContainer key={listId} listId={listId}/></List.Item>
                 )) }
+                <List.Item className='no-padding-top'><NewListContainer /></List.Item>
             </List>
         );
     }

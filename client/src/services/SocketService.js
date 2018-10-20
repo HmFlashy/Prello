@@ -1,7 +1,6 @@
 
 import io from 'socket.io-client';
 import urlConfig from '../config/UrlConfig'
-import { actionCardNameUpdated } from '../redux/actions/CardActions'
 
 const socket = io(urlConfig.SOCKET)
 

@@ -43,17 +43,14 @@ export default (state = defaultBoardReducer, action) => {
                 ...state,
                 error: action.payload
             }
-        /*case 'UPDATE_LIST_NAME':
+        case 'ADD_LIST':
+            const list = action.payload
             return {
                 ...state,
                 currentBoard: {
-                    ...state.currentBoard,
-                    lists: state.lists.map(
-                        list => {
-                            list._id === action.payload._id ? action.payload : list
-                        })
-                }
-            }*/
+                    ...state,
+                    lists: [...state.currentBoard.lists, list._id]}
+            }
         case 'FAILED_UPDATE_LIST_NAME':
             return {
                 ...state,

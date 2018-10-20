@@ -11,3 +11,17 @@ export const failedActionUpdateListName = (error) => {
         payload: error
     }
 }
+
+export const actionAddList = (list) => {
+    return {
+        type: 'ADD_LIST',
+        payload: list
+    }
+}
+
+export const failedActionAddList = (error) => {
+    return {
+        type: 'FAILED_ADD_LIST',
+        payload: error
+    }
+}

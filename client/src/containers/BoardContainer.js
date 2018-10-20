@@ -1,10 +1,8 @@
 import board from '../components/App/Board'
 import { connect } from 'react-redux';
 import socketService from '../services/SocketService'
-import cardServices from '../services/CardServices'
 import boardServices from '../services/BoardServices'
 import { actionBoardSubscribe, actionFetchingBoard, actionFailedFetchBoard, actionBoardFetched } from '../redux/actions/BoardActions'
-import { failedActionAddCard } from '../redux/actions/CardActions'
 
 const mapStateToProps = state => {
     return {
