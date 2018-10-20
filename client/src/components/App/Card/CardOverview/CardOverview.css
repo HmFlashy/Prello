@@ -1,0 +1,9 @@
+.cardOverview {
+    min-height: 100px;
+    width: 300px;
+    background-color: beige;
+}
+
+.pos {
+  margin-bottom: 12;
+}

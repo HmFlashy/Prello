@@ -1,10 +1,5 @@
 export default (state = {}, action) => {
     switch (action.type) {
-     case 'CHANGE_CARD_NAME':
-      return {
-        ...state, 
-        cardName: action.payload
-       }
      case 'GET_CARD':
       return {
           ...state,

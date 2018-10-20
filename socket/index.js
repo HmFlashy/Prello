@@ -1,22 +1,37 @@
 const socketio = require('socket.io');
-const redisAdapter = require('socket.io-redis');
+const redisAdapter = require('socket.io-redis')(process.env.REDIS_URL);
+redisAdapter.pubClient.on('error', (error) => console.log(error));
+redisAdapter.pubClient.on('connect', () => console.log("Connected to Redis"));
+let io = null
 
-module.exports.listen = (server) => {
+const socketLog = (text) => {
+	console.log("| SocketIO | : " + text)
+}
 
-	const io = socketio(server);
-    io.adapter(redisAdapter(process.env.REDIS_URL));
-    
-	io.of('/').on('connection', (socket) => {
-		console.log("Connected")
-		//On place nos events ici
+module.exports = {
+	listen: (server) => {
 
-		socket.on('subscribeToBoard', () => {
-			console.log("mdr")
-		});
-
-		socket.on("error", (error) => {
-			console.log(error)
-		})
-
-	});
-};
+		try {
+			io = socketio(server);
+			io.adapter(redisAdapter)
+			io.on('connection', (socket) => {
+				socketLog("A client is connected ( ip: " + socket.handshake.address + " )")
+				//On place nos events ici
+	
+				socket.on('subscribeToBoard', () => {
+					console.log("mdr")
+				});
+	
+				socket.on("error", (error) => {
+					console.log(error)
+				})
+	
+			});
+		} catch (error) {
+			console.log("MDR")
+		}
+	},
+	broadcast: (event, data) => {
+		io.of('/').emit(event, data)
+	}
+}

@@ -1,7 +1,21 @@
-export const changeCardNameAction = (name) => {
+export const actionUpdateCardName = (card) => {
     return {
-        type: 'CHANGE_CARD_NAME',
-        payload: name
+        type: 'UPDATE_CARD_NAME',
+        payload: card
+    }
+}
+
+export const failedActionUpdateCardName = (error) => {
+    return {
+        type: 'FAILED_UPDATE_CARD_NAME',
+        payload: error
+    }
+}
+
+export const actionCardNameUpdated = (card) => {
+    return {
+        type: 'CARD_NAME_UPDATED',
+        payload: card
     }
 }
 
