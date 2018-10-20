@@ -1,6 +1,9 @@
-const express = require("express")
-const router = express.Router()
+const express = require('express');
 
-router.get("/:idCard", require("./getCardById"))
+const router = express.Router();
 
-module.exports = router
+router.post('/', require('./addCard'));
+router.get('/', require('./getCards'));
+router.get('/:idCard', require('./getCardById'));
+
+module.exports = router;

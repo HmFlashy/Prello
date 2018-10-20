@@ -1,8 +1,9 @@
-const express = require("express")
-const router = express.Router()
+const express = require('express');
 
-router.use("/cards", require("./cards"))
-router.use("/lists", require("./lists"))
-router.use("/boards", require("./boards"))
+const router = express.Router();
 
-module.exports = router
+router.use('/cards', require('./cards'));
+router.use('/lists', require('./lists'));
+router.use('/boards', require('./boards'));
+
+module.exports = router;

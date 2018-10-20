@@ -1,31 +1,35 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import { Router, Route, Switch, Link } from "react-router-dom";
+import logo from "./logo.svg";
+import "./App.css";
+import createHistory from "history/createBrowserHistory";
+import Card from "./components/App/Card";
+import BoardContainer from './containers/BoardContainer'
+
+const history = createHistory();
+
 class App extends Component {
-    state = {
-        response: ''
-    };
-    componentDidMount() {
-        this.callApi()
-            .then(res => this.setState({ response: res }))
-            .catch(err => console.log(err));
-    }
-    callApi = async () => {
-        const response = await fetch('/api/hello');
-        const body = await response.json();
-        if (response.status !== 200) throw Error(body.message);
-        return body;
-    };
-    render() {
-        return (
-            <div className="App">
-                <header className="App-header">
-                    <img src={logo} className="App-logo" alt="logo" />
-                    <h1 className="App-title">Welcome to React</h1>
-                </header>
-                <p className="App-intro">{this.state.response}</p>
-            </div>
-        );
-    }
+  render() {
+    return (
+      <Router history={history}>
+        <div className="App">
+          <Link to="/login">Home</Link> <Link to="/">About</Link> <Link to="/contact">Contact</Link> <Link to="/board">Board</Link>
+          <Switch>
+            <Route path="/login">
+              <Card />
+            </Route>
+            <Route path="/board">
+                <BoardContainer />
+            </Route>
+            <Route path="">
+              <div>
+                <p className="App-intro">Salut</p>
+              </div>
+            </Route>
+          </Switch>
+        </div>
+      </Router>
+    );
+  }
 }
 export default App;

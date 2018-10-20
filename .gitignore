@@ -92,3 +92,5 @@ fabric.properties
 client/node_modules
 
 data
+
+.env
