@@ -1,6 +1,6 @@
 export default (state = {
-    currentBoard: {
         lists: [{
+            _id: '111',
             name: "Doing",
             cards: [{
                 card: {
@@ -8,9 +8,8 @@ export default (state = {
                 }
             }]
         }]
-    }
-    }, action
-    ) => {
+    }, 
+    action) => {
     switch (action.type) {
         case 'BOARD_SUBSCRIBE':
             return {
@@ -28,9 +27,10 @@ export default (state = {
                 cards: state.cards.map(card => card._id === action.payload._id ? action.payload : card)
             }
         case 'ADD_CARD':
+            const card = action.payload
             return {
                 ...state,
-                cards: [ ...state.cards, action.payload ]
+                lists: state.lists.map(list => card.listId === list._id ? [ ...list.cards, card ] : list)
             }
         case 'FAILED_GET_BOARD':
             return {

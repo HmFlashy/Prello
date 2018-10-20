@@ -7,7 +7,7 @@ import { failedActionAddCard } from '../redux/actions/CardActions'
 
 const mapStateToProps = state => {
     return {
-        cards: state.boardReducer.cards
+        board: state.boardReducer
     }
 };
 
@@ -16,14 +16,6 @@ const mapDispatchToProps = dispatch => {
         subscribe(){
             socketService.subscribe()
             dispatch(actionBoardSubscribe())
-        },
-        async addCard(name) {
-            try {
-                await cardServices.addCardApi(name)
-            } catch(error) {
-                console.log(error)
-                return dispatch(failedActionAddCard(error))
-            }
         }
     }
 }

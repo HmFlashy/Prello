@@ -3,7 +3,6 @@ import { Router, Route, Switch, Link } from "react-router-dom";
 import logo from "./logo.svg";
 import "./App.css";
 import createHistory from "history/createBrowserHistory";
-import Card from "./components/App/Card";
 import BoardContainer from './containers/BoardContainer';
 
 const history = createHistory();
