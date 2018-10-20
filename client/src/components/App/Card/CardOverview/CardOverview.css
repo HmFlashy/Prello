@@ -1,9 +1,6 @@
 .cardOverview {
-    min-height: 100px;
-    width: 300px;
-    background-color: beige;
-}
-
-.pos {
-  margin-bottom: 12;
+  width: 220px ;
+  max-height: 300px;
+  text-align: center;
+  margin-bottom: 1rem;
 }

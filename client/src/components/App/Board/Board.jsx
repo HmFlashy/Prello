@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './Board.css'
 import '../../../containers/CardContainers/CardOverviewContainer'
 import ListContainer from '../../../containers/ListContainer';
+import { Segment, Container, List } from 'semantic-ui-react'
 
 class Board extends Component {
 
@@ -12,11 +13,11 @@ class Board extends Component {
 
     render(){
         return (
-            <div>
+            <List className='board'>
                 { this.props.board.lists.map(listId => (
-                    <ListContainer key={listId} listId={listId}/>
+                    <List.Item className='no-padding-top'><ListContainer key={listId} listId={listId}/></List.Item>
                 )) }
-            </div>
+            </List>
         );
     }
 }

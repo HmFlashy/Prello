@@ -1,0 +1,11 @@
+.board {
+    display: flex;
+    text-align: left;
+    flex-direction: row;
+    overflow: hidden;
+    overflow-y: hidden;
+}
+
+.no-padding-top {
+    padding-top: 0px !important;
+}
