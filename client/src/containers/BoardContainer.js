@@ -9,7 +9,7 @@ const mapStateToProps = state => {
     return {
         cards: state.boardReducer.cards
     }
-}
+};
 
 const mapDispatchToProps = dispatch => {
     return {

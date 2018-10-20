@@ -1,4 +1,4 @@
-import { combineReducers } from 'redux';
+import {combineReducers} from 'redux';
 import cardReducer from './CardReducer';
 import boardReducer from './BoardReducer';
 
