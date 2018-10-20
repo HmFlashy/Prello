@@ -6,8 +6,6 @@ import cardServices from '../../../services/CardServices'
 
 class Card extends Component {
 
-
-
     constructor(props){
         super(props)
     }
@@ -42,7 +40,7 @@ export default connect(
             },
             getCard: async (id) => {
                 try {
-                    let card = await cardServices.getCard(id)
+                    let card = await cardServices.getCard(id);
                     dispatch(actionGetCard(card))
                 } catch(e) {
                     dispatch(failedActionGetCard(e))

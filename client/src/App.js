@@ -4,7 +4,8 @@ import logo from "./logo.svg";
 import "./App.css";
 import createHistory from "history/createBrowserHistory";
 import Card from "./components/App/Card";
-import BoardContainer from './containers/BoardContainer'
+import BoardContainer from './containers/BoardContainer';
+import ListContainer from './containers/ListContainers/ListContainer';
 
 const history = createHistory();
 
@@ -19,7 +20,7 @@ class App extends Component {
               <Card />
             </Route>
             <Route path="/board">
-                <BoardContainer />
+                <ListContainer />
             </Route>
             <Route path="">
               <div>
