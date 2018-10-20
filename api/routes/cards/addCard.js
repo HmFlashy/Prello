@@ -3,8 +3,9 @@ const socketIO = require('../../../socket')
 
 module.exports = async (req, res) => {
     const name = req.body.name;
+    const listId = req.body.listId;
     try {
-        const card = await CardController.addCard(name)
+        const card = await CardController.addCard(name, listId)
         socketIO.broadcast('action', {
             type: 'ADD_CARD',
             payload: card
