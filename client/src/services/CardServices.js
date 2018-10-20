@@ -1,14 +1,11 @@
 import axios from 'axios'
 import UrlConfig from '../config/UrlConfig'
+import { tokenHeader } from '../config/HeaderHelper'
 
 export default {
     async getCardByIdApi(cardId) {
         try{
-            const res = await axios.get(`${UrlConfig.API}/cards/${cardId}`, {
-                headers: {
-                    'Access-Control-Allow-Origin': '*',
-                }
-            })
+            const res = await axios.get(`${UrlConfig.API}/cards/${cardId}`, tokenHeader)
             return res.data
         } catch (e) {
             console.log(e)
@@ -19,14 +16,21 @@ export default {
         try {
             const res = await axios.put(`${UrlConfig.API}/cards/${cardId}`, {
                 name: name
-            }, {
-                headers: {
-                    'Access-Control-Allow-Origin': '*',
-                }
-            })
+            }, tokenHeader)
             return res.data
         } catch(error) {
             throw error
         }
-    } 
+    },
+    async addCardApi(name, listId) {
+        try {
+            const res = await axios.post(`${UrlConfig.API}/cards`, {
+                name: name,
+                listId: listId
+            }, tokenHeader)
+            return res.data
+        } catch(error) {
+            throw error
+        }
+    }
 }

@@ -11,17 +11,18 @@ const getCardById = (id) => {
     })
 };
 
-const addCard = (name) => {
+const addCard = (name, listId) => {
     const card = new db.Card({
         _id: new mongoose.Types.ObjectId(),
-        name: name
+        name: name,
+        listId: listId
     });
     return card.save()
     .then(card => {
         return Promise.resolve(card)
     })
     .catch(error => {
-        return Promise.reject(err)
+        return Promise.reject(error)
     })
 }
 

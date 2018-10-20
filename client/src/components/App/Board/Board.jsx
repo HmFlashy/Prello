@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './Board.css'
 import '../../../containers/CardContainers/CardOverviewContainer'
-import CardOverviewContainer from '../../../containers/CardContainers/CardOverviewContainer';
+import ListContainer from '../../../containers/ListContainer';
 
 class Board extends Component {
 
@@ -11,7 +11,11 @@ class Board extends Component {
 
     render(){
         return (
-            <CardOverviewContainer></CardOverviewContainer>
+            <div>
+                { this.props.board.lists.map(list => (
+                    <ListContainer list={list}/>
+                )) }
+            </div>
         );
     }
 }
