@@ -1,10 +1,16 @@
 const CardController = require('../../controllers/cardsController')
+const socketIO = require('../../../socket')
 
-module.exports = (req, res) => {
+module.exports = async (req, res) => {
     const name = req.body.name;
-    return CardController.addCard(name).then((data) => {
-        res.status(200).json(data)
-    }).catch((err) => {
-        res.status(err.code).json(err.message)
-    })
+    try {
+        const card = await CardController.addCard(name)
+        socketIO.broadcast('action', {
+            type: 'ADD_CARD',
+            payload: card
+        })
+        return res.status(200).json(card)
+    } catch(error) {
+        res.status(500).json(error.message)
+    }
 }

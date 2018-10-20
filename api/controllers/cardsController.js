@@ -21,7 +21,7 @@ const addCard = (name) => {
         return Promise.resolve(card)
     })
     .catch(error => {
-        return Promise.reject(err)
+        return Promise.reject(error)
     })
 }
 
