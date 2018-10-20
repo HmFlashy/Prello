@@ -12,13 +12,11 @@ class App extends Component {
     return (
       <Router history={history}>
         <div className="App">
-          <Link to="/login">Home</Link> <Link to="/">About</Link> <Link to="/contact">Contact</Link> <Link to="/board">Board</Link>
+          <Link to="/login">Home</Link> <Link to="/">About</Link> <Link to="/contact">Contact</Link> <Link to="/board">Board</Link> <Link to="/boards/board1">Board</Link>
           <Switch>
-            <Route path="/login">
-            </Route>
-            <Route path="/board">
-                <BoardContainer />
-            </Route>
+            <Route exact path="/login"  />
+            <Route exact path="/boards" />
+            <Route path="/boards/:boardId" component={BoardContainer} />
             <Route path="">
               <div>
                 <p className="App-intro">Salut</p>

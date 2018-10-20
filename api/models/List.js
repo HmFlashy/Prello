@@ -6,4 +6,4 @@ const List = new mongoose.Schema({
     cards: [{type: mongoose.Schema.Types.ObjectId, ref: 'Card'}]
 }, {timestamp: true});
 
-mongoose.model('List', List);
+module.exports = mongoose.model('List', List);

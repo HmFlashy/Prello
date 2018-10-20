@@ -4,9 +4,9 @@ import { failedActionUpdateCardName } from '../../redux/actions/CardActions'
 import cardServices from '../../services/CardServices'
 
 const mapStateToProps = (state, ownProps) => {
+    console.log(state.cardReducer.cards)
     return {
-        //card: state.boardReducer.lists[ownProps.listIndex].card[ownProps.cardIndex]
-        card: ownProps.card
+        card: state.cardReducer.cards.find(card => ownProps.cardId === card._id)
     }
 }
 

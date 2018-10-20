@@ -7,13 +7,14 @@ class Board extends Component {
 
     componentWillMount(){
         this.props.subscribe()
+        this.props.fetchBoard(this.props.match.params.boardId)
     }
 
     render(){
         return (
             <div>
-                { this.props.board.lists.map(list => (
-                    <ListContainer list={list}/>
+                { this.props.board.lists.map(listId => (
+                    <ListContainer key={listId} listId={listId}/>
                 )) }
             </div>
         );

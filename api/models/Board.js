@@ -10,4 +10,4 @@ const Board = new mongoose.Schema({
     categories: [{type: mongoose.Schema.Types.ObjectId, ref: 'Category'}]
 }, {timestamp: true});
 
-mongoose.model('Board', Board);
+module.exports = mongoose.model('Board', Board);
