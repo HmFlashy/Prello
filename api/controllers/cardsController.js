@@ -31,8 +31,18 @@ const getCards = () => {
     .catch(err => Promise.reject(err))
 };
 
+const updateCardName = async (cardId, name) => {
+    try {
+        return await db.Card.findOneAndUpdate({ _id: cardId}, { $set: { name: name}}, { "new": true})
+    } catch(error) {
+        return error
+    }
+
+}
+
 module.exports = {
     getCardById,
     getCards,
-    addCard
+    addCard,
+    updateCardName
 };

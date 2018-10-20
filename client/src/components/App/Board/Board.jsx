@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import './Board.css'
+import '../../../containers/CardContainers/CardOverviewContainer'
+import CardOverviewContainer from '../../../containers/CardContainers/CardOverviewContainer';
 
 class Board extends Component {
 
@@ -9,9 +11,7 @@ class Board extends Component {
 
     render(){
         return (
-            <div>
-                MDR
-            </div>
+            <CardOverviewContainer></CardOverviewContainer>
         );
     }
 }
