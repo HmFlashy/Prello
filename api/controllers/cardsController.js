@@ -13,7 +13,6 @@ const getCardById = (id) => {
 
 const addCard = (name, listId) => {
     const card = new db.Card({
-        _id: new mongoose.Types.ObjectId(),
         name: name,
         listId: listId
     });

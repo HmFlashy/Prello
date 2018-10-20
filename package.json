@@ -7,6 +7,7 @@
     "server": "./node_modules/.bin/nodemon server.js",
     "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
     "start": "node server.js",
+    "init:db": "node api/config/initDB.js",
     "install:all:prod": "npm install --only=production && cd client && npm install --only=production",
     "install:all:dev": "npm install && cd client && npm install"
   },
