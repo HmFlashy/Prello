@@ -1,8 +1,11 @@
 export default (state = {
-    card: {
+    cards: [{
         _id: "5bc8afc290eb33109c6efc5e",
         name: "Test"
-    }
+    }, {
+        _id: "lmsml",
+        name: "Mdr"
+    }]
 }, action) => {
     switch (action.type) {
      case 'BOARD_SUBSCRIBE':
@@ -12,7 +15,12 @@ export default (state = {
     case 'UPDATE_CARD_NAME':
        return {
            ...state,
-           card: action.payload
+           cards: state.cards.map(card => card._id === action.payload._id ? action.payload : card)
+       }
+    case 'ADD_CARD':
+       return {
+           ...state,
+           cards: [ ...state.cards, action.payload ]
        }
      default:
       return state

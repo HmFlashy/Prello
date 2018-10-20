@@ -11,7 +11,14 @@ class Board extends Component {
 
     render(){
         return (
-            <CardOverviewContainer></CardOverviewContainer>
+            <div>
+                <li>
+                    {this.props.cards.map(card => (
+                            <CardOverviewContainer key={card._id} card={card}/>
+                    ))}
+                </li>
+                <input onKeyDown={(event) => event.keyCode === 13 ? this.props.addCard(event.target.value) : null }></input>
+            </div>
         );
     }
 }
