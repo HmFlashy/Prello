@@ -4,8 +4,10 @@ const mongoose = require('mongoose');
 mongoose.set('debug', true);
 mongoose.Promise = global.Promise;
 
-module.exports.Card = require('./Card');
-module.exports.Board = require('./Board');
-module.exports.List = require('./List');
-module.exports.Attachment = require('./Attachment');
-module.exports.Action = require('./Action');
+module.exports = {
+    Card: require('./Card'),
+    Board: require('./Board'),
+    List: require('./List'),
+    Attachment: require('./Attachment'),
+    Action: require('./Action')
+}

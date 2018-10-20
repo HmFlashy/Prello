@@ -21,6 +21,7 @@ const Card = new mongoose.Schema({
     dueCompleteDate: Date,
     closed: {type: Boolean, default: false},
     owner: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+    list: {type: mongoose.Schema.Types.ObjectId, ref: 'List'},
     labels: [{type: mongoose.Schema.Types.ObjectId, ref: 'Label'}],
     comments: [{type: mongoose.Schema.Types.ObjectId, ref: 'Comment'}],
     members: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],

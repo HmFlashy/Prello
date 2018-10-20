@@ -1,16 +1,33 @@
-export default (state = {
-        lists: [{
-            _id: '111',
-            name: "Doing",
-            cards: [{
-                card: {
-                    name: "List Features"
-                }
-            }]
-        }]
-    }, 
-    action) => {
+const defaultBoardReducer = {
+    fetching: false,
+    currentBoard: {
+        fetching: false,
+        lists: []
+    },
+    boards: [{
+        _id: 'board1'
+    },{
+        _id: 'board2'
+    }
+    ]
+}
+
+export default (state = defaultBoardReducer, action) => {
     switch (action.type) {
+        case "FETCHED_BOARD":
+            const board = action.payload
+            return {
+                ...state,
+                currentBoard: {
+                    ...board,
+                    lists: board.lists.map(list => list._id)
+                }
+            }
+        case "FETCHING_BOARD":
+            return {
+                ...state,
+                fetching: true
+            }
         case 'BOARD_SUBSCRIBE':
             return {
                 ...state
@@ -20,17 +37,6 @@ export default (state = {
                 ...state,
                 currentBoard: action.payload,
                 error: null
-            }
-        case 'UPDATE_CARD_NAME':
-            return {
-                ...state,
-                cards: state.cards.map(card => card._id === action.payload._id ? action.payload : card)
-            }
-        case 'ADD_CARD':
-            const card = action.payload
-            return {
-                ...state,
-                lists: state.lists.map(list => card.listId === list._id ? [ ...list.cards, card ] : list)
             }
         case 'FAILED_GET_BOARD':
             return {

@@ -2,7 +2,7 @@ const db = require('../models');
 const mongoose = require('mongoose');
 
 const getCardById = (id) => {
-    return db.Card.findOne({_id: id}).then((card, err) =>{
+    return db.Card.findById(id).then((card, err) =>{
         if(err) {
             return Promise.reject(err)
         } else {
@@ -11,19 +11,21 @@ const getCardById = (id) => {
     })
 };
 
-const addCard = (name, listId) => {
+const addCard = async (name, listId) => {
     const card = new db.Card({
         _id: new mongoose.Types.ObjectId(),
         name: name,
-        listId: listId
+        list: listId
     });
-    return card.save()
-    .then(card => {
-        return Promise.resolve(card)
-    })
-    .catch(error => {
-        return Promise.reject(error)
-    })
+    try{
+        const savedCard = await card.save()
+        const list = await db.List.findById(listId)
+        list.cards.push(savedCard)
+        await list.save()
+        return savedCard
+    } catch(error) {
+        throw error
+    }
 }
 
 const getCards = () => {

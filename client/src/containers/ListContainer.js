@@ -7,7 +7,7 @@ import list from '../components/App/List'
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        list: ownProps.list
+        list: state.listReducer.lists.find(list => list._id === ownProps.listId)
     }
 };
 

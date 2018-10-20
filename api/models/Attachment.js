@@ -5,4 +5,4 @@ const Attachment = new mongoose.Schema({
     owner: {type: mongoose.Schema.Types.ObjectId, ref: 'Users'}
 }, {timestamp: true});
 
-mongoose.model('Attachment', Attachment);
+module.exports = mongoose.model('Attachment', Attachment);
