@@ -14,7 +14,7 @@ export default {
     },
     async fetchBoards() {
         try{
-            const res = await axios.get(`${UrlConfig.API}/boards}`, tokenHeader)
+            const res = await axios.get(`${UrlConfig.API}/boards`, tokenHeader)
             return res.data
         } catch (e) {
             console.log(e)

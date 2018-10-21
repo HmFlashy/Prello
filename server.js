@@ -6,6 +6,11 @@ const port = process.env.PORT || 5000;
 const helmet = require("helmet");
 const cors = require("cors")
 
+
+// API calls
+app.use(helmet());
+app.use('/api', require("./api"));
+
 if (process.env.NODE_ENV === 'production') {
     // Serve any static files
     app.use(express.static(path.join(__dirname, 'client', 'build')));
@@ -18,9 +23,6 @@ if (process.env.NODE_ENV === 'production') {
 app.use(cors())
 
 
-// API calls
-app.use(helmet());
-app.use('/api', require("./api"));
 
 
 const server = app.listen(port, () => console.log(`Listening on port ${port}`));

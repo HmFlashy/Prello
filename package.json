@@ -8,8 +8,9 @@
     "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
     "start": "node server.js",
     "init:db": "node api/config/initDB.js",
-    "install:all:prod": "npm install --only=production && cd client && npm install --only=production",
-    "install:all:dev": "npm install && cd client && npm install"
+    "install:all:prod": "npm install --production && cd client && npm install --production",
+    "install:all:dev": "npm install && cd client && npm install",
+    "client:build": "cd client && npm run build:production"
   },
   "dependencies": {
     "body-parser": "^1.18.3",

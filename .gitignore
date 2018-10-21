@@ -93,4 +93,4 @@ client/node_modules
 
 data
 
-.env
+.env*
