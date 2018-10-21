@@ -14,7 +14,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         async updateName(cardId, name) {
             try {
                 await cardServices.updateCardNameApi(cardId, name)
-            } catch(error) {
+            } catch (error) {
                 console.log(error)
                 return dispatch(failedActionUpdateCardName(error))
             }
