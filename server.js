@@ -7,6 +7,7 @@ const helmet = require("helmet");
 const cors = require("cors")
 
 
+app.use(cors())
 // API calls
 app.use(helmet());
 app.use('/api', require("./api"));
@@ -20,7 +21,6 @@ if (process.env.NODE_ENV === 'production') {
     })
 }
 
-app.use(cors())
 
 
 

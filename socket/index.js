@@ -7,7 +7,6 @@ let io = null
 const socketLog = (text) => {
 	console.log("| SocketIO | : " + text)
 }
-
 module.exports = {
 	listen: (server) => {
 

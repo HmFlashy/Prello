@@ -3,7 +3,7 @@
     text-align: left;
     flex-direction: row;
     overflow: hidden;
-    overflow-y: hidden;
+    overflow-x: scroll;
 }
 
 .no-padding-top {

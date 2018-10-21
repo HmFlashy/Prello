@@ -8,7 +8,7 @@ class MyList extends Component {
     render(){
         return (
             <Segment className='myList'>
-                {this.props.list.name}
+                <h3>{this.props.list.name}</h3>
                 <Container className='items'>
                     <List >
                         {this.props.list.cards.map(cardId => (

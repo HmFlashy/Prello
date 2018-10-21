@@ -1,13 +1,16 @@
 .myList {
     width: 300px !important;
-    margin: 1rem !important;
-    display: inline-block !important;
+    margin: 0.3rem !important;
+    display: flex;
+    flex-direction: column;
     overflow: hidden;
-    max-height: 100%;
+    background-color: #dfe3e6 !important;
 }
 
 .items {
     overflow: hidden;
     overflow-y: scroll;
     max-height: 83vh !important;
+    margin-top: 0px !important;
+    text-align: left !important
 }
