@@ -25,25 +25,25 @@ function reversedRef() {
     const board1 = db.Board({name: "Prello", lists: [list1._id, list2._id, list3._id]});
     const board2 = db.Board({name: "ADcare", lists: [list4._id]});
 
-    card1.idList = list1._id;
-    card1.idBoard = board1._id;
+    card1.list = list1._id;
+    card1.board = board1._id;
 
-    card2.idList = list1._id;
-    card2.ibBoard = board1._id;
+    card2.list = list1._id;
+    card2.board = board1._id;
 
-    card3.idList = list2._id;
-    card3.idBoard = board1._id;
+    card3.list = list2._id;
+    card3.board = board1._id;
 
-    card4.idList = list3._id;
-    card4.idBoard = board1._id;
+    card4.list = list3._id;
+    card4.board = board1._id;
 
-    card5.idList = list4._id;
-    card5.idBoard = board2._id;
+    card5.list = list4._id;
+    card5.board = board2._id;
 
-    list1.idBoard = board1._id;
-    list2.idBoard = board1._id;
-    list3.idBoard = board1._id;
-    list4.idBoard = board2._id;
+    list1.board = board1._id;
+    list2.board = board1._id;
+    list3.board = board1._id;
+    list4.board = board2._id;
 
     db.Card.collection.insertMany([card1, card2, card3, card4, card5],
         function(error, docs) {

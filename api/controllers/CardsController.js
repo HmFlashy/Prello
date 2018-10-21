@@ -1,14 +1,13 @@
 const db = require('../models');
 const mongoose = require('mongoose');
 
-const getCardById = (id) => {
-    return db.Card.findById(id).then((card, err) =>{
-        if(err) {
-            return Promise.reject(err)
-        } else {
-            return Promise.resolve(card)
-        }
-    })
+const getCardById = async (id) => {
+    try {
+        const card = await db.Card.findById(id)
+        return card
+    } catch (error) {
+        throw error
+    }
 };
 
 const addCard = async (name, listId) => {
@@ -16,27 +15,27 @@ const addCard = async (name, listId) => {
         name: name,
         list: listId
     });
-    try{
+    try {
         const savedCard = await card.save()
         const list = await db.List.findById(listId)
         list.cards.push(savedCard)
         await list.save()
         return savedCard
-    } catch(error) {
+    } catch (error) {
         throw error
     }
 }
 
 const getCards = () => {
     return db.Card.find({})
-    .then(cards => Promise.resolve(cards))
-    .catch(err => Promise.reject(err))
+        .then(cards => Promise.resolve(cards))
+        .catch(err => Promise.reject(err))
 };
 
 const updateCardName = async (cardId, name) => {
     try {
-        return await db.Card.findOneAndUpdate({ _id: cardId}, { $set: { name: name}}, { "new": true})
-    } catch(error) {
+        return await db.Card.findOneAndUpdate({_id: cardId}, {$set: {name: name}}, {"new": true})
+    } catch (error) {
         return error
     }
 

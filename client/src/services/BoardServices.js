@@ -11,5 +11,14 @@ export default {
             console.log(e)
             throw e
         }    
+    },
+    async fetchBoards() {
+        try{
+            const res = await axios.get(`${UrlConfig.API}/boards}`, tokenHeader)
+            return res.data
+        } catch (e) {
+            console.log(e)
+            throw e
+        }
     }
 }

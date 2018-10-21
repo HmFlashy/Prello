@@ -1,4 +1,4 @@
-const CardController = require('../../controllers/cardsController')
+const CardController = require('../../controllers/CardsController')
 const socketIO = require('../../../socket')
 
 module.exports = async (req, res) => {

@@ -16,7 +16,6 @@ export default (state = defaultListReducer, action) => {
             }
         case 'ADD_CARD':
             const card = action.payload
-            console.log(card)
             return {
                 ...state,
                 lists: state.lists.map(list => card.list === list._id ? {
@@ -24,6 +23,15 @@ export default (state = defaultListReducer, action) => {
                     cards: [ ...list.cards, card._id ]
                  } : list)
                 
+            }
+        case 'ADD_LIST':
+            const list = action.payload
+            return {
+                ...state,
+                lists: [ ...state.lists, {
+                    ...list,
+                    cards: []
+                }]
             }
         default:
             return {

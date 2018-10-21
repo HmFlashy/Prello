@@ -1,4 +1,4 @@
-const CardController = require('../../controllers/cardsController')
+const CardController = require('../../controllers/CardsController')
 
 module.exports = (req, res) => {
     console.log(req.params)

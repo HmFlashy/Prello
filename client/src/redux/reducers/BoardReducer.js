@@ -1,13 +1,16 @@
 const defaultBoardReducer = {
     fetching: false,
     currentBoard: {
-        fetching: false,
+        _id: "",
+        name: "",
         lists: []
     },
     boards: [{
-        _id: 'board1'
+        _id: 'board1',
+        name: 'tata'
     },{
-        _id: 'board2'
+        _id: 'board2',
+        name: 'toto'
     }
     ]
 }
@@ -28,6 +31,16 @@ export default (state = defaultBoardReducer, action) => {
                 ...state,
                 fetching: true
             }
+        case "FETCHED_BOARDS":
+            return {
+                ...state,
+                boards: [...action.payload]
+            }
+        case "FETCHING_BOARDS":
+            return {
+                ...state,
+                fetching: true
+            }
         case 'BOARD_SUBSCRIBE':
             return {
                 ...state
@@ -43,17 +56,19 @@ export default (state = defaultBoardReducer, action) => {
                 ...state,
                 error: action.payload
             }
-        /*case 'UPDATE_LIST_NAME':
+        case 'FAILED_GET_BOARDS':
+            return {
+                ...state,
+                error: action.payload
+            }
+        case 'ADD_LIST':
+            const list = action.payload
             return {
                 ...state,
                 currentBoard: {
-                    ...state.currentBoard,
-                    lists: state.lists.map(
-                        list => {
-                            list._id === action.payload._id ? action.payload : list
-                        })
-                }
-            }*/
+                    ...state,
+                    lists: [...state.currentBoard.lists, list._id]}
+            }
         case 'FAILED_UPDATE_LIST_NAME':
             return {
                 ...state,
