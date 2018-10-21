@@ -7,7 +7,7 @@ class NewList extends Component {
     render(){
         return (
             <Segment className='myList'>
-                <input placeholder="Create a new list" onKeyDown={(event) => event.keyCode === 13 ? this.props.addList(event.target.value) : null }></input>
+                <input placeholder="Create a new list" onKeyDown={(event) => event.keyCode === 13 ? this.props.addList(event.target.value, this.props.boardId) : null }></input>
             </Segment>
         )
     }

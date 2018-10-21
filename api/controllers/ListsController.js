@@ -8,7 +8,7 @@ const addList = async (name, boardID) => {
     try{
         const savedList = await list.save();
         const board = await db.Board.findById(boardID);
-        board.cards.push(savedList)
+        board.lists.push(savedList)
         await board.save()
         return savedList
     } catch(error) {

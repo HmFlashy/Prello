@@ -4,16 +4,17 @@ import { failedActionAddList } from '../../redux/actions/ListActions'
 import newList from '../../components/App/List/NewList'
 
 const mapStateToProps = state => {
+    console.log(state.boardReducer.currentBoard._id)
     return {
-        idBoard: state.boardReducer.currentBoard._id
+        boardId: state.boardReducer.currentBoard._id
     }
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        async addList(name) {
+        async addList(name, boardId) {
             try {
-                await listServices.addListApi(name, this.props.idBoard)
+                await listServices.addListApi(name, boardId)
             } catch(error) {
                 console.log(error)
                 dispatch(failedActionAddList(error))

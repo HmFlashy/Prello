@@ -1,10 +1,11 @@
-import board from '../components/App/Board'
+import board from '../../components/App/Board/Board/index'
 import { connect } from 'react-redux';
-import socketService from '../services/SocketService'
-import boardServices from '../services/BoardServices'
-import { actionBoardSubscribe, actionFetchingBoard, actionFailedFetchBoard, actionBoardFetched } from '../redux/actions/BoardActions'
+import socketService from '../../services/SocketService'
+import boardServices from '../../services/BoardServices'
+import { actionBoardSubscribe, actionFetchingBoard, actionFailedFetchBoard, actionBoardFetched } from '../../redux/actions/BoardActions'
 
 const mapStateToProps = state => {
+    console.log("refresh")
     return {
         board: state.boardReducer.currentBoard
     }
