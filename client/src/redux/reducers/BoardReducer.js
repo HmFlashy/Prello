@@ -2,6 +2,8 @@ const defaultBoardReducer = {
     fetching: false,
     currentBoard: {
         fetching: false,
+        _id: "",
+        name: "",
         lists: []
     },
     boards: [{
@@ -28,6 +30,18 @@ export default (state = defaultBoardReducer, action) => {
                 ...state,
                 fetching: true
             }
+        case "FETCHED_BOARDS":
+            return {
+                ...state,
+                boards: {
+                    ...action.payload
+                }
+            }
+        case "FETCHING_BOARDS":
+            return {
+                ...state,
+                fetching: true
+            }
         case 'BOARD_SUBSCRIBE':
             return {
                 ...state
@@ -39,6 +53,11 @@ export default (state = defaultBoardReducer, action) => {
                 error: null
             }
         case 'FAILED_GET_BOARD':
+            return {
+                ...state,
+                error: action.payload
+            }
+        case 'FAILED_GET_BOARDS':
             return {
                 ...state,
                 error: action.payload

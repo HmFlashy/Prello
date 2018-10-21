@@ -5,14 +5,15 @@ import newList from '../../components/App/List/NewList'
 
 const mapStateToProps = state => {
     return {
+        idBoard: state.boardReducer.currentBoard._id
     }
 };
 
-const mapDispatchToProps = (dispatch, onwProps) => {
+const mapDispatchToProps = (dispatch) => {
     return {
         async addList(name) {
             try {
-                await listServices.addListApi(name)
+                await listServices.addListApi(name, this.props.idBoard)
             } catch(error) {
                 console.log(error)
                 dispatch(failedActionAddList(error))

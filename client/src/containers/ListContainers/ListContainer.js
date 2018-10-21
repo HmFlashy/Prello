@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
-import listServices from '../services/ListServices'
-import cardServices from '../services/CardServices'
-import {actionUpdateListName, failedActionUpdateListName} from '../redux/actions/ListActions'
-import { failedActionAddCard } from '../redux/actions/CardActions'
-import list from '../components/App/List'
+import listServices from '../../services/ListServices'
+import cardServices from '../../services/CardServices'
+import {actionUpdateListName, failedActionUpdateListName} from '../../redux/actions/ListActions'
+import { failedActionAddCard } from '../../redux/actions/CardActions'
+import list from '../../components/App/List/index'
 
 const mapStateToProps = (state, ownProps) => {
     return {

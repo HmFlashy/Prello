@@ -1,5 +1,4 @@
 const boardsController = require('../../controllers/BoardsController')
-const socketIO = require('../../../socket')
 
 module.exports = async (req, res) => {
     const boardId = req.params.boardId;

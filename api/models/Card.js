@@ -27,8 +27,8 @@ const Card = new mongoose.Schema({
     attachments: [{type: mongoose.Schema.Types.ObjectId, ref: 'Attachment'}],
     checklists: [CheckList],
     watchers: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
-    idList: {type: mongoose.Schema.Types.ObjectId, ref: 'List'},
-    idBoard: {type: mongoose.Schema.Types.ObjectId, ref: 'Board'},
+    list: {type: mongoose.Schema.Types.ObjectId, ref: 'List'},
+    board: {type: mongoose.Schema.Types.ObjectId, ref: 'Board'},
     pos: Number
 }, {timestamps: true});
 

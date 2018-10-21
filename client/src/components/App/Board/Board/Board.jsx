@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import './Board.css'
-import '../../../containers/CardContainers/CardOverviewContainer'
-import ListContainer from '../../../containers/ListContainer';
-import NewListContainer from '../../../containers/ListContainers/NewListContainer';
+import ListContainer from '../../../../containers/ListContainers/ListContainer';
+import NewListContainer from '../../../../containers/ListContainers/NewListContainer';
 import { List } from 'semantic-ui-react'
 
 class Board extends Component {

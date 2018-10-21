@@ -8,10 +8,6 @@ socket.on("connect", () => {
     console.log("Connected !")
 })
 
-socket.on("truc", ()=> {
-    console.log("mdr")
-})
-
 socket.on("error", (error) => {
     console.log(error)
 })
