@@ -1,0 +1,13 @@
+.myList {
+    width: 300px !important;
+    margin: 1rem !important;
+    display: inline-block !important;
+    overflow: hidden;
+    max-height: 100%;
+}
+
+.items {
+    overflow: hidden;
+    overflow-y: scroll;
+    max-height: 83vh !important;
+}

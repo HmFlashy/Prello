@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 
 const Attachment = new mongoose.Schema({
     name: String,
-    owner: {type: mongoose.Schema.Types.ObjectId, ref: 'Users'}
-}, {timestamp: true});
+    owner: {type: mongoose.Schema.Types.ObjectId, ref: 'Users'},
+    date: Date
+});
 
-mongoose.model('Attachment', Attachment);
+module.exports = mongoose.model('Attachment', Attachment);

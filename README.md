@@ -2,13 +2,32 @@
 Project manager based on boards, list and cards
 
 ## Requirements
-* Have a mongo server running either docker or mongod
+* Have a mongo server running either docker or mongod and have a redis server running
 
 * Set up mongo with docker
 
 ```
 $ docker pull mongo
-$ docker run -p 27017:27017 -v data:/data/db mongo
+$ docker run -p 27017:27017 -v data/db:/data/db mongo
+# -v local-folder:docker-folder
+```
+
+* Set up mongo without docker
+
+```
+Install mongod in global and go to the Prello directory
+$ mongod --dbpath=data/db/
+```
+
+* Set up redis
+```
+For windows, you will need to enable WSL (Windows Subsystem for Linux) by following this 
+link : https://redislabs.com/blog/redis-on-windows-10/
+
+For Linux and Mac, the instructions are also in the previous link in the "Install and Test 
+Redis" part :
+$ sudo apt-get install redis-server
+$ sudo service redis-server start
 ```
 
 ## Installation
@@ -21,7 +40,7 @@ $ npm install install:all:dev
 Create a .env file following the .modelenv model and fill it. (This is an example)
 ```
 NODE_ENV=development
-URL_MONGODB=http://localhost:27017
+URL_MONGODB=http://localhost:27017/Prello
 ```
 ```
 $ npm run dev

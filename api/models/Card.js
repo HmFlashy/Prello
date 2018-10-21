@@ -14,18 +14,22 @@ const CheckList = new mongoose.Schema({
 }, {timestamp: true});
 
 const Card = new mongoose.Schema({
-    _id: mongoose.Schema.Types.ObjectId,
-    name: {type: String, required: true},
+    name: {type: String},
     desc: String,
     dueDate: Date,
-    dueCompleteDate: Date,
-    closed: {type: Boolean, default: false},
+    dueDateComplete: Date,
+    isArchived: {type: Boolean, default: false},
     owner: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+    list: {type: mongoose.Schema.Types.ObjectId, ref: 'List'},
     labels: [{type: mongoose.Schema.Types.ObjectId, ref: 'Label'}],
     comments: [{type: mongoose.Schema.Types.ObjectId, ref: 'Comment'}],
     members: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
     attachments: [{type: mongoose.Schema.Types.ObjectId, ref: 'Attachment'}],
-    checklist: [CheckList]
+    checklists: [CheckList],
+    watchers: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
+    list: {type: mongoose.Schema.Types.ObjectId, ref: 'List'},
+    board: {type: mongoose.Schema.Types.ObjectId, ref: 'Board'},
+    pos: Number
 }, {timestamps: true});
 
 module.exports = mongoose.model('Item', Item);

@@ -32,3 +32,10 @@ export const failedActionGetCard = (error) => {
         payload: error
     }
 }
+
+export const failedActionAddCard = (error) => {
+    return {
+        type: 'FAILED_ADD_CARD',
+        payload: error
+    }
+}

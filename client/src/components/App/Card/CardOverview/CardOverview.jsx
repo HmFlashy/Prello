@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import './CardOverview.css'
-import Card from "@material-ui/core/Card";
-import Typography from "@material-ui/core/Typography";
-import CardContent from "@material-ui/core/CardContent";
+import { Segment, Container } from 'semantic-ui-react'
 
 class CardOverview extends Component {
 
@@ -33,16 +31,14 @@ class CardOverview extends Component {
 
     render(){
         return (
-            <Card className='cardOverview'>
-                <CardContent>
-                    <Typography variant="h5" component="h2" onClick={this.textToTextInput}>
-                        { !this.state.isNameUpdating ? this.props.card.name : <input type="text" name="name" placeholder= {this.props.card.name} onKeyPress={(event) => event.charCode === 13 ? this.updateName(event.target.value) : null}></input> }
-                    </Typography>
-                    <Typography className='pos' color="textSecondary">
-                        adjective
-                    </Typography>
-                </CardContent>
-            </Card>
+            <Segment className='cardOverview'>
+                <p onClick={this.textToTextInput}>
+                    { !this.state.isNameUpdating ? this.props.card.name : <input type="text" name="name" placeholder= {this.props.card.name} onKeyPress={(event) => event.charCode === 13 ? this.updateName(event.target.value) : null}></input> }
+                </p>
+                <span className='pos' color="textSecondary">
+                    adjective
+                </span>
+            </Segment>
         )
     }
 }

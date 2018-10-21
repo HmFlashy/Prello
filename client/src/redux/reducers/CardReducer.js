@@ -1,17 +1,39 @@
-export default (state = {}, action) => {
-    switch (action.type) {
-     case 'GET_CARD':
+const defaultCardReducer = {
+  cards: []
+}
+
+export default (state = defaultCardReducer, action) => {
+  switch (action.type) {
+    case "FETCHED_BOARD":
+      const board = action.payload
       return {
           ...state,
-          card: action.payload.payload,
-          error: null
-        }
+          cards: board.lists.flatMap(list => list.cards) 
+      }
+    case 'GET_CARD':
+      return {
+        ...state,
+        card: action.payload.payload,
+        error: null
+      }
     case 'FAILED_GET_CARD':
       return {
+        ...state,
+        error: action.payload
+      }
+    case 'ADD_CARD':
+      const card = action.payload
+      return {
           ...state,
-          error: action.payload
+          cards: [...state.cards, card]
+          
+      }
+    case 'UPDATE_CARD_NAME':
+        return {
+            ...state,
+            cards: state.cards.map(card => card._id === action.payload._id ? action.payload : card)
         }
-     default:
+    default:
       return state
-    }
-   }
+  }
+}

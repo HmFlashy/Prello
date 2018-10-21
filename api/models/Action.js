@@ -6,4 +6,4 @@ const Action = new mongoose.Schema({
     type: String
 });
 
-mongoose.model('Action', Action);
+module.exports = mongoose.model('Action', Action);
