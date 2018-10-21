@@ -7,7 +7,7 @@ connect();
 function connect() {
     return mongoose.connect(process.env.URL_MONGODB, {
         useNewUrlParser: true
-    });
+    })
 }
 
 function reversedRef() {
@@ -45,28 +45,30 @@ function reversedRef() {
     list3.board = board1._id;
     list4.board = board2._id;
 
-    db.Card.collection.insertMany([card1, card2, card3, card4, card5],
-        function(error, docs) {
-            if (error) return console.log(error)
-        })
+    db.Card.deleteMany({})
+        .then(() => {
+            db.Card.insertMany([card1, card2, card3, card4, card5],
+                function(error, docs) {
+                    if (error) return console.log(error)
+            })})
 
-    db.List.collection.insertMany([list1, list2, list3, list4],
-        (error, docs) => {
-            if (error) return console.log(error)
-        })
+    db.List.deleteMany({})
+        .then(() => {
+            db.List.insertMany([list1, list2, list3, list4],
+                function(error, docs) {
+                    if (error) return console.log(error)
+                })})
 
-    db.Board.collection.insertMany([board1, board2],
-        (error, docs) => {
-            if (error) return console.log(error)
+    db.Board.deleteMany({})
+        .then(() => {
+            db.Board.insertMany([board1, board2],
+                function (error, docs) {
+                    if (error) return console.log(error)
+                    else process.exit(0)
+                })
         })
-    process.exit(0)
 }
 
 mongoose.connection.once('open', function () {
-    console.log('Connected to mongoDB')
-}).on('error', function (error) {
-    console.log('Connection error:', error)
-}).then(
-    mongoose.connection.db.dropDatabase()
-).then(
-    reversedRef())
+    reversedRef()
+}).catch(err => console.log(err))
