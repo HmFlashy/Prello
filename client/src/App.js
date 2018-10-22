@@ -7,6 +7,8 @@ import BoardContainer from './containers/BoardContainer/BoardContainer';
 import ListBoardContainer from "./containers/BoardContainer/ListBoardContainer";
 import CardDetail from "./containers/CardContainers/CardDetailContainer";
 import CardDetailContainer from "./containers/CardContainers/CardDetailContainer";
+import { Button } from "semantic-ui-react";
+import Header from "./components/App/Header";
 
 const history = createHistory();
 
@@ -15,6 +17,7 @@ class App extends Component {
     return (
       <Router history={history}>
         <div className="App">
+          <Header className="header" />
           <Link to="/login">Home</Link> <Link to="/">About</Link> <Link to="/contact">Contact</Link> <Link to="/boards">Boards</Link>
           <Switch>
             <Route exact path="/login" />
@@ -23,7 +26,6 @@ class App extends Component {
             <Route path="">
               <div>
                 <CardDetailContainer key={"5bcca38415f20303bf261a19"} cardId={"5bcca38415f20303bf261a19"}></CardDetailContainer>
-                <p className="App-intro">Salut</p>
               </div>
             </Route>
           </Switch>
