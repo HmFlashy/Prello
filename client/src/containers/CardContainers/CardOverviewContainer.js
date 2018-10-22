@@ -1,5 +1,6 @@
 import cardOverview from '../../components/App/Card/CardOverview'
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom'
 import { failedActionUpdateCardName } from '../../redux/actions/CardActions'
 import cardServices from '../../services/CardServices'
 import { 
@@ -29,7 +30,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     }
 }
 
-export default connect(
+export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps
-)(cardOverview);
+)(cardOverview));

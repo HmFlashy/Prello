@@ -29,15 +29,14 @@ class Board extends Component {
                     <List.Item className='no-padding-top'><ListContainer key={listId} listId={listId}/></List.Item>
                 )) }
                 <List.Item className='no-padding-top'><NewListContainer /></List.Item>
-                <Button onClick={() => {
-                    this.props.history.push(`/boards/${this.props.board._id}/card/5bcd8635e789ec5a229c29b3`)
-                    this.props.displayCardModal('5bcd8635e789ec5a229c29b3')
-                }}/>
                 <Modal 
-                    open={this.props.currentCard != null}
-                    onClose={() => this.props.closeCardModal()}
+                    open={this.props.cardModal._id != null}
+                    onClose={() => {
+                        this.props.history.push(`/boards/${this.props.board._id}`)
+                        this.props.closeCardModal()
+                    }}
                     >
-                    <CardDetailContainer key={this.props.currentCard} cardId={this.props.currentCard}></CardDetailContainer>
+                    <CardDetailContainer key={this.props.currentCard} cardId={this.props.cardModal._id}></CardDetailContainer>
                 </Modal>
             </List>
 

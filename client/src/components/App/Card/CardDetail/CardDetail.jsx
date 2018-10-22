@@ -25,7 +25,9 @@ class CardDetail extends Component {
         }
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
     }
+
     componentDidMount() {
+        this.props.fetchCard(this.props.match.params.cardId)
         this.updateWindowDimensions();
         window.addEventListener('resize', this.updateWindowDimensions);
     }
