@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './CardDetail.css'
-import { Segment, Icon, Divider } from 'semantic-ui-react'
+import { TextArea, Icon, Divider, Form, Button } from 'semantic-ui-react'
 import Menu from "./SubComponents/Menu"
 import Members from "./SubComponents/Members"
 import Labels from "./SubComponents/Labels"
@@ -57,56 +57,66 @@ class CardDetail extends Component {
 
     render() {
         return (
-            <Segment className='cardDetails'>
-                <div className={this.state.width > 600 ? "displayRow" : ""}>
-                    <div class="details">
-                        <Header name={this.props.card.name} list={this.props.card.list} ></Header>
-                        <Divider />
-                        {(this.props.card.members && this.props.card.members.length) || (this.props.card && this.props.card.labels) || this.props.card.duedate
-                            ? <div>
-                                <div className="inline">
-                                    <Icon name='tags' />
-                                    {this.props.card.members && this.props.card.members.length !== 0
-                                        ? <Members className="membersContainer" members={this.props.card.members}></Members>
-                                        : ""}
-                                    {this.props.card.labels && this.props.card.labels.length !== 0
-                                        ? <Labels className="labelsContainer" labels={this.props.card.labels}></Labels>
-                                        : ""}
-                                    {this.props.card.duedate
-                                        ? <DueDate className="duedateContainer" date={this.props.card.duedate} isCompleted={false}></DueDate>
-                                        : ""}
-                                </div>
-                                <Divider />
+            <div className={this.state.width > 600 ? "displayRow main" : "main"}>
+                <div class="details main">
+                    <Header name={this.props.card.name} list={this.props.card.list} ></Header>
+                    <Divider />
+                    {(this.props.card.members && this.props.card.members.length !== 0) || (this.props.card && this.props.card.labels.length !== 0) || this.props.card.duedate
+                        ? <div>
+                            <div className="inline">
+                                <Icon name='tags' />
+                                {this.props.card.members && this.props.card.members.length !== 0
+                                    ? <Members className="membersContainer" members={this.props.card.members}></Members>
+                                    : ""}
+                                {this.props.card.labels && this.props.card.labels.length !== 0
+                                    ? <Labels className="labelsContainer" labels={this.props.card.labels}></Labels>
+                                    : ""}
+                                {this.props.card.duedate
+                                    ? <DueDate className="duedateContainer" date={this.props.card.duedate} isCompleted={false}></DueDate>
+                                    : ""}
                             </div>
-                            : ""}
-                        {this.props.card.desc
-                            ? <div>
-                                <Description description={this.props.card.desc}></Description>
-                                <Divider />
+                            <Divider />
+                        </div>
+                        : ""}
+                    {this.props.card.desc
+                        ? <div>
+                            <Description description={this.props.card.desc}></Description>
+                            <Divider />
+                        </div>
+                        : <div>
+                            <div className={"displayRow"}>
+                                <Icon name='align left' />
+                                <Form className="form">
+                                    <p>Describe me</p>
+                                    <Form.Field>
+                                        <TextArea rows={2} placeholder="Describe me..." />
+                                    </Form.Field>
+                                    <Button type='submit'>Submit</Button>
+                                </Form>
                             </div>
-                            : <p>Bonjour, il faut le faire #j'avaisLaFlemme</p>}
+                            <Divider />
+                        </div>}
 
-                        {this.props.card.attachments && this.props.card.attachments.length !== 0
-                            ? <div>
-                                <Attachments className="attachmentsContainer" attachments={this.props.card.attachments}></Attachments>
-                                <Divider />
-                            </div>
-                            : ""}
-                        {this.props.card.checklists && this.props.card.checklists.length !== 0
-                            ? <div>
-                                <CheckList className="checkListContainer" checklists={this.props.card.checklists}></CheckList>
-                                <Divider />
-                            </div>
-                            : ""}
-                        <Comment></Comment>
-                        <Divider />
-                        <Activity></Activity>
-                    </div>
-                    <div>
-                        <Menu />
-                    </div>
+                    {this.props.card.attachments && this.props.card.attachments.length !== 0
+                        ? <div>
+                            <Attachments className="attachmentsContainer" attachments={this.props.card.attachments}></Attachments>
+                            <Divider />
+                        </div>
+                        : ""}
+                    {this.props.card.checklists && this.props.card.checklists.length !== 0
+                        ? <div>
+                            <CheckList className="checkListContainer" checklists={this.props.card.checklists}></CheckList>
+                            <Divider />
+                        </div>
+                        : ""}
+                    <Comment></Comment>
+                    <Divider />
+                    <Activity></Activity>
                 </div>
-            </Segment>
+                <div>
+                    <Menu />
+                </div>
+            </div>
         )
     }
 }
