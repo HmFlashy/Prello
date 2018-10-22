@@ -37,11 +37,18 @@ $ git clone https://github.com/HmFlashy/Prello
 $ cd Prello
 $ npm install install:all:dev
 ```
-Create a .env file following the .modelenv model and fill it. (This is an example)
+* Create a .env file following the .modelenv model and fill it. (This is an example)
 ```
 NODE_ENV=development
 URL_MONGODB=http://localhost:27017/Prello
 ```
+
+* Initialize the database (seeders)
+```
+$ npm run init:db
+```
+
+* Start the server and the client
 ```
 $ npm run dev
 ```

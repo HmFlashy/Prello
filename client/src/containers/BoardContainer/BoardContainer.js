@@ -5,7 +5,6 @@ import boardServices from '../../services/BoardServices'
 import { actionBoardSubscribe, actionFetchingBoard, actionFailedFetchBoard, actionBoardFetched } from '../../redux/actions/BoardActions'
 
 const mapStateToProps = state => {
-    console.log("refresh")
     return {
         board: state.boardReducer.currentBoard
     }

@@ -1,17 +1,26 @@
-const ListController = require('../../controllers/ListsController')
-const socketIO = require('../../../socket')
+const ListController = require('../../controllers/ListsController');
+const socketIO = require('../../../socket');
+const throwError = require('../../helper/RequestHelper').throwError;
+const throwIf = require('../../helper/RequestHelper').throwIf;
 
 module.exports = async (req, res) => {
+    if(!req.body.name) throwError(400, 'Bad Request', 'Missing name parameter');
+    if(!req.body.boardId) throwError(400, 'Bad Request', 'Missing boardId parameter');
     const name = req.body.name;
-    const boardID = req.body.boardID;
+    const boardId = req.body.boardId;
     try {
-        const list = await ListController.addList(name, boardID);
-        socketIO.broadcast('action', {
-            type: 'ADD_LIST',
+        const list = await ListController.addList(name, boardId);
+        throwIf(r => !r, 404, "Not Found", "List not found")(list);
+        socketIO.broadcast("action", {
+            type: "ADD_LIST",
             payload: list
         });
-        return res.status(200).json(list)
+        return res.status(201).json({
+            type: "Success",
+            message: "List added",
+            data: list
+        })
     } catch(error) {
-        res.status(500).json(error.message)
+        return res.status(500);
     }
 }

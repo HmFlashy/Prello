@@ -51,12 +51,12 @@ export default (state = defaultBoardReducer, action) => {
                 currentBoard: action.payload,
                 error: null
             }
-        case 'FAILED_GET_BOARD':
+        case 'FAILED_FETCH_BOARD':
             return {
                 ...state,
                 error: action.payload
             }
-        case 'FAILED_GET_BOARDS':
+        case 'FAILED_FETCH_BOARDS':
             return {
                 ...state,
                 error: action.payload

@@ -1,0 +1,8 @@
+.attachment {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 5%
+}
+.image{
+    margin-right: 3%
+}

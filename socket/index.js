@@ -18,7 +18,7 @@ module.exports = {
 				//On place nos events ici
 	
 				socket.on('subscribeToBoard', () => {
-					console.log("mdr")
+					console.log("subscribe to the board")
 				});
 	
 				socket.on("error", (error) => {
