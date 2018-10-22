@@ -8,6 +8,10 @@
   display: flex;
   flex-direction: row;
 }
+.displayColumn {
+  display: flex;
+  flex-direction: column;
+}
 .details{
   margin-right: 5%;
 }
