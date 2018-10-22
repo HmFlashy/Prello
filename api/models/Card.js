@@ -17,7 +17,7 @@ const Card = new mongoose.Schema({
     name: { type: String },
     desc: String,
     dueDate: Date,
-    dueDateComplete: Date,
+    dueDateCompleted: Date,
     isArchived: {type: Boolean, default: false},
     creator: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
     labels: [{type: mongoose.Schema.Types.ObjectId, ref: 'Label'}],
