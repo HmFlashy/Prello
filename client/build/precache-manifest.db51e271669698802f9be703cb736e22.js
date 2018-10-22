@@ -20,16 +20,12 @@ self.__precacheManifest = [
     "url": "/static/js/runtime~main.229c360f.js"
   },
   {
-    "revision": "cd6c777f1945164224dee082abaea03a",
-    "url": "/static/media/outline-icons.cd6c777f.woff2"
-  },
-  {
     "revision": "ef60a4f6c25ef7f39f2d25a748dbecfe",
     "url": "/static/media/outline-icons.ef60a4f6.woff"
   },
   {
-    "revision": "9c74e172f87984c48ddf5c8108cabe67",
-    "url": "/static/media/flags.9c74e172.png"
+    "revision": "cd6c777f1945164224dee082abaea03a",
+    "url": "/static/media/outline-icons.cd6c777f.woff2"
   },
   {
     "revision": "701ae6abd4719e9c2ada3535a497b341",
@@ -38,6 +34,10 @@ self.__precacheManifest = [
   {
     "revision": "ad97afd3337e8cda302d10ff5a4026b8",
     "url": "/static/media/outline-icons.ad97afd3.ttf"
+  },
+  {
+    "revision": "9c74e172f87984c48ddf5c8108cabe67",
+    "url": "/static/media/flags.9c74e172.png"
   },
   {
     "revision": "0ab54153eeeca0ce03978cc463b257f7",

@@ -14,4 +14,4 @@ echo "\\________________/"
 GIT=`which git`
 ${GIT} add --all .
 ${GIT} commit -m "deploy"
-${GIT} push dokku master
+${GIT} push dokku master --force
