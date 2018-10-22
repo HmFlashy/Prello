@@ -6,7 +6,7 @@ import { actionBoardSubscribe, actionFetchingBoards, actionFailedFetchBoards, ac
 
 const mapStateToProps = state => {
     return {
-        boards: state.boardReducer.boards
+        boards: state.boardReducer.boards.map(board => board._id)
     }
 };
 

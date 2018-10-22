@@ -1,7 +1,12 @@
 import cardOverview from '../../components/App/Card/CardOverview'
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom'
 import { failedActionUpdateCardName } from '../../redux/actions/CardActions'
 import cardServices from '../../services/CardServices'
+import { 
+    actionDisplayCardModal
+
+} from '../../redux/actions/BoardActions'
 
 const mapStateToProps = (state, ownProps) => {
     return {
@@ -14,15 +19,18 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         async updateName(cardId, name) {
             try {
                 await cardServices.updateCardNameApi(cardId, name)
-            } catch(error) {
+            } catch (error) {
                 console.log(error)
                 return dispatch(failedActionUpdateCardName(error))
             }
+        },
+        displayCardModal(cardId){
+            dispatch(actionDisplayCardModal(cardId))
         }
     }
 }
 
-export default connect(
+export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps
-)(cardOverview);
+)(cardOverview));

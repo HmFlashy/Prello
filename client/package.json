@@ -5,7 +5,9 @@
   "dependencies": {
     "@material-ui/icons": "^3.0.1",
     "axios": "^0.18.0",
+    "connected-react-router": "^4.5.0",
     "history": "^4.7.2",
+    "lodash": "^4.17.11",
     "normalize.css": "^8.0.0",
     "prop-type": "0.0.1",
     "react": "^16.5.2",

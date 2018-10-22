@@ -1,0 +1,36 @@
+.cardDetails {
+    width: 80% ;
+    margin-left: 1% !important;
+    text-align: left;
+    margin-bottom: 1rem;
+  }
+.displayRow {
+  display: flex;
+  flex-direction: row;
+}
+.displayColumn {
+  display: flex;
+  flex-direction: column;
+}
+.details{
+  margin-right: 5%;
+}
+.menu{
+}
+.membersContainer{
+  margin-right: 10% 
+}
+.labelsContainer{
+  margin-right: 10% 
+}
+.inline{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap
+}
+.form{
+  flex: 1
+}
+.main {
+  width: 100%;
+}

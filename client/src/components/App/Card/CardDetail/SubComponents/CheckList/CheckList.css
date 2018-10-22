@@ -1,0 +1,13 @@
+.title{
+    display: flex;
+    justify-content: space-between; 
+}
+.addItem {
+    margin-top: 10%
+}
+.checklist {
+    margin-bottom: 5%;
+}
+.progress {
+    flex:1
+}

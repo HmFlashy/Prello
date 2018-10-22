@@ -1,13 +1,25 @@
-import board from '../../components/App/Board/Board/index'
+import board from '../../components/App/Board/Board'
 import { connect } from 'react-redux';
 import socketService from '../../services/SocketService'
 import boardServices from '../../services/BoardServices'
-import { actionBoardSubscribe, actionFetchingBoard, actionFailedFetchBoard, actionBoardFetched } from '../../redux/actions/BoardActions'
+import cardServices from '../../services/CardServices'
+import { 
+    actionBoardSubscribe, 
+    actionFetchingBoard, 
+    actionFailedFetchBoard, 
+    actionBoardFetched,
+    actionCloseCardModal
+} from '../../redux/actions/BoardActions'
+import { 
+    actionFetchingCard,
+    actionCardFetched,
+    actionFailedCardFetched
+} from '../../redux/actions/CardActions'
 
 const mapStateToProps = state => {
-    console.log("refresh")
     return {
-        board: state.boardReducer.currentBoard
+        board: state.boardReducer.currentBoard,
+        cardModal: state.cardModalReducer
     }
 };
 
@@ -25,6 +37,21 @@ const mapDispatchToProps = dispatch => {
             } catch(error) {
                 return dispatch(actionFailedFetchBoard(error))
             }
+        },
+        async fetchCard(cardId){
+            try {
+                dispatch(actionFetchingCard(cardId))
+                const card = await cardServices.fetchCard(cardId)
+                dispatch(actionCardFetched(card))
+                dispatch(actionFetchingBoard(card.board))
+                const board = await boardServices.fetchBoard(card.board)
+                return dispatch(actionBoardFetched(board))
+            } catch(error){
+                return dispatch(actionFailedCardFetched(error))
+            }
+        },
+        closeCardModal(){
+            dispatch(actionCloseCardModal())
         }
     }
 }

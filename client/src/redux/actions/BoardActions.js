@@ -46,3 +46,17 @@ export const actionBoardsFetched = (boards) => {
         payload: boards
     }
 }
+
+export const actionDisplayCardModal = (cardId) => {
+    return {
+        type: 'DISPLAY_CARD_MODAL',
+        payload: cardId
+    }
+}
+
+export const actionCloseCardModal = () => {
+    return {
+        type: 'CLOSE_CARD_MODAL',
+        payload: null
+    }
+}

@@ -5,18 +5,18 @@ import './List.css'
 
 class MyList extends Component {
 
-    render(){
+    render() {
         return (
             <Segment className='myList'>
                 <h3>{this.props.list.name}</h3>
                 <Container className='items'>
                     <List >
                         {this.props.list.cards.map(cardId => (
-                                <List.Item><CardOverviewContainer key={cardId} cardId={cardId}/></List.Item>
+                            <List.Item><CardOverviewContainer key={cardId} cardId={cardId} /></List.Item>
                         ))}
                     </List>
                 </Container>
-                <input onKeyDown={(event) => event.keyCode === 13 ? this.props.addCard(event.target.value, this.props.list._id) : null }></input>
+                <input onKeyDown={(event) => event.keyCode === 13 ? this.props.addCard(event.target.value, this.props.list._id) : null}></input>
             </Segment>
         )
     }

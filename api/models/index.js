@@ -9,5 +9,8 @@ module.exports = {
     Board: require('./Board'),
     List: require('./List'),
     Attachment: require('./Attachment'),
-    Action: require('./Action')
-}
+    Action: require('./Action'),
+    User: require('./User'),
+    Label: require('./Label'),
+    Team: require('./Team')
+};
