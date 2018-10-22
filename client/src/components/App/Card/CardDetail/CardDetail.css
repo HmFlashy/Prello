@@ -24,3 +24,6 @@
   flex-direction: row;
   flex-wrap: wrap
 }
+.form{
+  flex: 1
+}

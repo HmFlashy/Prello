@@ -37,9 +37,12 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
+        async fetchCard(cardId) {
+
+        },
         async updateName(cardId, name) {
             try {
-                await cardServices.updateCardNameApi(cardId, name)
+                await cardServices.updateCardNameApi(this.props.match.params.cardId, name)
             } catch (error) {
                 console.log(error)
                 return dispatch(failedActionUpdateCardName(error))

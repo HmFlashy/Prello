@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './CheckList.css'
 import { Progress, Form, Button, Icon } from 'semantic-ui-react'
 

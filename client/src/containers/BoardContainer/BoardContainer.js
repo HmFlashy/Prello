@@ -1,12 +1,20 @@
-import board from '../../components/App/Board/Board/index'
+import board from '../../components/App/Board/Board'
 import { connect } from 'react-redux';
 import socketService from '../../services/SocketService'
 import boardServices from '../../services/BoardServices'
-import { actionBoardSubscribe, actionFetchingBoard, actionFailedFetchBoard, actionBoardFetched } from '../../redux/actions/BoardActions'
+import { 
+    actionBoardSubscribe, 
+    actionFetchingBoard, 
+    actionFailedFetchBoard, 
+    actionBoardFetched,
+    actionDisplayCardModal,
+    actionCloseCardModal
+} from '../../redux/actions/BoardActions'
 
 const mapStateToProps = state => {
     return {
-        board: state.boardReducer.currentBoard
+        board: state.boardReducer.currentBoard,
+        currentCard: state.boardReducer.currentCard
     }
 };
 
@@ -24,6 +32,9 @@ const mapDispatchToProps = dispatch => {
             } catch(error) {
                 return dispatch(actionFailedFetchBoard(error))
             }
+        },
+        closeCardModal(){
+            dispatch(actionCloseCardModal())
         }
     }
 }

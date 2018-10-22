@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './Header.css'
-import { Segment, Icon, Divider, TextArea, Dropdown, Button, Search } from 'semantic-ui-react'
+import { Segment, Dropdown, Button, Search } from 'semantic-ui-react'
 
 class Header extends Component {
 
