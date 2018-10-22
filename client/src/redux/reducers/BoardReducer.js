@@ -74,6 +74,16 @@ export default (state = defaultBoardReducer, action) => {
                 ...state,
                 error: action.payload
             }
+        case 'DISPLAY_CARD_MODAL':
+            return {
+                ...state,
+                currentCard: action.payload
+            }
+        case 'CLOSE_CARD_MODAL':
+            return {
+                ...state,
+                currentCard: action.payload
+            }
         default:
             return state
     }

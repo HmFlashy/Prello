@@ -8,6 +8,7 @@ class CardOverview extends Component {
         super()
         this.textToTextInput = this.textToTextInput.bind(this)
         this.updateName = this.updateName.bind(this)
+        this.displayCardModal = this.displayCardModal.bind(this)
         this.state = {
             isNameUpdating: false
         }
@@ -29,9 +30,13 @@ class CardOverview extends Component {
         this.props.updateName(this.props.card._id, name)
     }
 
+    displayCardModal(){
+        this.props.displayCardModal(this.props.card._id)
+    }
+
     render(){
         return (
-            <Segment className='cardOverview'>
+            <Segment className='cardOverview' onClick={this.displayCardModal}>
                 <p onClick={this.textToTextInput}>
                     { !this.state.isNameUpdating ? this.props.card.name : <input type="text" name="name" placeholder= {this.props.card.name} onKeyPress={(event) => event.charCode === 13 ? this.updateName(event.target.value) : null}></input> }
                 </p>
