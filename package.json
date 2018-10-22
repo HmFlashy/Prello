@@ -10,7 +10,8 @@
     "init:db": "node api/config/initDB.js",
     "install:all:prod": "npm install --production && cd client && npm install --production",
     "install:all:dev": "npm install && cd client && npm install",
-    "client:build": "cd client && npm run build:production"
+    "client:build": "cd client && npm run build:production",
+    "deploy": "sh ./deploy.sh"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
