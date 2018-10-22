@@ -1,6 +1,6 @@
 import React from 'react';
 import './Activity.css'
-import Icon from 'semantic-ui-react'
+import { Icon } from 'semantic-ui-react'
 
 export default (props) => (
     <div className={props.className + " displayRow"}>
