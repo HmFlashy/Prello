@@ -7,11 +7,11 @@ import { List, Button, Modal } from 'semantic-ui-react'
 
 class Board extends Component {
 
-    constructor(){
+    constructor() {
         super()
     }
 
-    componentWillMount(){
+    componentWillMount() {
         this.props.subscribe()
         this.props.fetchBoard(this.props.match.params.boardId)
         this.setState = {
@@ -21,22 +21,24 @@ class Board extends Component {
     }
 
 
-    render(){
+    render() {
         console.log(this.props)
         return (
             <List className='board'>
-                { this.props.board.lists.map(listId => (
-                    <List.Item className='no-padding-top'><ListContainer key={listId} listId={listId}/></List.Item>
-                )) }
+                {this.props.board.lists.map(listId => (
+                    <List.Item className='no-padding-top'><ListContainer key={listId} listId={listId} /></List.Item>
+                ))}
                 <List.Item className='no-padding-top'><NewListContainer /></List.Item>
-                <Modal 
+
+                <Modal
                     open={this.props.cardModal._id != null}
                     onClose={() => {
                         this.props.history.push(`/boards/${this.props.board._id}`)
                         this.props.closeCardModal()
-                    }}
-                    >
-                    <CardDetailContainer key={this.props.currentCard} cardId={this.props.cardModal._id}></CardDetailContainer>
+                    }}>
+                    <Modal.Content image>
+                        <CardDetailContainer key={this.props.currentCard} cardId={this.props.cardModal._id}></CardDetailContainer>
+                    </Modal.Content>
                 </Modal>
             </List>
 
