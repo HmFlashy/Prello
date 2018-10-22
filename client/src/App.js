@@ -13,7 +13,7 @@ class App extends Component {
       <ConnectedRouter history={history}>
         <div className="App">
           <Header className="header" />
-          <Link to="/login">Home</Link> <Link to="/">About</Link> <Link to="/contact">Contact</Link> <Link to="/boards">Boards</Link>
+          <Link to="/login">Home</Link> <Link to="/teams">Teams</Link> <Link to="/contact">Contact</Link> <Link to="/boards">Boards</Link>
           <Switch>
             <Route exact path="/login"  />
             <Route exact path="/boards"  component={ListBoardContainer} />
