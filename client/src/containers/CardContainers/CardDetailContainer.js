@@ -37,7 +37,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        async fetchCard(cardId){
+        async fetchCard(cardId) {
 
         },
         async updateName(cardId, name) {
