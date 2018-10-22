@@ -5,11 +5,12 @@ const app = express();
 const port = process.env.PORT || 5000;
 const helmet = require("helmet");
 const cors = require("cors")
-
-
+const swaggerJSDoc = require('./api/swagger.js')
+const swaggerUi = require('swagger-ui-express');
 app.use(cors())
 // API calls
 app.use(helmet());
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerJSDoc));
 app.use('/api', require("./api"));
 
 if (process.env.NODE_ENV === 'production') {
