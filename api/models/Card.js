@@ -14,7 +14,7 @@ const Item = new mongoose.Schema({
 }, { timestamps: true });
 
 const CheckList = new mongoose.Schema({
-    title: { type: String, required: true },
+    title: {type: String, required: true},
     items: {
         type: [Item],
         default: []
@@ -22,7 +22,7 @@ const CheckList = new mongoose.Schema({
 }, { timestamps: true });
 
 const Card = new mongoose.Schema({
-    name: { type: String },
+    name: {type: String},
     desc: String,
     dueDate: Date,
     dueDateCompleted: Date,
