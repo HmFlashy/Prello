@@ -20,9 +20,9 @@ class App extends Component {
           <Header className="header" />
           <Link to="/login">Home</Link> <Link to="/">About</Link> <Link to="/contact">Contact</Link> <Link to="/boards">Boards</Link>
           <Switch>
-            <Route exact path="/login" />
-            <Route exact path="/boards" component={ListBoardContainer} />
-            <Route exact path="/boards/:boardId" component={BoardContainer} />
+            <Route exact path="/login"  />
+            <Route exact path="/boards"  component={ListBoardContainer} />
+            <Route exact path={["/boards/:boardId", "/boards/:boardId/card/:cardId"]}  component={BoardContainer} />
             <Route path="">
               <div>
                 <CardDetailContainer key={"5bcca38415f20303bf261a19"} cardId={"5bcca38415f20303bf261a19"}></CardDetailContainer>
