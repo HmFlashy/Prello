@@ -1,6 +1,6 @@
-import cardOverview from '../../components/App/Card/CardDetail'
 import { connect } from 'react-redux';
-import { failedActionUpdateCardName } from '../../redux/actions/CardActions'
+import { withRouter } from 'react-router';
+import { actionGetCard, failedActionGetCard } from '../../redux/actions/CardActions'
 import cardServices from '../../services/CardServices'
 import CardDetail from '../../components/App/Card/CardDetail';
 
@@ -37,21 +37,18 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        async fetchCard(cardId) {
-
-        },
-        async updateName(cardId, name) {
+        async fetchCard(cardId){
             try {
-                await cardServices.updateCardNameApi(this.props.match.params.cardId, name)
-            } catch (error) {
-                console.log(error)
-                return dispatch(failedActionUpdateCardName(error))
+                const card = await cardServices.getCardByIdApi(cardId)
+                return dispatch(actionGetCard(card))
+            } catch(error) {
+                return dispatch(failedActionGetCard())
             }
         }
     }
 }
 
-export default connect(
+export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps
-)(CardDetail);
+)(CardDetail));

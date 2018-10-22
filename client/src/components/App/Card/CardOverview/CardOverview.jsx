@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './CardOverview.css'
 import { Segment, Container } from 'semantic-ui-react'
 
+
 class CardOverview extends Component {
 
     constructor(){
@@ -31,6 +32,8 @@ class CardOverview extends Component {
     }
 
     displayCardModal(){
+        console.log(this.props)
+        this.props.history.push(`/card/${this.props.card._id}`)
         this.props.displayCardModal(this.props.card._id)
     }
 
