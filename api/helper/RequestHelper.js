@@ -1,13 +1,18 @@
-exports.throwError = (code, errorType, errorMessage) => error => {
-    if (!error) error = new Error(errorMessage || 'Default Error')
+const throwError = function(code, errorMessage) {
+    let error = new Error(errorMessage || 'Default Error')
     error.code = code
-    error.errorType = errorType
     throw error
 };
-exports.throwIf = (fn, code, errorType, errorMessage) => result => {
+
+const throwIf = (fn, code, errorType, errorMessage) => result => {
     if (fn(result)) {
-        throwError(code, errorType, errorMessage)()
+        throwError(code, errorType, errorMessage)
     }
     return result
+};
+
+module.exports = {
+    throwError: throwError,
+    throwIf: throwIf
 };
 
