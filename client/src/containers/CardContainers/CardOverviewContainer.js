@@ -2,6 +2,10 @@ import cardOverview from '../../components/App/Card/CardOverview'
 import { connect } from 'react-redux';
 import { failedActionUpdateCardName } from '../../redux/actions/CardActions'
 import cardServices from '../../services/CardServices'
+import { 
+    actionDisplayCardModal
+
+} from '../../redux/actions/BoardActions'
 
 const mapStateToProps = (state, ownProps) => {
     return {
@@ -18,6 +22,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
                 console.log(error)
                 return dispatch(failedActionUpdateCardName(error))
             }
+        },
+        displayCardModal(cardId){
+            dispatch(actionDisplayCardModal(cardId))
         }
     }
 }

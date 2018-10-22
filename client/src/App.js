@@ -22,10 +22,11 @@ class App extends Component {
           <Switch>
             <Route exact path="/login"  />
             <Route exact path="/boards"  component={ListBoardContainer} />
-            <Route exact path={["/boards/:boardId", "/boards/:boardId/card/:cardId"]}  component={BoardContainer} />
+            <Route exact path="/boards/:boardId" component={BoardContainer} />
+            <Route exact path="/boards/:boardId/card/:cardId" component={BoardContainer} />
             <Route path="">
               <div>
-                <CardDetailContainer key={"5bcca38415f20303bf261a19"} cardId={"5bcca38415f20303bf261a19"}></CardDetailContainer>
+                <p className="App-intro">Salut</p>
               </div>
             </Route>
           </Switch>
