@@ -1,7 +1,7 @@
-const ListController = require('../../controllers/ListsController')
-const socketIO = require('../../../socket')
-const throwError = require('../../helper/RequestHelper').throwError
-const throwIf = require('../helper/RequestHelper').throwIf
+const ListController = require('../../controllers/ListsController');
+const socketIO = require('../../../socket');
+const throwError = require('../../helper/RequestHelper').throwError;
+const throwIf = require('../../helper/RequestHelper').throwIf;
 
 module.exports = async (req, res) => {
     if(!req.params.listId) throwError(400, 'Bad Request', 'missing body parameters');

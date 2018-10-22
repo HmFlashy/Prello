@@ -10,17 +10,18 @@ module.exports = async (req, res) => {
     const boardId = req.body.boardId;
     try {
         const list = await ListController.addList(name, boardId);
+        console.log(list)
         throwIf(r => !r, 404, "Not Found", "List not found")(list);
         socketIO.broadcast("action", {
             type: "ADD_LIST",
             payload: list
         });
-        return res.status(201).json({
+        return res.sendStatus(201).json({
             type: "Success",
             message: "List added",
             data: list
         })
     } catch(error) {
-        return res.status(500);
+        return res.sendStatus(500);
     }
 }
