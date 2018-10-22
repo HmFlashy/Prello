@@ -9,7 +9,8 @@ const defaultCardModalReducer = {
                   ...state,
                   _id: action.payload
               }
-        case 'GET_CARD':
+        case 'CARD_FETCHED':
+        console.log("mdr")
               return {
                   ...state,
                   ...action.payload
