@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './Members.css'
 import { Icon } from 'semantic-ui-react'
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './CardDetail.css'
-import { Segment, Icon, Divider, TextArea, Form, Button } from 'semantic-ui-react'
+import { Segment, Icon, Divider } from 'semantic-ui-react'
 import Menu from "./SubComponents/Menu"
 import Members from "./SubComponents/Members"
 import Labels from "./SubComponents/Labels"

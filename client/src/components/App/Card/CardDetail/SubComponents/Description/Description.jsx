@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './Description.css'
 import { Icon } from 'semantic-ui-react'
 

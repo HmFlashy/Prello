@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './Comment.css'
 import { Form, TextArea, Button, Icon } from 'semantic-ui-react'
 
