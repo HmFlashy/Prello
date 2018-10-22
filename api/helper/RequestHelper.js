@@ -6,7 +6,7 @@ exports.throwError = (code, errorType, errorMessage) => error => {
 };
 exports.throwIf = (fn, code, errorType, errorMessage) => result => {
     if (fn(result)) {
-        return throwError(code, errorType, errorMessage)()
+        throwError(code, errorType, errorMessage)()
     }
     return result
 };
