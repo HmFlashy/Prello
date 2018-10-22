@@ -64,10 +64,10 @@ class CardDetail extends Component {
                             ? <div>
                                 <div className="inline">
                                     <Icon name='tags' />
-                                    {this.props.card.members && this.props.card.members.length != 0
+                                    {this.props.card.members && this.props.card.members.length !== 0
                                         ? <Members className="membersContainer" members={this.props.card.members}></Members>
                                         : ""}
-                                    {this.props.card.labels && this.props.card.labels.length != 0
+                                    {this.props.card.labels && this.props.card.labels.length !== 0
                                         ? <Labels className="labelsContainer" labels={this.props.card.labels}></Labels>
                                         : ""}
                                     {this.props.card.duedate
@@ -84,13 +84,13 @@ class CardDetail extends Component {
                             </div>
                             : <p>Bonjour, il faut le faire #j'avaisLaFlemme</p>}
 
-                        {this.props.card.attachments && this.props.card.attachments.length != 0
+                        {this.props.card.attachments && this.props.card.attachments.length !== 0
                             ? <div>
                                 <Attachments className="attachmentsContainer" attachments={this.props.card.attachments}></Attachments>
                                 <Divider />
                             </div>
                             : ""}
-                        {this.props.card.checklists && this.props.card.checklists.length != 0
+                        {this.props.card.checklists && this.props.card.checklists.length !== 0
                             ? <div>
                                 <CheckList className="checkListContainer" checklists={this.props.card.checklists}></CheckList>
                                 <Divider />
