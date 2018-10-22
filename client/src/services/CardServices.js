@@ -3,7 +3,7 @@ import UrlConfig from '../config/UrlConfig'
 import { tokenHeader } from '../config/HeaderHelper'
 
 export default {
-    async getCardByIdApi(cardId) {
+    async fetchCard(cardId) {
         try{
             const res = await axios.get(`${UrlConfig.API}/cards/${cardId}`, tokenHeader)
             return res.data

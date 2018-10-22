@@ -10,7 +10,7 @@ export default (state = defaultCardReducer, action) => {
           ...state,
           cards: board.lists.flatMap(list => list.cards) 
       }
-    case 'GET_CARD':
+    case 'CARD_FETCHED':
       return {
         ...state,
         card: action.payload.payload,

@@ -19,13 +19,6 @@ export const actionCardNameUpdated = (card) => {
     }
 }
 
-export const actionGetCard = (card) => {
-    return {
-        type: 'GET_CARD',
-        payload: card
-    }
-}
-
 export const failedActionGetCard = (error) => {
     return {
         type: 'FAILED_GET_CARD',
@@ -36,6 +29,27 @@ export const failedActionGetCard = (error) => {
 export const failedActionAddCard = (error) => {
     return {
         type: 'FAILED_ADD_CARD',
+        payload: error
+    }
+}
+
+export const actionFetchingCard = (cardId) => {
+    return {
+        type: 'CARD_FETCHING',
+        payload: cardId
+    }
+}
+
+export const actionCardFetched = (card) => {
+    return {
+        type: 'CARD_FETCHED',
+        payload: card
+    }
+}
+
+export const actionFailedCardFetched = (error) => {
+    return {
+        type: 'CARD_FAILED_FETCH',
         payload: error
     }
 }
