@@ -8,7 +8,7 @@ import { failedActionAddCard } from '../../redux/actions/CardActions';
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        card: state.cardReducer.cards.find(card => ownProps.cardId === card._id)
+        card: state.cards.all.find(card => ownProps.cardId === card._id)
     }
 }
 

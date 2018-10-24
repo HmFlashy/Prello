@@ -18,8 +18,8 @@ import {
 
 const mapStateToProps = state => {
     return {
-        board: state.boardReducer.currentBoard,
-        cardModal: state.cardModalReducer
+        board: state.boards.currentBoard,
+        cardModal: state.cardModal
     }
 };
 

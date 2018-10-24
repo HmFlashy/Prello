@@ -1,8 +1,8 @@
-const defaultErrorReducer = {
+const defaultErrorState = {
     error: undefined
 }
 
-export default (state = defaultErrorReducer, action) => {
+export default (state = defaultErrorState, action) => {
     const splitted = action.type.split('_')
     switch (splitted[0]) {
         case "FAILED":

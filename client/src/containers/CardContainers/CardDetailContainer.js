@@ -10,7 +10,7 @@ import {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        card: state.cardModalReducer
+        card: state.cardModal
     }
 }
 

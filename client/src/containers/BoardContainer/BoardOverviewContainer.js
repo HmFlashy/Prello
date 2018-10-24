@@ -5,7 +5,7 @@ import {actionBoardSubscribe} from "../../redux/actions/BoardActions";
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        board: state.boardReducer.boards.find(board => ownProps.boardId === board._id)
+        board: state.boards.all.find(board => ownProps.boardId === board._id)
     }
 }
 

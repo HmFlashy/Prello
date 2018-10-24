@@ -1,8 +1,8 @@
-const defaultCardModalReducer = {
+const defaultCardModalState = {
     _id: null
 }
 
-export default (state = defaultCardModalReducer, action) => {
+export default (state = defaultCardModalState, action) => {
     switch (action.type) {
         case 'DISPLAY_CARD_MODAL':
             return {
@@ -16,7 +16,7 @@ export default (state = defaultCardModalReducer, action) => {
             }
         case 'CLOSE_CARD_MODAL':
             return {
-                ...defaultCardModalReducer
+                ...defaultCardModalState
             }
 
         case 'UPDATE_CARD_NAME':

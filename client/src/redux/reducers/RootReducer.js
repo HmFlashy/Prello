@@ -5,9 +5,9 @@ import listReducer from './ListReducer';
 import cardModalReducer from './CardModalReducer';
 import errorReducer from './ErrorReducer';
 export default combineReducers({
-    cardReducer,
-    boardReducer,
-    listReducer,
-    cardModalReducer,
-    errorReducer
+    cards: cardReducer,
+    boards: boardReducer,
+    lists: listReducer,
+    cardModal: cardModalReducer,
+    errors: errorReducer
 });
