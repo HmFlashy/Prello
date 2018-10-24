@@ -1,9 +1,11 @@
 const mongoose = require('mongoose');
 
-const Action = new mongoose.Schema({
+const ActionSchema = new mongoose.Schema({
     creator: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-    date: Date,
+    date: {type: Date, default: Date.now()},
     type: String
 });
 
-module.exports = mongoose.model('Action', Action);
+const Action = mongoose.model('Action', ActionSchema);
+
+module.exports = Action;

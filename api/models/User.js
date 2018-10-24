@@ -1,10 +1,10 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
-const Category = new mongoose.Schema({
+const CategorySchema = new mongoose.Schema({
     name: String
 });
 
-const User = new mongoose.Schema({
+const UserSchema = new mongoose.Schema({
     name: String,
     bio: String,
     email: String,
@@ -13,18 +13,23 @@ const User = new mongoose.Schema({
     username: String,
     organization: String,
     teams: [{
-        team: {
-            type: mongoose.Schema.Types.ObjectId, ref: 'Team'
-        },
-        role: String
+        team: {type: mongoose.Schema.Types.ObjectId, ref: 'Team'},
+        role: String,
+        _id: false
     }],
     boards: [{
         board: {type: mongoose.Schema.Types.ObjectId, ref: 'Board'},
-        category: Category,
-        role: String
+        category: CategorySchema,
+        role: String,
+        _id: false
     }],
-    categories: [Category]
+    categories: [CategorySchema]
 }, {timestamps: true});
 
-module.exports = mongoose.model('User', User);
-module.exports = mongoose.model('Category', Category);
+const User = mongoose.model('User', UserSchema);
+const Category = mongoose.model('Category', CategorySchema);
+
+module.exports = {
+    User: User,
+    Category: Category
+};

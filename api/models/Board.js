@@ -1,16 +1,23 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
+const db = require("../models");
+const throwError = require("../helper/RequestHelper").throwError;
 
-const Board = new mongoose.Schema({
+const BoardSchema = new mongoose.Schema({
     name: {type: String},
-    lists: [{type: mongoose.Schema.Types.ObjectId, ref: 'List'}],
-    owner: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-    teams: [{type: mongoose.Schema.Types.ObjectId, ref: 'Team'}],
+    lists: [{type: mongoose.Schema.Types.ObjectId, ref: "List"}],
+    owner: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
+    teams: [{type: mongoose.Schema.Types.ObjectId, ref: "Team"}],
     members: [{
-        member: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-        role: String
-    }],
+            member: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
+            role: String,
+            _id: false
+        }],
+    starred: [{type: mongoose.Schema.Types.ObjectId, ref: "User"}],
     closed: {type: Boolean, default: false},
-    activities: [{type: mongoose.Schema.Types.ObjectId, ref: 'Action'}]
+    activities: [{type: mongoose.Schema.Types.ObjectId, ref: "Action"}],
+    visibility: {type: String}
 }, {timestamps: true});
 
-module.exports = mongoose.model('Board', Board);
+const Board = mongoose.model("Board", BoardSchema);
+
+module.exports = Board;
