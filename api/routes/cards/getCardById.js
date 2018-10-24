@@ -47,11 +47,7 @@ module.exports = async (req, res) => {
         if (!card) {
             throwError(400, 'Card not found')
         } else {
-            return res.status(200).json({
-                type: "Success",
-                message: "Card found",
-                data: card
-            })
+            return res.status(200).json(card)
         }
     } catch(error) {
         console.log(error)

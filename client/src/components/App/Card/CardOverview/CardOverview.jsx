@@ -33,7 +33,6 @@ class CardOverview extends Component {
     }
 
     displayCardModal() {
-        console.log(this.props)
         this.props.history.push(`/card/${this.props.card._id}`)
         this.props.displayCardModal(this.props.card._id)
     }

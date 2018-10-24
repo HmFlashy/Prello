@@ -11,7 +11,7 @@ const mapStateToProps = (state, ownProps) => {
     }
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => {
+const mapDispatchToProps = dispatch => {
     return {
         async updateCard(cardId, data) {
             CardContainerServices.updateCard(cardId, data, dispatch)

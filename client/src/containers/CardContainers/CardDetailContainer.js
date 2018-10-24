@@ -14,9 +14,9 @@ const mapStateToProps = (state, ownProps) => {
     }
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => {
+const mapDispatchToProps = dispatch => {
     return {
-        async fetchCard(cardId, dispatch) {
+        async fetchCard(cardId) {
             try {
                 const card = await cardServices.fetchCard(cardId)
                 return dispatch(actionCardFetched(card))

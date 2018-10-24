@@ -10,6 +10,7 @@ export default (state = defaultCardModalReducer, action) => {
                 _id: action.payload
             }
         case 'CARD_FETCHED':
+        console.log("mdr")
             return {
                 ...state,
                 ...action.payload
