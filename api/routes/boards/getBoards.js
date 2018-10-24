@@ -1,10 +1,20 @@
-const boardsController = require('../../controllers/BoardsController')
+const boardsController = require('../../controllers/BoardsController');
+const throwError = require('../../helper/RequestHelper').throwError;
 
 module.exports = async (req, res) => {
     try {
-        const boards = await boardsController.getBoards()
-        return res.status(200).json(boards)
+        const boards = await boardsController.getBoards();
+        return res.status(200).json({
+            type: 'Success',
+            message: 'Get Boards',
+            data: boards
+        })
     } catch(error) {
-        res.status(500).json(error.message)
+        console.log(error)
+        if(error.code){
+            return res.status(error.code).json(error.message)
+        } else {
+            return res.sendStatus(500);
+        }
     }
 }

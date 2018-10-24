@@ -1,4 +1,5 @@
-const boardsController = require('../../controllers/BoardsController')
+const boardsController = require('../../controllers/BoardsController');
+const throwError = require('../../helper/RequestHelper').throwError;
 
   /**
     * @swagger
@@ -33,10 +34,29 @@ const boardsController = require('../../controllers/BoardsController')
     */
 module.exports = async (req, res) => {
     const boardId = req.params.boardId;
+
+    if(!boardId) {
+        throwError(400, "Missing boardId parameter")
+    } else if(!boardId.match(/^[0-9a-fA-F]{24}$/)) {
+        throwError(400, "boardId malformed")
+    }
+
     try {
-        const board = await boardsController.getBoardById(boardId)
-        return res.status(200).json(board)
+        const board = await boardsController.getBoardById(boardId);
+        if(!board) {
+            throwError(400, "Board not found")
+        }
+        return res.status(200).json({
+            type: "Success",
+            message: "Get board",
+            data: board
+        })
     } catch(error) {
-        res.status(500).json(error.message)
+        console.log(error);
+        if(error.code){
+            return res.status(error.code).json(error.message)
+        } else {
+            return res.sendStatus(500);
+        }
     }
 }
