@@ -15,6 +15,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = dispatch => {
     return {
         async updateCard(cardId, oldValue, data) {
+            dispatch(failedActionAddCard("lol"))
             CardContainerServices.updateCard(cardId, oldValue, data, dispatch)
         },
         displayCardModal(cardId) {

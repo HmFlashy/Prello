@@ -21,7 +21,7 @@ class Header extends Component {
 
     render() {
         return (
-            <Message negative className="notification" hidden={this.isHidden()}>
+            <Message negative className="notification elementToFadeInAndOut" hidden={this.isHidden()}>
                 <Message.Header>An error occured !</Message.Header>
                 <p>{this.props.message ? `We couldn't ${(this.props.message.error + "").toLowerCase()}.` : ""}</p>
             </Message>
