@@ -1,7 +1,12 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import CardDetail from '../../components/App/Card/CardDetail';
-import CardContainerServices from "./CardContainerServices"
+import cardContainerServices from "./CardContainerServices"
+import cardServices from '../../services/CardServices'
+import { 
+    actionCardFetched,
+    failedActionGetCard
+} from '../../redux/actions/CardActions'
 
 const mapStateToProps = (state, ownProps) => {
     return {
@@ -11,11 +16,16 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        async fetchCard(cardId) {
-            return await CardContainerServices.fetchCard(cardId, dispatch)
+        async fetchCard(cardId, dispatch) {
+            try {
+                const card = await cardServices.fetchCard(cardId)
+                return dispatch(actionCardFetched(card))
+            } catch (error) {
+                return dispatch(failedActionGetCard())
+            }
         },
         async updateCard(cardId, data) {
-            CardContainerServices.updateCard(cardId, data, dispatch)
+            cardContainerServices.updateCard(cardId, data, dispatch)
         }
     }
 }

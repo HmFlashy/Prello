@@ -1,5 +1,9 @@
 import cardServices from '../../services/CardServices'
-import { actionCardFetched, failedActionGetCard, failedActionUpdateCardName } from '../../redux/actions/CardActions'
+import { 
+    actionCardFetched,
+    failedActionGetCard, 
+    failedActionUpdateCardName 
+} from '../../redux/actions/CardActions'
 
 export default {
     async fetchCard(cardId, dispatch) {
