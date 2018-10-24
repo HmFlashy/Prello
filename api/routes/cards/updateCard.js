@@ -79,14 +79,14 @@ const types = {
   */
 module.exports = async (req, res) => {
     try {
-        const idCard = req.params.idCard
-        if (!idCard.match(/^[0-9a-fA-F]{24}$/)) {
+        const cardId = req.params.cardId
+        if (!cardId.match(/^[0-9a-fA-F]{24}$/)) {
             throwError(400, "Bad Request IdCard malformed")
         }
-        if (Object.keys(req.body).length == 0) {
+        if (Object.keys(req.body).length === 0) {
             throwError(400, "No data in body")
         }
-        if (cardUpdated = await CardController.updateCard(idCard, req.body)) {
+        if (cardUpdated = await CardController.updateCard(cardId, req.body)) {
             Object.keys(req.body).forEach(action => {
                 if (types[action]) {
                     socketIO.broadcast('action', {
@@ -95,10 +95,15 @@ module.exports = async (req, res) => {
                     })
                 }
             })
-            return res.status(200).json(cardUpdated)
+            return res.status(200).json({
+                type: "Success",
+                message: "Card found",
+                data: cardUpdated
+            })
         }
         else {
             return res.status(404).json({
+                type: "Error",
                 message: `The card ${idCard} does not exist`
             })
         }

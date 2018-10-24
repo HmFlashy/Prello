@@ -1,4 +1,4 @@
-const db = require('../models').Card;
+const db = require('../models');
 const dbList = require('../models').List;
 const mongoose = require('mongoose');
 
@@ -13,12 +13,9 @@ const getCardById = async (id) => {
 
 const addCard = async (name, listId) => {
     try {
-        const info = await new db.CardInformation().save()
-        console.log(info._id)
         const card = new db.Card({
             name: name,
-            list: listId,
-            information: info._id
+            list: listId
         });
         const savedCard = await card.save()
         await dbList.findOneAndUpdate({ _id: listId },

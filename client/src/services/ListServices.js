@@ -18,7 +18,7 @@ export default {
         try {
             const res = await axios.post(`${UrlConfig.API}/lists`, {
                 name: name,
-                boardID: boardID
+                boardId: boardID
             }, tokenHeader );
             return res.data
         } catch(error) {

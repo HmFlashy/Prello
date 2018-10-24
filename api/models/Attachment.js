@@ -1,9 +1,11 @@
 const mongoose = require('mongoose');
 
-const Attachment = new mongoose.Schema({
+const AttachmentSchema = new mongoose.Schema({
     name: String,
     owner: {type: mongoose.Schema.Types.ObjectId, ref: 'Users'},
-    date: Date
+    date: {type: Date, default: Date.now()}
 });
 
-module.exports = mongoose.model('Attachment', Attachment);
+const Attachment = mongoose.model('Attachment', AttachmentSchema);
+
+module.exports = Attachment;
