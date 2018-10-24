@@ -20,12 +20,14 @@ let swaggerDefinition = {
   security: [
     { JWT: [] }
   ],
-  basePath: '/api'
+  servers: [{
+    url: '/api'
+  }]
 }
 
 let options = {
   swaggerDefinition: swaggerDefinition,
-  apis: ['./api/routes/**/*.js']
+  apis: ['./api/routes/**/*.js', './api/models/**/*.js']
 }
-console.log( swaggerJSDoc(options))
+console.log(swaggerJSDoc(options))
 module.exports = swaggerJSDoc(options)
