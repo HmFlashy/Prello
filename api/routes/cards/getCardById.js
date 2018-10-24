@@ -47,10 +47,6 @@ module.exports = async (req, res) => {
         if (!card) {
             throwError(400, 'Card not found')
         } else {
-            socketIO.broadcast("action", {
-                type: "CARD_FETCHED",
-                payload: card
-            });
             return res.status(200).json({
                 type: "Success",
                 message: "Card found",
