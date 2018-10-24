@@ -1,6 +1,5 @@
 const db = require("../models");
 const mongoose = require("mongoose");
-const throwIf = require("../helper/RequestHelper").throwIf;
 const throwError = require("../helper/RequestHelper").throwError;
 
 const addList = async (name, boardId) => {
@@ -10,7 +9,7 @@ const addList = async (name, boardId) => {
         session.startTransaction();
         const board = await db.Board.findById(boardId)
         if(!board) {
-            throwError(400, "Bad Request", "Board not found")
+            throwError(400, `The board ${boardId} does not exist`)
         }
         const savedList = await db.List.create({
             name: name,
