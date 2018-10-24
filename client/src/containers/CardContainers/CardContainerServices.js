@@ -1,8 +1,9 @@
 import cardServices from '../../services/CardServices'
-import { 
+import {
     actionCardFetched,
-    failedActionGetCard, 
-    failedActionUpdateCardName 
+    failedActionGetCard,
+    failedActionUpdateCard,
+    actionUpdatingCard
 } from '../../redux/actions/CardActions'
 
 export default {
@@ -14,12 +15,14 @@ export default {
             return dispatch(failedActionGetCard())
         }
     },
-    async updateCard(cardId, data, dispatch) {
+    async updateCard(cardId, oldValue, data, dispatch) {
         try {
+            console.log(data)
+            dispatch(actionUpdatingCard(data))
             await cardServices.updateCardApi(cardId, data)
         } catch (error) {
             console.log(error)
-            return dispatch(failedActionUpdateCardName(error))
+            return dispatch(failedActionUpdateCard(oldValue, error))
         }
     }
 }

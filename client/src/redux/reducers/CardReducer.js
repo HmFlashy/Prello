@@ -28,21 +28,29 @@ export default (state = defaultCardReducer, action) => {
         cards: [...state.cards, card]
 
       }
+    case 'FAILED_UPDATE_CARD_NAME':
+    case 'UPDATING_CARD_NAME':
     case 'UPDATE_CARD_NAME':
       return {
         ...state,
         cards: state.cards.map(card => card._id === action.payload._id ? { ...card, name: action.payload.name } : card)
       }
+    case 'FAILED_UPDATE_CARD_DESC':
+    case 'UPDATING_CARD_DESC':
     case 'UPDATE_CARD_DESC':
       return {
         ...state,
         cards: state.cards.map(card => card._id === action.payload._id ? { ...card, desc: action.payload.desc } : card)
       }
+    case 'FAILED_UPDATE_CARD_DUEDATE':
+    case 'UPDATING_CARD_DUEDATE':
     case 'UPDATE_CARD_DUEDATE':
       return {
         ...state,
         cards: state.cards.map(card => card._id === action.payload._id ? { ...card, dueDate: action.payload.dueDate } : card)
       }
+    case 'FAILED_UPDATE_CARD_DUEDATECOMPLETED':
+    case 'UPDATING_CARD_DUEDATECOMPLETED':
     case 'UPDATE_CARD_DUEDATECOMPLETED':
       return {
         ...state,

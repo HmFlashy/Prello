@@ -1,9 +1,21 @@
 import React, { Component } from 'react';
 import './Menu.css'
-import { Button, Icon, Divider } from 'semantic-ui-react'
+import { Button, Icon, Divider, Modal, Header } from 'semantic-ui-react'
+import DatePicker from './datepicker';
 
 class Menu extends Component {
-    componentDidMount() {
+
+    constructor(props) {
+        super(props)
+        this.state = {
+            isPickingDate: false,
+            duedate: null
+        };
+        this.handleOnDateSelect = this.handleOnDateSelect.bind(this);
+    }
+
+    handleOnDateSelect(data) {
+        this.setState({ duedate: data })
     }
 
     render() {
@@ -24,10 +36,25 @@ class Menu extends Component {
                             <Icon name='check square outline' />
                             Checklist
                         </Button>
-                        <Button icon labelPosition='left'>
+                        <Button icon labelPosition='left' onClick={() => this.setState({ isPickingDate: true })}>
                             <Icon name='calendar check' />
                             Due date
                         </Button>
+                        <Modal open={this.state.isPickingDate}>
+                            <Header icon='calendar' content='Select a date' />
+                            <Modal.Content>
+                                <DatePicker onChange={this.handleOnDateSelect}
+                                />
+                            </Modal.Content>
+                            <Modal.Actions>
+                                <Button color='red' onClick={() => this.setState({ isPickingDate: false })}>
+                                    <Icon name='remove' /> Cancel
+                                </Button>
+                                <Button color='green' onClick={() => { this.setState({ isPickingDate: false }); this.props.onDueDate(this.state.duedate); console.log("Change due date") }}>
+                                    <Icon name='checkmark' /> Validate
+                                </Button>
+                            </Modal.Actions>
+                        </Modal>
                         <Button icon labelPosition='left'>
                             <Icon name='paperclip' />
                             Attachments
@@ -60,7 +87,7 @@ class Menu extends Component {
                         </Button>
                     </Button.Group>
                 </div>
-            </div>
+            </div >
         )
     }
 }
