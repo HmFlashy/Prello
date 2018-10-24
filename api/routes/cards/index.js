@@ -4,8 +4,8 @@ const router = express.Router();
 
 router.post('/', require('./addCard'));
 router.get('/', require('./getCards'));
-router.get('/:idCard', require('./getCardById'));
-router.put('/:idCard', require('./updateCard'));
+router.get('/:cardId', require('./getCardById'));
+router.put('/:cardId', require('./updateCard'));
 
 router.post('/:idCard/field/:field', require('./arrays/addValToField'));
 router.delete('/:idCard/field/:field', require('./arrays/removeValToField'));

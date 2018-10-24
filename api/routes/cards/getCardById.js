@@ -1,4 +1,6 @@
 const CardController = require('../../controllers/CardsController')
+const throwError = require('../../helper/RequestHelper').throwError;
+const socketIO = require('../../../socket');
 
 /**
   * @swagger
@@ -34,11 +36,33 @@ const CardController = require('../../controllers/CardsController')
   *         500:
   *           description: Internal error
   */
-module.exports = (req, res) => {
-    console.log(req.params)
-    return CardController.getCardById(req.params.idCard).then((data) => {
-        res.status(200).json(data)
-    }).catch((err) => {
-        res.status(404).json(err.message)
-    })
+module.exports = async (req, res) => {
+    try {
+        console.log(req.params)
+        const cardId = req.params.cardId;
+        if(!cardId) {
+            throwError(400, 'Missing cardId parameter')
+        }
+        const card = await CardController.getCardById(cardId)
+        if (!card) {
+            throwError(400, 'Card not found')
+        } else {
+            socketIO.broadcast("action", {
+                type: "CARD_FETCHED",
+                payload: card
+            });
+            return res.status(200).json({
+                type: "Success",
+                message: "Card found",
+                data: card
+            })
+        }
+    } catch(error) {
+        console.log(error)
+        if(error.code){
+            return res.status(error.code).json(error.message)
+        } else {
+            return res.sendStatus(500);
+        }
+    }
 }
