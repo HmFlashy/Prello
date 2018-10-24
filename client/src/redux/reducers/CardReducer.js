@@ -7,8 +7,8 @@ export default (state = defaultCardReducer, action) => {
     case "FETCHED_BOARD":
       const board = action.payload
       return {
-          ...state,
-          cards: board.lists.flatMap(list => list.cards) 
+        ...state,
+        cards: board.lists.flatMap(list => list.cards)
       }
     case 'CARD_FETCHED':
       return {
@@ -24,15 +24,50 @@ export default (state = defaultCardReducer, action) => {
     case 'ADD_CARD':
       const card = action.payload
       return {
-          ...state,
-          cards: [...state.cards, card]
-          
+        ...state,
+        cards: [...state.cards, card]
+
       }
     case 'UPDATE_CARD_NAME':
-        return {
-            ...state,
-            cards: state.cards.map(card => card._id === action.payload._id ? action.payload : card)
-        }
+      return {
+        ...state,
+        cards: state.cards.map(card => card._id === action.payload._id ? { ...card, name: action.payload.name } : card)
+      }
+    case 'UPDATE_CARD_DESC':
+      return {
+        ...state,
+        cards: state.cards.map(card => card._id === action.payload._id ? { ...card, desc: action.payload.desc } : card)
+      }
+    case 'UPDATE_CARD_DUEDATE':
+      return {
+        ...state,
+        cards: state.cards.map(card => card._id === action.payload._id ? { ...card, dueDate: action.payload.dueDate } : card)
+      }
+    case 'UPDATE_CARD_DUEDATECOMPLETED':
+      return {
+        ...state,
+        cards: state.cards.map(card => card._id === action.payload._id ? { ...card, dueDateCompleted: action.payload.dueDateCompleted } : card)
+      }
+    case 'UPDATE_CARD_LIST':
+      return {
+        ...state,
+        cards: state.cards.map(card => card._id === action.payload._id ? { ...card, list: action.payload.list } : card)
+      }
+    case 'UPDATE_CARD_BOARD':
+      return {
+        ...state,
+        cards: state.cards.map(card => card._id === action.payload._id ? { ...card, board: action.payload.board } : card)
+      }
+    case 'UPDATE_CARD_POS':
+      return {
+        ...state,
+        cards: state.cards.map(card => card._id === action.payload._id ? { ...card, pos: action.payload.pos } : card)
+      }
+    case 'UPDATE_CARD_ISARCHIVED':
+      return {
+        ...state,
+        cards: state.cards.map(card => card._id === action.payload._id ? { ...card, isArchived: action.payload.isArchived } : card)
+      }
     default:
       return state
   }

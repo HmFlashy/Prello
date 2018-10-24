@@ -1,37 +1,51 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const Item = new mongoose.Schema({
-    name: {type: String, required: true},
-    isChecked: {type: Boolean, default: false}
-},{timestamps: true});
+const CheckListSchema = new mongoose.Schema({
+    title: {type: String, required: true},
+    items: [{
+        name: {type: String, required: true},
+        isChecked: {type: Boolean, default: false},
+        _id: false,
+        createdAt: {type: Date, default: Date()}
+    }],
+    createdAt: {type: Date, default: Date()}
+});
 
-const CheckList = new mongoose.Schema({
-    title: { type: String, required: true },
-    items: {
-        type: [Item],
-        default: []
-    }
-}, {timestamps: true});
-
-const Card = new mongoose.Schema({
-    name: { type: String },
+const CardSchema = new mongoose.Schema({
+    name: {type: String},
     desc: String,
     dueDate: Date,
     dueDateCompleted: Date,
     isArchived: {type: Boolean, default: false},
-    creator: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-    labels: [{type: mongoose.Schema.Types.ObjectId, ref: 'Label'}],
-    comments: [{type: mongoose.Schema.Types.ObjectId, ref: 'Comment'}],
-    members: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
-    attachments: [{type: mongoose.Schema.Types.ObjectId, ref: 'Attachment'}],
-    checklists: [CheckList],
-    watchers: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
-    list: {type: mongoose.Schema.Types.ObjectId, ref: 'List'},
-    board: {type: mongoose.Schema.Types.ObjectId, ref: 'Board'},
+    creator: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
+    labels: [{type: mongoose.Schema.Types.ObjectId, ref: "Label"}],
+    comments: [{type: mongoose.Schema.Types.ObjectId, ref: "Comment"}],
+    members: [{type: mongoose.Schema.Types.ObjectId, ref: "User"}],
+    attachments: [{type: mongoose.Schema.Types.ObjectId, ref: "Attachment"}],
+    checklists: [CheckListSchema],
+    watchers: [{
+        watcher: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
+        lastView: {type: Date, default: Date.now()},
+        nbUnviewedActions: {type: Number, default: 0},
+        _id: false
+    }],
+    list: {type: mongoose.Schema.Types.ObjectId, ref: "List"},
+    board: {type: mongoose.Schema.Types.ObjectId, ref: "Board"},
     pos: Number,
-    activities: [{type: mongoose.Schema.Types.ObjectId, ref: 'Action'}]
+    activities: [{type: mongoose.Schema.Types.ObjectId, ref: "Action"}],
+    cardInformation: {
+        nbComments: {type: Number, default: 0},
+        nbItems: {type: Number, default: 0},
+        nbItemsChecked: {type: Number, default: 0},
+        nbAttachments: {type: Number, default: 0},
+        description: {type: String, default: false}
+    }
 }, {timestamps: true});
 
-module.exports = mongoose.model('Item', Item);
-module.exports = mongoose.model('CheckList', CheckList);
-module.exports = mongoose.model('Card', Card);
+const Checklist = mongoose.model("CheckList", CheckListSchema);
+const Card = mongoose.model("Card", CardSchema);
+
+module.exports = {
+    Checklist: Checklist,
+    Card: Card
+};

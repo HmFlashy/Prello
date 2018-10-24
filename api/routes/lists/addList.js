@@ -4,14 +4,14 @@ const throwError = require('../../helper/RequestHelper').throwError;
 
 module.exports = async (req, res) => {
     try {
-        if(!req.body.name) {
-            throwError(400, "Missing name parameter")
-        }
-        if(!req.body.boardId) {
-            throwError(400, "Missing boardId parameter")
-        }
         const name = req.body.name;
         const boardId = req.body.boardId;
+        if(!name) {
+            throwError(400, "Missing name parameter")
+        }
+        if(!boardId) {
+            throwError(400, "Missing boardId parameter")
+        }
         const list = await ListController.addList(name, boardId);
         if(!list) {
             throwError(400, "List not found")
