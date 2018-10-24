@@ -17,8 +17,9 @@ class CardDetail extends Component {
     constructor() {
         super()
         this.textToTextInput = this.textToTextInput.bind(this)
-        this.updateName = this.updateName.bind(this)
+        this.updateCard = this.updateCard.bind(this)
         this.state = {
+            descriptionTextArea: "",
             isNameUpdating: false,
             width: 0,
             height: 0
@@ -48,76 +49,73 @@ class CardDetail extends Component {
         })
     }
 
-    updateName(name) {
-        this.setState({
-            isNameUpdating: false
-        })
-        this.props.updateName(this.props.card._id, name)
+    updateCard(data) {
+        this.props.updateCard(this.props.card._id, data)
     }
 
     render() {
         return this.props.card.name != null ?
-                        <div className="displayColumn main">
-                                <Header name={this.props.card.name} list={this.props.card.list} ></Header>
-                                <Divider />
-                                <div className={this.state.width > 600 ? "displayRow main" : "main"}>
-                                    <div className="details main">
-                                        {(this.props.card.members && this.props.card.members.length !== 0) || (this.props.card && this.props.card.labels.length !== 0) || this.props.card.duedate
-                                            ? <div>
-                                                <div className="inline">
-                                                    <Icon name='tags' />
-                                                    {this.props.card.members && this.props.card.members.length !== 0
-                                                        ? <Members className="membersContainer" members={this.props.card.members}></Members>
-                                                        : ""}
-                                                    {this.props.card.labels && this.props.card.labels.length !== 0
-                                                        ? <Labels className="labelsContainer" labels={this.props.card.labels}></Labels>
-                                                        : ""}
-                                                    {this.props.card.duedate
-                                                        ? <DueDate className="duedateContainer" date={this.props.card.duedate} isCompleted={false}></DueDate>
-                                                        : ""}
-                                                </div>
-                                                <Divider />
-                                            </div>
-                                            : ""}
-                                        {this.props.card.desc
-                                            ? <div>
-                                                <Description description={this.props.card.desc}></Description>
-                                                <Divider />
-                                            </div>
-                                            : <div>
-                                                <div className={"displayRow"}>
-                                                    <Icon name='align left' />
-                                                    <Form className="form">
-                                                        <p>Describe me</p>
-                                                        <Form.Field>
-                                                            <TextArea rows={2} placeholder="Describe me..." />
-                                                        </Form.Field>
-                                                        <Button type='submit'>Submit</Button>
-                                                    </Form>
-                                                </div>
-                                                <Divider />
-                                            </div>}
-
-                                        {this.props.card.attachments && this.props.card.attachments.length !== 0
-                                            ? <div>
-                                                <Attachments className="attachmentsContainer" attachments={this.props.card.attachments}></Attachments>
-                                                <Divider />
-                                            </div>
-                                            : ""}
-                                        {this.props.card.checklists && this.props.card.checklists.length !== 0
-                                            ? <div>
-                                                <CheckList className="checkListContainer" checklists={this.props.card.checklists}></CheckList>
-                                                <Divider />
-                                            </div>
-                                            : ""}
-                                        <Comment></Comment>
-                                        <Divider />
-                                        <Activity></Activity>
-                                    </div>
-                                    <Menu />
+            <div className="displayColumn main">
+                <Header name={this.props.card.name} list={this.props.card.list} ></Header>
+                <Divider />
+                <div className={this.state.width > 600 ? "displayRow main" : "main"}>
+                    <div className="details main">
+                        {(this.props.card.members && this.props.card.members.length !== 0) || (this.props.card && this.props.card.labels.length !== 0) || this.props.card.duedate
+                            ? <div>
+                                <div className="inline">
+                                    <Icon name='tags' />
+                                    {this.props.card.members && this.props.card.members.length !== 0
+                                        ? <Members className="membersContainer" members={this.props.card.members}></Members>
+                                        : ""}
+                                    {this.props.card.labels && this.props.card.labels.length !== 0
+                                        ? <Labels className="labelsContainer" labels={this.props.card.labels}></Labels>
+                                        : ""}
+                                    {this.props.card.duedate
+                                        ? <DueDate className="duedateContainer" date={this.props.card.duedate} isCompleted={false}></DueDate>
+                                        : ""}
                                 </div>
+                                <Divider />
                             </div>
-                             : <Loader />
+                            : ""}
+                        {this.props.card.desc
+                            ? <div>
+                                <Description description={this.props.card.desc}></Description>
+                                <Divider />
+                            </div>
+                            : <div>
+                                <div className={"displayRow"}>
+                                    <Icon name='align left' />
+                                    <Form className="form" onSubmit={() => this.updateCard({ desc: this.state.descriptionTextArea })}>
+                                        <p>Describe me</p>
+                                        <Form.Field>
+                                            <TextArea onChange={(event, data) => this.setState({ descriptionTextArea: data.value })} rows={2} placeholder="Describe me..." />
+                                        </Form.Field>
+                                        <Button type='submit'>Submit</Button>
+                                    </Form>
+                                </div>
+                                <Divider />
+                            </div>}
+
+                        {this.props.card.attachments && this.props.card.attachments.length !== 0
+                            ? <div>
+                                <Attachments className="attachmentsContainer" attachments={this.props.card.attachments}></Attachments>
+                                <Divider />
+                            </div>
+                            : ""}
+                        {this.props.card.checklists && this.props.card.checklists.length !== 0
+                            ? <div>
+                                <CheckList className="checkListContainer" checklists={this.props.card.checklists}></CheckList>
+                                <Divider />
+                            </div>
+                            : ""}
+                        <Comment></Comment>
+                        <Divider />
+                        <Activity></Activity>
+                    </div>
+                    <Menu />
+                </div>
+            </div>
+            : <Loader />
     }
 }
 

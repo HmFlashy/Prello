@@ -6,7 +6,7 @@ const types = {
     name: 'UPDATE_CARD_NAME',
     desc: 'UPDATE_CARD_DESC',
     dueDate: 'UPDATE_CARD_DUEDATE',
-    dueDateCompleted: 'UPDATE_CARD_DUEDATE',
+    dueDateCompleted: 'UPDATE_CARD_DUEDATECOMPLETED',
     list: 'UPDATE_CARD_LIST',
     board: 'UPDATE_CARD_BOARD',
     pos: 'UPDATE_CARD_POS',
@@ -89,13 +89,9 @@ module.exports = async (req, res) => {
         if (cardUpdated = await CardController.updateCard(idCard, req.body)) {
             Object.keys(req.body).forEach(action => {
                 if (types[action]) {
-                    console.log({
-                        type: types[action],
-                        payload: cardUpdated[action]
-                    })
                     socketIO.broadcast('action', {
                         type: types[action],
-                        payload: cardUpdated.action
+                        payload: { [action]: cardUpdated[action], "_id": cardUpdated._id }
                     })
                 }
             })

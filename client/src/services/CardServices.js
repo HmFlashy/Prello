@@ -4,21 +4,18 @@ import { tokenHeader } from '../config/HeaderHelper'
 
 export default {
     async fetchCard(cardId) {
-        try{
+        try {
             const res = await axios.get(`${UrlConfig.API}/cards/${cardId}`, tokenHeader)
             return res.data
         } catch (e) {
             console.log(e)
             throw e
-        }    
-    },
-    async updateCardNameApi(cardId, name) {
+        }
+    }, async updateCardApi(cardId, toUpdate) {
         try {
-            const res = await axios.put(`${UrlConfig.API}/cards/${cardId}`, {
-                name: name
-            }, tokenHeader)
+            const res = await axios.put(`${UrlConfig.API}/cards/${cardId}`, toUpdate, tokenHeader)
             return res.data
-        } catch(error) {
+        } catch (error) {
             throw error
         }
     },
@@ -29,7 +26,7 @@ export default {
                 listId: listId
             }, tokenHeader)
             return res.data
-        } catch(error) {
+        } catch (error) {
             throw error
         }
     }

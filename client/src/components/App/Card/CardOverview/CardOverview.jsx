@@ -5,7 +5,7 @@ import { Segment, Container } from 'semantic-ui-react'
 
 class CardOverview extends Component {
 
-    constructor(){
+    constructor() {
         super()
         this.textToTextInput = this.textToTextInput.bind(this)
         this.updateName = this.updateName.bind(this)
@@ -15,33 +15,34 @@ class CardOverview extends Component {
         }
     }
 
-    componentDidMount(){
+    componentDidMount() {
     }
 
-    textToTextInput(){
+    textToTextInput(event) {
+        event.stopPropagation()
         this.setState({
             isNameUpdating: true
         })
     }
 
-    updateName(name){
+    updateName(name) {
         this.setState({
             isNameUpdating: false
         })
-        this.props.updateName(this.props.card._id, name)
+        this.props.updateCard(this.props.card._id, { name })
     }
 
-    displayCardModal(){
+    displayCardModal() {
         console.log(this.props)
         this.props.history.push(`/card/${this.props.card._id}`)
         this.props.displayCardModal(this.props.card._id)
     }
 
-    render(){
+    render() {
         return (
             <Segment className='cardOverview' onClick={this.displayCardModal}>
                 <p onClick={this.textToTextInput}>
-                    { !this.state.isNameUpdating ? this.props.card.name : <input type="text" name="name" placeholder= {this.props.card.name} onKeyPress={(event) => event.charCode === 13 ? this.updateName(event.target.value) : null}></input> }
+                    {!this.state.isNameUpdating ? this.props.card.name : <input type="text" name="name" placeholder={this.props.card.name} onKeyPress={(event) => event.charCode === 13 ? this.updateName(event.target.value) : null}></input>}
                 </p>
                 <span className='pos' color="textSecondary">
                     adjective
