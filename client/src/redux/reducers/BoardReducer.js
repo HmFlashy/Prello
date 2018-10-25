@@ -5,7 +5,7 @@ const defaultBoardReducer = {
         name: "",
         lists: []
     },
-    boards: [{
+    all: [{
         _id: 'board1',
         name: 'tata'
     },{
@@ -34,7 +34,7 @@ export default (state = defaultBoardReducer, action) => {
         case "FETCHED_BOARDS":
             return {
                 ...state,
-                boards: [...action.payload]
+                all: [...action.payload]
             }
         case "FETCHING_BOARDS":
             return {

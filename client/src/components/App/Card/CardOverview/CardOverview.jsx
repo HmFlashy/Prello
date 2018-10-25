@@ -8,7 +8,7 @@ class CardOverview extends Component {
     constructor() {
         super()
         this.textToTextInput = this.textToTextInput.bind(this)
-        this.updateName = this.updateName.bind(this)
+        this.updateCard = this.updateCard.bind(this)
         this.displayCardModal = this.displayCardModal.bind(this)
         this.state = {
             isNameUpdating: false
@@ -25,11 +25,11 @@ class CardOverview extends Component {
         })
     }
 
-    updateName(name) {
+    updateCard(oldValue, data) {
         this.setState({
             isNameUpdating: false
         })
-        this.props.updateCard(this.props.card._id, { name })
+        this.props.updateCard(this.props.card._id, oldValue, data)
     }
 
     displayCardModal() {
@@ -41,7 +41,7 @@ class CardOverview extends Component {
         return (
             <Segment className='cardOverview' onClick={this.displayCardModal}>
                 <p onClick={this.textToTextInput}>
-                    {!this.state.isNameUpdating ? this.props.card.name : <input type="text" name="name" placeholder={this.props.card.name} onKeyPress={(event) => event.charCode === 13 ? this.updateName(event.target.value) : null}></input>}
+                    {!this.state.isNameUpdating ? this.props.card.name : <input type="text" name="name" placeholder={this.props.card.name} onKeyPress={(event) => event.charCode === 13 ? this.updateCard({ name: this.props.card.name, _id:this.props.card._id }, { name: event.target.value, _id: this.props.card._id }) : null}></input>}
                 </p>
                 <span className='pos' color="textSecondary">
                     adjective

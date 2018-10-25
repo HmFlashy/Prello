@@ -4,6 +4,7 @@ import ListContainer from '../../../../containers/ListContainers/ListContainer';
 import NewListContainer from '../../../../containers/ListContainers/NewListContainer';
 import CardDetailContainer from '../../../../containers/CardContainers/CardDetailContainer'
 import { List, Button, Modal } from 'semantic-ui-react'
+import MessagesDisplayerContainer from "../../../../containers/MessageContainers/MessagesDisplayerContainer"
 
 class Board extends Component {
 
@@ -40,6 +41,7 @@ class Board extends Component {
                         <CardDetailContainer key={this.props.cardModal._id} cardId={this.props.cardModal._id}></CardDetailContainer>
                     </Modal.Content>
                 </Modal>
+                <MessagesDisplayerContainer />
             </List>
 
         );

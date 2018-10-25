@@ -1,11 +1,33 @@
-export const actionUpdateCardName = (card) => {
+const types = (type, isUpdating) => {
+    const u = isUpdating ? 'UPDATING' : 'UPDATE'
+    const t = {
+        name: `${u}_CARD_NAME`,
+        desc: `${u}_CARD_DESC`,
+        dueDate: `${u}_CARD_DUEDATE`,
+        dueDateCompleted: `${u}_CARD_DUEDATECOMPLETED`,
+        list: `${u}_CARD_LIST`,
+        board: `${u}_CARD_BOARD`,
+        pos: `${u}_CARD_POS`,
+        archive: `${u}_CARD_ISARCHIVED`
+    }
+    return t[type]
+}
+
+export const actionUpdateCard = (data) => {
     return {
-        type: 'UPDATE_CARD_NAME',
-        payload: card
+        type: types(types[Object.keys(data)[0]], false),
+        payload: data
     }
 }
 
-export const failedActionUpdateCardName = (error) => {
+export const actionUpdatingCard = (data) => {
+    return {
+        type: types([Object.keys(data)[0]], true),
+        payload: data
+    }
+}
+
+export const failedActionUpdateCard = (error) => {
     return {
         type: 'FAILED_UPDATE_CARD_NAME',
         payload: error

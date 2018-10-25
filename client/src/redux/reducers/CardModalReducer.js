@@ -1,8 +1,8 @@
-const defaultCardModalReducer = {
+const defaultCardModalState = {
     _id: null
 }
 
-export default (state = defaultCardModalReducer, action) => {
+export default (state = defaultCardModalState, action) => {
     switch (action.type) {
         case 'DISPLAY_CARD_MODAL':
             return {
@@ -10,14 +10,13 @@ export default (state = defaultCardModalReducer, action) => {
                 _id: action.payload
             }
         case 'CARD_FETCHED':
-        console.log("mdr")
             return {
                 ...state,
                 ...action.payload
             }
         case 'CLOSE_CARD_MODAL':
             return {
-                ...defaultCardModalReducer
+                ...defaultCardModalState
             }
 
         case 'UPDATE_CARD_NAME':
@@ -34,16 +33,24 @@ export default (state = defaultCardModalReducer, action) => {
                     desc: action.payload.desc
                 })
                 : state
+        case 'FAILED_UPDATE_CARD_DUEDATE':
+        case 'UPDATING_CARD_DUEDATE':
         case 'UPDATE_CARD_DUEDATE':
-            return {
-                ...state,
-                cards: state.cards.map(card => card._id === action.payload._id ? { ...card, dueDate: action.payload.dueDate } : card)
-            }
+            return (state._id && state._id === action.payload._id) ?
+                ({
+                    ...state,
+                    dueDate: action.payload.dueDate
+                })
+                : state
+        case 'FAILED_UPDATE_CARD_DUEDATECOMPLETED':
+        case 'UPDATING_CARD_DUEDATECOMPLETED':
         case 'UPDATE_CARD_DUEDATECOMPLETED':
-            return {
-                ...state,
-                cards: state.cards.map(card => card._id === action.payload._id ? { ...card, dueDateCompleted: action.payload.dueDateCompleted } : card)
-            }
+            return (state._id && state._id === action.payload._id) ?
+                ({
+                    ...state,
+                    dueDateCompleted: action.payload.dueDateCompleted
+                })
+                : state
         case 'UPDATE_CARD_LIST':
             return {
                 ...state,

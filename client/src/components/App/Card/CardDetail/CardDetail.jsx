@@ -11,6 +11,7 @@ import Comment from './SubComponents/Comment';
 import Activity from './SubComponents/Activity';
 import Description from './SubComponents/Description';
 import Header from './SubComponents/Header';
+import moment from 'moment';
 
 class CardDetail extends Component {
 
@@ -49,8 +50,8 @@ class CardDetail extends Component {
         })
     }
 
-    updateCard(data) {
-        this.props.updateCard(this.props.card._id, data)
+    updateCard(oldValue, data) {
+        this.props.updateCard(this.props.card._id, oldValue, data)
     }
 
     render() {
@@ -60,7 +61,7 @@ class CardDetail extends Component {
                 <Divider />
                 <div className={this.state.width > 600 ? "displayRow main" : "main"}>
                     <div className="details main">
-                        {(this.props.card.members && this.props.card.members.length !== 0) || (this.props.card && this.props.card.labels.length !== 0) || this.props.card.duedate
+                        {(this.props.card.members && this.props.card.members.length !== 0) || (this.props.card && this.props.card.labels.length !== 0) || this.props.card.dueDate
                             ? <div>
                                 <div className="inline">
                                     <Icon name='tags' />
@@ -70,8 +71,8 @@ class CardDetail extends Component {
                                     {this.props.card.labels && this.props.card.labels.length !== 0
                                         ? <Labels className="labelsContainer" labels={this.props.card.labels}></Labels>
                                         : ""}
-                                    {this.props.card.duedate
-                                        ? <DueDate className="duedateContainer" date={this.props.card.duedate} isCompleted={false}></DueDate>
+                                    {this.props.card.dueDate
+                                        ? <DueDate className="duedateContainer" onChange={(isChecked) => this.updateCard({ dueDateCompleted: this.props.card.dueDateCompleted, _id: this.props.card._id }, { dueDateCompleted: isChecked ? moment() : undefined, _id: this.props.card._id })} date={this.props.card.dueDate} isCompleted={this.props.card.dueDateCompleted}></DueDate>
                                         : ""}
                                 </div>
                                 <Divider />
@@ -85,7 +86,7 @@ class CardDetail extends Component {
                             : <div>
                                 <div className={"displayRow"}>
                                     <Icon name='align left' />
-                                    <Form className="form" onSubmit={() => this.updateCard({ desc: this.state.descriptionTextArea })}>
+                                    <Form className="form" onSubmit={() => this.updateCard({ desc: this.props.card.desc, _id: this.props.card._id }, { desc: this.state.descriptionTextArea, _id: this.props.card._id })}>
                                         <p>Describe me</p>
                                         <Form.Field>
                                             <TextArea onChange={(event, data) => this.setState({ descriptionTextArea: data.value })} rows={2} placeholder="Describe me..." />
@@ -112,7 +113,7 @@ class CardDetail extends Component {
                         <Divider />
                         <Activity></Activity>
                     </div>
-                    <Menu />
+                    <Menu onDueDate={(date) => this.updateCard({ dueDate: this.props.card.dueDate, _id: this.props.card._id }, { dueDate: date, _id: this.props.card._id })} />
                 </div>
             </div>
             : <Loader />

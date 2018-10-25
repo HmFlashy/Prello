@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Route, Switch, Link, BrowserRouter } from "react-router-dom";
+import { Route, Switch, Link } from "react-router-dom";
 import "./App.css";
 import BoardContainer from './containers/BoardContainer/BoardContainer';
 import ListBoardContainer from "./containers/BoardContainer/ListBoardContainer";
