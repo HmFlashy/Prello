@@ -72,7 +72,7 @@ class CardDetail extends Component {
                                         ? <Labels className="labelsContainer" labels={this.props.card.labels}></Labels>
                                         : ""}
                                     {this.props.card.dueDate
-                                        ? <DueDate className="duedateContainer" onChange={(isChecked) => this.updateCard({ dueDateCompleted: this.props.card.dueDateCompleted, _id: this.props.card._id }, { dueDateCompleted: isChecked ? moment() : undefined, _id: this.props.card._id })} date={this.props.card.dueDate} isCompleted={this.props.card.dueDateCompleted}></DueDate>
+                                        ? <DueDate className="duedateContainer" onChange={(isChecked) => this.updateCard({ dueDateCompleted: this.props.card.dueDateCompleted, _id: this.props.card._id }, { dueDateCompleted: isChecked ? moment() : null, _id: this.props.card._id })} date={this.props.card.dueDate} isCompleted={this.props.card.dueDateCompleted}></DueDate>
                                         : ""}
                                 </div>
                                 <Divider />
