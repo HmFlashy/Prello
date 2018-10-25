@@ -1,21 +1,18 @@
-import message from '../components/App/Message'
+import messagesDisplayer from '../../components/App/Message/MessagesDisplayer'
 import { connect } from 'react-redux';
 
 const mapStateToProps = state => {
     return {
-        message: state.errors
+        errors: state.errors.all.map(error => error._id)
     }
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        timeNotification() {
-            setTimeout(() => dispatch({ type: 'HIDEFAILEDNOTIFICATION_' }), 5000)
-        }
     }
 }
 
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(message);
+)(messagesDisplayer);

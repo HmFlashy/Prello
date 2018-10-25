@@ -1,5 +1,5 @@
 const defaultErrorState = {
-    error: undefined
+    all: []
 }
 
 export default (state = defaultErrorState, action) => {
@@ -8,12 +8,12 @@ export default (state = defaultErrorState, action) => {
         case "FAILED":
             return {
                 ...state,
-                error: action.type.substring(7, action.type.length - 1).split('_').join(' ')
+                all: [...state.all, { _id: Date.now(), hidden: false, message : action.type.substring(7, action.type.length - 1).split('_').join(' ')}]
             }
         case 'HIDEFAILEDNOTIFICATION':
             return {
                 ...state,
-                error: undefined
+                all: state.all.map(error => action.payload === error._id ? { ...error, hidden: true } : { ...error })
             }
         default:
             return state

@@ -1,0 +1,13 @@
+ 
+.elementToFadeInAndOut {
+    opacity: 1;
+    animation: fade 5s linear;
+    margin: 0.3em 0 !important;
+}
+
+
+@keyframes fade {
+  0%,100% { opacity: 0 }
+  30% { opacity: 1 }
+  70% { opacity: 1 }
+}

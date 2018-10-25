@@ -19,7 +19,8 @@ import {
 const mapStateToProps = state => {
     return {
         board: state.boards.currentBoard,
-        cardModal: state.cardModal
+        cardModal: state.cardModal,
+        errors: state.errors.all
     }
 };
 
