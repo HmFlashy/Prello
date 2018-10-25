@@ -3,7 +3,7 @@ import { Route, Switch, Link } from "react-router-dom";
 import "./App.css";
 import BoardContainer from './containers/BoardContainer/BoardContainer';
 import ListBoardContainer from "./containers/BoardContainer/ListBoardContainer";
-import Header from "./components/App/Header";
+import Header from "./containers/HeaderContainer";
 import { ConnectedRouter } from 'connected-react-router'
 import { history } from './history'
 
@@ -17,7 +17,6 @@ class App extends Component {
         <ConnectedRouter history={history}>
           <div className="App">
             <Header className="header" />
-            <Link to="/login">Home</Link> <Link to="/">About</Link> <Link to="/contact">Contact</Link> <Link to="/boards">Boards</Link>
             <Switch>
               <Route exact path="/login" />
               <Route exact path="/boards" component={ListBoardContainer} />
