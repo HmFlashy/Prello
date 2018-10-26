@@ -77,10 +77,20 @@ class Menu extends Component {
                             <Icon name='eye' />
                             Watch
                         </Button>
-                        <Button icon labelPosition='left'>
-                            <Icon name='archive' />
-                            Archive
+                        {this.props.isArchived
+                            ? <Button icon labelPosition='left' onClick={this.props.onDelete} color="red">
+                                <Icon name='trash' />
+                                Delete
                         </Button>
+                            : ""}
+                        <Button icon labelPosition='left' onClick={() => this.props.onArchive(!this.props.isArchived)}>
+                            <Icon name='archive' />
+                            {this.props.isArchived
+                                ? "Restore"
+                                : "Archive"
+                            }
+                        </Button>
+
                         <Button icon labelPosition='left'>
                             <Icon name='share' />
                             Share

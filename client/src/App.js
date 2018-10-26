@@ -17,20 +17,22 @@ class App extends Component {
         <ConnectedRouter history={history}>
           <div className="App">
             <Header className="header" />
-            <Switch>
-              <Route exact path="/login" />
-              <Route exact path="/boards" component={ListBoardContainer} />
-              <Route exact path="/boards/:boardId" component={BoardContainer} />
-              <Route exact path="/card/:cardId" component={BoardContainer} />
-              <Route path="">
-                <div>
-                  <p className="App-intro">Salut</p>
-                </div>
-              </Route>
-            </Switch>
+            <div className="content">
+              <Switch>
+                <Route exact path="/login" />
+                <Route exact path="/boards" component={ListBoardContainer} />
+                <Route exact path="/boards/:boardId" component={BoardContainer} />
+                <Route exact path="/card/:cardId" component={BoardContainer} />
+                <Route path="">
+                  <div>
+                    <p className="App-intro">Salut</p>
+                  </div>
+                </Route>
+              </Switch>
+            </div>
           </div>
-        </ConnectedRouter>
-      </Provider>
+        </ConnectedRouter >
+      </Provider >
     );
   }
 }

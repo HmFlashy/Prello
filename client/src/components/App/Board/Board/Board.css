@@ -1,11 +1,22 @@
-.board {
+.lists {
     display: flex;
     text-align: left;
     flex-direction: row;
-    overflow: hidden;
     overflow-x: scroll;
 }
 
 .no-padding-top {
     padding-top: 0px !important;
+}
+
+.App {
+    flex: 1;
+    flex-direction: column;
+}
+
+#root {
+    height: 100%;
+}
+.board {
+    height: 100%;
 }

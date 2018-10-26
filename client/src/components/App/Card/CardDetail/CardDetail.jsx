@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './CardDetail.css'
-import { TextArea, Icon, Divider, Form, Button, Loader } from 'semantic-ui-react'
+import { TextArea, Icon, Divider, Form, Button, Loader, Segment } from 'semantic-ui-react'
 import Menu from "./SubComponents/Menu"
 import Members from "./SubComponents/Members"
 import Labels from "./SubComponents/Labels"
@@ -51,12 +51,17 @@ class CardDetail extends Component {
     }
 
     updateCard(oldValue, data) {
+        console.log(data)
         this.props.updateCard(this.props.card._id, oldValue, data)
     }
 
     render() {
         return this.props.card.name != null ?
             <div className="displayColumn main">
+                {this.props.card.isArchived
+                    ? <Segment inverted color='orange' textAlign="center" size="medium"><Icon name="archive" size="large"></Icon>This card is archived</Segment>
+                    : ""
+                }
                 <Header name={this.props.card.name} list={this.props.card.list} ></Header>
                 <Divider />
                 <div className={this.state.width > 600 ? "displayRow main" : "main"}>
@@ -113,7 +118,11 @@ class CardDetail extends Component {
                         <Divider />
                         <Activity></Activity>
                     </div>
-                    <Menu onDueDate={(date) => this.updateCard({ dueDate: this.props.card.dueDate, _id: this.props.card._id }, { dueDate: date, _id: this.props.card._id })} />
+                    <Menu
+                        isArchived={this.props.card.isArchived}
+                        onDueDate={(date) => this.updateCard({ dueDate: this.props.card.dueDate, _id: this.props.card._id }, { dueDate: date, _id: this.props.card._id })}
+                        onArchive={(value) => this.updateCard({ isArchived: this.props.card.isArchived, _id: this.props.card._id }, { isArchived: value, _id: this.props.card._id })}
+                    />
                 </div>
             </div>
             : <Loader />

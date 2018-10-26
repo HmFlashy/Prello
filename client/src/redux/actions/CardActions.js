@@ -8,7 +8,7 @@ const types = (type, isUpdating) => {
         list: `${u}_CARD_LIST`,
         board: `${u}_CARD_BOARD`,
         pos: `${u}_CARD_POS`,
-        archive: `${u}_CARD_ISARCHIVED`
+        isArchived: `${u}_CARD_ISARCHIVED`
     }
     return t[type]
 }

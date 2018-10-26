@@ -17,7 +17,6 @@ export default {
     },
     async updateCard(cardId, oldValue, data, dispatch) {
         try {
-            console.log(data)
             dispatch(actionUpdatingCard(data))
             await cardServices.updateCardApi(cardId, data)
         } catch (error) {

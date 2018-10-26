@@ -10,7 +10,7 @@ const types = {
     list: 'UPDATE_CARD_LIST',
     board: 'UPDATE_CARD_BOARD',
     pos: 'UPDATE_CARD_POS',
-    archive: 'UPDATE_CARD_ISARCHIVED',
+    isArchived: 'UPDATE_CARD_ISARCHIVED',
 }
 /**
   * @swagger

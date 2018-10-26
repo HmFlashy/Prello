@@ -66,11 +66,15 @@ export default (state = defaultCardModalState, action) => {
                 ...state,
                 cards: state.cards.map(card => card._id === action.payload._id ? { ...card, pos: action.payload.pos } : card)
             }
+        case 'UPDATING_CARD_ISARCHIVED':
+        case 'FAILED_CARD_ISARCHIVED':
         case 'UPDATE_CARD_ISARCHIVED':
-            return {
-                ...state,
-                cards: state.cards.map(card => card._id === action.payload._id ? { ...card, isArchived: action.payload.isArchived } : card)
-            }
+            return (state._id && state._id === action.payload._id) ?
+                ({
+                    ...state,
+                    isArchived: action.payload.isArchived
+                })
+                : state
         default:
             return state
     }

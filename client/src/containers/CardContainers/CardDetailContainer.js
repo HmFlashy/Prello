@@ -25,7 +25,6 @@ const mapDispatchToProps = dispatch => {
             }
         },
         async updateCard(cardId, oldValue, data) {
-            console.log(cardId)
             await cardContainerServices.updateCard(cardId, oldValue, data, dispatch)
         }
     }

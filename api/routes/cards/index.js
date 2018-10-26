@@ -11,11 +11,3 @@ router.post('/:idCard/field/:field', require('./arrays/addValToField'));
 router.delete('/:idCard/field/:field', require('./arrays/removeValToField'));
 
 module.exports = router;
-
-
-
-
-
-
-
-module.exports = router;
