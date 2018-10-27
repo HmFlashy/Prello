@@ -46,6 +46,15 @@ module.exports = async (req, res) => {
     try {
         const name = req.body.name;
         const cardId = req.params.cardId;
+        if (!cardId.match(/^[0-9a-fA-F]{24}$/)) {
+            throwError(400, `The cardId ${cardId} is malformed`)
+        }
+        if (Object.keys(req.body).length === 0) {
+            throwError(400, "No data in body")
+        }
+        if (!name) {
+            throwError(400, "Missing name parameter")
+        }
         const checklist = await ChecklistController.addChecklist(name, cardId)
         socketIO.broadcast('action', {
             type: 'ADD_CHECKLIST',
