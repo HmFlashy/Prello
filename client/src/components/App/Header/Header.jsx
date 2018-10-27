@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import './Header.css'
-import { Segment, Dropdown, Button, Search, Icon } from 'semantic-ui-react'
+import { Segment, Dropdown, Button, Search } from 'semantic-ui-react'
 import { withRouter } from 'react-router';
-import Board from '../Board/Board';
 
 class Header extends Component {
 
@@ -37,7 +36,7 @@ class Header extends Component {
         return (
             <Segment inverted color='teal' className="inline header" size='mini'>
                 <div className="inline">
-                    <Button icon='home' onClick={() => this.nextPath('/login')} />
+                    <Button icon='home' onClick={() => this.nextPath('/boards')} />
                     {
                         this.state.width > 800 ? 
                             <Dropdown text='Boards' icon='flipboard' floating labeled button className='icon'>

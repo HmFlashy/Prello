@@ -3,7 +3,7 @@ import './Board.css'
 import ListContainer from '../../../../containers/ListContainers/ListContainer';
 import NewListContainer from '../../../../containers/ListContainers/NewListContainer';
 import CardDetailContainer from '../../../../containers/CardContainers/CardDetailContainer'
-import { List, Button, Modal, Segment } from 'semantic-ui-react'
+import { List, Modal } from 'semantic-ui-react'
 import MessagesDisplayerContainer from "../../../../containers/MessageContainers/MessagesDisplayerContainer"
 import Header from "./Header"
 

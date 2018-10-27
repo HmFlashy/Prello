@@ -16,8 +16,8 @@ class App extends Component {
       <Provider store={configureStore()}>
         <ConnectedRouter history={history}>
           <div className="App">
-            <Header className="header" />
-            <div className="content">
+            <Header className="app-header" />
+            <div className="app-content">
               <Switch>
                 <Route exact path="/login" />
                 <Route exact path="/boards" component={ListBoardContainer} />
