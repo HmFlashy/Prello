@@ -34,9 +34,15 @@ const deleteChecklist = async (cardId, checklistId) => {
 
 const updateChecklist = async (cardId, checklistId, name) => {
     try {
+        const newCard = await Card.find({ "_id": cardId })
+        for (let index = 0; index < newCard[0].checklists.length; index++) {
+            if (newCard[0].checklists[index]._id == checklistId) {
+                newCard[0].checklists[index].title = name
+            }
+        }
         return await Card.findOneAndUpdate({ _id: cardId }, {
             $set: {
-                checklists: { _id: checklistId, title: name }
+                checklists: newCard[0].checklists
             }
         }, { "new": true })
     } catch (error) {
