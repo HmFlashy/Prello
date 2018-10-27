@@ -5,15 +5,15 @@ const throwError = require('../../helper/RequestHelper').throwError;
 module.exports = async (req, res) => {
     try {
         const boardId = req.params.boardId;
-        const userEmail = req.body.email;
-        if(!userEmail) {
-            throwError(400, "Missing email body parameter")
-        }
+        /*const userId = req.params.userId;
+        if(!userId.match(/^[0-9a-fA-F]{24}$/)) {
+            throwError(400, `The boardId ${boardId} is malformed`)
+        }*/
         if(!boardId.match(/^[0-9a-fA-F]{24}$/)) {
             throwError(400, `The boardId ${boardId} is malformed`)
         }
 
-        const board = await boardsController.addBoardMemberByEmail(boardId, userEmail);
+        const board = await boardsController.addBoardMember(boardId, req.body);
         socketIO.broadcast("action", {
             type: "ADD_BOARD_MEMBER",
             payload: board.members

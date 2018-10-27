@@ -24,8 +24,11 @@ const getBoardById = async (boardId) => {
             }, {
                 path: "members.member",
                 select: ["_id", "name", "email", "fullName", "initials", "username",
-                    "organization", "teams"]
-
+                    "organization", "teams"],
+                populate: {
+                    path: "teams.team",
+                    select: ["_id", "name"]
+                }
             }, {
                 path: "teams",
                 select: ["_id", "name", "members"],
@@ -94,17 +97,19 @@ const createBoard = async (name, visibility, teamId, userId) => {
     }
 };
 
-const addBoardMemberById = async (boardId, userId) => {
+const addBoardMember = async (boardId, body) => {
     let session = null
     try {
         session = await mongoose.startSession();
         session.startTransaction();
-        const user = await db.User.findById(userId);
+        const user = await db.User.findOneAndUpdate(body, {
+            $push:
+                {boards: {board: boardId, role: "Member"}}
+        }, {new: true});
         if (!user) {
-            throwError(400, `The user ${userId} was not found`)
+            throwError(400, `The user ${body} was not found`)
         }
-
-        const board = await db.Board.findOneAndUpdate(boardId, {
+        const board = await db.Board.findOneAndUpdate({_id: boardId}, {
             $push: {
                 members:
                     {member: user._id, role: "Member"}
@@ -159,6 +164,5 @@ module.exports = {
     getBoardById,
     getBoards,
     createBoard,
-    addBoardMemberById,
-    addBoardMemberByEmail
+    addBoardMember
 };
