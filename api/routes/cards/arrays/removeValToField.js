@@ -65,7 +65,7 @@ const fields = {
   */
 module.exports = async (req, res) => {
     try {
-        const idCard = req.params.idCard
+        const idCard = req.params.cardId
         if (!idCard.match(/^[0-9a-fA-F]{24}$/)) {
             throwError(400, "Bad Request IdCard malformed")
         }
