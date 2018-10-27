@@ -11,7 +11,8 @@
     "install:all:prod": "npm install --production && cd client && npm install --production",
     "install:all:dev": "npm install && cd client && npm install",
     "client:build": "cd client && npm run build:production",
-    "deploy": "sh ./deploy.sh"
+    "deploy": "sh ./deploy.sh",
+    "test": "mocha api/test/*.js --timeout 10000"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
@@ -30,7 +31,10 @@
   },
   "devDependencies": {
     "concurrently": "^3.5.0",
-    "nodemon": "^1.18.4"
+    "nodemon": "^1.18.4",
+    "chai": "^4.1.2",
+    "chai-http": "^4.0.0",
+    "mocha": "^5.1.1"
   },
   "repository": {
     "type": "git",
