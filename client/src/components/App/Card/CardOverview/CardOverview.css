@@ -1,6 +1,27 @@
 .cardOverview {
-  width: 100% ;
+  width: 97% !important;
   max-height: 300px;
   text-align: left;
   margin-bottom: 1%;
+  position: relative;
+}
+
+.labels {
+  flex-wrap: wrap;
+  margin-bottom: 5px; 
+}
+
+.little-label {
+  width: 30px !important;
+}
+
+.information {
+  padding: 5px;
+}
+
+.eye {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  margin: 5px;
 }

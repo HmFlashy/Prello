@@ -1,45 +1,29 @@
 import React, { Component } from 'react';
 import './CardOverview.css'
-import { Input, Card, Icon, Ref } from 'semantic-ui-react'
+import { Item, Card, Icon, Ref, Label } from 'semantic-ui-react'
 import DynamicInput from '../../Input/DynamicInput'
-
+import Avatar from 'react-avatar';
+import { GetDueDateColor, SmallDate } from '../../../../helpers/DateHelper'
 
 class CardOverview extends Component {
 
     constructor() {
         super()
-        this.textToTextInput = this.textToTextInput.bind(this)
-        this.textInputToText = this.textInputToText.bind(this)
         this.updateCard = this.updateCard.bind(this)
         this.displayCardModal = this.displayCardModal.bind(this)
         this.validateNewName = this.validateNewName.bind(this)
+        this.ChangeEyeState = this.ChangeEyeState.bind(this)
         this.state = {
-            isNameUpdating: false
+            isNameUpdating: false,
+            isHoverEye: false
         }
     }
 
     componentDidMount() {
-        document.addEventListener('mousedown', (event) => {
-            return this.node.contains(event.target) ? event.stopPropagation(): this.textInputToText()
-        });
-    }
-
-    textToTextInput(event) {
-        event.stopPropagation()
-        this.setState({
-            isNameUpdating: true
-        })
-    }
-
-    textInputToText(event) {
-        this.setState({
-            isNameUpdating: false
-        })
     }
 
     validateNewName(event) {
-        if(event.charCode === 13)
-            this.updateCard({ name: this.props.card.name, _id:this.props.card._id }, { name: event.target.value, _id: this.props.card._id })
+        this.updateCard({ name: this.props.card.name, _id:this.props.card._id }, { name: event.target.value, _id: this.props.card._id })
     }
 
     updateCard(oldValue, data) {
@@ -54,19 +38,68 @@ class CardOverview extends Component {
         this.props.displayCardModal(this.props.card._id)
     }
 
+    ChangeEyeState(eyeState) {
+        this.setState({
+            isHoverEye: eyeState
+        })
+    }
+
     render() {
+        console.log()
         return (
             <Ref innerRef={node => this.node = node}>
                 <Card className='cardOverview' onClick={this.displayCardModal}>
                     <Card.Content>
-                        <Card.Header onClick={this.textToTextInput}>
-                        {!this.state.isNameUpdating ? 
-                            this.props.card.name : 
-                            <DynamicInput type='text' placeholder={this.props.card.name} onClick={(event) => event.stopPropagation()} onKeyPress={this.validateNewName} />}
+                        {
+                            this.props.card.labels.length > 0 ?
+                                <Card.Content className="labels">
+                                    { 
+                                        this.props.card.labels.map(label => <Label className="little-label" color={label.color} />)
+                                    }
+                                </Card.Content>
+                                :
+                                null
+                        }
+                        <Card.Header> 
+                            <DynamicInput 
+                                type='text'
+                                textToDisplay={this.props.card.name}
+                                placeholder={this.props.card.name} 
+                                onValidate={this.validateNewName}
+                            />
                         </Card.Header>
-                        <Card.Meta><Icon disabled name='eye' /></Card.Meta>
+                        <Card.Content className="information">
+                            {
+                                this.props.card.dueDate ?
+                                    <Label color={GetDueDateColor(this.props.card.dueDate, this.props.card.dueDateCompleted)} ><Icon name='calendar alternate outline' />{SmallDate(this.props.card.dueDate)}</Label>
+                                    :
+                                    null
+                            }
+                            {
+                                this.props.card.cardInformation.nbComments > 0 ?
+                                    <Label><Icon name='comment outline' />{this.props.card.cardInformation.nbComments}</Label>
+                                    :
+                                    null
+                            }
+                            {
+                                this.props.card.cardInformation.nbAttachments > 0 ?
+                                    <Label><Icon name='attach' />{this.props.card.cardInformation.nbAttachments}</Label>
+                                    :
+                                    null
+                            }
+                        </Card.Content>
+                        <Card.Content textAlign='right' className="members">
+                        {
+                            this.props.card.members.map(member => {
+                                return <Avatar name={member.firstname + " " + member.lastname} round size="25" textSizeRatio='1.4'></Avatar>
+                            })
+                        }
+                        </Card.Content>
                         
                     </Card.Content>
+                    <span className="eye" onClick={this.props.changeWatchState} onMouseEnter={() => this.ChangeEyeState(true)} onMouseOut={() => this.ChangeEyeState(false)}>
+                        <Icon disabled={!this.state.isHoverEye} name='eye' />
+                    </span>
                 </Card>
             </Ref>
         )

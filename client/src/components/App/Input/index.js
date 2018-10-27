@@ -1,1 +1,1 @@
-export { default } from './DynamicTextInput.jsx'
+export { default } from './DynamicInput'

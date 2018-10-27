@@ -7,7 +7,10 @@ module.exports = {
             const board = await db.Board.findById(id).populate({
                 path: 'lists',
                 populate: {
-                    path: 'cards'
+                    path: 'cards',
+                    populate: {
+                        path: 'labels'
+                    }
                 }
               });
             return board

@@ -15,6 +15,7 @@ export default (state = defaultListReducer, action) => {
                 all: lists
             }
         case 'ADD_CARD':
+        console.log("mdr")
             const card = action.payload
             return {
                 ...state,

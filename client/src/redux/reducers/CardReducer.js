@@ -22,10 +22,11 @@ export default (state = defaultCardReducer, action) => {
         error: action.payload
       }
     case 'ADD_CARD':
+    console.log(action.payload)
       const card = action.payload
       return {
         ...state,
-        all: [...state.cards, card]
+        all: [...state.all, card]
 
       }
     case 'FAILED_UPDATE_CARD_NAME':

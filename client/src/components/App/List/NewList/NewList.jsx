@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Segment, Container, List } from 'semantic-ui-react'
+import { Segment } from 'semantic-ui-react'
 import './NewList.css'
 
 class NewList extends Component {
