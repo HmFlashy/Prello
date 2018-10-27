@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './CardOverview.css'
-import { Segment, Container } from 'semantic-ui-react'
+import { Input, Card, Icon, Ref } from 'semantic-ui-react'
+import DynamicInput from '../../Input/DynamicInput'
 
 
 class CardOverview extends Component {
@@ -8,14 +9,19 @@ class CardOverview extends Component {
     constructor() {
         super()
         this.textToTextInput = this.textToTextInput.bind(this)
+        this.textInputToText = this.textInputToText.bind(this)
         this.updateCard = this.updateCard.bind(this)
         this.displayCardModal = this.displayCardModal.bind(this)
+        this.validateNewName = this.validateNewName.bind(this)
         this.state = {
             isNameUpdating: false
         }
     }
 
     componentDidMount() {
+        document.addEventListener('mousedown', (event) => {
+            return this.node.contains(event.target) ? event.stopPropagation(): this.textInputToText()
+        });
     }
 
     textToTextInput(event) {
@@ -23,6 +29,17 @@ class CardOverview extends Component {
         this.setState({
             isNameUpdating: true
         })
+    }
+
+    textInputToText(event) {
+        this.setState({
+            isNameUpdating: false
+        })
+    }
+
+    validateNewName(event) {
+        if(event.charCode === 13)
+            this.updateCard({ name: this.props.card.name, _id:this.props.card._id }, { name: event.target.value, _id: this.props.card._id })
     }
 
     updateCard(oldValue, data) {
@@ -39,14 +56,19 @@ class CardOverview extends Component {
 
     render() {
         return (
-            <Segment className='cardOverview' onClick={this.displayCardModal}>
-                <p onClick={this.textToTextInput}>
-                    {!this.state.isNameUpdating ? this.props.card.name : <input type="text" name="name" placeholder={this.props.card.name} onKeyPress={(event) => event.charCode === 13 ? this.updateCard({ name: this.props.card.name, _id:this.props.card._id }, { name: event.target.value, _id: this.props.card._id }) : null}></input>}
-                </p>
-                <span className='pos' color="textSecondary">
-                    adjective
-                </span>
-            </Segment>
+            <Ref innerRef={node => this.node = node}>
+                <Card className='cardOverview' onClick={this.displayCardModal}>
+                    <Card.Content>
+                        <Card.Header onClick={this.textToTextInput}>
+                        {!this.state.isNameUpdating ? 
+                            this.props.card.name : 
+                            <DynamicInput type='text' placeholder={this.props.card.name} onClick={(event) => event.stopPropagation()} onKeyPress={this.validateNewName} />}
+                        </Card.Header>
+                        <Card.Meta><Icon disabled name='eye' /></Card.Meta>
+                        
+                    </Card.Content>
+                </Card>
+            </Ref>
         )
     }
 }
