@@ -1,5 +1,4 @@
 //During the test the env variable is set to test
-process.env.NODE_ENV = "TEST";
 const List = require("../models/index").List;
 const Board = require("../models/index").Board;
 const Card = require("../models/index").Card;

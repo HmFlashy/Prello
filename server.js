@@ -25,3 +25,4 @@ if (process.env.NODE_ENV === 'production') {
 
 const server = app.listen(port, () => console.log(`Listening on port ${port}`));
 require('./socket').listen(server);
+module.exports = app;

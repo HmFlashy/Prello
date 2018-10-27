@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 connect()
 
 function connect(){
-    return mongoose.connect(process.env['URL_MONGODB_'+process.env['NODE_ENV']], {
+    return mongoose.connect(process.env.URL_MONGODB, {
         useNewUrlParser: true
     })
 }
