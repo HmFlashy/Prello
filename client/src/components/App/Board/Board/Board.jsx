@@ -30,7 +30,7 @@ class Board extends Component {
                 <Header></Header>
                 <List className='lists'>
                     {this.props.board.lists.map(listId => (
-                        <List.Item className='no-padding-top'><ListContainer key={listId} listId={listId} /></List.Item>
+                        <List.Item key={listId} className='no-padding-top'><ListContainer key={listId} listId={listId} /></List.Item>
                     ))}
                     <List.Item className='no-padding-top'><NewListContainer /></List.Item>
 

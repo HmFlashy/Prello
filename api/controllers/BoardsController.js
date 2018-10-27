@@ -8,9 +8,11 @@ module.exports = {
                 path: 'lists',
                 populate: {
                     path: 'cards',
-                    populate: {
+                    populate: [{
                         path: 'labels'
-                    }
+                    }, {
+                        path: 'members'
+                    }]
                 }
               });
             return board

@@ -38,18 +38,22 @@ class Header extends Component {
             <Segment inverted color='teal' className="inline header" size='mini'>
                 <div className="inline">
                     <Button icon='home' onClick={() => this.nextPath('/login')} />
-                    {this.state.width > 800 ? <Dropdown text='Boards' icon='flipboard' floating labeled button className='icon'>
-                        <Dropdown.Menu>
-                            <Dropdown.Header icon='tags' content='Boards' />
-                            {this.props.boards.map(board => <Dropdown.Item onClick={() => { this.nextPath(`/boards/${board._id}`); this.props.fetchBoard(board._id) }}>{board.name}</Dropdown.Item>)}
-                        </Dropdown.Menu>
-                    </Dropdown> :
-                        <Dropdown trigger={<Button bordered icon='flipboard' size='medium' />} icon={null} className='icon'>
-                            <Dropdown.Menu>
-                                <Dropdown.Header icon='tags' content='Boards' />
-                                {this.props.boards.map(board => <Dropdown.Item onClick={() => { this.nextPath(`/boards/${board._id}`); this.props.fetchBoard(board._id) }}>{board.name}</Dropdown.Item>)}
-                            </Dropdown.Menu>
-                        </Dropdown>}
+                    {
+                        this.state.width > 800 ? 
+                            <Dropdown text='Boards' icon='flipboard' floating labeled button className='icon'>
+                                <Dropdown.Menu>
+                                    <Dropdown.Header icon='tags' content='Boards' />
+                                    {this.props.boards.map(board => <Dropdown.Item key={board._id} onClick={() => { this.nextPath(`/boards/${board._id}`); this.props.fetchBoard(board._id) }}>{board.name}</Dropdown.Item>)}
+                                </Dropdown.Menu>
+                            </Dropdown> 
+                            :
+                            <Dropdown trigger={<Button icon='flipboard' size='medium' />} icon={null} className='icon'>
+                                <Dropdown.Menu>
+                                    <Dropdown.Header icon='tags' content='Boards' />
+                                    {this.props.boards.map(board => <Dropdown.Item key={board._id} onClick={() => { this.nextPath(`/boards/${board._id}`); this.props.fetchBoard(board._id) }}>{board.name}</Dropdown.Item>)}
+                                </Dropdown.Menu>
+                            </Dropdown>
+                    }
                     <Search results={[{ title: "yo", description: "mdr" }]} size="small" className="search"></Search>
                 </div>
                 <div>
@@ -64,7 +68,7 @@ class Header extends Component {
                             <Dropdown.Item>Create a team</Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown> :
-                        <Dropdown trigger={<Button bordered icon='plus' size='medium' />} icon={null} className='icon'>
+                        <Dropdown trigger={<Button icon='plus' size='medium' />} icon={null} className='icon'>
                             <Dropdown.Menu>
                                 <Dropdown.Header content='Create' />
                                 <Dropdown.Divider />
@@ -74,7 +78,7 @@ class Header extends Component {
                         </Dropdown>}
                     {this.state.width > 800
                         ? <Dropdown button className='icon' floating labeled icon='bell outline' text='Notifications' />
-                        : <Dropdown trigger={<Button bordered icon='bell outline' size='medium' />} icon={null} className='icon' />
+                        : <Dropdown trigger={<Button icon='bell outline' size='medium' />} icon={null} className='icon' />
                     }
                     {this.state.width > 800
                         ? <Dropdown button className='icon' floating labeled icon='user outline' text='User'>
@@ -89,7 +93,7 @@ class Header extends Component {
                                 <Dropdown.Item>Log out</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
-                        : <Dropdown trigger={<Button bordered icon='user outline' size='medium' />} icon={null} className='icon'>
+                        : <Dropdown trigger={<Button icon='user outline' size='medium' />} icon={null} className='icon'>
                             <Dropdown.Menu>
                                 <Dropdown.Header content='name' />
                                 <Dropdown.Divider />

@@ -4,7 +4,6 @@ import { failedActionAddList } from '../../redux/actions/ListActions'
 import newList from '../../components/App/List/NewList'
 
 const mapStateToProps = state => {
-    console.log(state.boards.currentBoard._id)
     return {
         boardId: state.boards.currentBoard._id
     }

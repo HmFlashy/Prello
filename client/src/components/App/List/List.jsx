@@ -12,7 +12,7 @@ class MyList extends Component {
                 <Container className='items'>
                     <List >
                         {this.props.list.cards.map(cardId => (
-                            <List.Item><CardOverviewContainer key={cardId} cardId={cardId} /></List.Item>
+                            <List.Item key={cardId} ><CardOverviewContainer key={cardId} cardId={cardId} /></List.Item>
                         ))}
                     </List>
                 </Container>

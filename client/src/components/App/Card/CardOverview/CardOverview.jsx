@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './CardOverview.css'
-import { Item, Card, Icon, Ref, Label } from 'semantic-ui-react'
+import { Card, Icon, Ref, Label } from 'semantic-ui-react'
 import DynamicInput from '../../Input/DynamicInput'
 import Avatar from 'react-avatar';
 import { GetDueDateColor, SmallDate } from '../../../../helpers/DateHelper'
@@ -54,7 +54,7 @@ class CardOverview extends Component {
                             this.props.card.labels.length > 0 ?
                                 <Card.Content className="labels">
                                     { 
-                                        this.props.card.labels.map(label => <Label className="little-label" color={label.color} />)
+                                        this.props.card.labels.map(label => <Label key={label._id} className="little-label" color={label.color} />)
                                     }
                                 </Card.Content>
                                 :
@@ -91,7 +91,7 @@ class CardOverview extends Component {
                         <Card.Content textAlign='right' className="members">
                         {
                             this.props.card.members.map(member => {
-                                return <Avatar name={member.firstname + " " + member.lastname} round size="25" textSizeRatio='1.4'></Avatar>
+                                return <Avatar key={member._id} name={member.fullName} round size="25" textSizeRatio={1.4}></Avatar>
                             })
                         }
                         </Card.Content>
