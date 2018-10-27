@@ -10,7 +10,7 @@ module.exports = async (req, res) => {
             throwError(400, "Missing email body parameter")
         }
         if(!boardId.match(/^[0-9a-fA-F]{24}$/)) {
-            throwError(400, "boardId malformed")
+            throwError(400, `The boardId ${boardId} is malformed`)
         }
 
         const board = await boardsController.addBoardMemberByEmail(boardId, userEmail);
@@ -18,11 +18,7 @@ module.exports = async (req, res) => {
             type: "ADD_BOARD_MEMBER",
             payload: board.members
         });
-        return res.status(200).json({
-            type: "Success",
-            message: "Board updated",
-            data: board
-        })
+        return res.status(200).json(board)
     } catch(error) {
         console.log(error);
         if(error.code){

@@ -18,12 +18,12 @@ module.exports = async (req, res) => {
         if (!teamId) {
             throwError(400, "Missing teamId parameter")
         } else if(!teamId.match(/^[0-9a-fA-F]{24}$/)) {
-            throwError(400, "teamId malformed")
+            throwError(400, `The teamId ${teamId} is malformed`)
         }
         if(!userId) {
             throwError(400, "Missing userId parameter")
         } else if(!userId.match(/^[0-9a-fA-F]{24}$/)) {
-            throwError(400, "userId malformed")
+            throwError(400, `The userId ${userId} is malformed`)
         }
 
         const board = await boardsController.createBoard(name, visibility, teamId, userId,
@@ -32,11 +32,7 @@ module.exports = async (req, res) => {
             type: "CREATE_BOARD",
             payload: board
         });
-        return res.status(201).json({
-            type: "Success",
-            message: "Board created",
-            data: board
-        })
+        return res.status(201).json(board)
     } catch(error) {
         console.log(error);
         if(error.code){

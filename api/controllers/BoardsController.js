@@ -45,7 +45,7 @@ const getBoardById = async (boardId) => {
             }
             ]);
         if (!board) {
-            throwError(400, "Board not found")
+            throwError(400, `The board ${boardId} was not found`)
         }
         return board
     } catch (error) {
@@ -68,12 +68,12 @@ const createBoard = async (name, visibility, teamId, userId) => {
     try {
         const user = await db.User.User.findById(userId);
         if (!user) {
-            throwError(400, "User not found")
+            throwError(400, `The user ${userrId} was not found`)
         }
         if (teamId) {
             const team = await db.Team.findById(teamId);
             if (!team) {
-                throwError(400, "Team not found")
+                throwError(400, `The team ${teamId} was not found`)
             }
             const savedBoard = await db.Board.create({
                 name: name,
@@ -104,10 +104,8 @@ const addBoardMemberById = async (boardId, userId) => {
         session.startTransaction();
         const user = await db.User.findById(userId);
         if (!user) {
-            throwError(400, "User not found")
+            throwError(400, `The user ${userId} was not found`)
         }
-        const board1 = await db.Board.findById(boardId)
-        console.log(board1);
 
         const board = await db.Board.findOneAndUpdate(boardId, {
             $push: {
@@ -116,7 +114,7 @@ const addBoardMemberById = async (boardId, userId) => {
             }
         }, {new: true});
         if (!board) {
-            throwError(400, "Board not found")
+            throwError(400, `The board ${boardId} was not found`)
         }
         await session.commitTransaction();
         session.endSession();

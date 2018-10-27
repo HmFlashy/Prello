@@ -33,24 +33,18 @@ const throwError = require('../../helper/RequestHelper').throwError;
     *           description: Internal error
     */
 module.exports = async (req, res) => {
-    const boardId = req.params.boardId;
-
-    if(!boardId) {
-        throwError(400, "Missing boardId parameter")
-    } else if(!boardId.match(/^[0-9a-fA-F]{24}$/)) {
-        throwError(400, "boardId malformed")
-    }
-
     try {
+        const boardId = req.params.boardId;
+        if(!boardId) {
+            throwError(400, "Missing boardId parameter")
+        } else if(!boardId.match(/^[0-9a-fA-F]{24}$/)) {
+            throwError(400, `The boardId ${boardId} is malformed`)
+        }
         const board = await boardsController.getBoardById(boardId);
         if(!board) {
             throwError(400, "Board not found")
         }
-        return res.status(200).json({
-            type: "Success",
-            message: "Get board",
-            data: board
-        })
+        return res.status(200).json(board)
     } catch(error) {
         console.log(error);
         if(error.code){
