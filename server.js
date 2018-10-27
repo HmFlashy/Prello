@@ -4,7 +4,7 @@ const path = require('path');
 const app = express();
 const port = process.env.PORT || 5000;
 const helmet = require("helmet");
-const cors = require("cors")
+const cors = require("cors");
 const swaggerJSDoc = require('./api/swagger.js')
 const swaggerUi = require('swagger-ui-express');
 app.use(cors())
@@ -22,9 +22,6 @@ if (process.env.NODE_ENV === 'production') {
     })
 }
 
-
-
-
-
 const server = app.listen(port, () => console.log(`Listening on port ${port}`));
-require('./socket').listen(server)
+require('./socket').listen(server);
+module.exports = server;
