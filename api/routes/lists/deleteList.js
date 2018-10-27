@@ -35,23 +35,23 @@ const throwError = require('../../helper/RequestHelper').throwError;
  *           description: Internal error
  */
 module.exports = async (req, res) => {
-    const listId = req.params.listId;
-    if(!listId) {
-        throwError(400, "Missing listId parameter")
-    }
-    if(!listId.match(/^[0-9a-fA-F]{24}$/)) {
-        throwError(400, `The listId ${listId} does not exist`)
-    }
     try {
+        const listId = req.params.listId;
+        if(!listId) {
+            throwError(400, "Missing listId parameter")
+        }
+        if(!listId.match(/^[0-9a-fA-F]{24}$/)) {
+            throwError(400, `The listId ${listId} is malformed`)
+        }
         const list = await ListController.deleteList(listId);
         if(!list) {
-            throwError(400, "List not found")
+            throwError(400, `The list ${listId} does not exist`)
         }
         socketIO.broadcast('action', {
             type: 'DELETE_LIST',
             payload: list
         });
-        return res.status(204).json(list)
+        return res.status(200).json(list)
     } catch(error) {
         console.log(error);
         if(error.code){
