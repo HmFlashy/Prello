@@ -53,13 +53,13 @@ function reversedRef() {
         ], boards: []
     });
 
-    Alex.teams = [Khal._id];
-    Hugo.teams = [Khal._id];
-    Kevin.teams = [Khal._id];
+    Alex.teams = [{team: Khal._id, role: "Admin"}];
+    Hugo.teams = [{team: Khal._id, role: "Member"}];
+    Kevin.teams = [{team: Khal._id, role: "Member"}];
 
-    const FrontEnd = Label({name: "Front-End"});
-    const BackEnd = Label({name: "Back-End"});
-    const DB = Label({name: "Database"});
+    const FrontEnd = Label({name: "Front-End", color: "yellow"});
+    const BackEnd = Label({name: "Back-End", color: "blue"});
+    const DB = Label({name: "Database", color: "green"});
 
     const card1 = Card({
         name: "Add comment to a card",
@@ -196,8 +196,12 @@ function reversedRef() {
         role: "Admin",
         category: kevinCategory1
     }];
-
     Kevin.categories = [kevinCategory1, kevinCategory2];
+
+    Alex.boards = [{
+        board: board1._id,
+        role: "Admin"
+    }];
 
     Loris.boards = [{
         board: board1._id,

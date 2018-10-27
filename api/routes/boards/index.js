@@ -14,7 +14,9 @@ const router = express.Router();
   *             type: string
   */
 
-router.get("/:boardId", require('./getBoardById'))
-router.get("/", require('./getBoards'))
+router.get("/:boardId", require('./getBoardById'));
+router.get("/", require('./getBoards'));
+router.post("/", require('./createBoard'));
+router.put("/:boardId/members", require('./addBoardMember'));
 
 module.exports = router;
