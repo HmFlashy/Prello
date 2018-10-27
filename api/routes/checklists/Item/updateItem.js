@@ -60,12 +60,12 @@ module.exports = async (req, res) => {
         if (Object.keys(req.body).length === 0) {
             throwError(400, "No data in body")
         }
-        const card = await ChecklistController.updateItem(cardId, checklistId, itemId, req.body)
+        const checklists = await ChecklistController.updateItem(cardId, checklistId, itemId, req.body)
         socketIO.broadcast('action', {
             type: 'UPDATE_ITEM',
-            payload: card
+            payload: { _id: cardId, checklists }
         })
-        return res.status(200).json(card)
+        return res.status(200).json(checklists)
     } catch (error) {
         res.status(500).json(error.message)
     }

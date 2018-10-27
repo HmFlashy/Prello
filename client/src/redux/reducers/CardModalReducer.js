@@ -75,6 +75,16 @@ export default (state = defaultCardModalState, action) => {
                     isArchived: action.payload.isArchived
                 })
                 : state
+        case 'ADD_CHECKLIST':
+        case 'DELETE_CHECKLIST':
+        case 'UPDATE_CHECKLIST':
+        case 'FAILED_UPDATE_CHECKLIST':
+            return (state._id && state._id === action.payload._id) ?
+                ({
+                    ...state,
+                    checklists: action.payload.checklists
+                })
+                : state
         default:
             return state
     }

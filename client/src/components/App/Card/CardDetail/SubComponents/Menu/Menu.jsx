@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './Menu.css'
-import { Button, Icon, Divider, Modal, Header } from 'semantic-ui-react'
+import { Button, Icon, Divider, Modal, Header, Input } from 'semantic-ui-react'
 import DatePicker from './datepicker';
 
 class Menu extends Component {
@@ -9,7 +9,9 @@ class Menu extends Component {
         super(props)
         this.state = {
             isPickingDate: false,
-            duedate: null
+            isCreatingChecklist: false,
+            duedate: null,
+            checklistName: ""
         };
         this.handleOnDateSelect = this.handleOnDateSelect.bind(this);
     }
@@ -32,10 +34,24 @@ class Menu extends Component {
                             <Icon name='tag' />
                             Labels
                         </Button>
-                        <Button icon labelPosition='left'>
+                        <Button icon labelPosition='left' onClick={() => this.setState({ isCreatingChecklist: true })}>
                             <Icon name='check square outline' />
                             Checklist
                         </Button>
+                        <Modal open={this.state.isCreatingChecklist}>
+                            <Header icon='calendar' content='Enter a name' />
+                            <Modal.Content centered={true}>
+                                <Input onChange={(event, data) => this.setState({ checklistName: data.value })}></Input>
+                            </Modal.Content>
+                            <Modal.Actions>
+                                <Button color='red' onClick={() => this.setState({ isCreatingChecklist: false })}>
+                                    <Icon name='remove' /> Cancel
+                                </Button>
+                                <Button color='green' onClick={() => { this.setState({ isCreatingChecklist: false }, () => this.props.onChecklist(this.state.checklistName)); }}>
+                                    <Icon name='checkmark' /> Validate
+                                </Button>
+                            </Modal.Actions>
+                        </Modal>
                         <Button icon labelPosition='left' onClick={() => this.setState({ isPickingDate: true })}>
                             <Icon name='calendar check' />
                             Due date

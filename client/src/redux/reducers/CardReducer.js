@@ -22,7 +22,7 @@ export default (state = defaultCardReducer, action) => {
         error: action.payload
       }
     case 'ADD_CARD':
-    console.log(action.payload)
+      console.log(action.payload)
       const card = action.payload
       return {
         ...state,
@@ -78,6 +78,14 @@ export default (state = defaultCardReducer, action) => {
       return {
         ...state,
         all: state.all.map(card => card._id === action.payload._id ? { ...card, isArchived: action.payload.isArchived } : card)
+      }
+    case 'ADD_CHECKLIST':
+    case 'DELETE_CHECKLIST':
+    case 'UPDATE_CHECKLIST':
+    case 'FAILED_UPDATE_CHECKLIST':
+      return {
+        ...state,
+        all: state.all.map(card => card._id === action.payload._id ? { ...card, checklists: action.payload.checklists } : card)
       }
     default:
       return state

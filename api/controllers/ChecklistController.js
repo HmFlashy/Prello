@@ -14,7 +14,7 @@ const addChecklist = async (name, cardId) => {
                     })
                 }
             }, { "new": true })
-        return newChecklist
+        return newChecklist.checklists
     } catch (error) {
         throw error
     }
@@ -26,7 +26,7 @@ const deleteChecklist = async (cardId, checklistId) => {
             {
                 $pull: { checklists: { _id: checklistId } }
             }, { "new": true })
-        return card
+        return card.checklists
     } catch (error) {
         throw error
     }
@@ -40,11 +40,12 @@ const updateChecklist = async (cardId, checklistId, name) => {
                 newCard[0].checklists[index].title = name
             }
         }
-        return await Card.findOneAndUpdate({ _id: cardId }, {
+        const card = await Card.findOneAndUpdate({ _id: cardId }, {
             $set: {
                 checklists: newCard[0].checklists
             }
         }, { "new": true })
+        return card.checklists
     } catch (error) {
         throw error
     }
@@ -54,10 +55,11 @@ const addItem = async (cardId, checklistId, name) => {
     try {
         const newCard = await Card.find({ "_id": cardId })
         newCard[0].checklists.forEach(checklist => checklist._id == checklistId ? checklist.items.push(new Item({ name })) : checklist)
-        return await Card.findOneAndUpdate({ _id: cardId },
+        const card = await Card.findOneAndUpdate({ _id: cardId },
             {
                 $set: { checklists: newCard[0].checklists }
             }, { "new": true })
+        return card.checklists
     } catch (error) {
         throw error
     }
@@ -75,10 +77,11 @@ const deleteItem = async (cardId, checklistId, itemId) => {
                 }
             }
         }
-        return await Card.findOneAndUpdate({ _id: cardId },
+        const card = await Card.findOneAndUpdate({ _id: cardId },
             {
                 $set: { checklists: newCard[0].checklists }
             }, { "new": true })
+        return card.checklists
     } catch (error) {
         throw error
     }
@@ -96,10 +99,11 @@ const updateItem = async (cardId, checklistId, itemId, data) => {
                 }
             }
         }
-        return await Card.findOneAndUpdate({ _id: cardId },
+        const card = await Card.findOneAndUpdate({ _id: cardId },
             {
                 $set: { checklists: newCard[0].checklists }
             }, { "new": true })
+        return card.checklists
     } catch (error) {
         throw error
     }

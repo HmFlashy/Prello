@@ -26,6 +26,9 @@ class CardDetail extends Component {
             height: 0
         }
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+        this.createChecklist = this.createChecklist.bind(this);
+        this.deleteChecklist = this.deleteChecklist.bind(this);
+        this.updateChecklist = this.updateChecklist.bind(this);
     }
 
     componentDidMount() {
@@ -53,6 +56,18 @@ class CardDetail extends Component {
     updateCard(oldValue, data) {
         console.log(data)
         this.props.updateCard(this.props.card._id, oldValue, data)
+    }
+
+    createChecklist(data) {
+        this.props.createChecklist(this.props.card._id, data)
+    }
+
+    deleteChecklist(checklistId) {
+        this.props.deleteChecklist(this.props.card._id, checklistId)
+    }
+
+    updateChecklist(checklistId, oldVal, newVal, name) {
+        this.props.updateChecklist(this.props.card._id, checklistId, oldVal, { _id: this.props.card._id, ...newVal }, name)
     }
 
     render() {
@@ -110,7 +125,12 @@ class CardDetail extends Component {
                             : ""}
                         {this.props.card.checklists && this.props.card.checklists.length !== 0
                             ? <div>
-                                <CheckList className="checkListContainer" checklists={this.props.card.checklists}></CheckList>
+                                <CheckList
+                                    className="checkListContainer"
+                                    checklists={this.props.card.checklists}
+                                    onDelete={(checklistId) => this.deleteChecklist(checklistId)}
+                                    onChangeName={(checklistId, oldVal, newVal, name) => this.updateChecklist(checklistId, oldVal, newVal, name)}
+                                ></CheckList>
                                 <Divider />
                             </div>
                             : ""}
@@ -122,6 +142,7 @@ class CardDetail extends Component {
                         isArchived={this.props.card.isArchived}
                         onDueDate={(date) => this.updateCard({ dueDate: this.props.card.dueDate, _id: this.props.card._id }, { dueDate: date, _id: this.props.card._id })}
                         onArchive={(value) => this.updateCard({ isArchived: this.props.card.isArchived, _id: this.props.card._id }, { isArchived: value, _id: this.props.card._id })}
+                        onChecklist={(value) => this.createChecklist({ name: value, _id: this.props.card._id })}
                     />
                 </div>
             </div>

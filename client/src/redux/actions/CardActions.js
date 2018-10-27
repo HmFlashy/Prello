@@ -34,6 +34,34 @@ export const failedActionUpdateCard = (error) => {
     }
 }
 
+export const actionCardChecklistUpdated = (checklist) => {
+    return {
+        type: 'UPDATE_CHECKLIST',
+        payload: checklist
+    }
+}
+
+export const failedActionCardChecklistUpdated = (checklist) => {
+    return {
+        type: 'FAILED_UPDATE_CHECKLIST',
+        payload: checklist
+    }
+}
+
+export const failedActionCardChecklistDeleted = (checklist) => {
+    return {
+        type: 'FAILED_DELETE_CHECKLIST',
+        payload: checklist
+    }
+}
+
+export const failedActionCardChecklistCreated = (checklist) => {
+    return {
+        type: 'FAILED_CREATED_CHECKLIST',
+        payload: checklist
+    }
+}
+
 export const actionCardNameUpdated = (card) => {
     return {
         type: 'CARD_NAME_UPDATED',

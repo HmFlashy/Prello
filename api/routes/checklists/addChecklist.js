@@ -55,12 +55,12 @@ module.exports = async (req, res) => {
         if (!name) {
             throwError(400, "Missing name parameter")
         }
-        const checklist = await ChecklistController.addChecklist(name, cardId)
+        const checklists = await ChecklistController.addChecklist(name, cardId)
         socketIO.broadcast('action', {
             type: 'ADD_CHECKLIST',
-            payload: checklist
+            payload: { _id: cardId, checklists }
         })
-        return res.status(200).json(checklist)
+        return res.status(200).json(checklists)
     } catch (error) {
         res.status(500).json(error.message)
     }

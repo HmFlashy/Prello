@@ -1,6 +1,7 @@
 import axios from 'axios'
 import UrlConfig from '../config/UrlConfig'
 import { tokenHeader } from '../config/HeaderHelper'
+import CheckList from '../components/App/Card/CardDetail/SubComponents/CheckList';
 
 export default {
     async fetchCard(cardId) {
@@ -23,6 +24,36 @@ export default {
             const res = await axios.post(`${UrlConfig.API}/cards`, {
                 name: name,
                 listId: listId
+            }, tokenHeader)
+            return res.data
+        } catch (error) {
+            throw error
+        }
+    }
+    ,
+    async createChecklist(cardId, data) {
+        try {
+            const res = await axios.post(`${UrlConfig.API}/cards/${cardId}/checklists`, {
+                name: data.name
+            }, tokenHeader)
+            return res.data
+        } catch (error) {
+            throw error
+        }
+    },
+    async deleteChecklist(cardId, checkListId) {
+        try {
+            const res = await axios.delete(`${UrlConfig.API}/cards/${cardId}/checklists/${checkListId}`, {
+            }, tokenHeader)
+            return res.data
+        } catch (error) {
+            throw error
+        }
+    },
+    async updateChecklist(cardId, checkListId, data) {
+        try {
+            const res = await axios.put(`${UrlConfig.API}/cards/${cardId}/checklists/${checkListId}`, {
+                name: data.name
             }, tokenHeader)
             return res.data
         } catch (error) {
