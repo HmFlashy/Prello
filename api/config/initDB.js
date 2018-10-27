@@ -57,9 +57,9 @@ function reversedRef() {
     Hugo.teams = [Khal._id];
     Kevin.teams = [Khal._id];
 
-    const FrontEnd = Label({name: "Front-End"});
-    const BackEnd = Label({name: "Back-End"});
-    const DB = Label({name: "Database"});
+    const FrontEnd = Label({name: "Front-End", color: "yellow"});
+    const BackEnd = Label({name: "Back-End", color: "blue"});
+    const DB = Label({name: "Database", color: "green"});
 
     const card1 = Card({
         name: "Add comment to a card",

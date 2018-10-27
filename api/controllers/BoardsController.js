@@ -14,10 +14,7 @@ const getBoardById = async (boardId) => {
                     select: ["_id", "name", "dueDate", "dueDateCompleted",
                         "isArchived", "labels", "members", "pos", "cardInformation",
                         "creator", "watchers", "pos", "activities"],
-                    populate: [{
-                        path: "labels",
-                        select: ["_id", "name"]
-                    },
+                    populate: ["labels",
                         {
                             path: "members",
                             select: ["_id", "name", "email", "fullName", "initials", "username"]
