@@ -6,20 +6,21 @@ import CardDetailContainer from '../../../../containers/CardContainers/CardDetai
 import { List, Modal } from 'semantic-ui-react'
 import MessagesDisplayerContainer from "../../../../containers/MessageContainers/MessagesDisplayerContainer"
 import Header from "./Header"
+import { withRouter } from 'react-router-dom'
 
 class Board extends Component {
 
     componentWillMount() {
         this.props.subscribe()
-        const cardId = this.props.match.params.cardId
+        const cardId = this.props.cardId
         if (cardId != null) {
             this.props.fetchCard(cardId)
         } else {
-            this.props.fetchBoard(this.props.match.params.boardId)
+            this.props.fetchBoard(this.props.boardId)
         }
 
         this.setState = {
-            cardId: this.props.match.params.cardId
+            cardId: this.props.cardId
         }
     }
 
@@ -33,22 +34,21 @@ class Board extends Component {
                         <List.Item key={listId} className='no-padding-top'><ListContainer key={listId} listId={listId} /></List.Item>
                     ))}
                     <List.Item className='no-padding-top'><NewListContainer /></List.Item>
-
-                    <Modal
-                        open={this.props.cardModal._id != null}
-                        onClose={() => {
-                            this.props.history.push(`/boards/${this.props.board._id}`)
-                            this.props.closeCardModal()
-                        }}>
-                        <Modal.Content image>
-                            <CardDetailContainer key={this.props.cardModal._id} cardId={this.props.cardModal._id}></CardDetailContainer>
-                        </Modal.Content>
-                    </Modal>
-                    <MessagesDisplayerContainer />
                 </List>
+                <Modal
+                    open={this.props.cardModal._id != null}
+                    onClose={() => {
+                        this.props.history.push(`/boards/${this.props.board._id}`)
+                        this.props.closeCardModal()
+                    }}>
+                    <Modal.Content image>
+                        <CardDetailContainer key={this.props.cardModal._id} cardId={this.props.cardModal._id}></CardDetailContainer>
+                    </Modal.Content>
+                </Modal>
+                <MessagesDisplayerContainer />
             </div>
         );
     }
 }
 
-export default Board
+export default withRouter(Board)
