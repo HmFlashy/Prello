@@ -8,7 +8,7 @@ export default (state = defaultErrorState, action) => {
         case "FAILED":
             return {
                 ...state,
-                all: [...state.all, { _id: Date.now(), hidden: false, message : action.type.substring(7, action.type.length - 1).split('_').join(' ')}]
+                all: [...state.all, { _id: Date.now(), hidden: false, message: action.type.substring(splitted[0].length + 1, action.type.length).split('_').join(' ') }]
             }
         case 'HIDEFAILEDNOTIFICATION':
             return {
