@@ -29,6 +29,9 @@ class CardDetail extends Component {
         this.createChecklist = this.createChecklist.bind(this);
         this.deleteChecklist = this.deleteChecklist.bind(this);
         this.updateChecklist = this.updateChecklist.bind(this);
+        this.onAddItem = this.onAddItem.bind(this);
+        this.onDeleteItem = this.onDeleteItem.bind(this);
+        this.onUpdateItem = this.onUpdateItem.bind(this);
     }
 
     componentDidMount() {
@@ -68,6 +71,18 @@ class CardDetail extends Component {
 
     updateChecklist(checklistId, oldVal, newVal, name) {
         this.props.updateChecklist(this.props.card._id, checklistId, oldVal, { _id: this.props.card._id, ...newVal }, name)
+    }
+
+    onAddItem(checklistId, data) {
+        this.props.addItemToChecklist(this.props.card._id, checklistId, data)
+    }
+
+    onDeleteItem(checklistId, itemId) {
+        this.props.deleteItemToChecklist(this.props.card._id, checklistId, itemId)
+    }
+
+    onUpdateItem(checklistId, itemId, oldVal, newVal, data) {
+        this.props.updateItemToChecklist(this.props.card._id, checklistId, itemId, oldVal, { _id: this.props.card._id, ...newVal }, data)
     }
 
     render() {
@@ -130,6 +145,9 @@ class CardDetail extends Component {
                                     checklists={this.props.card.checklists}
                                     onDelete={(checklistId) => this.deleteChecklist(checklistId)}
                                     onChangeName={(checklistId, oldVal, newVal, name) => this.updateChecklist(checklistId, oldVal, newVal, name)}
+                                    onAddItem={(checklistId, name) => this.onAddItem(checklistId, { _id: this.props.card._id, name })}
+                                    onDeleteItem={(checklistId, itemId) => this.onDeleteItem(checklistId, itemId)}
+                                    onUpdateItem={(checklistId, itemId, oldVal, newVal, data) => this.onUpdateItem(checklistId, itemId, oldVal, newVal, data)}
                                 ></CheckList>
                                 <Divider />
                             </div>

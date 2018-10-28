@@ -59,5 +59,35 @@ export default {
         } catch (error) {
             throw error
         }
+    },
+    async addItemToChecklist(cardId, checkListId, data) {
+        try {
+            const res = await axios.post(`${UrlConfig.API}/cards/${cardId}/checklists/${checkListId}/items`, {
+                name: data.name
+            }, tokenHeader)
+            return res.data
+        } catch (error) {
+            throw error
+        }
+    },
+    async deleteItemToChecklist(cardId, checkListId, itemId) {
+        try {
+            const res = await axios.delete(`${UrlConfig.API}/cards/${cardId}/checklists/${checkListId}/items/${itemId}`, {
+
+            }, tokenHeader)
+            return res.data
+        } catch (error) {
+            throw error
+        }
+    },
+    async updateItemToChecklist(cardId, checkListId, itemId, data) {
+        try {
+            const res = await axios.put(`${UrlConfig.API}/cards/${cardId}/checklists/${checkListId}/items/${itemId}`,
+                data
+                , tokenHeader)
+            return res.data
+        } catch (error) {
+            throw error
+        }
     }
 }

@@ -35,6 +35,15 @@ const mapDispatchToProps = dispatch => {
         },
         async updateChecklist(cardId, checklistId, oldVal, newVal, name) {
             await cardContainerServices.updateChecklist(cardId, checklistId, oldVal, newVal, name, dispatch)
+        },
+        async addItemToChecklist(cardId, checklistId, data) {
+            await cardContainerServices.addItemToChecklist(cardId, checklistId, data, dispatch)
+        },
+        async deleteItemToChecklist(cardId, checklistId, itemId) {
+            await cardContainerServices.deleteItemToChecklist(cardId, checklistId, itemId, dispatch)
+        },
+        async updateItemToChecklist(cardId, checklistId, itemId, oldVal, newVal, data) {
+            await cardContainerServices.updateItemToChecklist(cardId, checklistId, itemId, oldVal, newVal, data, dispatch)
         }
     }
 }

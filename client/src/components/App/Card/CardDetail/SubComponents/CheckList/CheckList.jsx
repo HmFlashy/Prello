@@ -9,12 +9,18 @@ export default class CheckList extends Component {
         super(props)
         this.state = {
             isAddingItem: false,
+            newItemName: ""
         };
         this.validateNewChecklistName = this.validateNewChecklistName.bind(this)
+        this.updateItem = this.updateItem.bind(this)
     }
 
     validateNewChecklistName(checklistId, old, newVal, name) {
         this.props.onChangeName(checklistId, old, newVal, { name })
+    }
+
+    updateItem(checklistId, itemId, oldVal, newVal, data) {
+        this.props.onUpdateItem(checklistId, itemId, oldVal, newVal, data)
     }
 
     render() {
@@ -42,13 +48,50 @@ export default class CheckList extends Component {
                             <Button onClick={() => this.props.onDelete(checklist._id)}>Delete</Button>
                         </div>
                         <Progress total={checklist.items.length} percent={checklist.items.length == 0 ? 100 : checklist.items.filter(item => item.isChecked).length / checklist.items.length * 100} indicating size='tiny' progress />
-                        <div>{checklist.items.map(item => <Form.Checkbox checked={item.isChecked} label={item.name} />)}</div>
+                        <div>{checklist.items.map(item =>
+                            <div className="displayRow title">
+                                <div className="displayRow">
+                                    <Form.Checkbox checked={item.isChecked} onClick={() => {
+                                        const newVal = [...this.props.checklists]
+                                        const newStatus = !item.isChecked
+                                        for (let index = 0; index < Object.keys(newVal).length; index++) {
+                                            if (newVal[index]._id == checklist._id) {
+                                                for (let ind = 0; ind < Object.keys(newVal[index].items).length; ind++) {
+                                                    if (newVal[index].items[ind]._id == item._id) {
+                                                        newVal[index].items[ind].isChecked = newStatus
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        this.updateItem(checklist._id, item._id, this.props.checklists, { checklists: newVal }, { isChecked: newStatus })
+                                    }} />
+                                    <DynamicInput
+                                        type='text'
+                                        textToDisplay={item.name}
+                                        placeholder={item.name}
+                                        onValidate={(event) => {
+                                            const newVal = [...this.props.checklists]
+                                            for (let index = 0; index < Object.keys(newVal).length; index++) {
+                                                if (newVal[index]._id == checklist._id) {
+                                                    for (let ind = 0; ind < Object.keys(newVal[index].items).length; ind++) {
+                                                        if (newVal[index].items[ind]._id == item._id) {
+                                                            newVal[index].items[ind].name = event.target.value
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            this.updateItem(checklist._id, item._id, this.props.checklists, { checklists: newVal }, { name: event.target.value })
+                                        }} />
+                                </div>
+                                <Button icon='cancel' size="mini" onClick={() => this.props.onDeleteItem(checklist._id, item._id)} />
+                            </div>)}
+                        </div>
                         {this.state.isAddingItem
-                            ? <Input></Input>
+                            ? <Input value={this.state.newItemName} onChange={(event, target) => this.setState({ newItemName: target.value })}></Input>
                             : ""
                         }
                         <Button className="addItem" onClick={() => this.state.isAddingItem
-                            ? console.log("send to back")
+                            ? this.props.onAddItem(checklist._id, this.state.newItemName) || this.setState({ newItemName: "" })
                             : this.setState({ isAddingItem: true })}>Add item</Button>
                         {this.state.isAddingItem
                             ? <Button icon='cancel' onClick={() => this.setState({ isAddingItem: false })} />

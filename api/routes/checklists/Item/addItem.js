@@ -60,7 +60,7 @@ module.exports = async (req, res) => {
         }
         const checklists = await ChecklistController.addItem(cardId, checklistId, name)
         socketIO.broadcast('action', {
-            type: 'ADD_ITEM',
+            type: 'ADDED_ITEM',
             payload: { _id: cardId, checklists }
         })
         return res.status(200).json(checklists)

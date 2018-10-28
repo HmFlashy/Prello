@@ -3,8 +3,8 @@ const socketIO = require('../../../../socket')
 const throwError = require('../../../helper/RequestHelper').throwError;
 
 const types = {
-    name: 'UPDATE_ITEM_NAME',
-    isChecked: 'UPDATE_ITEM_ISCHECKED',
+    name: 'UPDATED_ITEM_NAME',
+    isChecked: 'UPDATED_ITEM_ISCHECKED',
 }
 
 /**
@@ -65,15 +65,25 @@ module.exports = async (req, res) => {
         if (Object.keys(req.body).length === 0) {
             throwError(400, "No data in body")
         }
+        console.log(req.body)
         const checklists = await ChecklistController.updateItem(cardId, checklistId, itemId, req.body)
         Object.keys(req.body).forEach(action => {
             if (types[action]) {
-                socketIO.broadcast('action', {
-                    type: types[action],
-                    payload: { cardId, checklistId, checklists, [action]: checklistId[itemId][action] }
+                checklists.forEach(checklist => {
+                    if (checklist._id == checklistId) {
+                        checklist.items.forEach(item => {
+                            if (item._id == itemId) {
+                                socketIO.broadcast('action', {
+                                    type: types[action],
+                                    payload: { _id: cardId, checklists, [action]: item[action] }
+                                })
+                            }
+                        })
+                    }
                 })
             }
-        })
+        }
+        )
         return res.status(200).json(checklists)
     } catch (error) {
         res.status(500).json(error.message)

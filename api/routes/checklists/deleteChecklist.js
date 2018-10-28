@@ -41,7 +41,7 @@ module.exports = async (req, res) => {
         }
         const checklists = await ChecklistController.deleteChecklist(cardId, checklistId)
         socketIO.broadcast('action', {
-            type: 'DELETE_CHECKLIST',
+            type: 'DELETED_CHECKLIST',
             payload: { _id: cardId, checklists }
         })
         return res.status(200).json(checklists)
