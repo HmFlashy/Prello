@@ -5,14 +5,14 @@ import { tokenHeader } from '../helpers/HeaderHelper'
 export default {
     async fetchCard(cardId) {
         try {
-            const res = await axios.get(`${UrlConfig.API}/cards/${cardId}`, tokenHeader)
+            const res = await axios.get(`${UrlConfig.API}/cards/${cardId}`, tokenHeader())
             return res.data
         } catch (e) {
             throw e
         }
     }, async updateCardApi(cardId, toUpdate) {
         try {
-            const res = await axios.put(`${UrlConfig.API}/cards/${cardId}`, toUpdate, tokenHeader)
+            const res = await axios.put(`${UrlConfig.API}/cards/${cardId}`, toUpdate, tokenHeader())
             return res.data
         } catch (error) {
             throw error
@@ -23,7 +23,7 @@ export default {
             const res = await axios.post(`${UrlConfig.API}/cards`, {
                 name: name,
                 listId: listId
-            }, tokenHeader)
+            }, tokenHeader())
             return res.data
         } catch (error) {
             throw error
@@ -34,7 +34,7 @@ export default {
         try {
             const res = await axios.post(`${UrlConfig.API}/cards/${cardId}/checklists`, {
                 name: data.name
-            }, tokenHeader)
+            }, tokenHeader())
             return res.data
         } catch (error) {
             throw error
@@ -43,7 +43,7 @@ export default {
     async deleteChecklist(cardId, checkListId) {
         try {
             const res = await axios.delete(`${UrlConfig.API}/cards/${cardId}/checklists/${checkListId}`, {
-            }, tokenHeader)
+            }, tokenHeader())
             return res.data
         } catch (error) {
             throw error
@@ -53,7 +53,7 @@ export default {
         try {
             const res = await axios.put(`${UrlConfig.API}/cards/${cardId}/checklists/${checkListId}`, {
                 name: data.name
-            }, tokenHeader)
+            }, tokenHeader())
             return res.data
         } catch (error) {
             throw error
@@ -63,7 +63,7 @@ export default {
         try {
             const res = await axios.post(`${UrlConfig.API}/cards/${cardId}/checklists/${checkListId}/items`, {
                 name: data.name
-            }, tokenHeader)
+            }, tokenHeader())
             return res.data
         } catch (error) {
             throw error
@@ -73,7 +73,7 @@ export default {
         try {
             const res = await axios.delete(`${UrlConfig.API}/cards/${cardId}/checklists/${checkListId}/items/${itemId}`, {
 
-            }, tokenHeader)
+            }, tokenHeader())
             return res.data
         } catch (error) {
             throw error
@@ -83,7 +83,7 @@ export default {
         try {
             const res = await axios.put(`${UrlConfig.API}/cards/${cardId}/checklists/${checkListId}/items/${itemId}`,
                 data
-                , tokenHeader)
+                , tokenHeader())
             return res.data
         } catch (error) {
             throw error

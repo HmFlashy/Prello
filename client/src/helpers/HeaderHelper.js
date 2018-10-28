@@ -1,8 +1,10 @@
-export const basicHeader = {
-    'Access-Control-Allow-Origin': '*',
-}
+export const basicHeader = () => ({
+    headers: {
+    }
+})
 
-export const tokenHeader = {
-    'Access-Control-Allow-Origin': '*',
-    'Authorization' : 'Bearer ' + localStorage.getItem('prello-token')
-}
+export const tokenHeader = () => ({
+    headers: {
+        'Authorization' : 'Bearer ' + localStorage.getItem('token-prello')
+    }
+})
