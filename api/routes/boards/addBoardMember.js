@@ -11,12 +11,19 @@ const throwError = require('../../helper/RequestHelper').throwError;
  *         type: string
  *
  * paths:
- *   /boards/:boardId/members:
+ *   /boards/{boardId}/members:
  *     post:
  *       tags:
  *         - Board
  *       description: Add a member to the board either by giving the email or the userId
  *       summary: Add a member to the board
+ *       parameters:
+ *         - name: boardId
+ *           schema:
+ *             type: string
+ *           description: The id of the board.
+ *           in: path
+ *           required: true
  *       requestBody:
  *         description: Optional description in *Markdown*
  *         required: true

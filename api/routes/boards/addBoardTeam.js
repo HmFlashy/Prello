@@ -11,12 +11,19 @@ const throwError = require('../../helper/RequestHelper').throwError;
  *         type: string
  *
  * paths:
- *   /boards/:boardId/teams:
+ *   /boards/{boardId}/teams:
  *     post:
  *       tags:
  *         - Board
  *       description: Add a team to the board either by giving the name or the teamId
  *       summary: Add a team to the board
+ *       parameters:
+ *         - name: boardId
+ *           schema:
+ *             type: string
+ *           description: The id of the board.
+ *           in: path
+ *           required: true
  *       requestBody:
  *         description: Optional description in *Markdown*
  *         required: true

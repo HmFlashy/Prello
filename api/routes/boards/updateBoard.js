@@ -70,7 +70,7 @@ module.exports = async (req, res) => {
         }
         const boardUpdated = await BoardsController.updateBoard(boardId, req.body);
         if(!boardUpdated) {
-            throwError(400, `The board ${boardId} doesn't exist`)
+            throwError(400, `The board ${boardId} was not found`)
         }
         Object.keys(req.body).forEach(action => {
             if (types[action]) {

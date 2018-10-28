@@ -47,7 +47,7 @@ const getBoardById = async (boardId) => {
             }
             ]);
         if (!board) {
-            throwError(400, `The board ${boardId} doesn't exist`)
+            throwError(400, `The board ${boardId} was not found`)
         }
         return board
     } catch (error) {
@@ -70,12 +70,12 @@ const addBoard = async (name, visibility, teamId, userId) => {
     try {
         const user = await User.findById(userId);
         if (!user) {
-            throwError(400, `The user ${userId} doesn't exist`)
+            throwError(400, `The user ${userId} was not found`)
         }
         if (teamId) {
             const team = await Team.findById(teamId);
             if (!team) {
-                throwError(400, `The team ${teamId} doesn't exist`)
+                throwError(400, `The team ${teamId} was not found`)
             }
             const savedBoard = await Board.create({
                 name: name,
@@ -118,7 +118,7 @@ const addBoardMember = async (boardId, body) => {
                 {boards: {board: boardId, role: "Member"}}
         }, {new: true});
         if (!user) {
-            throwError(400, `The user ${JSON.stringify(body)} doesn't exist`)
+            throwError(400, `The user ${JSON.stringify(body)} was not found`)
         }
         const board = await Board.findOneAndUpdate({_id: boardId}, {
             $push: {
@@ -127,7 +127,7 @@ const addBoardMember = async (boardId, body) => {
             }
         }, {new: true});
         if (!board) {
-            throwError(400, `The board ${boardId} doesn't exist`)
+            throwError(400, `The board ${boardId} was not found`)
         }
         await session.commitTransaction();
         session.endSession();
@@ -149,7 +149,7 @@ const addBoardTeam = async (boardId, body) => {
                 {boards: boardId}
         }, {new: true});
         if (!team) {
-            throwError(400, `The team ${JSON.stringify(body)} doesn't exist`)
+            throwError(400, `The team ${JSON.stringify(body)} was not found`)
         }
         const board = await Board.findOneAndUpdate({_id: boardId}, {
             $push: {
@@ -157,7 +157,7 @@ const addBoardTeam = async (boardId, body) => {
             }
         }, {new: true});
         if (!board) {
-            throwError(400, `The board ${boardId} doesn't exist`)
+            throwError(400, `The board ${boardId} was not found`)
         }
         await session.commitTransaction();
         session.endSession();

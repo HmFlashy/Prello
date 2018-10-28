@@ -15,7 +15,7 @@ const throwError = require('../../helper/RequestHelper').throwError;
  *     post:
  *       tags:
  *         - Board
- *       description: Create a new board given a name
+ *       description: Create a new board given a name, a visibility, the id of the creator and optionally the id of the team
  *       summary: Creates a new board in the database
  *       requestBody:
  *         description: Optional description in *Markdown*
@@ -28,24 +28,20 @@ const throwError = require('../../helper/RequestHelper').throwError;
  *                 name:
  *                   type: string
  *                   required: true
- *                 boardId:
+ *                 ownerId:
  *                   type: ObjectId
  *                   required: true
  *                 teamId:
  *                   type: ObjectId
- *                   required: true
+ *                   required: false
  *                 visibility:
  *                   type: String
  *                   required: true
- *                 pos:
- *                   type: int
- *                   required: true
  *             example:
  *               name: my super name
- *               boardId: 5bce3aaf84c77d0a433029a9
+ *               ownerId: 5bce3aaf84c77d0a433029a9
  *               teamId: 5bce3aaf84c77d0a433029a9
  *               visibility: private
- *               pos: 100000
  *       responses:
  *         200:
  *           description: The created board

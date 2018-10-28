@@ -143,7 +143,7 @@ describe("Lists", () => {
                     .end((err, res) => {
                         console.log(JSON.stringify(res))
                         res.should.have.status(400);
-                        res.body.should.equal(`The listId ${board1._id} does not exist`);
+                        res.body.should.equal(`The listId ${board1._id} was not found`);
                         done();
                     });
             });
@@ -183,7 +183,7 @@ describe("Lists", () => {
                         .delete(`/api/lists/${board1._id}`)
                         .end((err, res) => {
                             res.should.have.status(400);
-                            res.body.should.equal(`The listId ${board1._id} does not exist`);
+                            res.body.should.equal(`The listId ${board1._id} was not found`);
                             done();
                         });
                 });

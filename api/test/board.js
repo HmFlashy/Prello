@@ -59,12 +59,12 @@ describe("Board", () => {
                     done();
                 });
         });
-        it("it should not GET a board if the board doesn't exist", (done) => {
+        it("it should not GET a board if the board was not found", (done) => {
             chai.request(server)
                 .get(`/api/boards/${user._id}`)
                 .end((err, res) => {
                     res.should.have.status(400);
-                    res.body.should.be.equal(`The board ${user._id} doesn't exist`);
+                    res.body.should.be.equal(`The board ${user._id} was not found`);
                     done();
                 });
         });
@@ -121,13 +121,13 @@ describe("Board", () => {
                     done();
                 });
         });
-        it("it should not POST a board if the user doesn't exist", (done) => {
+        it("it should not POST a board if the user was not found", (done) => {
             chai.request(server)
                 .post("/api/boards")
                 .send({name: "Prello", visibility: "private", userId: team._id})
                 .end((err, res) => {
                     res.should.have.status(400);
-                    res.body.should.be.equal(`The user ${team._id} doesn't exist`);
+                    res.body.should.be.equal(`The user ${team._id} was not found`);
                     done();
                 });
         });
@@ -157,13 +157,13 @@ describe("Board", () => {
                     done();
                 });
         });
-        it("it should not POST a board if the team doesn't exist", (done) => {
+        it("it should not POST a board if the team was not found", (done) => {
             chai.request(server)
                 .post("/api/boards")
                 .send({name: "Prello", visibility: "private", userId: user._id, teamId: user._id})
                 .end((err, res) => {
                     res.should.have.status(400);
-                    res.body.should.be.equal(`The team ${user._id} doesn't exist`);
+                    res.body.should.be.equal(`The team ${user._id} was not found`);
                     done();
                 });
         });
@@ -245,13 +245,13 @@ describe("Board", () => {
                     done();
                 });
         });
-        it("should NOT UPDATE the board if the boardId doesn't exist", (done) => {
+        it("should NOT UPDATE the board if the boardId was not found", (done) => {
             chai.request(server)
                 .put(`/api/boards/${user._id}`)
                 .send({name: "ADcare"})
                 .end((err, res) => {
                     res.should.have.status(400);
-                    res.body.should.be.equal(`The board ${user._id} doesn't exist`);
+                    res.body.should.be.equal(`The board ${user._id} was not found`);
                     done();
                 });
         })
@@ -302,13 +302,13 @@ describe("Board", () => {
                     done();
                 });
         });
-        it("should NOT ADD a member to board if the boardId doesn't exist", (done) => {
+        it("should NOT ADD a member to board if the boardId was not found", (done) => {
             chai.request(server)
                 .put(`/api/boards/${user._id}/members`)
                 .send({email: user.email})
                 .end((err, res) => {
                     res.should.have.status(400);
-                    res.body.should.be.equal(`The board ${user._id} doesn't exist`);
+                    res.body.should.be.equal(`The board ${user._id} was not found`);
                     done();
                 });
         })
@@ -322,13 +322,13 @@ describe("Board", () => {
                     done();
                 });
         })
-        it("should NOT ADD a member to board if the user doesn't exists", (done) => {
+        it("should NOT ADD a member to board if the user was not founds", (done) => {
             chai.request(server)
                 .put(`/api/boards/${user._id}/members`)
                 .send({email: "example@ggg.com"})
                 .end((err, res) => {
                     res.should.have.status(400);
-                    res.body.should.be.equal(`The user {"email":"example@ggg.com"} doesn't exist`);
+                    res.body.should.be.equal(`The user {"email":"example@ggg.com"} was not found`);
                     done();
                 });
         });
@@ -377,13 +377,13 @@ describe("Board", () => {
                     done();
                 });
         });
-        it("should NOT ADD a member to board if the boardId doesn't exist", (done) => {
+        it("should NOT ADD a member to board if the boardId was not found", (done) => {
             chai.request(server)
                 .put(`/api/boards/${user._id}/members`)
                 .send({email: user.email})
                 .end((err, res) => {
                     res.should.have.status(400);
-                    res.body.should.be.equal(`The board ${user._id} doesn't exist`);
+                    res.body.should.be.equal(`The board ${user._id} was not found`);
                     done();
                 });
         })
@@ -397,13 +397,13 @@ describe("Board", () => {
                     done();
                 });
         })
-        it("should NOT ADD a member to board if the team doesn't exists", (done) => {
+        it("should NOT ADD a member to board if the team was not founds", (done) => {
             chai.request(server)
                 .put(`/api/boards/${user._id}/members`)
                 .send({email: "example@ggg.com"})
                 .end((err, res) => {
                     res.should.have.status(400);
-                    res.body.should.be.equal(`The user {"email":"example@ggg.com"} doesn't exist`);
+                    res.body.should.be.equal(`The user {"email":"example@ggg.com"} was not found`);
                     done();
                 });
         });
@@ -455,13 +455,13 @@ describe("Board", () => {
                     done();
                 });
         });
-        it("should NOT UPDATE the board if the boardId doesn't exist", (done) => {
+        it("should NOT UPDATE the board if the boardId was not found", (done) => {
             chai.request(server)
                 .put(`/api/boards/${user._id}`)
                 .send({name: "ADcare"})
                 .end((err, res) => {
                     res.should.have.status(400);
-                    res.body.should.be.equal(`The board ${user._id} doesn't exist`);
+                    res.body.should.be.equal(`The board ${user._id} was not found`);
                     done();
                 });
         })
