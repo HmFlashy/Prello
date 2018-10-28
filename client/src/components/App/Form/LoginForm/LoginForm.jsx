@@ -1,12 +1,33 @@
 import './LoginForm.css'
 import React, { Component } from 'react'
-import { Grid, Header, Image, Segment, Form, Button, Message } from 'semantic-ui-react'
+import { Grid, Header, Image, Segment, Form, Button, Message, Ref } from 'semantic-ui-react'
 import { withRouter } from 'react-router-dom'
 
 class LoginForm extends Component {
 
     constructor(){
         super()
+        this.authenticate = this.authenticate.bind(this)
+        this.state = {
+            email: '',
+            password: ''
+        }
+    }
+
+    authenticate(){
+        this.props.authenticate(this.state.email, this.state.password)
+    }
+
+    changeEmail(email){
+        this.setState({
+            email: email
+        })
+    }
+
+    changePassword(password){
+        this.setState({
+            password: password
+        })
     }
 
     render(){
@@ -19,18 +40,19 @@ class LoginForm extends Component {
                         </Header>
                         <Form size='large'>
                             <Segment stacked>
-                                <Form.Input fluid icon='user' iconPosition='left' placeholder='E-mail address' />
-                                    <Form.Input
-                                    fluid
-                                    icon='lock'
-                                    iconPosition='left'
-                                    placeholder='Password'
-                                    type='password'
-                                    />
+                                <Form.Input fluid icon='user' onChange={(event) => this.changeEmail(event.target.value)} iconPosition='left' placeholder='E-mail address' />
+                                <Form.Input
+                                fluid
+                                icon='lock'
+                                iconPosition='left'
+                                placeholder='Password'
+                                type='password'
+                                onChange={(event) => this.changePassword(event.target.value)}
+                                />
 
-                                    <Button color='teal' fluid size='large'>
-                                        Login
-                                    </Button>
+                                <Button color='teal' onClick={this.authenticate} fluid size='large'>
+                                    Login
+                                </Button>
                             </Segment>
                         </Form>
                         <Message>

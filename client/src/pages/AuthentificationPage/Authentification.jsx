@@ -3,15 +3,15 @@ import React, { Component } from 'react'
 import LoginFormContainer from '../../containers/AuthentificationContainers/LoginFormContainer';
 import RegisterFormContainer from '../../containers/AuthentificationContainers/RegisterFormContainer';
 
-class Authentification extends Component {
+class AuthentificationPage extends Component {
 
     constructor(){
         super()
     }
 
     render(){
-        return this.props.location.pathname === "/register" ? <LoginFormContainer /> : <RegisterFormContainer />
+        return this.props.location.pathname === "/register" ? <RegisterFormContainer /> : <LoginFormContainer />
     }
 }
 
-export default Authentification
+export default AuthentificationPage

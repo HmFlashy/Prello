@@ -28,7 +28,7 @@ class RegisterForm extends Component {
                                     type='password'
                                     />
 
-                                    <Button color='teal' fluid size='large'>
+                                    <Button color='teal' onClick={() => this.props.history.push('/home')} fluid size='large'>
                                         Login
                                     </Button>
                             </Segment>
