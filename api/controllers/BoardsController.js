@@ -1,10 +1,12 @@
-const db = require("../models");
+const Board = require("../models/index").Board
+const User = require("../models/index").User
+const Team = require("../models/index").Team
 const throwError = require("../helper/RequestHelper").throwError;
 const mongoose = require("mongoose");
 
 const getBoardById = async (boardId) => {
     try {
-        const board = await db.Board.findById(boardId).populate(
+        const board = await Board.findById(boardId).populate(
             [{
                 path: "lists",
                 select: ["_id", "name", "creator", "isArchived", "listInformation",
@@ -45,7 +47,7 @@ const getBoardById = async (boardId) => {
             }
             ]);
         if (!board) {
-            throwError(400, `The board ${boardId} was not found`)
+            throwError(400, `The board ${boardId} doesn't exist`)
         }
         return board
     } catch (error) {
@@ -55,7 +57,7 @@ const getBoardById = async (boardId) => {
 
 const getBoards = async () => {
     try {
-        const boards = await db.Board.find().select({
+        const boards = await Board.find().select({
             _id: 1, name: 1, starred: 1
         });
         return boards
@@ -64,18 +66,18 @@ const getBoards = async () => {
     }
 };
 
-const createBoard = async (name, visibility, teamId, userId) => {
+const addBoard = async (name, visibility, teamId, userId) => {
     try {
-        const user = await db.User.User.findById(userId);
+        const user = await User.findById(userId);
         if (!user) {
-            throwError(400, `The user ${userrId} was not found`)
+            throwError(400, `The user ${userId} doesn't exist`)
         }
         if (teamId) {
-            const team = await db.Team.findById(teamId);
+            const team = await Team.findById(teamId);
             if (!team) {
-                throwError(400, `The team ${teamId} was not found`)
+                throwError(400, `The team ${teamId} doesn't exist`)
             }
-            const savedBoard = await db.Board.create({
+            const savedBoard = await Board.create({
                 name: name,
                 teams: [team._id],
                 visibility: visibility,
@@ -84,7 +86,7 @@ const createBoard = async (name, visibility, teamId, userId) => {
             });
             return savedBoard;
         } else {
-            const savedBoard = await db.Board.create({
+            const savedBoard = await Board.create({
                 name: name,
                 visibility: visibility,
                 owner: user._id,
@@ -97,26 +99,35 @@ const createBoard = async (name, visibility, teamId, userId) => {
     }
 };
 
+const updateBoard = async (boardId, data) => {
+    try {
+        return await Board.findOneAndUpdate({ _id: boardId }, { $set: data }, { "new": true })
+    } catch (error) {
+        throw error
+    }
+}
+
+
 const addBoardMember = async (boardId, body) => {
     let session = null
     try {
         session = await mongoose.startSession();
         session.startTransaction();
-        const user = await db.User.findOneAndUpdate(body, {
+        const user = await User.findOneAndUpdate(body, {
             $push:
                 {boards: {board: boardId, role: "Member"}}
         }, {new: true});
         if (!user) {
-            throwError(400, `The user ${body} was not found`)
+            throwError(400, `The user ${JSON.stringify(body)} doesn't exist`)
         }
-        const board = await db.Board.findOneAndUpdate({_id: boardId}, {
+        const board = await Board.findOneAndUpdate({_id: boardId}, {
             $push: {
                 members:
                     {member: user._id, role: "Member"}
             }
         }, {new: true});
         if (!board) {
-            throwError(400, `The board ${boardId} was not found`)
+            throwError(400, `The board ${boardId} doesn't exist`)
         }
         await session.commitTransaction();
         session.endSession();
@@ -128,31 +139,29 @@ const addBoardMember = async (boardId, body) => {
     }
 };
 
-const addBoardMemberByEmail = async (boardId, userEmail) => {
+const addBoardTeam = async (boardId, body) => {
     let session = null
     try {
-        session = await mongoose.startSession()
+        session = await mongoose.startSession();
         session.startTransaction();
-        const user = await db.User.findOneAndUpdate({email: userEmail}, {
+        const team = await Team.findOneAndUpdate(body, {
             $push:
-                {boards: {board: boardId, role: "Member"}}
+                {boards: boardId}
         }, {new: true});
-        if (!user) {
-            throwError(400, "User not found")
+        if (!team) {
+            throwError(400, `The team ${JSON.stringify(body)} doesn't exist`)
         }
-
-        const board = await db.Board.findByIdAndUpdate(boardId, {
+        const board = await Board.findOneAndUpdate({_id: boardId}, {
             $push: {
-                members:
-                    {member: user._id, role: "Member"}
+                teams: team._id
             }
         }, {new: true});
         if (!board) {
-            throwError(400, "Board not found")
+            throwError(400, `The board ${boardId} doesn't exist`)
         }
         await session.commitTransaction();
         session.endSession();
-        return board
+        return board;
     } catch (error) {
         await session.abortTransaction();
         session.endSession();
@@ -163,6 +172,8 @@ const addBoardMemberByEmail = async (boardId, userEmail) => {
 module.exports = {
     getBoardById,
     getBoards,
-    createBoard,
-    addBoardMember
+    addBoard,
+    addBoardTeam,
+    addBoardMember,
+    updateBoard
 };

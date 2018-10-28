@@ -42,7 +42,7 @@ module.exports = async (req, res) => {
         }
         const board = await boardsController.getBoardById(boardId);
         if(!board) {
-            throwError(400, "Board not found")
+            throwError(400, `The boardId ${boardId} doesn't exist`)
         }
         return res.status(200).json(board)
     } catch(error) {

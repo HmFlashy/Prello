@@ -16,7 +16,9 @@ const router = express.Router();
 
 router.get("/:boardId", require('./getBoardById'));
 router.get("/", require('./getBoards'));
-router.post("/", require('./createBoard'));
+router.post("/", require('./addBoard'));
 router.put("/:boardId/members", require('./addBoardMember'));
+router.put("/:boardId/teams", require('./addBoardTeam'));
+router.put("/:boardId", require('./updateBoard'));
 
 module.exports = router;
