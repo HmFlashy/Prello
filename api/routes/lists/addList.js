@@ -15,7 +15,7 @@ const throwError = require('../../helper/RequestHelper').throwError;
  *     post:
  *       tags:
  *         - List
- *       description: Create a new list given it's name, the creator id, the board id and it's position in the board
+ *       description: Create a new list given it's name, the board id and it's position in the board
  *       summary: Creates a new list in the database
  *       requestBody:
  *         description: Optional description in *Markdown*
@@ -28,9 +28,6 @@ const throwError = require('../../helper/RequestHelper').throwError;
  *                 name:
  *                   type: string
  *                   required: true
- *                 creatorId:
- *                   type: ObjectId
- *                   required: true
  *                 boardId:
  *                   type: ObjectId
  *                   required: true
@@ -39,7 +36,6 @@ const throwError = require('../../helper/RequestHelper').throwError;
  *                   required: true
  *             example:
  *               name: my super name
- *               creatorId: 5bce3aaf84c77d0a433029a9
  *               boardId: 5bce3aaf84c77d0a433029a9
  *               pos: 100000
  *       responses:
@@ -50,9 +46,7 @@ const throwError = require('../../helper/RequestHelper').throwError;
  *               schema:
  *                 $ref: '#components/schemas/List'
  *         400:
- *           description: The request was malformed
- *         404:
- *           description: The given board or the given creator was not found
+ *           description: The request was malformed or the given board was not found
  *         500:
  *           description: Internal error
  */

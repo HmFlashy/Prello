@@ -28,9 +28,7 @@ const throwError = require('../../helper/RequestHelper').throwError;
  *         200:
  *           description: Nothing
  *         400:
- *           description: The request was malformed
- *         404:
- *           description: The given list was not found
+ *           description: The request was malformed or the given list was not found
  *         500:
  *           description: Internal error
  */

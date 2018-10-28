@@ -19,7 +19,8 @@ function connect() {
     })
 }
 
-function reversedRef() {
+async function reversedRef() {
+    await mongoose.connection.db.dropDatabase();
     const Alex = User({
         name: "Alex", fullName: "Alex Aufauvre", bio: `Amazing skills in design, I'm the guy you need to 
     enhance your application`, initials: "AA", username: "Giroud", organization: "Polytech"
@@ -40,7 +41,7 @@ function reversedRef() {
     });
 
     const Khal = Team({
-        name: "KHAL", creator: Loris._id, members :[
+        name: "KHAL", creator: Loris._id, members: [
             {
                 member: Alex._id, role: "Admin"
             },
@@ -106,20 +107,24 @@ function reversedRef() {
     card3.attachments = [attachment2._id];
     card3.cardInformation.nbAttachments = 1;
 
-    const checkList1 = Checklist({title: "Checklist", items: [
+    const checkList1 = Checklist({
+        title: "Checklist", items: [
             {name: "BD"},
             {name: "Front"},
             {name: "Back"},
             {name: "Design"}
-            ]});
+        ]
+    });
     card2.checklists = [checkList1];
     card2.cardInformation.nbItems = 4;
 
-    const checkList2 = Checklist({title: "Checklist No Idea", items: [
+    const checkList2 = Checklist({
+        title: "Checklist No Idea", items: [
             {name: "Idea 1"},
             {name: "Idea 2", isChecked: true},
             {name: "Idea 3", isChecked: true},
-            {name: "Idea 4"}]});
+            {name: "Idea 4"}]
+    });
     card3.checklists = [checkList2];
     card3.cardInformation.nbItems = 4;
     card3.cardInformation.nbItemsChecked = 2;
@@ -130,7 +135,7 @@ function reversedRef() {
     const list2 = List({name: "Doing", cards: [card3._id]});
     list2.listInformation.nbCards = 1;
     list2.watchers = [{watcher: Kevin._id}, {watcher: Loris._id}, {watcher: Hugo._id}
-    , {watcher: Alex._id}];
+        , {watcher: Alex._id}];
     const list3 = List({name: "To Do", cards: [card4._id]});
     list3.listInformation.nbCards = 1;
     const list4 = List({name: "Doing", cards: [card5._id]});
@@ -182,7 +187,7 @@ function reversedRef() {
         board: board1._id,
         role: "Admin",
         category: hugoCategory1
-        },
+    },
         {
             board: board2._id,
             role: "Admin",
@@ -235,62 +240,42 @@ function reversedRef() {
     list3.board = board1._id;
     list4.board = board2._id;
 
-    Card.deleteMany({})
-        .then(() => {
-            Card.insertMany([card1, card2, card3, card4, card5],
-                function (error, docs) {
-                    if (error) return console.log(error)
-                })
-        });
+    let array = []
+    await Card.insertMany([card1, card2, card3, card4, card5],
+        array.push(function (error) {
+            if (error) return console.log(error)
+        }))
 
-    List.deleteMany({})
-        .then(() => {
-            List.insertMany([list1, list2, list3, list4],
-                function (error, docs) {
-                    if (error) return console.log(error)
-                })
-        })
+    await List.insertMany([list1, list2, list3, list4],
+        array.push(function (error) {
+            if (error) return console.log(error)
+        }))
 
-    Board.deleteMany({})
-        .then(() => {
-            Board.insertMany([board1, board2],
-                function (error, docs) {
-                    if (error) return console.log(error)
-                })
+    await Board.insertMany([board1, board2],
+        array.push(function (error) {
+            if (error) return console.log(error)
+        }))
+    await User.insertMany([Alex, Hugo, Kevin, Loris],
+        array.push(function (error) {
+            if (error) return console.log(error)
         })
-
-    User.deleteMany({})
-        .then(() => {
-            User.insertMany([Alex, Hugo, Kevin, Loris],
-                function (error, docs) {
-                    if (error) return console.log(error)
-                })
+    )
+    await Category.insertMany([hugoCategory2, hugoCategory1, kevinCategory1, kevinCategory2],
+        array.push(function (error) {
+            if (error) return console.log(error)
         })
-
-    Category.deleteMany({})
-        .then(() => {
-            Category.insertMany([hugoCategory2, hugoCategory1, kevinCategory1, kevinCategory2],
-                function (error, docs) {
-                    if (error) return console.log(error)
-                })
+    )
+    await Team.insertMany([Khal],
+        array.push(function (error) {
+            if (error) return console.log(error)
         })
-
-    Team.deleteMany({})
-        .then(() => {
-            Team.insertMany([Khal],
-                function (error, docs) {
-                    if (error) return console.log(error)
-                })
+    )
+    await Label.insertMany([FrontEnd, BackEnd, DB],
+        array.push(function (error) {
+            if (error) return console.log(error)
         })
-
-    Label.deleteMany({})
-        .then(() => {
-            Label.insertMany([FrontEnd, BackEnd, DB],
-                function (error, docs) {
-                    if (error) return console.log(error)
-                    else process.exit(0)
-                })
-        })
+    )
+    Promise.all(array).then(mongoose.connection.close())
 }
 
 mongoose.connection.once("open", function () {

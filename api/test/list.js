@@ -3,6 +3,7 @@ const List = require("../models/index").List;
 const Board = require("../models/index").Board;
 const Card = require("../models/index").Card;
 require("../config/db");
+const mongoose = require('mongoose')
 
 const chai = require("chai");
 const chaiHttp = require("chai-http");
@@ -16,18 +17,13 @@ let board1 = null;
 
 describe("Lists", () => {
     beforeEach((done) => { // Before each test we empty the database
-        List.deleteMany({}, (err) => {
+        mongoose.connection.db.dropDatabase();
+        const boardModel = Board({name: "Prello"});
+        boardModel.save((err, board) => {
             if (err) {}
-            Board.deleteMany({}, (err) => {
-                if (err) {}
-                const boardModel = Board({name: "Prello"});
-                boardModel.save((err, board) => {
-                    if (err) {}
-                    board1 = board;
-                    done()
-                })
-            });
-        });
+            board1 = board;
+            done()
+        })
     });
 
     /*
@@ -147,7 +143,7 @@ describe("Lists", () => {
                     .end((err, res) => {
                         console.log(JSON.stringify(res))
                         res.should.have.status(400);
-                        res.body.should.equal(`The listId ${board1._id} does not exist`);
+                        res.body.should.equal(`The listId ${board1._id} was not found`);
                         done();
                     });
             });
@@ -187,7 +183,7 @@ describe("Lists", () => {
                         .delete(`/api/lists/${board1._id}`)
                         .end((err, res) => {
                             res.should.have.status(400);
-                            res.body.should.equal(`The listId ${board1._id} does not exist`);
+                            res.body.should.equal(`The listId ${board1._id} was not found`);
                             done();
                         });
                 });

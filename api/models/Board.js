@@ -13,7 +13,7 @@ const BoardSchema = new mongoose.Schema({
             _id: false
         }],
     starred: [{type: mongoose.Schema.Types.ObjectId, ref: "User"}],
-    closed: {type: Boolean, default: false},
+    isClosed: {type: Boolean, default: false},
     activities: [{type: mongoose.Schema.Types.ObjectId, ref: "Action"}],
     visibility: {type: String}
 }, {timestamps: true});
