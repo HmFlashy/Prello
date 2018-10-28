@@ -22,9 +22,14 @@ module.exports = {
             Bucket: config.bucketName,
             Key: keyName
         }
-        res.attachment(keyName);
-        var fileStream = s3.getObject(options).createReadStream();
-        fileStream.pipe(res);
+        s3.getObject(options, function (err, data) {
+            if (err === null) {
+                res.attachment(keyName);
+                res.send(data.Body);
+            } else {
+                res.status(err.statusCode).send(err.message);
+            }
+        })
     },
     s3Upload:
         multer({

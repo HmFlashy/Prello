@@ -3,7 +3,11 @@ const S3 = require("../S3Service.js")
 const router = express.Router();
 
 router.get("/", (req, res) => {
-    S3.s3download(req.query.key, res)
+    console.log(req.query.key)
+    if (!req.query.key)
+        res.send("No key specified")
+    else
+        S3.s3download(req.query.key, res)
 })
 
 router.post("/", (req, res) => {
