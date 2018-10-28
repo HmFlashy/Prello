@@ -15,21 +15,13 @@ AWS.config.update({
 });
 var s3 = new AWS.S3();
 
-
 module.exports = {
-    s3download(keyName, res) {
+    s3download(keyName, res, callback) {
         let options = {
             Bucket: config.bucketName,
             Key: keyName
         }
-        s3.getObject(options, function (err, data) {
-            if (err === null) {
-                res.attachment(keyName);
-                res.send(data.Body);
-            } else {
-                res.status(err.statusCode).send(err.message);
-            }
-        })
+        s3.getObject(options, callback)
     },
     s3Upload:
         multer({
