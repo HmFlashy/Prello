@@ -2,11 +2,6 @@ const ChecklistController = require('../../../controllers/ChecklistController')
 const socketIO = require('../../../../socket')
 const throwError = require('../../../helper/RequestHelper').throwError;
 
-const types = {
-    name: 'UPDATED_ITEM_NAME',
-    isChecked: 'UPDATED_ITEM_ISCHECKED',
-}
-
 /**
   * @swagger
   * definition:
@@ -16,12 +11,12 @@ const types = {
   *         type: string
   *
   * paths:
-  *   /cards/:cardId/checklists/:checklistId/items/itemId:
+  *   /cards/:cardId/checklists/:checklistId:
   *     put:
   *       tags:
   *         - Checklist
-  *       description: Updates the item
-  *       summary: Updates the item
+  *       description: Changes the name of the checklist
+  *       summary: Changes the name of the checklist
   *       requestBody:
   *         required: true
   *         content:
@@ -31,11 +26,9 @@ const types = {
   *               properties:
   *                 name:
   *                   type: string
-  *                 isChecked:
-  *                   type: string
+  *                   required: true
   *             example: 
   *               name: my super name
-  *               isChecked: true
   *       responses:
   *         200:
   *           description: The updated card
@@ -56,34 +49,20 @@ module.exports = async (req, res) => {
         }
         const checklistId = req.params.checklistId
         if (!checklistId.match(/^[0-9a-fA-F]{24}$/)) {
-            throwError(400, `The checklistId ${checklistId} is malformed`)
+            throwError(400, `The itemId ${checklistId} is malformed`)
         }
-        const itemId = req.params.itemId
-        if (!itemId.match(/^[0-9a-fA-F]{24}$/)) {
-            throwError(400, `The itemId ${itemId} is malformed`)
-        }
+        const name = req.body.name
         if (Object.keys(req.body).length === 0) {
             throwError(400, "No data in body")
         }
-        console.log(req.body)
-        const checklists = await ChecklistController.updateItem(cardId, checklistId, itemId, req.body)
-        Object.keys(req.body).forEach(action => {
-            if (types[action]) {
-                checklists.forEach(checklist => {
-                    if (checklist._id == checklistId) {
-                        checklist.items.forEach(item => {
-                            if (item._id == itemId) {
-                                socketIO.broadcast('action', {
-                                    type: types[action],
-                                    payload: { _id: cardId, checklists, [action]: item[action] }
-                                })
-                            }
-                        })
-                    }
-                })
-            }
+        if (!name) {
+            throwError(400, "Missing name parameter")
         }
-        )
+        const checklists = await ChecklistController.updateChecklist(cardId, checklistId, name)
+        socketIO.broadcast('action', {
+            type: 'UPDATED_CHECKLIST',
+            payload: { _id: cardId, checklists }
+        })
         return res.status(200).json(checklists)
     } catch (error) {
         res.status(500).json(error.message)

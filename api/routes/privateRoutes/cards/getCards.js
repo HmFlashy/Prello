@@ -1,4 +1,4 @@
-const CardController = require('../../controllers/CardsController')
+const CardController = require('../../../controllers/CardsController')
 
 /**
   * @swagger

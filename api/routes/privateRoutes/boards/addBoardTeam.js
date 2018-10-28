@@ -1,6 +1,6 @@
-const boardsController = require('../../controllers/BoardsController');
-const socketIO = require('../../../socket');
-const throwError = require('../../helper/RequestHelper').throwError;
+const boardsController = require('../../../controllers/BoardsController');
+const socketIO = require('../../../../socket');
+const throwError = require('../../../helper/RequestHelper').throwError;
 
 /**
  * @swagger
@@ -11,12 +11,12 @@ const throwError = require('../../helper/RequestHelper').throwError;
  *         type: string
  *
  * paths:
- *   /boards/{boardId}/members:
+ *   /boards/{boardId}/teams:
  *     post:
  *       tags:
  *         - Board
- *       description: Add a member to the board either by giving the email or the userId
- *       summary: Add a member to the board
+ *       description: Add a team to the board either by giving the name or the teamId
+ *       summary: Add a team to the board
  *       parameters:
  *         - name: boardId
  *           schema:
@@ -34,33 +34,27 @@ const throwError = require('../../helper/RequestHelper').throwError;
  *               properties:
  *                 _id:
  *                   type: string
- *                 email:
+ *                 name:
  *                   type: ObjectId
  *             example:
  *               _id: 5bce3aaf84c77d0a433029a9
- *               email: example@gmail.com
- *               name: example
+ *               name: Khal
  *       responses:
  *         200:
- *           description: The updated board with the member added
+ *           description: The updated board with the team added
  *           content:
  *             application/json:
  *               schema:
  *                 $ref: '#components/schemas/Board'
  *         400:
- *           description: The request was malformed or the given board or given user was not found
+ *           description: The request was malformed or the given board or given team was not found
  *         500:
  *           description: Internal error
  */
 module.exports = async (req, res) => {
     try {
         const boardId = req.params.boardId;
-        const userId = req.params.userId;
-        if(userId) {
-            if (!userId.match(/^[0-9a-fA-F]{24}$/)) {
-                throwError(400, `The userId ${userId} is malformed`)
-            }
-        }
+        const teamId = req.body.teamId;
 
         if(!boardId) {
             throwError(400, "Missing boardId parameter")
@@ -68,18 +62,17 @@ module.exports = async (req, res) => {
             throwError(400, `The boardId ${boardId} is malformed`)
         }
 
-        if(req.body._id) {
-            if(!req.body._id.match(/^[0-9a-fA-F]{24}$/)) {
-                throwError(400, `The userId ${req.body._id} is malformed`)
+        if(teamId) {
+            if (!teamId.match(/^[0-9a-fA-F]{24}$/)) {
+                throwError(400, `The teamId ${teamId} is malformed`)
             }
         }
 
-        const board = await boardsController.addBoardMember(boardId, req.body);
+        const board = await boardsController.addBoardTeam(boardId, req.body);
         socketIO.broadcast("action", {
-            type: "ADD_BOARD_MEMBER",
-            payload: board.members
+            type: "ADD_BOARD_TEAM",
+            payload: board.teams
         });
-
         return res.status(200).json(board)
     } catch(error) {
         console.log(error);

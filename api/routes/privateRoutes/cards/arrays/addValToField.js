@@ -1,14 +1,14 @@
-const CardController = require('../../../controllers/CardsController')
-const socketIO = require('../../../../socket')
-const throwError = require('../../../helper/RequestHelper').throwError;
+const CardController = require('../../../../controllers/CardsController')
+const socketIO = require('../../../../../socket')
+const throwError = require('../../../../helper/RequestHelper').throwError;
 
 
 const fields = {
-    "labels": "REMOVE_CARD_LABEL",
-    "comments": "REMOVE_CARD_COMMENT",
-    "members": "REMOVE_CARD_MEMBER",
-    "attachments": "REMOVE_CARD_ATTACHMENT",
-    "watchers": "REMOVE_CARD_WATCHER",
+    "labels": "ADD_CARD_LABEL",
+    "comments": "ADD_CARD_COMMENT",
+    "members": "ADD_CARD_MEMBER",
+    "attachments": "ADD_CARD_ATTACHMENT",
+    "watchers": "ADD_CARD_WATCHER",
 }
 
 /**
@@ -21,11 +21,11 @@ const fields = {
   *
   * paths:
   *   /cards/{idCard}/field/{field}:
-  *     delete:
+  *     post:
   *       tags:
   *         - Card
-  *       description: Remove an element from a field. The supported fields are => labels, comments, members, attachments, watchers. The body must be composed of a json with the field as key and the value to remove from the array as value (ObjectId). 
-  *       summary: Remove an element from a field.
+  *       description: Add an element to a field. The supported fields are => labels, comments, members, attachments, watchers. The body must be composed of a json with the field as key and the value to add to the array as value (ObjectId). 
+  *       summary: Add an element to a field.
   *       parameters:
   *         - name: cardId
   *           schema:
@@ -36,11 +36,11 @@ const fields = {
   *         - name: field
   *           schema:
   *             type: string
-  *           description: The field you want to remove a value from. Can be => labels, comments, members, attachments, watchers
+  *           description: The field you want to add a value to. Can be => labels, comments, members, attachments, watchers
   *           in: path
   *           required: true 
   *       requestBody:
-  *         description: Holds the value you want to remove, the key refers to the field.
+  *         description: Holds the value you want to add, the key refers to the field.
   *         required: true
   *         content:
   *           application/json:
@@ -70,7 +70,7 @@ module.exports = async (req, res) => {
             throwError(400, "Bad Request IdCard malformed")
         }
         if (fields[req.params.field]) {
-            const card = await CardController.removeToArray(req.params.idCard, req.params.field, req.body.payload)
+            const card = await CardController.addToArray(req.params.idCard, req.params.field, req.body.payload)
             socketIO.broadcast('action', {
                 type: fields[req.params.field],
                 payload: req.body.label

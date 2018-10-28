@@ -1,6 +1,6 @@
-const CardController = require('../../controllers/CardsController')
-const socketIO = require('../../../socket')
-const throwError = require('../../helper/RequestHelper').throwError;
+const CardController = require('../../../controllers/CardsController')
+const socketIO = require('../../../../socket')
+const throwError = require('../../../helper/RequestHelper').throwError;
 
 const types = {
     name: 'UPDATE_CARD_NAME',

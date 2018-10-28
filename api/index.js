@@ -11,7 +11,8 @@ const bodyParser = require('body-parser');
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json());
 
-router.use(require('./routes'));
+router.use(require('./routes/authRoutes'))
+router.use(require('./routes/privateRoutes'));
 
 router.all('*', (req, res) => {
   res.sendStatus(404);

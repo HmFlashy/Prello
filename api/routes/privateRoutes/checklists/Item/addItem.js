@@ -1,6 +1,6 @@
-const ChecklistController = require('../../controllers/ChecklistController')
-const socketIO = require('../../../socket')
-const throwError = require('../../helper/RequestHelper').throwError;
+const ChecklistController = require('../../../../controllers/ChecklistController')
+const socketIO = require('../../../../../socket')
+const throwError = require('../../../../helper/RequestHelper').throwError;
 
 /**
   * @swagger
@@ -11,14 +11,13 @@ const throwError = require('../../helper/RequestHelper').throwError;
   *         type: string
   *
   * paths:
-  *   /cards/:cardId/checklists:
+  *   /cards/:cardId/checklists/:checklistId/items:
   *     post:
   *       tags:
   *         - Checklist
-  *       description: Create a new checklist given it's name and the card Id
-  *       summary: Creates a new checklist in the database
+  *       description: Creates a new item for the checklist
+  *       summary: Creates a new item for the checklist
   *       requestBody:
-  *         description: Optional description in *Markdown*
   *         required: true
   *         content:
   *           application/json:
@@ -32,7 +31,7 @@ const throwError = require('../../helper/RequestHelper').throwError;
   *               name: my super name
   *       responses:
   *         200:
-  *           description: The created checklist
+  *           description: The updated card
   *           content:
   *             application/json:
   *               schema:
@@ -49,15 +48,19 @@ module.exports = async (req, res) => {
         if (!cardId.match(/^[0-9a-fA-F]{24}$/)) {
             throwError(400, `The cardId ${cardId} is malformed`)
         }
+        const checklistId = req.params.checklistId;
+        if (!checklistId.match(/^[0-9a-fA-F]{24}$/)) {
+            throwError(400, `The checklistId ${checklistId} is malformed`)
+        }
         if (Object.keys(req.body).length === 0) {
             throwError(400, "No data in body")
         }
         if (!name) {
             throwError(400, "Missing name parameter")
         }
-        const checklists = await ChecklistController.addChecklist(name, cardId)
+        const checklists = await ChecklistController.addItem(cardId, checklistId, name)
         socketIO.broadcast('action', {
-            type: 'ADDED_CHECKLIST',
+            type: 'ADDED_ITEM',
             payload: { _id: cardId, checklists }
         })
         return res.status(200).json(checklists)

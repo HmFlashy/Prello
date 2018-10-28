@@ -1,5 +1,5 @@
-const boardsController = require("../../controllers/BoardsController");
-const throwError = require("../../helper/RequestHelper").throwError;
+const boardsController = require("../../../controllers/BoardsController");
+const throwError = require("../../../helper/RequestHelper").throwError;
 
 /**
  * @swagger

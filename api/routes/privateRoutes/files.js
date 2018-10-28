@@ -1,5 +1,5 @@
 const express = require('express');
-const S3 = require("../S3Service.js")
+const S3 = require("../../S3Service.js")
 const router = express.Router();
 
 router.get("/", (req, res) => {

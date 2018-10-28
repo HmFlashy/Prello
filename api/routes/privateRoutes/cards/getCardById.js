@@ -1,6 +1,6 @@
-const CardController = require('../../controllers/CardsController')
-const throwError = require('../../helper/RequestHelper').throwError;
-const socketIO = require('../../../socket');
+const CardController = require('../../../controllers/CardsController')
+const throwError = require('../../../helper/RequestHelper').throwError;
+const socketIO = require('../../../../socket');
 
 /**
   * @swagger

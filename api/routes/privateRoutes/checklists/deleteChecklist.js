@@ -1,6 +1,6 @@
-const ChecklistController = require('../../controllers/ChecklistController')
-const socketIO = require('../../../socket')
-const throwError = require('../../helper/RequestHelper').throwError;
+const ChecklistController = require('../../../controllers/ChecklistController')
+const socketIO = require('../../../../socket')
+const throwError = require('../../../helper/RequestHelper').throwError;
 
 /**
   * @swagger
@@ -12,23 +12,11 @@ const throwError = require('../../helper/RequestHelper').throwError;
   *
   * paths:
   *   /cards/:cardId/checklists/:checklistId:
-  *     put:
+  *     delete:
   *       tags:
   *         - Checklist
-  *       description: Changes the name of the checklist
-  *       summary: Changes the name of the checklist
-  *       requestBody:
-  *         required: true
-  *         content:
-  *           application/json:
-  *             schema:
-  *               type: object
-  *               properties:
-  *                 name:
-  *                   type: string
-  *                   required: true
-  *             example: 
-  *               name: my super name
+  *       description: Delete the checklist corrensponding to the given Id
+  *       summary: Delete the checklist
   *       responses:
   *         200:
   *           description: The updated card
@@ -49,18 +37,11 @@ module.exports = async (req, res) => {
         }
         const checklistId = req.params.checklistId
         if (!checklistId.match(/^[0-9a-fA-F]{24}$/)) {
-            throwError(400, `The itemId ${checklistId} is malformed`)
+            throwError(400, `The checklistId ${checklistId} is malformed`)
         }
-        const name = req.body.name
-        if (Object.keys(req.body).length === 0) {
-            throwError(400, "No data in body")
-        }
-        if (!name) {
-            throwError(400, "Missing name parameter")
-        }
-        const checklists = await ChecklistController.updateChecklist(cardId, checklistId, name)
+        const checklists = await ChecklistController.deleteChecklist(cardId, checklistId)
         socketIO.broadcast('action', {
-            type: 'UPDATED_CHECKLIST',
+            type: 'DELETED_CHECKLIST',
             payload: { _id: cardId, checklists }
         })
         return res.status(200).json(checklists)

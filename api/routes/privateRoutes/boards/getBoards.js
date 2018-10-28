@@ -1,4 +1,4 @@
-const boardsController = require('../../controllers/BoardsController');
+const boardsController = require('../../../controllers/BoardsController');
 
 /**
  * @swagger

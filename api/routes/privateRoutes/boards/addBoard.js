@@ -1,6 +1,6 @@
-const boardsController = require('../../controllers/BoardsController');
-const socketIO = require('../../../socket');
-const throwError = require('../../helper/RequestHelper').throwError;
+const boardsController = require('../../../controllers/BoardsController');
+const socketIO = require('../../../../socket');
+const throwError = require('../../../helper/RequestHelper').throwError;
 
 /**
  * @swagger

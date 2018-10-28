@@ -11,15 +11,28 @@ const throwError = require('../../../helper/RequestHelper').throwError;
   *         type: string
   *
   * paths:
-  *   /cards/:cardId/checklists/:checklistId/items/:itemId:
-  *     delete:
+  *   /cards/:cardId/checklists:
+  *     post:
   *       tags:
   *         - Checklist
-  *       description: Delete the item from the corrensponding checklist
-  *       summary: Delete the item
+  *       description: Create a new checklist given it's name and the card Id
+  *       summary: Creates a new checklist in the database
+  *       requestBody:
+  *         description: Optional description in *Markdown*
+  *         required: true
+  *         content:
+  *           application/json:
+  *             schema:
+  *               type: object
+  *               properties:
+  *                 name:
+  *                   type: string
+  *                   required: true
+  *             example: 
+  *               name: my super name
   *       responses:
   *         200:
-  *           description: The updated card
+  *           description: The created checklist
   *           content:
   *             application/json:
   *               schema:
@@ -31,21 +44,20 @@ const throwError = require('../../../helper/RequestHelper').throwError;
   */
 module.exports = async (req, res) => {
     try {
+        const name = req.body.name;
         const cardId = req.params.cardId;
         if (!cardId.match(/^[0-9a-fA-F]{24}$/)) {
             throwError(400, `The cardId ${cardId} is malformed`)
         }
-        const checklistId = req.params.checklistId
-        if (!checklistId.match(/^[0-9a-fA-F]{24}$/)) {
-            throwError(400, `The checklistId ${checklistId} is malformed`)
+        if (Object.keys(req.body).length === 0) {
+            throwError(400, "No data in body")
         }
-        const itemId = req.params.itemId
-        if (!itemId.match(/^[0-9a-fA-F]{24}$/)) {
-            throwError(400, `The itemId ${itemId} is malformed`)
+        if (!name) {
+            throwError(400, "Missing name parameter")
         }
-        const checklists = await ChecklistController.deleteItem(cardId, checklistId, itemId)
+        const checklists = await ChecklistController.addChecklist(name, cardId)
         socketIO.broadcast('action', {
-            type: 'DELETED_ITEM',
+            type: 'ADDED_CHECKLIST',
             payload: { _id: cardId, checklists }
         })
         return res.status(200).json(checklists)

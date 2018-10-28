@@ -1,6 +1,6 @@
-const BoardsController = require('../../controllers/BoardsController');
-const socketIO = require('../../../socket');
-const throwError = require('../../helper/RequestHelper').throwError;
+const BoardsController = require('../../../controllers/BoardsController');
+const socketIO = require('../../../../socket');
+const throwError = require('../../../helper/RequestHelper').throwError;
 
 const types = {
     name: 'UPDATE_BOARD_NAME',

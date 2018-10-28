@@ -1,7 +1,7 @@
 const CardController = require('../../controllers/CardsController')
-const socketIO = require('../../../socket')
 const throwError = require('../../helper/RequestHelper').throwError;
 
+const emailRegEx = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/
 /**
   * @swagger
   * definition:
@@ -60,16 +60,12 @@ const throwError = require('../../helper/RequestHelper').throwError;
   */
 module.exports = async (req, res) => {
     try {
-        const name = req.body.name;
-        const listId = req.body.listId;
-        if (!listId || !listId.match(/^[0-9a-fA-F]{24}$/)) {
-            throwError(400, "Bad Request listId malformed")
+        const email = req.body.email;
+        const password = req.body.password;
+        if (!email || !email.match(emailRegEx)) {
+            throwError(400, "Bad Request email malformed")
         }
-        const card = await CardController.addCard(name, listId)
-        socketIO.broadcast('action', {
-            type: 'ADD_CARD',
-            payload: card
-        })
+        const user = await UserController.verifyCredentials(email, password)
         return res.status(200).json(card)
     } catch (error) {
         res.status(500).json(error.message)

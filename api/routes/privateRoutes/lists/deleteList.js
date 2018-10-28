@@ -1,6 +1,6 @@
-const ListController = require('../../controllers/ListsController');
-const socketIO = require('../../../socket');
-const throwError = require('../../helper/RequestHelper').throwError;
+const ListController = require('../../../controllers/ListsController');
+const socketIO = require('../../../../socket');
+const throwError = require('../../../helper/RequestHelper').throwError;
 
 /**
  * @swagger
