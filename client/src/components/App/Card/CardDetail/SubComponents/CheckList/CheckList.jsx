@@ -87,7 +87,7 @@ export default class CheckList extends Component {
                             </div>)}
                         </div>
                         {this.state.isAddingItem
-                            ? <Input value={this.state.newItemName} onChange={(event, target) => this.setState({ newItemName: target.value })}></Input>
+                            ? <Input className="addItemTF" value={this.state.newItemName} onKeyPress={(event) => event.charCode === 13 ? this.props.onAddItem(checklist._id, this.state.newItemName) || this.setState({ newItemName: "" }) : ""} onChange={(event, target) => this.setState({ newItemName: target.value })}></Input>
                             : ""
                         }
                         <Button className="addItem" onClick={() => this.state.isAddingItem
