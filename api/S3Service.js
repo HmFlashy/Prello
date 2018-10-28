@@ -5,9 +5,9 @@ var multer = require('multer')
 var multerS3 = require('multer-s3')
 
 const config = {
-    accessKeyId: "AKIAJT5MO2WU73L4JU5A",
-    secretAccessKey: "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",
-    bucketName: "prello-khal"
+    accessKeyId: process.env.S3_ACCESS_KEY_ID,
+    secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+    bucketName: process.env.S3_BUCKET_NAME
 }
 AWS.config.update({
     accessKeyId: config.accessKeyId,
