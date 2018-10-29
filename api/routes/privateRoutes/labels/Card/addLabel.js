@@ -11,15 +11,28 @@ const throwError = require('../../../../helper/RequestHelper').throwError;
   *         type: string
   *
   * paths:
-  *   /cards/:cardId/labels/:
+  *   /cards/:cardId/labels:
   *     post:
   *       tags:
   *         - Label
-  *       description: Adding a label to a card given its Id and the card Id
+  *       description: Adding a label to a card given its name and the card Id
   *       summary: Adding the label in the card's list of labels in the database
+  *       requestBody:
+  *         description: Optional description in *Markdown*
+  *         required: true
+  *         content:
+  *           application/json:
+  *             schema:
+  *               type: object
+  *               properties:
+  *                 name:
+  *                   type: string
+  *                   required: true
+  *             example: 
+  *               name: my super name
   *       responses:
   *         200:
-  *           description: The updated card
+  *           description: The added label
   *           content:
   *             application/json:
   *               schema:
@@ -31,15 +44,18 @@ const throwError = require('../../../../helper/RequestHelper').throwError;
   */
 module.exports = async (req, res) => {
     try {
-        const labelId = req.params.labelId;
-        if (!labelId.match(/^[0-9a-fA-F]{24}$/)) {
-            throwError(400, `The labelId ${labelId} is malformed`)
-        }
+        const name = req.body.name;
         const cardId = req.params.cardId;
         if (!cardId.match(/^[0-9a-fA-F]{24}$/)) {
             throwError(400, `The cardId ${cardId} is malformed`)
         }
-        const labels = await LabelController.addLabel(cardId, labelId)
+        if (Object.keys(req.body).length === 0) {
+            throwError(400, "No data in body")
+        }
+        if (!name) {
+            throwError(400, "Missing name parameter")
+        }
+        const labels = await LabelController.addLabel(name, cardId)
         socketIO.broadcast('action', {
             type: 'ADDED_LABEL',
             payload: { _id: cardId, labels }
