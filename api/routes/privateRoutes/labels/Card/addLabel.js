@@ -11,28 +11,15 @@ const throwError = require('../../../../helper/RequestHelper').throwError;
   *         type: string
   *
   * paths:
-  *   /cards/:cardId/labels:
+  *   /cards/:cardId/labels/:
   *     post:
   *       tags:
   *         - Label
-  *       description: Adding a label to a card given its name and the card Id
+  *       description: Adding a label to a card given its Id and the card Id
   *       summary: Adding the label in the card's list of labels in the database
-  *       requestBody:
-  *         description: Optional description in *Markdown*
-  *         required: true
-  *         content:
-  *           application/json:
-  *             schema:
-  *               type: object
-  *               properties:
-  *                 name:
-  *                   type: string
-  *                   required: true
-  *             example: 
-  *               name: my super name
   *       responses:
   *         200:
-  *           description: The added label
+  *           description: The updated card
   *           content:
   *             application/json:
   *               schema:
