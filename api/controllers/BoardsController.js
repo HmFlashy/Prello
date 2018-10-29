@@ -197,7 +197,7 @@ const deleteBord = async (boardId) => {
         if (!board) {
             throwError(404, `The board ${boardId} was not found`)
         }
-        if(!board.isClosed) {
+        if (!board.isClosed) {
             throwError(400, `Can't delete a board not closed`)
         }
         board.remove()
@@ -218,7 +218,7 @@ module.exports = {
     addBoard,
     addBoardTeam,
     addBoardMember,
-    deleteBord
+    deleteBord,
     updateBoard,
     getBoardsInfo
 };
