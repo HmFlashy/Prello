@@ -55,8 +55,8 @@ class LoginForm extends Component {
                                 </Button>
                             </Segment>
                         </Form>
-                        <Message>
-                        New to us? <button onClick={() => this.props.history.push('/register')}>Sign Up</button>
+                        <Message className="clickable" onClick={() => this.props.history.push('/register')}>
+                            New to us?  SIGN UP
                         </Message>
                     </Grid.Column>
                 </Grid>

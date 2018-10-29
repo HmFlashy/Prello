@@ -7,19 +7,13 @@ const saltRounds = 10;
 const emailRegEx = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/
 /**
   * @swagger
-  * definition:
-  *   NewList:
-  *     properties:
-  *       name:
-  *         type: string
-  *
   * paths:
-  *   /cards:
+  *   /register:
   *     post:
   *       tags:
-  *         - Card
-  *       description: Create a new card given it's name, creator the list id, the board id and it's position in the list
-  *       summary: Creates a new card in the database
+  *         - Authentification
+  *       description: Register to the Prello API
+  *       summary: Register to the Prello API by giving credentials
   *       requestBody:
   *         description: Optional description in *Markdown*
   *         required: true
@@ -28,34 +22,28 @@ const emailRegEx = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}
   *             schema:
   *               type: object
   *               properties:
-  *                 name:
+  *                 email:
   *                   type: string
   *                   required: true
-  *                 creator:
+  *                 password:
   *                   type: ObjectId
-  *                   required: true
-  *                 listId:
-  *                   type: ObjectId
-  *                   required: true
-  *                 boardId:
-  *                   type: ObjectId
-  *                   required: true
-  *                 pos:
-  *                   type: int
   *                   required: true
   *             example: 
-  *               name: my super name
-  *               creator: 5bce3aaf84c77d0a433029a9
-  *               listId: 5bce3aaf84c77d0a433029a9
-  *               boardId: 5bce3aaf84c77d0a433029a9
-  *               pos: 100000
+  *               email: exemple@host.com
+  *               password: myPassword
   *       responses:
   *         200:
-  *           description: The created card
+  *           description: The user and the token
   *           content:
   *             application/json:
   *               schema:
-  *                 $ref: '#components/schemas/Card'
+  *                 type: object
+  *                 properties:
+  *                   user:
+  *                     type: object
+  *                     $ref: '#components/schemas/User'
+  *                   token:
+  *                     type: string
   *         400:
   *           description: The request was malformed
   *         500:

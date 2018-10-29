@@ -11,7 +11,15 @@ export default {
             }, basicHeader())
             return res.data
         } catch(error) {
-
+            throw error
+        }
+    },
+    async register(credentials){
+        try {
+            const res = await axios.post(`${UrlConfig.API}/register`, credentials, basicHeader())
+            return res.data
+        } catch(error){
+            throw error
         }
     }
 }

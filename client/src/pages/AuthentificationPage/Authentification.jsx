@@ -5,10 +5,6 @@ import RegisterFormContainer from '../../containers/AuthentificationContainers/R
 
 class AuthentificationPage extends Component {
 
-    constructor(){
-        super()
-    }
-
     render(){
         return this.props.location.pathname === "/register" ? <RegisterFormContainer /> : <LoginFormContainer />
     }
