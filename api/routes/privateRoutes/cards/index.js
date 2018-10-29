@@ -7,6 +7,7 @@ router.get('/', require('./getCards'));
 router.get('/:cardId', require('./getCardById'));
 router.put('/:cardId', require('./updateCard'));
 router.put('/:cardId/move', require('./moveCardById'));
+router.delete('/:cardId', require('./deleteCard'));
 
 router.post('/:cardId/field/:field', require('./arrays/addValToField'));
 router.delete('/:cardId/field/:field', require('./arrays/removeValToField'));

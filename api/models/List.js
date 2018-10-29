@@ -22,7 +22,9 @@ ListSchema.pre('remove', function(next) {
     let array = [];
     const Card = require('../models/index').Card;
     const User = require('../models/index').User;
-    array.push(User.updateMany({listsWatched: {$in: [this._id]}}, {$pull: {listsWatched: this._id}}).exec())
+    const Board = require('../models/index').Board;
+    array.push(User.updateMany({listsWatched: {$in: [this._id]}}, {$pull: {listsWatched: this._id}}).exec());
+    array.push(Board.update({lists: {$in: [this._id]}}, {$pull: {lists: this._id}}).exec())
     Card.find({list: this._id}).then(cards => {
         cards.forEach(card => {
             array.push(card.remove())

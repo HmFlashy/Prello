@@ -510,7 +510,6 @@ describe("Board", () => {
         it("should NOT DELETE the board if the boardId is malformed", (done) => {
             chai.request(server)
                 .delete(`/api/boards/5de2de52`)
-                .send({name: "ADcare"})
                 .end((err, res) => {
                     res.should.have.status(400);
                     res.body.should.be.equal(`The boardId 5de2de52 is malformed`);
@@ -520,7 +519,6 @@ describe("Board", () => {
         it("should NOT DELETE the board if the boardId was not found", (done) => {
             chai.request(server)
                 .delete(`/api/boards/${user._id}`)
-                .send({name: "ADcare"})
                 .end((err, res) => {
                     res.should.have.status(404);
                     res.body.should.be.equal(`The board ${user._id} was not found`);
