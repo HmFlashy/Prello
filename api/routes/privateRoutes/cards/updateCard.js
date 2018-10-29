@@ -7,9 +7,6 @@ const types = {
     desc: 'UPDATE_CARD_DESC',
     dueDate: 'UPDATE_CARD_DUEDATE',
     dueDateCompleted: 'UPDATE_CARD_DUEDATECOMPLETED',
-    list: 'UPDATE_CARD_LIST',
-    board: 'UPDATE_CARD_BOARD',
-    pos: 'UPDATE_CARD_POS',
     isArchived: 'UPDATE_CARD_ISARCHIVED',
 }
 /**
@@ -25,7 +22,7 @@ const types = {
   *     put:
   *       tags:
   *         - Card
-  *       description: Update attributes of the given card. Attributes can be => name, desc, dueDate, dueDateCompleted, list, board, pos, archive. You can change any number of those fields in one call.
+  *       description: Update attributes of the given card. Attributes can be => name, desc, dueDate, dueDateCompleted, archive. You can change any number of those fields in one call.
   *       summary: Update attributes of the given card.
   *       parameters:
   *         - name: cardId
@@ -49,20 +46,11 @@ const types = {
   *                   type: Date
   *                 dueDateCompleted:
   *                   type: Date
-  *                 list:
-  *                   type: ObjectId
-  *                 board:
-  *                   type: ObjectId
-  *                 pos:
-  *                   type: int
   *                 archive:
   *                   type: boolean
   *             example: 
   *               name: my super name
   *               desc: my description
-  *               listId: 5bce3aaf84c77d0a433029a9
-  *               boardId: 5bce3aaf84c77d0a433029a9
-  *               pos: 100000
   *       responses:
   *         200:
   *           description: The updated card

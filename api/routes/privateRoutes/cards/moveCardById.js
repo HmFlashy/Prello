@@ -55,7 +55,7 @@ module.exports = async (req, res) => {
             throwError(400, "Bad Request boardId malformed")
         }
         const pos = req.body.pos
-        if (!pos) {
+        if (!pos && pos != 0) {
             throwError(400, "Bad Request pos malformed")
         }
         const card = await CardController.moveCard(cardId, oldListId, newListId, boardId, pos)
