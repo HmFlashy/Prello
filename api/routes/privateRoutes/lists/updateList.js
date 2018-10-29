@@ -58,7 +58,9 @@ const types = {
  *               schema:
  *                 $ref: '#components/schemas/List'
  *         400:
- *           description: The request was malformed or the list was not found
+ *           description: The request was malformed
+ *         404:
+ *           description: The list was not found
  *         500:
  *           description: Internal error.
  */
