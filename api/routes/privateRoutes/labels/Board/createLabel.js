@@ -18,7 +18,6 @@ const throwError = require('../../../../helper/RequestHelper').throwError;
   *       description: Creating a new label for a board given its name, color and the board Id
   *       summary: Creating a label in the database
   *       requestBody:
-  *         description: Optional description in *Markdown*
   *         required: true
   *         content:
   *           application/json:
@@ -36,7 +35,7 @@ const throwError = require('../../../../helper/RequestHelper').throwError;
   *               color: my super color
   *       responses:
   *         200:
-  *           description: The created label
+  *           description: The updated Board
   *           content:
   *             application/json:
   *               schema:
