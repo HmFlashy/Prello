@@ -24,11 +24,26 @@ const passwordRegex = /^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.
   *             schema:
   *               type: object
   *               properties:
+  *                 firstname:
+  *                   type: string
+  *                   required: true
+  *                 lastname:
+  *                   type: string
+  *                   required: true
+  *                 pseudo:
+  *                   type: string
+  *                   required: true
+  *                 birthDate:
+  *                   type: string
+  *                   required: true
   *                 email:
   *                   type: string
   *                   required: true
   *                 password:
-  *                   type: ObjectId
+  *                   type: string
+  *                   required: true
+  *                 organization:
+  *                   type: string
   *                   required: true
   *             example: 
   *               email: exemple@host.com

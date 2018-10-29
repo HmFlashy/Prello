@@ -1,6 +1,6 @@
 import './LoginForm.css'
 import React, { Component } from 'react'
-import { Grid, Header, Image, Segment, Form, Button, Message, Ref } from 'semantic-ui-react'
+import { Grid, Header, Image, Segment, Form, Button, Message } from 'semantic-ui-react'
 import { withRouter } from 'react-router-dom'
 
 class LoginForm extends Component {

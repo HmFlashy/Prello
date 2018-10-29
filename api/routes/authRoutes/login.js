@@ -26,7 +26,7 @@ const emailRegEx = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}
   *                   type: string
   *                   required: true
   *                 password:
-  *                   type: ObjectId
+  *                   type: string
   *                   required: true
   *             example: 
   *               email: exemple@host.com
