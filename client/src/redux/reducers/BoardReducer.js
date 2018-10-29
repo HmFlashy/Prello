@@ -66,8 +66,9 @@ export default (state = defaultBoardReducer, action) => {
             return {
                 ...state,
                 currentBoard: {
-                    ...state,
-                    lists: [...state.currentBoard.lists, list._id]}
+                    ...state.currentBoard,
+                    lists: [...state.currentBoard.lists, list._id]
+                }
             }
         case 'FAILED_UPDATE_LIST_NAME':
             return {

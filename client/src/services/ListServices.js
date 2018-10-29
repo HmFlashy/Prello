@@ -1,6 +1,6 @@
 import axios from 'axios'
 import UrlConfig from '../config/UrlConfig'
-import { tokenHeader } from '../config/HeaderHelper'
+import { tokenHeader } from '../helpers/HeaderHelper'
 
 export default {
     async updateListNameApi(listId, newName) {

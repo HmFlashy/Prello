@@ -1,7 +1,6 @@
 import axios from 'axios'
 import UrlConfig from '../config/UrlConfig'
-import { tokenHeader } from '../config/HeaderHelper'
-import CheckList from '../components/App/Card/CardDetail/SubComponents/CheckList';
+import { tokenHeader } from '../helpers/HeaderHelper'
 
 export default {
     async fetchCard(cardId) {

@@ -36,7 +36,7 @@ class Header extends Component {
         return (
             <Segment inverted color='teal' className="inline header" size='mini'>
                 <div className="inline">
-                    <Button icon='home' onClick={() => this.nextPath('/boards')} />
+                    <Button icon='home' onClick={() => this.nextPath('/home')} />
                     {
                         this.state.width > 800 ? 
                             <Dropdown text='Boards' icon='flipboard' floating labeled button className='icon'>
