@@ -49,7 +49,7 @@ const deleteList = async (listId) => {
                 if(!board) {
                     throwError(400, "Board not found")
                 }
-                await List.deleteOne(list);
+                await list.remove();
                 await session.commitTransaction();
                 session.endSession();
                 return list;

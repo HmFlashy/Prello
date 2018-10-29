@@ -48,7 +48,9 @@ const throwError = require('../../helper/RequestHelper').throwError;
  *               schema:
  *                 $ref: '#components/schemas/Board'
  *         400:
- *           description: The request was malformed or the given board or given user was not found
+ *           description: The request was malformed
+ *         404:
+ *           description: The given board or user was not found
  *         500:
  *           description: Internal error
  */

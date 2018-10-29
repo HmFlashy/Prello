@@ -61,6 +61,7 @@ async function reversedRef() {
     const FrontEnd = Label({name: "Front-End", color: "yellow"});
     const BackEnd = Label({name: "Back-End", color: "blue"});
     const DB = Label({name: "Database", color: "green"});
+    const DB2 = Label({name: "Database", color: "green"});
 
     const card1 = Card({
         name: "Add comment to a card",
@@ -80,7 +81,7 @@ async function reversedRef() {
     });
     const card5 = Card({
         name: "Use machine learning algorithms",
-        labels: [DB._id]
+        labels: [DB2._id]
     });
 
     const attachment1 = Attachment({
@@ -159,7 +160,8 @@ async function reversedRef() {
                 role: "Admin"
             }],
         visibility: "Team",
-        starred: [Kevin._id, Loris._id]
+        starred: [Kevin._id, Loris._id],
+        labels: [DB._id, FrontEnd._id, BackEnd._id]
     });
 
     Khal.boards = [board1._id];
@@ -176,8 +178,14 @@ async function reversedRef() {
                 member: Hugo._id,
                 role: "Member"
             }],
-        starred: [Loris._id]
+        starred: [Loris._id],
+        labels: [DB2._id]
     });
+
+    DB.board = board1._id;
+    FrontEnd.board = board1._id;
+    BackEnd.board = board1._id;
+    DB2.board = board2._id;
 
     const hugoCategory1 = Category({name: "School"});
     const hugoCategory2 = Category({name: "Hobbies"});
@@ -203,6 +211,8 @@ async function reversedRef() {
     }];
     Kevin.categories = [kevinCategory1, kevinCategory2];
 
+    Kevin.starred = [board1._id];
+    Loris.starred = [board1._id, board2._id];
     Alex.boards = [{
         board: board1._id,
         role: "Admin"
@@ -220,6 +230,7 @@ async function reversedRef() {
     card1.list = list1._id;
     card1.board = board1._id;
     card1.watchers = [{watcher: Alex._id}];
+    Alex.cardsWatched = [card1._id];
 
     card2.list = list1._id;
     card2.board = board1._id;
@@ -227,6 +238,7 @@ async function reversedRef() {
     card3.list = list2._id;
     card3.board = board1._id;
     card3.watchers = [{watcher: Kevin._id}, {watcher: Hugo._id}];
+    Kevin.cardsWatched = [card3._id];
 
     card4.list = list3._id;
     card4.board = board1._id;
@@ -234,32 +246,40 @@ async function reversedRef() {
     card5.list = list4._id;
     card5.board = board2._id;
     card5.watchers = [{watcher: Loris._id}, {watcher: Hugo._id}];
+    Loris.cardsWatched = [card5._id];
+    Hugo.cardsWatched = [card3._id, card5._id];
 
     list1.board = board1._id;
+    list1.watchers = [{watcher: Kevin._id}];
     list2.board = board1._id;
     list3.board = board1._id;
+    list3.watchers = [{watcher: Loris._id}, {watcher: Kevin._id}];
     list4.board = board2._id;
+    list4.watchers = [{watcher: Loris._id}];
 
-    let array = []
+    Kevin.listsWatched = [list1._id];
+    Loris.listsWatched = [list3._id, list4._id];
+
+    let array = [];
     await Card.insertMany([card1, card2, card3, card4, card5],
         array.push(function (error) {
             if (error) return console.log(error)
-        }))
+        }));
 
     await List.insertMany([list1, list2, list3, list4],
         array.push(function (error) {
             if (error) return console.log(error)
-        }))
+        }));
 
     await Board.insertMany([board1, board2],
         array.push(function (error) {
             if (error) return console.log(error)
-        }))
+        }));
     await User.insertMany([Alex, Hugo, Kevin, Loris],
         array.push(function (error) {
             if (error) return console.log(error)
         })
-    )
+    );
     await Category.insertMany([hugoCategory2, hugoCategory1, kevinCategory1, kevinCategory2],
         array.push(function (error) {
             if (error) return console.log(error)
@@ -270,7 +290,7 @@ async function reversedRef() {
             if (error) return console.log(error)
         })
     )
-    await Label.insertMany([FrontEnd, BackEnd, DB],
+    await Label.insertMany([FrontEnd, BackEnd, DB, DB2],
         array.push(function (error) {
             if (error) return console.log(error)
         })

@@ -55,7 +55,9 @@ const types = {
  *               schema:
  *                 $ref: '#components/schemas/Board'
  *         400:
- *           description: The request was malformed or the board was not found
+ *           description: The request was malformed
+ *         404:
+ *           description: The board was not found
  *         500:
  *           description: Internal error.
  */
@@ -70,7 +72,7 @@ module.exports = async (req, res) => {
         }
         const boardUpdated = await BoardsController.updateBoard(boardId, req.body);
         if(!boardUpdated) {
-            throwError(400, `The board ${boardId} was not found`)
+            throwError(404, `The board ${boardId} was not found`)
         }
         Object.keys(req.body).forEach(action => {
             if (types[action]) {

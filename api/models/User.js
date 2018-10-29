@@ -17,12 +17,15 @@ const UserSchema = new mongoose.Schema({
         role: String,
         _id: false
     }],
+    cardsWatched: [{type: mongoose.Schema.Types.ObjectId, ref: 'Card'}],
+    listsWatched: [{type: mongoose.Schema.Types.ObjectId, ref: 'List'}],
     boards: [{
         board: {type: mongoose.Schema.Types.ObjectId, ref: 'Board'},
         category: CategorySchema,
         role: String,
         _id: false
     }],
+    starred: [{type: mongoose.Schema.Types.ObjectId, ref: 'Board'}],
     categories: [CategorySchema]
 }, {timestamps: true});
 

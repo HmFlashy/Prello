@@ -31,6 +31,8 @@ const throwError = require("../../helper/RequestHelper").throwError;
  *               schema:
  *                 $ref: '#components/schemas/Board'
  *         400:
+ *           description: The request was malformed
+ *         404:
  *           description: The given board was not found
  *         500:
  *           description: Internal error
@@ -45,7 +47,7 @@ module.exports = async (req, res) => {
         }
         const board = await boardsController.getBoardById(boardId);
         if (!board) {
-            throwError(400, `The boardId ${boardId} was not found`)
+            throwError(404, `The boardId ${boardId} was not found`)
         }
         return res.status(200).json(board)
     } catch (error) {
