@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './Menu.css'
 import { Button, Icon, Divider, Modal, Header, Input } from 'semantic-ui-react'
 import DatePicker from './datepicker';
+import Move from './subComponents/Move/MoveContainer.js'
 
 class Menu extends Component {
 
@@ -82,10 +83,16 @@ class Menu extends Component {
                 <div>
                     <p>Actions</p>
                     <Button.Group vertical size='medium' compact>
-                        <Button icon labelPosition='left'>
+                        <Button icon labelPosition='left' onClick={() => this.setState({ isMovingCard: true })}>
                             <Icon name='arrow right' />
                             Move
                         </Button>
+                        <Move
+                            boardId={this.props.card.board}
+                            isOpened={this.state.isMovingCard}
+                            onValidate={() => this.setState({ isMovingCard: false })}
+                            onCancel={() => this.setState({ isMovingCard: false })}
+                        ></Move>
                         <Button icon labelPosition='left'>
                             <Icon name='copy' />
                             Copy

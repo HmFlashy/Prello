@@ -157,6 +157,7 @@ class CardDetail extends Component {
                         <Activity></Activity>
                     </div>
                     <Menu
+                        card={this.props.card}
                         isArchived={this.props.card.isArchived}
                         onDueDate={(date) => this.updateCard({ dueDate: this.props.card.dueDate, _id: this.props.card._id }, { dueDate: date, _id: this.props.card._id })}
                         onArchive={(value) => this.updateCard({ isArchived: this.props.card.isArchived, _id: this.props.card._id }, { isArchived: value, _id: this.props.card._id })}

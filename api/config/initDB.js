@@ -84,7 +84,8 @@ async function reversedRef() {
     });
     const card5 = Card({
         name: "Use machine learning algorithms",
-        labels: [DB._id]
+        labels: [DB._id],
+        pos: 100000
     });
 
     const attachment1 = Attachment({
