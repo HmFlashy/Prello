@@ -11,6 +11,7 @@ class Menu extends Component {
         this.state = {
             isPickingDate: false,
             isCreatingChecklist: false,
+            isLabelClicked: false,
             duedate: null,
             checklistName: "",
             isMovingCard: false
@@ -26,16 +27,30 @@ class Menu extends Component {
         return (
             <div>
                 <div>
-                    <p>Ajouter a la carte</p>
+                    <p>Add to card</p>
                     <Button.Group vertical size='medium' compact>
                         <Button icon labelPosition='left'>
                             <Icon name='users' />
                             Members
                         </Button>
-                        <Button icon labelPosition='left'>
+                        <Button icon labelPosition='left' onClick={() => { this.setState({ isLabelClicked: !this.state.isLabelClicked }); console.log("Change labels: " + this.state.isLabelClicked) }}>
                             <Icon name='tag' />
                             Labels
                         </Button>
+                        <Modal open={this.state.isLabelClicked}>
+                            <Header icon='calendar' content='Update labels' />
+                            <Modal.Content>
+                                <div>Label List</div>
+                            </Modal.Content>
+                            <Modal.Actions>
+                                <Button color='red' onClick={() => this.setState({ isLabelClicked: false })}>
+                                    <Icon name='remove' /> Cancel
+                                </Button>
+                                <Button color='green' onClick={() => { this.setState({ isLabelClicked: false }); console.log("Labels updated") }}>
+                                    <Icon name='checkmark' /> Validate
+                                </Button>
+                            </Modal.Actions>
+                        </Modal>
                         <Button icon labelPosition='left' onClick={() => this.setState({ isCreatingChecklist: true })}>
                             <Icon name='check square outline' />
                             Checklist
