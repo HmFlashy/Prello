@@ -48,7 +48,9 @@ CardSchema.pre('remove', function(next) {
     const User = require('../models/index').User;
     const Attachment = require('../models/index').Attachment;
     const Comment = require('../models/index').Comment;
+    const List = require('../models/index').List;
     array.push(User.updateMany({cardsWatched: {$in: [this._id]}}, {$pull: {cardsWatched: this._id}}).exec());
+    array.push(List.update({cards: {$in: [this._id]}}, {$pull: {cards: this._id}}).exec());
     Attachment.find({card: this._id}).then(attachments => {
         attachments.forEach(attachment => {
             array.push(attachment.remove())

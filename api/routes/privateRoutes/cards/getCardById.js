@@ -42,10 +42,12 @@ module.exports = async (req, res) => {
         const cardId = req.params.cardId;
         if(!cardId) {
             throwError(400, 'Missing cardId parameter')
+        } else if(!cardId.match(/^[0-9a-fA-F]{24}$/)) {
+            throwError(400, `The cardId ${cardId} is malformed`)
         }
         const card = await CardController.getCardById(cardId)
         if (!card) {
-            throwError(400, 'Card not found')
+            throwError(404, `The card ${cardId} was not found`)
         } else {
             return res.status(200).json(card)
         }
