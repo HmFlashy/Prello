@@ -90,7 +90,7 @@ class Menu extends Component {
                         <Move
                             boardId={this.props.card.board}
                             isOpened={this.state.isMovingCard}
-                            onValidate={() => this.setState({ isMovingCard: false })}
+                            onValidate={(boardId, listId, pos) => { this.setState({ isMovingCard: false }); this.props.onMove(boardId, this.props.card.list, listId, pos) }}
                             onCancel={() => this.setState({ isMovingCard: false })}
                         ></Move>
                         <Button icon labelPosition='left'>

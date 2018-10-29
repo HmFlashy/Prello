@@ -17,6 +17,13 @@ export default {
         } catch (error) {
             throw error
         }
+    }, async moveCardApi(cardId, data) {
+        try {
+            const res = await axios.put(`${UrlConfig.API}/cards/${cardId}/move`, data, tokenHeader)
+            return res.data
+        } catch (error) {
+            throw error
+        }
     },
     async addCardApi(name, listId) {
         try {

@@ -14,22 +14,35 @@ export default (state = defaultListReducer, action) => {
                 ...state,
                 all: lists
             }
+        case 'MOVE_CARD':
+        case 'FAILED_MOVE_CARD':
+            return {
+                ...state,
+                all: state.all.map(list => {
+                    if (list._id === action.payload.oldListId) {
+                        return { ...list, cards: { ...list.cards.filter(card => card._id !== action.payload.cardId) } }
+                    } else if (list._id === action.payload.newListId) {
+                        return { ...list, cards: [...list.cards, action.payload.cardId] }
+                    } else {
+                        return list
+                    }
+                })
+            }
         case 'ADD_CARD':
-        console.log("mdr")
             const card = action.payload
             return {
                 ...state,
                 all: state.all.map(list => card.list === list._id ? {
                     ...list,
-                    cards: [ ...list.cards, card._id ]
-                 } : list)
-                
+                    cards: [...list.cards, card._id]
+                } : list)
+
             }
         case 'ADD_LIST':
             const list = action.payload
             return {
                 ...state,
-                all: [ ...state.all, {
+                all: [...state.all, {
                     ...list,
                     cards: []
                 }]

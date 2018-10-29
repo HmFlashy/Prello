@@ -57,16 +57,22 @@ export default (state = defaultCardReducer, action) => {
         ...state,
         all: state.all.map(card => card._id === action.payload._id ? { ...card, dueDateCompleted: action.payload.dueDateCompleted } : card)
       }
+    case 'UPDATING_CARD_LIST':
+    case 'FAILED_CARD_LIST':
     case 'UPDATE_CARD_LIST':
       return {
         ...state,
         all: state.all.map(card => card._id === action.payload._id ? { ...card, list: action.payload.list } : card)
       }
+    case 'UPDATING_CARD_BOARD':
+    case 'FAILED_CARD_BOARD':
     case 'UPDATE_CARD_BOARD':
       return {
         ...state,
         all: state.all.map(card => card._id === action.payload._id ? { ...card, board: action.payload.board } : card)
       }
+    case 'UPDATING_CARD_POS':
+    case 'FAILED_CARD_POS':
     case 'UPDATE_CARD_POS':
       return {
         ...state,

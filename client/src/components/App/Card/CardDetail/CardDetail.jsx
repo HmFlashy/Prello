@@ -32,6 +32,7 @@ class CardDetail extends Component {
         this.onAddItem = this.onAddItem.bind(this);
         this.onDeleteItem = this.onDeleteItem.bind(this);
         this.onUpdateItem = this.onUpdateItem.bind(this);
+        this.moveCard = this.moveCard.bind(this);
     }
 
     componentDidMount() {
@@ -83,6 +84,10 @@ class CardDetail extends Component {
 
     onUpdateItem(checklistId, itemId, oldVal, newVal, data) {
         this.props.updateItemToChecklist(this.props.card._id, checklistId, itemId, oldVal, { _id: this.props.card._id, ...newVal }, data)
+    }
+
+    moveCard(data) {
+        this.props.moveCard(this.props.card._id, data)
     }
 
     render() {
@@ -162,6 +167,7 @@ class CardDetail extends Component {
                         onDueDate={(date) => this.updateCard({ dueDate: this.props.card.dueDate, _id: this.props.card._id }, { dueDate: date, _id: this.props.card._id })}
                         onArchive={(value) => this.updateCard({ isArchived: this.props.card.isArchived, _id: this.props.card._id }, { isArchived: value, _id: this.props.card._id })}
                         onChecklist={(value) => this.createChecklist({ name: value, _id: this.props.card._id })}
+                        onMove={(boardId, oldListId, newListId, pos) => this.moveCard({ board: boardId, oldListId, newListId, pos, _id: this.props.card._id })}
                     />
                 </div>
             </div>

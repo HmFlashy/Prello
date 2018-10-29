@@ -11,7 +11,9 @@ import {
     failedActionCardAddItemToChecklist,
     failedActionCardDeleteItemToChecklist,
     failedActionCardUpdateItemToChecklist,
-    actionCardUpdateItemToChecklist
+    actionCardUpdateItemToChecklist,
+    actionMoveCard,
+    failedActionMoveCard
 } from '../../redux/actions/CardActions'
 
 export default {
@@ -25,11 +27,25 @@ export default {
     },
     async updateCard(cardId, oldValue, data, dispatch) {
         try {
-            dispatch(actionUpdatingCard(data))
+            console.log(data)
+            Object.keys(data).forEach(key => {
+                if (key !== "_id") {
+                    let toDispatch = actionUpdatingCard({ [key]: data[key], _id: data._id })
+                    dispatch(toDispatch)
+                }
+            })
             await cardServices.updateCardApi(cardId, data)
         } catch (error) {
             console.log(error)
             return dispatch(failedActionUpdateCard(oldValue, error))
+        }
+    }, async moveCard(cardId, data, dispatch) {
+        try {
+            dispatch(actionMoveCard(data))
+            await cardServices.moveCardApi(cardId, data)
+        } catch (error) {
+            console.log(error)
+            return dispatch(failedActionMoveCard(data, error))
         }
     },
     async createChecklist(cardId, data, dispatch) {

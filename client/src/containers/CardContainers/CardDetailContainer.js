@@ -27,6 +27,9 @@ const mapDispatchToProps = dispatch => {
         async updateCard(cardId, oldValue, data) {
             await cardContainerServices.updateCard(cardId, oldValue, data, dispatch)
         },
+        async moveCard(cardId, data) {
+            await cardContainerServices.moveCard(cardId, data, dispatch)
+        },
         async createChecklist(cardId, data) {
             await cardContainerServices.createChecklist(cardId, data, dispatch)
         },

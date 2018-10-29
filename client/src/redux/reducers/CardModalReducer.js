@@ -51,21 +51,33 @@ export default (state = defaultCardModalState, action) => {
                     dueDateCompleted: action.payload.dueDateCompleted
                 })
                 : state
+        case 'UPDATING_CARD_LIST':
+        case 'FAILED_CARD_LIST':
         case 'UPDATE_CARD_LIST':
-            return {
-                ...state,
-                cards: state.cards.map(card => card._id === action.payload._id ? { ...card, list: action.payload.list } : card)
-            }
+            return (state._id && state._id === action.payload._id) ?
+                ({
+                    ...state,
+                    list: action.payload.list
+                })
+                : state
+        case 'UPDATING_CARD_BOARD':
+        case 'FAILED_CARD_BOARD':
         case 'UPDATE_CARD_BOARD':
-            return {
-                ...state,
-                cards: state.cards.map(card => card._id === action.payload._id ? { ...card, board: action.payload.board } : card)
-            }
+            return (state._id && state._id === action.payload._id) ?
+                ({
+                    ...state,
+                    board: action.payload.board
+                })
+                : state
+        case 'UPDATING_CARD_POS':
+        case 'FAILED_CARD_POS':
         case 'UPDATE_CARD_POS':
-            return {
-                ...state,
-                cards: state.cards.map(card => card._id === action.payload._id ? { ...card, pos: action.payload.pos } : card)
-            }
+            return (state._id && state._id === action.payload._id) ?
+                ({
+                    ...state,
+                    pos: action.payload.pos
+                })
+                : state
         case 'UPDATING_CARD_ISARCHIVED':
         case 'FAILED_CARD_ISARCHIVED':
         case 'UPDATE_CARD_ISARCHIVED':

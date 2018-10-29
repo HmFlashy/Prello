@@ -27,6 +27,20 @@ export const actionUpdatingCard = (data) => {
     }
 }
 
+export const actionMoveCard = (data) => {
+    return {
+        type: "MOVE_CARD",
+        payload: data
+    }
+}
+
+export const failedActionMoveCard = (data) => {
+    return {
+        type: "FAILED_MOVE_CARD",
+        payload: data
+    }
+}
+
 export const failedActionUpdateCard = (error) => {
     return {
         type: 'FAILED_UPDATE_CARD_NAME',

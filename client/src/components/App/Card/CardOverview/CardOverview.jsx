@@ -23,7 +23,7 @@ class CardOverview extends Component {
     }
 
     validateNewName(event) {
-        this.updateCard({ name: this.props.card.name, _id:this.props.card._id }, { name: event.target.value, _id: this.props.card._id })
+        this.updateCard({ name: this.props.card.name, _id: this.props.card._id }, { name: event.target.value, _id: this.props.card._id })
     }
 
     updateCard(oldValue, data) {
@@ -53,18 +53,18 @@ class CardOverview extends Component {
                         {
                             this.props.card.labels.length > 0 ?
                                 <Card.Content className="labels">
-                                    { 
+                                    {
                                         this.props.card.labels.map(label => <Label key={label._id} className="little-label" color={label.color} />)
                                     }
                                 </Card.Content>
                                 :
                                 null
                         }
-                        <Card.Header> 
-                            <DynamicInput 
+                        <Card.Header>
+                            <DynamicInput
                                 type='text'
                                 textToDisplay={this.props.card.name}
-                                placeholder={this.props.card.name} 
+                                placeholder={this.props.card.name}
                                 onValidate={this.validateNewName}
                             />
                         </Card.Header>
@@ -89,13 +89,13 @@ class CardOverview extends Component {
                             }
                         </Card.Content>
                         <Card.Content textAlign='right' className="members">
-                        {
-                            this.props.card.members.map(member => {
-                                return <Avatar key={member._id} name={member.fullName} round size="25" textSizeRatio={1.4}></Avatar>
-                            })
-                        }
+                            {
+                                this.props.card.members.map(member => {
+                                    return <Avatar key={member._id} name={member.fullName} round size="25" textSizeRatio={1.4}></Avatar>
+                                })
+                            }
                         </Card.Content>
-                        
+
                     </Card.Content>
                     <span className="eye" onClick={this.props.changeWatchState} onMouseEnter={() => this.ChangeEyeState(true)} onMouseOut={() => this.ChangeEyeState(false)}>
                         <Icon disabled={!this.state.isHoverEye} name='eye' />

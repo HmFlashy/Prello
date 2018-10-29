@@ -43,7 +43,7 @@ export default (props) => (
             <Button color='red' onClick={props.onCancel}>
                 <Icon name='remove' /> Cancel
             </Button>
-            <Button color='green' onClick={props.onValidate}>
+            <Button color='green' onClick={() => props.onValidate(props.currentBoard._id, props.currentList._id, props.currentPos.pos)}>
                 <Icon name='checkmark' /> Validate
             </Button>
         </Modal.Actions>
