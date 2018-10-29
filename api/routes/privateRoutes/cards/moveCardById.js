@@ -11,7 +11,7 @@ const socketIO = require('../../../../socket');
   *         type: string
   *
   * paths:
-  *   /cards/{cardId}:
+  *   /cards/{cardId}/move:
   *     get:
   *       tags:
   *         - Card

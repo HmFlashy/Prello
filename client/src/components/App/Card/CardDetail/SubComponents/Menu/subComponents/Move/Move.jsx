@@ -4,7 +4,7 @@ import { Icon, Modal, Header, Button, Dropdown } from 'semantic-ui-react'
 import Avatar from 'react-avatar';
 
 export default (props) => (
-    <Modal open={props.isOpened}>
+    <Modal open={props.isOpened} onClose={props.onCancel}>
         <Header icon='right arrow' content='Where to' />
         <Modal.Content>
             {
