@@ -54,10 +54,12 @@ module.exports = async (req, res) => {
         const email = req.body.email;
         const password = req.body.password;
         if (!email || !email.match(emailRegEx)) {
-            throwError(400, "Bad Request email malformed")
+            throwError(400, "EMAIL_MALFORMED")
         }
         const user = await UserController.getByEmail(email)
-        console.log(user)
+        if(user === null){
+            throwError(401, "UNKNOWN_EMAIL")
+        }
         const veracity = await bcrypt.compare(password, user.hash)
         if(veracity == true){
             const token = jwt.sign({ _id: user._id, email: user.email }, process.env.JWT_SECRET)
@@ -66,9 +68,9 @@ module.exports = async (req, res) => {
                 token
             })
         } else {
-            res.sendStatus(401)
+            throwError(401, "WRONG_PASSWORD")
         }
     } catch (error) {
-        res.status(500).json(error.message)
+        res.status(error.code).send(error.message)
     }
 }

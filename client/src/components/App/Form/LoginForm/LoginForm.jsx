@@ -14,8 +14,12 @@ class LoginForm extends Component {
         }
     }
 
-    authenticate(){
-        this.props.authenticate(this.state.email, this.state.password)
+    async authenticate(){
+        try {
+            await this.props.authenticate(this.state.email, this.state.password)
+            this.props.history.push('/home')
+        } catch(error) {
+        }
     }
 
     changeEmail(email){
@@ -38,6 +42,11 @@ class LoginForm extends Component {
                         <Header as='h2' color='teal' textAlign='center'>
                         <Image src='/logo.png' /> Log-in to your account
                         </Header>
+                        {
+                            this.props.error ?
+                                
+                            <Message color='red' hidden={!this.props.error}>{this.props.error}</Message> : null
+                        }
                         <Form size='large'>
                             <Segment stacked>
                                 <Form.Input fluid icon='user' onChange={(event) => this.changeEmail(event.target.value)} iconPosition='left' placeholder='E-mail address' />

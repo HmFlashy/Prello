@@ -9,6 +9,7 @@ import {
 
 const mapStateToProps = state => {
     return {
+        error: state.authentification.error
     }
 };
 
@@ -20,8 +21,23 @@ const mapDispatchToProps = (dispatch) => {
                 const data = await authentificationServices.authenticate(email, password)
                 localStorage.setItem('token-prello', data.token)
                 dispatch(actionLoggedIn(data))
+                return data
             } catch(error){
-                dispatch(failedActionLogin())
+                switch(error.data){
+                    case 'EMAIL_MALFORMED':
+                        dispatch(failedActionLogin("Wrong email address"))
+                        break;
+                    case 'UNKNOWN_EMAIL':
+                        dispatch(failedActionLogin("Unknown email address"))
+                        break;
+                    case 'WRONG_PASSWORD':
+                        dispatch(failedActionLogin("Wrong password"))
+                        break;
+                    default:
+                        break;
+                }
+                
+                throw error
             }
         }
     }
