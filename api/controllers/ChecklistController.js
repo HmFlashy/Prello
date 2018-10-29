@@ -1,7 +1,6 @@
 const Card = require('../models').Card;
 const Checklist = require('../models').Checklist;
 const Item = require('../models').Item;
-const mongoose = require('mongoose');
 
 const addChecklist = async (name, cardId) => {
     try {

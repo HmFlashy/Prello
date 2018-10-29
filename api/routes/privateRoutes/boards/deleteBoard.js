@@ -1,5 +1,5 @@
 const boardsController = require('../../../controllers/BoardsController');
-const socketIO = require('../../../../socket');
+const socketIO = require('../../../../socket/index');
 const throwError = require('../../../helper/RequestHelper').throwError;
 
 /**
@@ -11,37 +11,22 @@ const throwError = require('../../../helper/RequestHelper').throwError;
  *         type: string
  *
  * paths:
- *   /boards/{boardId}/teams:
+ *   /boards:
  *     post:
  *       tags:
  *         - Board
- *       description: Add a team to the board either by giving the name or the teamId
- *       summary: Add a team to the board
+ *       description: Delete a board in the database
+ *       summary: Delete a board in the database
  *       parameters:
  *         - name: boardId
  *           schema:
  *             type: string
- *           description: The id of the board.
+ *           description: The id of the board to delete
  *           in: path
  *           required: true
- *       requestBody:
- *         description: Optional description in *Markdown*
- *         required: true
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 _id:
- *                   type: string
- *                 name:
- *                   type: ObjectId
- *             example:
- *               _id: 5bce3aaf84c77d0a433029a9
- *               name: Khal
  *       responses:
  *         200:
- *           description: The updated board with the team added
+ *           description: The deleted board
  *           content:
  *             application/json:
  *               schema:
@@ -49,31 +34,26 @@ const throwError = require('../../../helper/RequestHelper').throwError;
  *         400:
  *           description: The request was malformed
  *         404:
- *           description: The given board or team was not found
+ *           description: The given board was not found
  *         500:
  *           description: Internal error
  */
 module.exports = async (req, res) => {
     try {
         const boardId = req.params.boardId;
-        const teamId = req.body.teamId;
-
         if(!boardId) {
             throwError(400, "Missing boardId parameter")
         } else if(!boardId.match(/^[0-9a-fA-F]{24}$/)) {
             throwError(400, `The boardId ${boardId} is malformed`)
         }
 
-        if(teamId) {
-            if (!teamId.match(/^[0-9a-fA-F]{24}$/)) {
-                throwError(400, `The teamId ${teamId} is malformed`)
-            }
+        const board = await boardsController.deleteBord(boardId);
+        if (!board) {
+            throwError(404, `The board ${boardId} was not found`)
         }
-
-        const board = await boardsController.addBoardTeam(boardId, req.body);
         socketIO.broadcast("action", {
-            type: "ADD_BOARD_TEAM",
-            payload: board.teams
+            type: "DELETE_BOARD",
+            payload: board
         });
         return res.status(200).json(board)
     } catch(error) {

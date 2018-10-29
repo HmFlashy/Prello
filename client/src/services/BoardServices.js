@@ -4,8 +4,8 @@ import { tokenHeader } from '../helpers/HeaderHelper'
 
 export default {
     async fetchBoard(boardId) {
-        try {
-            const res = await axios.get(`${UrlConfig.API}/boards/${boardId}`, tokenHeader)
+        try{
+            const res = await axios.get(`${UrlConfig.API}/boards/${boardId}`, tokenHeader())
             return res.data
         } catch (e) {
             console.log(e)
@@ -13,8 +13,8 @@ export default {
         }
     },
     async fetchBoards() {
-        try {
-            const res = await axios.get(`${UrlConfig.API}/boards`, tokenHeader)
+        try{
+            const res = await axios.get(`${UrlConfig.API}/boards`, tokenHeader())
             return res.data
         } catch (e) {
             console.log(e)

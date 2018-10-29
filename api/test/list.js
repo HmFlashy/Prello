@@ -133,7 +133,7 @@ describe("Lists", () => {
             });
         });
 
-        it("should return a 400 bad request if the given id doesn't exist", (done) => {
+        it("should return a 404 not found if the given id doesn't exist", (done) => {
             let list = new List({name: "Doing", boardId: board1._id});
             list.save((err, list) => {
                 if (err) {}
@@ -142,7 +142,7 @@ describe("Lists", () => {
                     .send({name: "To Do"})
                     .end((err, res) => {
                         console.log(JSON.stringify(res))
-                        res.should.have.status(400);
+                        res.should.have.status(404);
                         res.body.should.equal(`The listId ${board1._id} was not found`);
                         done();
                     });
@@ -172,7 +172,7 @@ describe("Lists", () => {
             })
         })
 
-        it("should return a 400 bad request if the given id doesn't exist", (done) => {
+        it("should return a 404 not found if the given id doesn't exist", (done) => {
             let list = new List({name: "Doing", board: board1._id});
             list.save((err, list) => {
                 if (err) {}
@@ -182,7 +182,7 @@ describe("Lists", () => {
                     chai.request(server)
                         .delete(`/api/lists/${board1._id}`)
                         .end((err, res) => {
-                            res.should.have.status(400);
+                            res.should.have.status(404);
                             res.body.should.equal(`The listId ${board1._id} was not found`);
                             done();
                         });

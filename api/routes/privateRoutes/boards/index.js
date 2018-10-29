@@ -21,6 +21,7 @@ router.post("/", require('./addBoard'));
 router.put("/:boardId/members", require('./addBoardMember'));
 router.put("/:boardId/teams", require('./addBoardTeam'));
 router.put("/:boardId", require('./updateBoard'));
+router.delete('/:boardId', require('./deleteBoard'));
 
 
 module.exports = router;

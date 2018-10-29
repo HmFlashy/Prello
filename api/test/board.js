@@ -63,7 +63,7 @@ describe("Board", () => {
             chai.request(server)
                 .get(`/api/boards/${user._id}`)
                 .end((err, res) => {
-                    res.should.have.status(400);
+                    res.should.have.status(404);
                     res.body.should.be.equal(`The board ${user._id} was not found`);
                     done();
                 });
@@ -126,7 +126,7 @@ describe("Board", () => {
                 .post("/api/boards")
                 .send({name: "Prello", visibility: "private", userId: team._id})
                 .end((err, res) => {
-                    res.should.have.status(400);
+                    res.should.have.status(404);
                     res.body.should.be.equal(`The user ${team._id} was not found`);
                     done();
                 });
@@ -162,7 +162,7 @@ describe("Board", () => {
                 .post("/api/boards")
                 .send({name: "Prello", visibility: "private", userId: user._id, teamId: user._id})
                 .end((err, res) => {
-                    res.should.have.status(400);
+                    res.should.have.status(404);
                     res.body.should.be.equal(`The team ${user._id} was not found`);
                     done();
                 });
@@ -250,7 +250,7 @@ describe("Board", () => {
                 .put(`/api/boards/${user._id}`)
                 .send({name: "ADcare"})
                 .end((err, res) => {
-                    res.should.have.status(400);
+                    res.should.have.status(404);
                     res.body.should.be.equal(`The board ${user._id} was not found`);
                     done();
                 });
@@ -307,7 +307,7 @@ describe("Board", () => {
                 .put(`/api/boards/${user._id}/members`)
                 .send({email: user.email})
                 .end((err, res) => {
-                    res.should.have.status(400);
+                    res.should.have.status(404);
                     res.body.should.be.equal(`The board ${user._id} was not found`);
                     done();
                 });
@@ -327,7 +327,7 @@ describe("Board", () => {
                 .put(`/api/boards/${user._id}/members`)
                 .send({email: "example@ggg.com"})
                 .end((err, res) => {
-                    res.should.have.status(400);
+                    res.should.have.status(404);
                     res.body.should.be.equal(`The user {"email":"example@ggg.com"} was not found`);
                     done();
                 });
@@ -382,7 +382,7 @@ describe("Board", () => {
                 .put(`/api/boards/${user._id}/members`)
                 .send({email: user.email})
                 .end((err, res) => {
-                    res.should.have.status(400);
+                    res.should.have.status(404);
                     res.body.should.be.equal(`The board ${user._id} was not found`);
                     done();
                 });
@@ -402,7 +402,7 @@ describe("Board", () => {
                 .put(`/api/boards/${user._id}/members`)
                 .send({email: "example@ggg.com"})
                 .end((err, res) => {
-                    res.should.have.status(400);
+                    res.should.have.status(404);
                     res.body.should.be.equal(`The user {"email":"example@ggg.com"} was not found`);
                     done();
                 });
@@ -460,7 +460,69 @@ describe("Board", () => {
                 .put(`/api/boards/${user._id}`)
                 .send({name: "ADcare"})
                 .end((err, res) => {
+                    res.should.have.status(404);
+                    res.body.should.be.equal(`The board ${user._id} was not found`);
+                    done();
+                });
+        })
+    });
+
+    /*
+    * Test the /DELETE/:boardId route
+    */
+    describe("DELETE/:boardId board", () => {
+        it("should DELETE the board if its closed", (done) => {
+            Board.findOneAndUpdate({_id: board._id}, {
+                $set: {isClosed: true}
+            }, {new: true}, (error, boardClosed) => {
+                if (error) {}
+                const members = boardClosed.members;
+                const teams = boardClosed.teams;
+                chai.request(server)
+                    .delete(`/api/boards/${boardClosed._id}`)
+                    .end((err, res) => {
+                        res.should.have.status(200);
+                        res.body.should.be.a("object");
+                        res.body.should.have.property("name").equal("Prello");
+                        Board.findById(res.body._id, (error, newBoard) => {
+                            if(error) {}
+                            members.forEach(member => {
+                                const user = member.member
+                                User.findOne({_id: user._id, boards: {board: {$in: boardClosed._id}}}).should.be.undefined
+                            })
+                            teams.forEach(team => {
+                                Team.findOne({_id: team._id, boards: {$in: boardClosed._id}}).should.be.undefined
+                            });
+                            done()
+                        })
+                    });
+            })
+        });
+        it("should NOT DELETE the board if its not closed", (done) => {
+            chai.request(server)
+                .delete(`/api/boards/${board._id}`)
+                .end((err, res) => {
                     res.should.have.status(400);
+                    res.body.should.be.equal(`Can't delete a board not closed`);
+                    done()
+                });
+        });
+        it("should NOT DELETE the board if the boardId is malformed", (done) => {
+            chai.request(server)
+                .delete(`/api/boards/5de2de52`)
+                .send({name: "ADcare"})
+                .end((err, res) => {
+                    res.should.have.status(400);
+                    res.body.should.be.equal(`The boardId 5de2de52 is malformed`);
+                    done();
+                });
+        });
+        it("should NOT DELETE the board if the boardId was not found", (done) => {
+            chai.request(server)
+                .delete(`/api/boards/${user._id}`)
+                .send({name: "ADcare"})
+                .end((err, res) => {
+                    res.should.have.status(404);
                     res.body.should.be.equal(`The board ${user._id} was not found`);
                     done();
                 });

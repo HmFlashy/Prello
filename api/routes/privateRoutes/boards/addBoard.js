@@ -50,7 +50,9 @@ const throwError = require('../../../helper/RequestHelper').throwError;
  *               schema:
  *                 $ref: '#components/schemas/Board'
  *         400:
- *           description: The request was malformed or the given board or given team was not found
+ *           description: The request was malformed
+ *         404:
+ *           description: The given board or team was not found
  *         500:
  *           description: Internal error
  */
@@ -78,8 +80,7 @@ module.exports = async (req, res) => {
             throwError(400, `The userId ${userId} is malformed`)
         }
 
-        const board = await boardsController.addBoard(name, visibility, teamId, userId,
-            );
+        const board = await boardsController.addBoard(name, visibility, teamId, userId);
         socketIO.broadcast("action", {
             type: "ADD_BOARD",
             payload: board

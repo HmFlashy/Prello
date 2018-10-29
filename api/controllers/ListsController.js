@@ -10,7 +10,7 @@ const addList = async (name, boardId) => {
         session.startTransaction();
         const board = await Board.findById(boardId)
         if(!board) {
-            throwError(400, `The board ${boardId} was not found`)
+            throwError(404, `The board ${boardId} was not found`)
         }
         const savedList = await List.create({
             name: name,
@@ -40,16 +40,16 @@ const deleteList = async (listId) => {
         session.startTransaction();
         const list = await List.findById(listId)
         if(!list) {
-            throwError(400, `The listId ${listId} was not found`)
+            throwError(404, `The listId ${listId} was not found`)
         }
         if (list.isArchived) {
             if (list.cards.length === 0) {
                 const board = await Board.findByIdAndUpdate(list.board,
                     {$pull: {lists: listId}});
                 if(!board) {
-                    throwError(400, "Board not found")
+                    throwError(404, "Board not found")
                 }
-                await List.deleteOne(list);
+                await list.remove();
                 await session.commitTransaction();
                 session.endSession();
                 return list;
@@ -61,7 +61,7 @@ const deleteList = async (listId) => {
         }
     } catch (error) {
         await session.abortTransaction();
-        console.log("LAAAA" + error)
+        session.endSession();
         throw error;
     }
 };
@@ -70,7 +70,7 @@ const updateList = async (listId, body) => {
     try {
         const list = await List.findByIdAndUpdate({_id: listId}, {$set: body}, {new: true});
         if(!list) {
-            throwError(400, `The listId ${listId} was not found`)
+            throwError(404, `The listId ${listId} was not found`)
         }
         return list
     } catch (error) {

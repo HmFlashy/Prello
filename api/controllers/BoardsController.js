@@ -47,7 +47,7 @@ const getBoardById = async (boardId) => {
             }
             ]);
         if (!board) {
-            throwError(400, `The board ${boardId} was not found`)
+            throwError(404, `The board ${boardId} was not found`)
         }
         return board
     } catch (error) {
@@ -89,12 +89,12 @@ const addBoard = async (name, visibility, teamId, userId) => {
     try {
         const user = await User.findById(userId);
         if (!user) {
-            throwError(400, `The user ${userId} was not found`)
+            throwError(404, `The user ${userId} was not found`)
         }
         if (teamId) {
             const team = await Team.findById(teamId);
             if (!team) {
-                throwError(400, `The team ${teamId} was not found`)
+                throwError(404, `The team ${teamId} was not found`)
             }
             const savedBoard = await Board.create({
                 name: name,
@@ -137,7 +137,7 @@ const addBoardMember = async (boardId, body) => {
                 { boards: { board: boardId, role: "Member" } }
         }, { new: true });
         if (!user) {
-            throwError(400, `The user ${JSON.stringify(body)} was not found`)
+            throwError(404, `The user ${JSON.stringify(body)} was not found`)
         }
         const board = await Board.findOneAndUpdate({ _id: boardId }, {
             $push: {
@@ -146,7 +146,7 @@ const addBoardMember = async (boardId, body) => {
             }
         }, { new: true });
         if (!board) {
-            throwError(400, `The board ${boardId} was not found`)
+            throwError(404, `The board ${boardId} was not found`)
         }
         await session.commitTransaction();
         session.endSession();
@@ -168,7 +168,7 @@ const addBoardTeam = async (boardId, body) => {
                 { boards: boardId }
         }, { new: true });
         if (!team) {
-            throwError(400, `The team ${JSON.stringify(body)} was not found`)
+            throwError(404, `The team ${JSON.stringify(body)} was not found`)
         }
         const board = await Board.findOneAndUpdate({ _id: boardId }, {
             $push: {
@@ -176,7 +176,7 @@ const addBoardTeam = async (boardId, body) => {
             }
         }, { new: true });
         if (!board) {
-            throwError(400, `The board ${boardId} was not found`)
+            throwError(404, `The board ${boardId} was not found`)
         }
         await session.commitTransaction();
         session.endSession();
@@ -188,12 +188,37 @@ const addBoardTeam = async (boardId, body) => {
     }
 };
 
+const deleteBord = async (boardId) => {
+    let session = null
+    try {
+        session = await mongoose.startSession();
+        session.startTransaction();
+        const board = await Board.findById(boardId);
+        if (!board) {
+            throwError(404, `The board ${boardId} was not found`)
+        }
+        if(!board.isClosed) {
+            throwError(400, `Can't delete a board not closed`)
+        }
+        board.remove()
+
+        await session.commitTransaction();
+        session.endSession();
+        return board;
+    } catch (error) {
+        await session.abortTransaction();
+        session.endSession();
+        throw error
+    }
+}
+
 module.exports = {
     getBoardById,
     getBoards,
     addBoard,
     addBoardTeam,
     addBoardMember,
+    deleteBord
     updateBoard,
     getBoardsInfo
 };

@@ -1,6 +1,4 @@
 const mongoose = require("mongoose");
-const db = require("../models");
-const throwError = require("../helper/RequestHelper").throwError;
 
 const BoardSchema = new mongoose.Schema({
     name: {type: String},
@@ -15,8 +13,31 @@ const BoardSchema = new mongoose.Schema({
     starred: [{type: mongoose.Schema.Types.ObjectId, ref: "User"}],
     isClosed: {type: Boolean, default: false},
     activities: [{type: mongoose.Schema.Types.ObjectId, ref: "Action"}],
-    visibility: {type: String}
+    visibility: {type: String},
+    labels: [{type: mongoose.Schema.Types.ObjectId, ref: "Label"}]
 }, {timestamps: true});
+
+BoardSchema.pre('remove', function(next) {
+    const List = require('../models/index').List;
+    const Label = require('../models/index').Label
+    const User = require('../models/index').User
+    const Team = require('../models/index').Team
+    let array = []
+    List.find({board: this._id}).then(lists => {
+        lists.forEach(list => {
+            array.push(list.remove())
+        })
+    });
+    Label.find({board: this._id}).then(labels => {
+        labels.forEach(label => {
+            array.push(label.remove())
+        })
+    });
+    array.push(User.updateMany({starred: {$in: [this._id]}}, {$pull: {starred: this._id}}).exec())
+    array.push(User.updateMany({"boards.board": {$in: [this._id]}}, {$pull: {boards: {board: this._id}}}).exec())
+    array.push(Team.updateMany({boards: {$in: [this._id]}}, {$pull: {boards: this._id}}).exec())
+    Promise.all(array).then(next())
+});
 
 const Board = mongoose.model("Board", BoardSchema);
 

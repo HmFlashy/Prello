@@ -18,6 +18,19 @@ const ListSchema = new mongoose.Schema({
     }
     }, {timestamps: true});
 
+ListSchema.pre('remove', function(next) {
+    let array = [];
+    const Card = require('../models/index').Card;
+    const User = require('../models/index').User;
+    array.push(User.updateMany({listsWatched: {$in: [this._id]}}, {$pull: {listsWatched: this._id}}).exec())
+    Card.find({list: this._id}).then(cards => {
+        cards.forEach(card => {
+            array.push(card.remove())
+        })
+    });
+    Promise.all(array).then(next())
+});
+
 const List = mongoose.model('List', ListSchema);
 
 module.exports = List

@@ -43,6 +43,25 @@ const CardSchema = new mongoose.Schema({
     }
 }, { timestamps: true });
 
+CardSchema.pre('remove', function(next) {
+    let array = []
+    const User = require('../models/index').User;
+    const Attachment = require('../models/index').Attachment;
+    const Comment = require('../models/index').Comment;
+    array.push(User.updateMany({cardsWatched: {$in: [this._id]}}, {$pull: {cardsWatched: this._id}}).exec());
+    Attachment.find({card: this._id}).then(attachments => {
+        attachments.forEach(attachment => {
+            array.push(attachment.remove())
+        })
+    });
+    Comment.find({card: this._id}).then(comments => {
+        comments.forEach(comment => {
+            array.push(comment.remove())
+        })
+    });
+    Promise.all(array).then(next())
+});
+
 const Checklist = mongoose.model("CheckList", CheckListSchema);
 const Card = mongoose.model("Card", CardSchema);
 const Item = mongoose.model("Item", ItemSchema);

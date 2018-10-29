@@ -1,6 +1,6 @@
 import './LoginForm.css'
 import React, { Component } from 'react'
-import { Grid, Header, Image, Segment, Form, Button, Message, Ref } from 'semantic-ui-react'
+import { Grid, Header, Image, Segment, Form, Button, Message } from 'semantic-ui-react'
 import { withRouter } from 'react-router-dom'
 
 class LoginForm extends Component {
@@ -14,8 +14,12 @@ class LoginForm extends Component {
         }
     }
 
-    authenticate(){
-        this.props.authenticate(this.state.email, this.state.password)
+    async authenticate(){
+        try {
+            await this.props.authenticate(this.state.email, this.state.password)
+            this.props.history.push('/home')
+        } catch(error) {
+        }
     }
 
     changeEmail(email){
@@ -38,6 +42,11 @@ class LoginForm extends Component {
                         <Header as='h2' color='teal' textAlign='center'>
                         <Image src='/logo.png' /> Log-in to your account
                         </Header>
+                        {
+                            this.props.error ?
+                                
+                            <Message color='red' hidden={!this.props.error}>{this.props.error}</Message> : null
+                        }
                         <Form size='large'>
                             <Segment stacked>
                                 <Form.Input fluid icon='user' onChange={(event) => this.changeEmail(event.target.value)} iconPosition='left' placeholder='E-mail address' />
@@ -55,8 +64,8 @@ class LoginForm extends Component {
                                 </Button>
                             </Segment>
                         </Form>
-                        <Message>
-                        New to us? <button onClick={() => this.props.history.push('/register')}>Sign Up</button>
+                        <Message className="clickable" onClick={() => this.props.history.push('/register')}>
+                            New to us?  SIGN UP
                         </Message>
                     </Grid.Column>
                 </Grid>
