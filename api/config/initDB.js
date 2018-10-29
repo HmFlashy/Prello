@@ -58,10 +58,10 @@ async function reversedRef() {
     Hugo.teams = [{ team: Khal._id, role: "Member" }];
     Kevin.teams = [{ team: Khal._id, role: "Member" }];
 
-    const FrontEnd = Label({name: "Front-End", color: "yellow"});
-    const BackEnd = Label({name: "Back-End", color: "blue"});
-    const DB = Label({name: "Database", color: "green"});
-    const DB2 = Label({name: "Database", color: "green"});
+    const FrontEnd = Label({ name: "Front-End", color: "yellow" });
+    const BackEnd = Label({ name: "Back-End", color: "blue" });
+    const DB = Label({ name: "Database", color: "green" });
+    const DB2 = Label({ name: "Database", color: "green" });
 
     const card1 = Card({
         name: "Add comment to a card",
@@ -85,7 +85,7 @@ async function reversedRef() {
     });
     const card5 = Card({
         name: "Use machine learning algorithms",
-        pos: 100000
+        pos: 100000,
         labels: [DB2._id]
     });
 
@@ -179,10 +179,10 @@ async function reversedRef() {
             member: Loris._id,
             role: "Admin"
         },
-            {
-                member: Hugo._id,
-                role: "Member"
-            }],
+        {
+            member: Hugo._id,
+            role: "Member"
+        }],
         starred: [Loris._id],
         labels: [DB2._id]
     });
@@ -192,8 +192,8 @@ async function reversedRef() {
     BackEnd.board = board1._id;
     DB2.board = board2._id;
 
-    const hugoCategory1 = Category({name: "School"});
-    const hugoCategory2 = Category({name: "Hobbies"});
+    const hugoCategory1 = Category({ name: "School" });
+    const hugoCategory2 = Category({ name: "Hobbies" });
     Hugo.categories = [hugoCategory1, hugoCategory2];
 
     Hugo.boards = [{
@@ -234,7 +234,7 @@ async function reversedRef() {
 
     card1.list = list1._id;
     card1.board = board1._id;
-    card1.watchers = [{watcher: Alex._id}];
+    card1.watchers = [{ watcher: Alex._id }];
     Alex.cardsWatched = [card1._id];
 
     card2.list = list1._id;
@@ -242,7 +242,7 @@ async function reversedRef() {
 
     card3.list = list2._id;
     card3.board = board1._id;
-    card3.watchers = [{watcher: Kevin._id}, {watcher: Hugo._id}];
+    card3.watchers = [{ watcher: Kevin._id }, { watcher: Hugo._id }];
     Kevin.cardsWatched = [card3._id];
 
     card4.list = list3._id;
@@ -250,17 +250,17 @@ async function reversedRef() {
 
     card5.list = list4._id;
     card5.board = board2._id;
-    card5.watchers = [{watcher: Loris._id}, {watcher: Hugo._id}];
+    card5.watchers = [{ watcher: Loris._id }, { watcher: Hugo._id }];
     Loris.cardsWatched = [card5._id];
     Hugo.cardsWatched = [card3._id, card5._id];
 
     list1.board = board1._id;
-    list1.watchers = [{watcher: Kevin._id}];
+    list1.watchers = [{ watcher: Kevin._id }];
     list2.board = board1._id;
     list3.board = board1._id;
-    list3.watchers = [{watcher: Loris._id}, {watcher: Kevin._id}];
+    list3.watchers = [{ watcher: Loris._id }, { watcher: Kevin._id }];
     list4.board = board2._id;
-    list4.watchers = [{watcher: Loris._id}];
+    list4.watchers = [{ watcher: Loris._id }];
 
     Kevin.listsWatched = [list1._id];
     Loris.listsWatched = [list3._id, list4._id];
