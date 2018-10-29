@@ -26,6 +26,16 @@ const addCard = async (name, listId) => {
     }
 }
 
+const moveCard = async (cardId, oldList, newList, boardId, pos) => {
+    try {
+        await dbList.findOneAndUpdate({ _id: oldList }, { $pull: { cards: cardId } })
+        await dbList.findOneAndUpdate({ _id: newList }, { $push: { cards: cardId } })
+        return await db.Card.findOneAndUpdate({ _id: cardId }, { list: newList, board: boardId, pos })
+    } catch (error) {
+        throw error
+    }
+}
+
 const getCards = async () => {
     try {
         return await db.Card.find({})
@@ -69,5 +79,6 @@ module.exports = {
     addCard,
     updateCard,
     addToArray,
-    removeToArray
+    removeToArray,
+    moveCard
 };

@@ -45,7 +45,7 @@ export default {
             await cardServices.moveCardApi(cardId, data)
         } catch (error) {
             console.log(error)
-            return dispatch(failedActionMoveCard(data, error))
+            //return dispatch(failedActionMoveCard(data, error))
         }
     },
     async createChecklist(cardId, data, dispatch) {

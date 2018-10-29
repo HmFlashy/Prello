@@ -167,7 +167,7 @@ class CardDetail extends Component {
                         onDueDate={(date) => this.updateCard({ dueDate: this.props.card.dueDate, _id: this.props.card._id }, { dueDate: date, _id: this.props.card._id })}
                         onArchive={(value) => this.updateCard({ isArchived: this.props.card.isArchived, _id: this.props.card._id }, { isArchived: value, _id: this.props.card._id })}
                         onChecklist={(value) => this.createChecklist({ name: value, _id: this.props.card._id })}
-                        onMove={(boardId, oldListId, newListId, pos) => this.moveCard({ board: boardId, oldListId, newListId, pos, _id: this.props.card._id })}
+                        onMove={(boardId, oldListId, newListId, pos) => this.moveCard({ boardId, oldListId, newListId, pos, _id: this.props.card._id })}
                     />
                 </div>
             </div>

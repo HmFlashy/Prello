@@ -40,7 +40,7 @@ export default class MoveContainer extends React.Component {
     }
 
     onChangeList(list) {
-        this.setState({ currentList: list, currentPos: { userPos: 1, pos: list.cards[0] / 2 } })
+        this.setState({ currentList: list, currentPos: list.possiblePos[0] })
     }
 
     onChangePos(pos) {
