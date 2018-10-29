@@ -21,7 +21,7 @@ const addUser = async (firstname, lastname, pseudo, email, hash, organization) =
                 throwError(400, "Pseudo already taken")
             }
         }
-        const newUser = await User.create({fullName: `${firstname} ${lastname}`, username: pseudo, email, hash, organization})
+        const newUser = await User.create({fullName: `${firstname} ${lastname}`, initials: `${firstname.slice(1)}${lastname.slice(1)}`, username: pseudo, email, hash, organization})
         return newUser
     } catch(error) {
         throw error
