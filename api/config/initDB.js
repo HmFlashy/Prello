@@ -54,29 +54,33 @@ async function reversedRef() {
         ], boards: []
     });
 
-    Alex.teams = [{team: Khal._id, role: "Admin"}];
-    Hugo.teams = [{team: Khal._id, role: "Member"}];
-    Kevin.teams = [{team: Khal._id, role: "Member"}];
+    Alex.teams = [{ team: Khal._id, role: "Admin" }];
+    Hugo.teams = [{ team: Khal._id, role: "Member" }];
+    Kevin.teams = [{ team: Khal._id, role: "Member" }];
 
-    const FrontEnd = Label({name: "Front-End", color: "yellow"});
-    const BackEnd = Label({name: "Back-End", color: "blue"});
-    const DB = Label({name: "Database", color: "green"});
+    const FrontEnd = Label({ name: "Front-End", color: "yellow" });
+    const BackEnd = Label({ name: "Back-End", color: "blue" });
+    const DB = Label({ name: "Database", color: "green" });
 
     const card1 = Card({
         name: "Add comment to a card",
-        labels: [BackEnd._id, DB._id]
+        labels: [BackEnd._id, DB._id],
+        pos: 100000
     });
     const card2 = Card({
         name: "Add members to a card",
-        labels: [BackEnd._id, FrontEnd._id]
+        labels: [BackEnd._id, FrontEnd._id],
+        pos: 200000
     });
     const card3 = Card({
         name: "Add attachments to a card",
-        labels: [FrontEnd._id]
+        labels: [FrontEnd._id],
+        pos: 100000
     });
     const card4 = Card({
         name: "Teach Hugo how to use css",
-        labels: [FrontEnd._id]
+        labels: [FrontEnd._id],
+        pos: 100000
     });
     const card5 = Card({
         name: "Use machine learning algorithms",
@@ -109,10 +113,10 @@ async function reversedRef() {
 
     const checkList1 = Checklist({
         title: "Checklist", items: [
-            {name: "BD"},
-            {name: "Front"},
-            {name: "Back"},
-            {name: "Design"}
+            { name: "BD" },
+            { name: "Front" },
+            { name: "Back" },
+            { name: "Design" }
         ]
     });
     card2.checklists = [checkList1];
@@ -120,27 +124,27 @@ async function reversedRef() {
 
     const checkList2 = Checklist({
         title: "Checklist No Idea", items: [
-            {name: "Idea 1"},
-            {name: "Idea 2", isChecked: true},
-            {name: "Idea 3", isChecked: true},
-            {name: "Idea 4"}]
+            { name: "Idea 1" },
+            { name: "Idea 2", isChecked: true },
+            { name: "Idea 3", isChecked: true },
+            { name: "Idea 4" }]
     });
     card3.checklists = [checkList2];
     card3.cardInformation.nbItems = 4;
     card3.cardInformation.nbItemsChecked = 2;
 
-    const list1 = List({name: "Done", cards: [card1._id, card2._id]});
+    const list1 = List({ name: "Done", cards: [card1._id, card2._id] });
     list1.listInformation.nbCards = 2;
-    list1.watchers = [{watcher: Kevin._id}, {watcher: Loris._id}];
-    const list2 = List({name: "Doing", cards: [card3._id]});
+    list1.watchers = [{ watcher: Kevin._id }, { watcher: Loris._id }];
+    const list2 = List({ name: "Doing", cards: [card3._id] });
     list2.listInformation.nbCards = 1;
-    list2.watchers = [{watcher: Kevin._id}, {watcher: Loris._id}, {watcher: Hugo._id}
-        , {watcher: Alex._id}];
-    const list3 = List({name: "To Do", cards: [card4._id]});
+    list2.watchers = [{ watcher: Kevin._id }, { watcher: Loris._id }, { watcher: Hugo._id }
+        , { watcher: Alex._id }];
+    const list3 = List({ name: "To Do", cards: [card4._id] });
     list3.listInformation.nbCards = 1;
-    const list4 = List({name: "Doing", cards: [card5._id]});
+    const list4 = List({ name: "Doing", cards: [card5._id] });
     list4.listInformation.nbCards = 1;
-    list3.watchers = [{watcher: Loris._id}];
+    list3.watchers = [{ watcher: Loris._id }];
 
     const board1 = Board({
         name: "Prello", lists: [list1._id, list2._id, list3._id], teams: [Khal._id],
@@ -172,15 +176,15 @@ async function reversedRef() {
             member: Loris._id,
             role: "Admin"
         },
-            {
-                member: Hugo._id,
-                role: "Member"
-            }],
+        {
+            member: Hugo._id,
+            role: "Member"
+        }],
         starred: [Loris._id]
     });
 
-    const hugoCategory1 = Category({name: "School"});
-    const hugoCategory2 = Category({name: "Hobbies"});
+    const hugoCategory1 = Category({ name: "School" });
+    const hugoCategory2 = Category({ name: "Hobbies" });
     Hugo.categories = [hugoCategory1, hugoCategory2];
 
     Hugo.boards = [{
@@ -188,14 +192,14 @@ async function reversedRef() {
         role: "Admin",
         category: hugoCategory1
     },
-        {
-            board: board2._id,
-            role: "Admin",
-            category: hugoCategory2
-        }];
+    {
+        board: board2._id,
+        role: "Admin",
+        category: hugoCategory2
+    }];
 
-    const kevinCategory1 = Category({name: "IOT"});
-    const kevinCategory2 = Category({name: "LOL"});
+    const kevinCategory1 = Category({ name: "IOT" });
+    const kevinCategory2 = Category({ name: "LOL" });
     Kevin.boards = [{
         board: board1._id,
         role: "Admin",
@@ -212,28 +216,28 @@ async function reversedRef() {
         board: board1._id,
         role: "Admin"
     },
-        {
-            board: board2._id,
-            role: "Admin"
-        }];
+    {
+        board: board2._id,
+        role: "Admin"
+    }];
 
     card1.list = list1._id;
     card1.board = board1._id;
-    card1.watchers = [{watcher: Alex._id}];
+    card1.watchers = [{ watcher: Alex._id }];
 
     card2.list = list1._id;
     card2.board = board1._id;
 
     card3.list = list2._id;
     card3.board = board1._id;
-    card3.watchers = [{watcher: Kevin._id}, {watcher: Hugo._id}];
+    card3.watchers = [{ watcher: Kevin._id }, { watcher: Hugo._id }];
 
     card4.list = list3._id;
     card4.board = board1._id;
 
     card5.list = list4._id;
     card5.board = board2._id;
-    card5.watchers = [{watcher: Loris._id}, {watcher: Hugo._id}];
+    card5.watchers = [{ watcher: Loris._id }, { watcher: Hugo._id }];
 
     list1.board = board1._id;
     list2.board = board1._id;

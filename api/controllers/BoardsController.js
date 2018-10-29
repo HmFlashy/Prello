@@ -66,6 +66,25 @@ const getBoards = async () => {
     }
 };
 
+const getBoardsInfo = async (boardId) => {
+    try {
+        const boards = await Board.find({ _id: boardId }).populate([{
+            path: "lists",
+            select: ["name"],
+            populate: {
+                path: "cards",
+                select: ["pos"],
+            }
+        }]).select(["_id", "name"]);
+        if (boards && boards[0]) {
+            return { _id: boards[0]._id, name: boards[0].name, lists: boards[0].lists.map(list => { return { name: list.name, _id: list._id, cards: list.cards.map(card => card.pos) } }) }
+        }
+        return boards
+    } catch (error) {
+        throw error
+    }
+};
+
 const addBoard = async (name, visibility, teamId, userId) => {
     try {
         const user = await User.findById(userId);
@@ -82,7 +101,7 @@ const addBoard = async (name, visibility, teamId, userId) => {
                 teams: [team._id],
                 visibility: visibility,
                 owner: user._id,
-                members: [{member: user._id, role: "Admin"}]
+                members: [{ member: user._id, role: "Admin" }]
             });
             return savedBoard;
         } else {
@@ -90,7 +109,7 @@ const addBoard = async (name, visibility, teamId, userId) => {
                 name: name,
                 visibility: visibility,
                 owner: user._id,
-                members: [{member: user._id, role: "Admin"}]
+                members: [{ member: user._id, role: "Admin" }]
             });
             return savedBoard;
         }
@@ -115,17 +134,17 @@ const addBoardMember = async (boardId, body) => {
         session.startTransaction();
         const user = await User.findOneAndUpdate(body, {
             $push:
-                {boards: {board: boardId, role: "Member"}}
-        }, {new: true});
+                { boards: { board: boardId, role: "Member" } }
+        }, { new: true });
         if (!user) {
             throwError(400, `The user ${JSON.stringify(body)} was not found`)
         }
-        const board = await Board.findOneAndUpdate({_id: boardId}, {
+        const board = await Board.findOneAndUpdate({ _id: boardId }, {
             $push: {
                 members:
-                    {member: user._id, role: "Member"}
+                    { member: user._id, role: "Member" }
             }
-        }, {new: true});
+        }, { new: true });
         if (!board) {
             throwError(400, `The board ${boardId} was not found`)
         }
@@ -146,16 +165,16 @@ const addBoardTeam = async (boardId, body) => {
         session.startTransaction();
         const team = await Team.findOneAndUpdate(body, {
             $push:
-                {boards: boardId}
-        }, {new: true});
+                { boards: boardId }
+        }, { new: true });
         if (!team) {
             throwError(400, `The team ${JSON.stringify(body)} was not found`)
         }
-        const board = await Board.findOneAndUpdate({_id: boardId}, {
+        const board = await Board.findOneAndUpdate({ _id: boardId }, {
             $push: {
                 teams: team._id
             }
-        }, {new: true});
+        }, { new: true });
         if (!board) {
             throwError(400, `The board ${boardId} was not found`)
         }
@@ -175,5 +194,6 @@ module.exports = {
     addBoard,
     addBoardTeam,
     addBoardMember,
-    updateBoard
+    updateBoard,
+    getBoardsInfo
 };

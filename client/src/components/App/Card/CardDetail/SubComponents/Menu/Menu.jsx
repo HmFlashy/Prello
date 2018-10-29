@@ -11,7 +11,8 @@ class Menu extends Component {
             isPickingDate: false,
             isCreatingChecklist: false,
             duedate: null,
-            checklistName: ""
+            checklistName: "",
+            isMovingCard: false
         };
         this.handleOnDateSelect = this.handleOnDateSelect.bind(this);
     }
