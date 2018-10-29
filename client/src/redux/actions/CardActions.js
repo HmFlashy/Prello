@@ -1,14 +1,106 @@
-export const actionUpdateCardName = (card) => {
+const types = (type, isUpdating) => {
+    const u = isUpdating ? 'UPDATING' : 'UPDATE'
+    const t = {
+        name: `${u}_CARD_NAME`,
+        desc: `${u}_CARD_DESC`,
+        dueDate: `${u}_CARD_DUEDATE`,
+        dueDateCompleted: `${u}_CARD_DUEDATECOMPLETED`,
+        list: `${u}_CARD_LIST`,
+        board: `${u}_CARD_BOARD`,
+        pos: `${u}_CARD_POS`,
+        isArchived: `${u}_CARD_ISARCHIVED`
+    }
+    return t[type]
+}
+
+export const actionUpdateCard = (data) => {
     return {
-        type: 'UPDATE_CARD_NAME',
-        payload: card
+        type: types(types[Object.keys(data)[0]], false),
+        payload: data
     }
 }
 
-export const failedActionUpdateCardName = (error) => {
+export const actionUpdatingCard = (data) => {
+    return {
+        type: types([Object.keys(data)[0]], true),
+        payload: data
+    }
+}
+
+export const actionMoveCard = (data) => {
+    return {
+        type: "MOVE_CARD",
+        payload: data
+    }
+}
+
+export const failedActionMoveCard = (data) => {
+    return {
+        type: "FAILED_MOVE_CARD",
+        payload: data
+    }
+}
+
+export const failedActionUpdateCard = (error) => {
     return {
         type: 'FAILED_UPDATE_CARD_NAME',
         payload: error
+    }
+}
+
+export const actionCardChecklistUpdated = (checklist) => {
+    return {
+        type: 'UPDATING_CHECKLIST',
+        payload: checklist
+    }
+}
+
+export const failedActionCardChecklistUpdated = (checklist) => {
+    return {
+        type: 'FAILED_UPDATE_CHECKLIST',
+        payload: checklist
+    }
+}
+
+export const failedActionCardAddItemToChecklist = (checklist) => {
+    return {
+        type: 'FAILED_ADD_ITEM',
+        payload: checklist
+    }
+}
+
+export const failedActionCardDeleteItemToChecklist = (checklist) => {
+    return {
+        type: 'FAILED_DELETE_ITEM',
+        payload: checklist
+    }
+}
+
+export const actionCardUpdateItemToChecklist = (checklist) => {
+    return {
+        type: 'UPDATING_ITEM',
+        payload: checklist
+    }
+}
+
+export const failedActionCardUpdateItemToChecklist = (checklist) => {
+    return {
+        type: 'FAILED_UPDATE_ITEM',
+        payload: checklist
+    }
+}
+
+export const failedActionCardChecklistDeleted = (checklist) => {
+    return {
+        type: 'FAILED_DELETE_CHECKLIST',
+        payload: checklist
+    }
+}
+
+export const failedActionCardChecklistCreated = (checklist) => {
+    return {
+        type: 'FAILED_CREATED_CHECKLIST',
+        payload: checklist
     }
 }
 

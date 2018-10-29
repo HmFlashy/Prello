@@ -6,6 +6,7 @@ mongoose.Promise = global.Promise;
 
 module.exports = {
     Card: require('./Card').Card,
+    Item: require('./Card').Item,
     Checklist: require('./Card').Checklist,
     Board: require('./Board'),
     List: require('./List'),

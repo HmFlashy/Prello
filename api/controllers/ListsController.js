@@ -1,6 +1,6 @@
-const db = require("../models");
+const List = require("../models/index").List;
+const Board = require("../models/index").Board;
 const mongoose = require("mongoose");
-const throwIf = require("../helper/RequestHelper").throwIf;
 const throwError = require("../helper/RequestHelper").throwError;
 
 const addList = async (name, boardId) => {
@@ -8,18 +8,18 @@ const addList = async (name, boardId) => {
     try {
         session = await mongoose.startSession()
         session.startTransaction();
-        const board = await db.Board.findById(boardId)
+        const board = await Board.findById(boardId)
         if(!board) {
-            throwError(400, "Bad Request", "Board not found")
+            throwError(404, `The board ${boardId} was not found`)
         }
-        const savedList = await db.List.create({
+        const savedList = await List.create({
             name: name,
             board: boardId
         });
         if(!savedList) {
             throwError(500, "Internal server issue")
         }
-        const boardUpdated = await db.Board.findByIdAndUpdate(boardId, {$push: {lists: savedList._id}}, {new: true})
+        const boardUpdated = await Board.findByIdAndUpdate(boardId, {$push: {lists: savedList._id}}, {new: true})
         if(!boardUpdated) {
             throwError(500, "Internal server issue")
         }
@@ -38,16 +38,16 @@ const deleteList = async (listId) => {
     try {
         session = await mongoose.startSession();
         session.startTransaction();
-        const list = await db.List.findById(listId)
+        const list = await List.findById(listId)
         if(!list) {
-            throwError(400, "List not found")
+            throwError(404, `The listId ${listId} was not found`)
         }
         if (list.isArchived) {
             if (list.cards.length === 0) {
-                const board = await db.Board.findByIdAndUpdate(list.board,
+                const board = await Board.findByIdAndUpdate(list.board,
                     {$pull: {lists: listId}});
                 if(!board) {
-                    throwError(400, "Board not found")
+                    throwError(404, "Board not found")
                 }
                 await list.remove();
                 await session.commitTransaction();
@@ -61,19 +61,20 @@ const deleteList = async (listId) => {
         }
     } catch (error) {
         await session.abortTransaction();
+        session.endSession();
         throw error;
     }
 };
 
 const updateList = async (listId, body) => {
     try {
-        const list = await db.List.findByIdAndUpdate(listId, {$set: body}, {new: true});
+        const list = await List.findByIdAndUpdate({_id: listId}, {$set: body}, {new: true});
         if(!list) {
-            throwError(400, "List not found")
+            throwError(404, `The listId ${listId} was not found`)
         }
         return list
     } catch (error) {
-        return error
+        throw error
     }
 };
 

@@ -1,0 +1,9 @@
+.notification {
+    position: absolute !important;
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+    top: 10%;
+    right: 5%;
+    z-index: 100000;
+  }

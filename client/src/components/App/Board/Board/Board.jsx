@@ -3,33 +3,38 @@ import './Board.css'
 import ListContainer from '../../../../containers/ListContainers/ListContainer';
 import NewListContainer from '../../../../containers/ListContainers/NewListContainer';
 import CardDetailContainer from '../../../../containers/CardContainers/CardDetailContainer'
-import { List, Button, Modal } from 'semantic-ui-react'
+import { List, Modal } from 'semantic-ui-react'
+import MessagesDisplayerContainer from "../../../../containers/MessageContainers/MessagesDisplayerContainer"
+import Header from "./Header"
+import { withRouter } from 'react-router-dom'
 
 class Board extends Component {
 
     componentWillMount() {
         this.props.subscribe()
-        const cardId = this.props.match.params.cardId
-        if(cardId != null){
+        const cardId = this.props.cardId
+        if (cardId != null) {
             this.props.fetchCard(cardId)
-        } else { 
-            this.props.fetchBoard(this.props.match.params.boardId)
+        } else {
+            this.props.fetchBoard(this.props.boardId)
         }
 
         this.setState = {
-            cardId: this.props.match.params.cardId
+            cardId: this.props.cardId
         }
     }
 
 
     render() {
         return (
-            <List className='board'>
-                {this.props.board.lists.map(listId => (
-                    <List.Item className='no-padding-top'><ListContainer key={listId} listId={listId} /></List.Item>
-                ))}
-                <List.Item className='no-padding-top'><NewListContainer /></List.Item>
-
+            <div className="board">
+                <Header></Header>
+                <List className='lists'>
+                    {this.props.board.lists.map(listId => (
+                        <List.Item key={listId} className='no-padding-top'><ListContainer key={listId} listId={listId} /></List.Item>
+                    ))}
+                    <List.Item className='no-padding-top'><NewListContainer /></List.Item>
+                </List>
                 <Modal
                     open={this.props.cardModal._id != null}
                     onClose={() => {
@@ -40,10 +45,10 @@ class Board extends Component {
                         <CardDetailContainer key={this.props.cardModal._id} cardId={this.props.cardModal._id}></CardDetailContainer>
                     </Modal.Content>
                 </Modal>
-            </List>
-
+                <MessagesDisplayerContainer />
+            </div>
         );
     }
 }
 
-export default Board
+export default withRouter(Board)

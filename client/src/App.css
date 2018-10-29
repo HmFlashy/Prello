@@ -1,6 +1,7 @@
 .App {
   text-align: center;
   height: 100%;
+  display: block;
 }
 
 .App-logo {
@@ -32,6 +33,16 @@
   }
 }
 
-.header {
-  z-index: 100;
+.app-header {
+  height: 10% !important;
+}
+
+.app-content {
+    position: relative;
+    height: 90% !important;
+}
+
+
+.App>.app-content {
+  flex-grow: 1;
 }

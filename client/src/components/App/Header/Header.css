@@ -1,6 +1,7 @@
 .header {
     justify-content: space-between;
     opacity: 0.8;
+    z-index: 100;
 }
 .inline {
     display: flex;
