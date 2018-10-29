@@ -57,7 +57,8 @@ module.exports = async (req, res) => {
             throwError(400, "Bad Request email malformed")
         }
         const user = await UserController.getByEmail(email)
-        const veracity = await bcrypt.compare(password, user.password)
+        console.log(user)
+        const veracity = await bcrypt.compare(password, user.hash)
         if(veracity == true){
             const token = jwt.sign({ _id: user._id, email: user.email }, process.env.JWT_SECRET)
             return res.status(200).json({

@@ -5,6 +5,8 @@ const bcrypt = require('bcrypt')
 const saltRounds = 10;
 
 const emailRegEx = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/
+const passwordRegex = /^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})/;
+
 /**
   * @swagger
   * paths:
@@ -51,23 +53,29 @@ const emailRegEx = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}
   */
 module.exports = async (req, res) => {
     try {
-        const email = req.body.email;
-        const password = req.body.password;
+        const { firstname, lastname, pseudo, email, password, organization } = req.body
+        if(!firstname){
+            throwError(400, "Bad Request firstname malformed")
+        }
+        if(!lastname){
+            throwError(400, "Bad Request lastname malformed")
+        }
+        if(!pseudo || pseudo.length < 4 || pseudo.length > 20){
+            throwError(400, "Bad Request pseudo malformed")
+        }
         if (!email || !email.match(emailRegEx)) {
             throwError(400, "Bad Request email malformed")
         }
-        const user = await UserController.getByEmail(email)
-        const veracity = await bcrypt.compare(password, user.password)
-        if(veracity == true){
-            const token = jwt.sign({ _id: user._id, email: user.email }, process.env.JWT_SECRET)
-            return res.status(200).json({
-                user,
-                token
-            })
-        } else {
-            res.sendStatus(401)
+        if (!password || !password.match(passwordRegex)) {
+            throwError(400, "Bad Request password malformed")
         }
+        if(!organization){
+            throwError(400, "Bad Request organization malformed")
+        }
+        const hash = await bcrypt.hash(password, saltRounds)
+        const user = await UserController.addUser(firstname, lastname, pseudo, email, hash, organization)
+        return res.send(201).json(user)
     } catch (error) {
-        res.status(500).json(error.message)
+        res.status(error.code).json(error.message)
     }
 }
