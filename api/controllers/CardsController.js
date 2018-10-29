@@ -111,6 +111,6 @@ module.exports = {
     updateCard,
     addToArray,
     removeToArray,
-    deleteCard
+    deleteCard,
     moveCard
 };
