@@ -8,14 +8,13 @@ const emailRegEx = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}
 /**
   * @swagger
   * paths:
-  *   /register:
+  *   /login:
   *     post:
   *       tags:
   *         - Authentification
-  *       description: Register to the Prello API
-  *       summary: Register to the Prello API by giving credentials
+  *       description: Connect to the prello API by getting a valid token and the current user information
+  *       summary: Connect to the prello API
   *       requestBody:
-  *         description: Optional description in *Markdown*
   *         required: true
   *         content:
   *           application/json:
@@ -28,9 +27,6 @@ const emailRegEx = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}
   *                 password:
   *                   type: string
   *                   required: true
-  *             example: 
-  *               email: exemple@host.com
-  *               password: myPassword
   *       responses:
   *         200:
   *           description: The user and the token

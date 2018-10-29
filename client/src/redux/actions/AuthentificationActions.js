@@ -1,6 +1,6 @@
 export const actionLogin = (email) => {
     return {
-        type: 'LOGIN_IN',
+        type: 'LOGING_IN',
         payload: email
     }
 }
