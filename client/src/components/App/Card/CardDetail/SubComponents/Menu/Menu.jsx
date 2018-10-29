@@ -33,8 +33,7 @@ class Menu extends Component {
                             <Icon name='users' />
                             Members
                         </Button>
-
-                        <Button icon labelPosition='left' onClick={() => { this.setState({ isLabelClicked: true }); console.log("Change labels: " + this.state.isLabelClicked) }}>
+                        <Button icon labelPosition='left' onClick={() => { this.setState({ isLabelClicked: !this.state.isLabelClicked }); console.log("Change labels: " + this.state.isLabelClicked) }}>
                             <Icon name='tag' />
                             Labels
                         </Button>
@@ -52,7 +51,6 @@ class Menu extends Component {
                                 </Button>
                             </Modal.Actions>
                         </Modal>
-
                         <Button icon labelPosition='left' onClick={() => this.setState({ isCreatingChecklist: true })}>
                             <Icon name='check square outline' />
                             Checklist
