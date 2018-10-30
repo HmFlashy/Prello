@@ -6,6 +6,7 @@ const OauthTokens = require('./models').OAuthTokens;
 const OAuthUsers = require('./models').OAuthUsers;
 
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 
 /**
  * Get access token.
@@ -33,13 +34,21 @@ module.exports.getRefreshToken = function(refreshToken) {
   return OAuthTokens.findOne({ refreshToken: refreshToken }).lean();
 };
 
+module.exports.generateAccessToken = function(client, user, scope) {
+  const payload = {
+    userId: user._id,
+    scope: scope
+  }
+  return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1h"})
+}
+
 /**
  * Get user.
  */
 
 module.exports.getUser = async function(username, password) {
   const user = await OAuthUsers.findOne({ username: username }).lean();
-  if(true) {
+  if(true){//await bcrypt.compare(password, user.hash)) {
     return user
   } else {
     return null
@@ -66,12 +75,9 @@ module.exports.saveToken = function(token, client, user) {
     userId: user._id,
   });
   // Can't just chain `lean()` to `save()` as we did with `findOne()` elsewhere. Instead we use `Promise` to resolve the data.
-  return new Promise( function(resolve,reject){
-    accessToken.save(function(err,data){
-      if( err ) reject( err );
-      else resolve( data );
-    }) ;
-  }).then(function(saveResult){
+  
+  return accessToken.save()
+  .then(function(saveResult){
     // `saveResult` is mongoose wrapper object, not doc itself. Calling `toJSON()` returns the doc.
     saveResult = saveResult && typeof saveResult == 'object' ? saveResult.toJSON() : saveResult;
 
