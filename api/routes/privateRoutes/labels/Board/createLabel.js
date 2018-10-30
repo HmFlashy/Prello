@@ -1,4 +1,4 @@
-const LabelController = require('../../../controllers/LabelController')
+const LabelsController = require('../../../../controllers/LabelsController')
 const socketIO = require('../../../../../socket')
 const throwError = require('../../../../helper/RequestHelper').throwError;
 
@@ -62,7 +62,7 @@ module.exports = async (req, res) => {
         if (!color) {
             throwError(400, "Missing color parameter")
         }
-        const labels = await LabelController.createLabel(name, color, boardId)
+        const labels = await LabelsController.createLabel(name, color, boardId)
         socketIO.broadcast('action', {
             type: 'CREATED_LABEL',
             payload: { _id: boardId, labels }

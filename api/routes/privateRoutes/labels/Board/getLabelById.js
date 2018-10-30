@@ -29,23 +29,29 @@ const throwError = require('../../../../helper/RequestHelper').throwError;
   *         500:
   *           description: Internal error
   */
-module.exports = async (req, res) => {
+ module.exports = async (req, res) => {
     try {
-        const labelId = req.params.labelId;
-        if (!labelId.match(/^[0-9a-fA-F]{24}$/)) {
-            throwError(400, `The labelId ${labelId} is malformed`)
-        }
+        console.log(req.params)
         const boardId = req.params.boardId;
-        if (!boardId.match(/^[0-9a-fA-F]{24}$/)) {
-            throwError(400, `The boardId ${boardId} is malformed`)
+        if(!boardId) {
+            throwError(400, 'Missing boardId parameter')
         }
-        const labels = await LabelsController.deleteLabel(boardId, labelId)
-        socketIO.broadcast('action', {
-            type: 'DELETED_LABEL',
-            payload: { _id: boardId, labels }
-        })
-        return res.status(200).json(labels)
-    } catch (error) {
-        res.status(500).json(error.message)
+        const labelId = req.params.labelId;
+        if(!labelId) {
+            throwError(400, 'Missing labelId parameter')
+        }
+        const label = await LabelsController.getLabelById(labelId)
+        if (!label) {
+            throwError(400, 'Label not found')
+        } else {
+            return res.status(200).json(label)
+        }
+    } catch(error) {
+        console.log(error)
+        if(error.code){
+            return res.status(error.code).json(error.message)
+        } else {
+            return res.sendStatus(500);
+        }
     }
 }
