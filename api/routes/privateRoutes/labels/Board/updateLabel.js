@@ -2,6 +2,10 @@ const LabelsController = require('../../../../controllers/LabelsController')
 const socketIO = require('../../../../../socket')
 const throwError = require('../../../../helper/RequestHelper').throwError;
 
+const types = {
+    name: 'UPDATE_LABEL_NAME',
+    color: 'UPDATE_LABEL_COLOR'
+}
 /**
   * @swagger
   * definition:
@@ -29,23 +33,40 @@ const throwError = require('../../../../helper/RequestHelper').throwError;
   *         500:
   *           description: Internal error
   */
-module.exports = async (req, res) => {
+ module.exports = async (req, res) => {
     try {
-        const labelId = req.params.labelId;
+        const labelId = req.params.labelId
         if (!labelId.match(/^[0-9a-fA-F]{24}$/)) {
-            throwError(400, `The labelId ${labelId} is malformed`)
+            throwError(400, "Bad Request IdLabel malformed")
         }
-        const boardId = req.params.boardId;
-        if (!boardId.match(/^[0-9a-fA-F]{24}$/)) {
-            throwError(400, `The boardId ${boardId} is malformed`)
+        if (Object.keys(req.body).length === 0) {
+            throwError(400, "No data in body")
         }
-        const labels = await LabelsController.updateLabel(boardId, labelId)
-        socketIO.broadcast('action', {
-            type: 'UPDATED_LABEL',
-            payload: { _id: boardId, labels }
-        })
-        return res.status(200).json(labels)
+        if (labelUpdated = await LabelsController.updateLabel(labelId, req.body)) {
+            Object.keys(req.body).forEach(action => {
+                if (types[action]) {
+                    socketIO.broadcast('action', {
+                        type: types[action],
+                        payload: { [action]: labelUpdated[action], "_id": labelUpdated._id }
+                    })
+                }
+            })
+            return res.status(200).json({
+                type: "Success",
+                message: "Label found",
+                data: labelUpdated
+            })
+        }
+        else {
+            return res.status(404).json({
+                type: "Error",
+                message: `The label ${idLabel} does not exist`
+            })
+        }
     } catch (error) {
-        res.status(500).json(error.message)
+        (error.code)
+            ? res.status(error.code).json(error.message)
+            : res.sendStatus(500);
+
     }
 }

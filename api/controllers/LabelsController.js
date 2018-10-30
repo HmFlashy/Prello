@@ -39,21 +39,9 @@ const deleteLabel = async (boardId, labelId) => {
     }
 }
 
-const updateLabel = async (boardId, labelId, name, color) => {
+const updateLabel = async (labelId, data) => {
     try {
-        const newBoard = await Board.find({ "_id": boardId })
-        for (let index = 0; index < newBoard[0].labels.length; index++) {
-            if (newBoard[0].labels[index]._id == labelId) {
-                newBoard[0].labels[index].name = name,
-                newBoard[0].labels[index].color = color
-            }
-        }
-        const board = await Board.findOneAndUpdate({ _id: boardId }, {
-            $set: {
-                labels: newBoard[0].labels
-            }
-        }, { "new": true })
-        return board.labels
+        return await Label.findOneAndUpdate({ _id: labelId }, { $set: data }, { "new": true })
     } catch (error) {
         throw error
     }
