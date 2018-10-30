@@ -13,7 +13,6 @@ const getByEmail = async (email) => {
 const addUser = async (firstname, lastname, pseudo, email, hash, organization) => {
     try {
         const user = await User.find({ $or: [{ username: pseudo }, { email: email }]})
-        console.log(user)
         if(user.length > 0){
             if(user[0].email === email){
                 throwError(400, "Email already taken")
@@ -26,6 +25,15 @@ const addUser = async (firstname, lastname, pseudo, email, hash, organization) =
     } catch(error) {
         throw error
     }
+}
+
+const getUserByUsername = async (username) => {
+    try {
+        return await User.findOne({ username: username})
+    } catch(error) {
+        throw error
+    }
+
 }
 
 module.exports = {

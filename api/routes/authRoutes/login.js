@@ -58,7 +58,7 @@ module.exports = async (req, res) => {
         }
         const veracity = await bcrypt.compare(password, user.hash)
         if(veracity == true){
-            const token = jwt.sign({ _id: user._id, email: user.email }, process.env.JWT_SECRET)
+            const token = jwt.sign({ userId: user._id, email: user.email }, process.env.JWT_SECRET)
             return res.status(200).json({
                 user,
                 token

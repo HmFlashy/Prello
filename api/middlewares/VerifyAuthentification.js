@@ -5,13 +5,13 @@ module.exports = (req, _, next) => {
     const token = req.token
     jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
         if(err){
-            console.log(err)
+            return res.sendStatus(401)
         } else {
             try {
-                req.user = await UserController.getByEmail(decoded.email)
+                req.user = await UserController.getByEmail(decoded.userId)
                 next()
             } catch(error) {
-                console.log(error)
+                return res.sendStatus(500)
             }
         }
     })
