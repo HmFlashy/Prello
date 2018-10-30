@@ -1,12 +1,8 @@
 const mongoose = require('mongoose');
 // Connect to Mongoose
-connect()
-
-function connect(){
-    return mongoose.connect(process.env.URL_MONGODB, {
-        useNewUrlParser: true
-    })
-}
+mongoose.connect(process.env.URL_MONGODB, {
+  useNewUrlParser: true
+})
 
 mongoose.connection.once('open', function() {
   console.log('Connected to mongoDB')
