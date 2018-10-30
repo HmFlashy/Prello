@@ -55,9 +55,9 @@ const getBoardById = async (boardId) => {
     }
 };
 
-const getBoards = async () => {
+const getBoards = async (user) => {
     try {
-        const boards = await Board.find().select({
+        const boards = await Board.find({"members.member": {$in: [user._id]}}).select({
             _id: 1, name: 1, starred: 1
         });
         return boards

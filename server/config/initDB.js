@@ -9,6 +9,7 @@ const Attachment = require("../api/models/index").Attachment;
 const Category = require("../api/models/index").Category;
 const Team = require("../api/models/index").Team;
 const Checklist = require("../api/models/index").Checklist;
+const passwordHelper = require("../api/helper/passwordHelper");
 
 require("dotenv").config({  });
 connect();
@@ -19,25 +20,31 @@ function connect() {
     })
 }
 
-async function reversedRef() {
+async function initDB() {
     await mongoose.connection.db.dropDatabase();
+    const alexHash = await passwordHelper.passwordHelper("a");
     const Alex = User({
         name: "Alex", fullName: "Alex Aufauvre", bio: `Amazing skills in design, I'm the guy you need to 
     enhance your application`, initials: "AA", username: "Giroud", organization: "Polytech"
-        , email: "alex.giroud@gmail.com"
+        , email: "a", hash: alexHash
     });
+    const hugoHash = await passwordHelper.passwordHelper("m");
     const Hugo = User({
-        name: "Hugo", fullName: "Hugo Maitre", bio: `Student ; Programer ; Gamer ; What else? Not active on github as I would like to be but hey no worry, one day you'll know my name ;) jk x)
-`, initials: "HM", username: "HmFlashy", organization: "Polytech", email: "hugo.maitro@gmail.com"
+        name: "Hugo", fullName: "Hugo Maitre", bio: `Student ; Programer ; Gamer ; What else? Not active on github as 
+        I would like to be but hey no worry, one day you'll know my name ;) jk x)
+`, initials: "HM", username: "HmFlashy", organization: "Polytech", email: "h", hash: hugoHash
     });
+    const kevinHash = await passwordHelper.passwordHelper("g");
     const Kevin = User({
         name: "Kevin", fullName: "Kevin Giordani", bio: `IOT Expert, I will put my grain of salt 
-    in your application`, initials: "AA", username: "kevin.kevin01", organization: "Polytech"
-        , email: "kevin.kevin01@gmail.com"
+    in your application`, initials: "KG", username: "kevin.kevin01", organization: "Polytech"
+        , email: "k", hash: kevinHash
     });
+    const lorisHash = await passwordHelper.passwordHelper("z");
     const Loris = User({
         name: "Loris", fullName: "Loris Zirah", bio: `DB Expert and Data Scientist, let's give a meaning to 
-    your data`, initials: "LZ", username: "Airkan", organization: "Polytech", email: "zirahloris@gmail.com"
+    your data`, initials: "LZ", username: "Airkan", organization: "Polytech", email: "l"
+        , hash: lorisHash
     });
 
     const Khal = Team({
@@ -163,6 +170,10 @@ async function reversedRef() {
             {
                 member: Loris._id,
                 role: "Admin"
+            },
+            {
+                member: Alex._id,
+                role: "Member"
             }],
         visibility: "Team",
         starred: [Kevin._id, Loris._id],
@@ -220,7 +231,7 @@ async function reversedRef() {
     Loris.starred = [board1._id, board2._id];
     Alex.boards = [{
         board: board1._id,
-        role: "Admin"
+        role: "Member"
     }];
 
     Loris.boards = [{
@@ -268,41 +279,42 @@ async function reversedRef() {
     let array = [];
     await Card.insertMany([card1, card2, card3, card4, card5],
         array.push(function (error) {
-            if (error) return console.log(error)
+            if (error) throw error
         }));
 
     await List.insertMany([list1, list2, list3, list4],
         array.push(function (error) {
-            if (error) return console.log(error)
+            if (error) throw error
         }));
 
     await Board.insertMany([board1, board2],
         array.push(function (error) {
-            if (error) return console.log(error)
+            if (error) throw error
         }));
-    await User.insertMany([Alex, Hugo, Kevin, Loris],
-        array.push(function (error) {
-            if (error) return console.log(error)
-        })
-    );
+
+    array.push(await Alex.save());
+    array.push(await Kevin.save());
+    array.push(await Hugo.save());
+    array.push(await Loris.save());
+
     await Category.insertMany([hugoCategory2, hugoCategory1, kevinCategory1, kevinCategory2],
         array.push(function (error) {
-            if (error) return console.log(error)
+            if (error) throw error
         })
-    )
+    );
     await Team.insertMany([Khal],
         array.push(function (error) {
-            if (error) return console.log(error)
+            if (error) throw error
         })
-    )
+    );
     await Label.insertMany([FrontEnd, BackEnd, DB, DB2],
         array.push(function (error) {
-            if (error) return console.log(error)
+            if (error) throw error
         })
-    )
-    Promise.all(array).then(mongoose.connection.close())
+    );
+    Promise.all(array).then(mongoose.connection.close()).catch(error => console.log(error))
 }
 
-mongoose.connection.once("open", function () {
-    reversedRef()
-}).catch(err => console.log(err))
+mongoose.connection.once("open", async function () {
+    await initDB()
+}).catch(err => console.log(err));

@@ -64,15 +64,15 @@ const passwordRegex = /^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.
 
 module.exports = async (req, res) => {
     try {
-        const { firstname, lastname, pseudo, email, password, organization } = req.body
+        const { firstname, lastname, username, email, password, organization } = req.body
         if(!firstname){
             throwError(400, "Bad Request firstname malformed")
         }
         if(!lastname){
             throwError(400, "Bad Request lastname malformed")
         }
-        if(!pseudo || pseudo.length < 4 || pseudo.length > 20){
-            throwError(400, "Bad Request pseudo malformed")
+        if(!username || username.length < 4 || username.length > 20){
+            throwError(400, "Bad Request username malformed")
         }
         if (!email || !email.match(emailRegEx)) {
             throwError(400, "Bad Request email malformed")
@@ -83,10 +83,14 @@ module.exports = async (req, res) => {
         if(!organization){
             throwError(400, "Bad Request organization malformed")
         }
-        const hash = await bcrypt.hash(password, saltRounds)
-        const user = await UserController.addUser(firstname, lastname, pseudo, email, hash, organization)
-        return res.send(201).json(user)
+        const user = await UserController.addUser(firstname, lastname, username, email, password, organization)
+        return res.status(201).json(user)
     } catch (error) {
-        res.status(error.code).json(error.message)
+        console.log(error)
+        if(error.code){
+            return res.status(error.code).json(error.message)
+        } else {
+            return res.sendStatus(500);
+        }
     }
 }

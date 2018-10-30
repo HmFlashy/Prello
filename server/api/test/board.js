@@ -3,7 +3,7 @@ const List = require("../models/index").List;
 const Board = require("../models/index").Board;
 const User = require("../models/index").User;
 const Team = require("../models/index").Team;
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 require("../../config/db");
 
 const chai = require("chai");
@@ -14,24 +14,24 @@ chai.use(chaiHttp);
 chai.should();
 const expect = chai.expect;
 
-let team = null
-let user = null
-let board = null
+let team = null;
+let user = null;
+let board = null;
 
 describe("Board", () => {
     beforeEach((done) => { // Before each test we empty the database
         mongoose.connection.db.dropDatabase();
-        User.create({name: "Loris"}, (err, user1) => {
-            user = user1
-            Team.create({name: "Khal"}, (err, team1) => {
-                team = team1
-                Board.create({name: "Prello"}, (err, board1) => {
-                    board = board1
-                    done()
-                })
-            });
-        });
-    })
+        User.create({name: "Loris"}).then(user1 => {
+            user = user1;
+            return Team.create({name: "Khal"})
+        }).then(team1 => {
+            team = team1;
+            return Board.create({name: "Prello"})
+        }).then(board1 => {
+            board = board1;
+            done()
+        })
+    });
     /*
     * Test the /GET route
      */
@@ -77,7 +77,7 @@ describe("Board", () => {
                     done();
                 });
         });
-    })
+    });
     /*
     * Test the /POST route
     */
@@ -178,7 +178,7 @@ describe("Board", () => {
                     res.body.should.have.property("owner").equal(user._id.toString());
                     User.findById(user._id).find({boards: {"$in": [{board: res.body._id, role: "Admin"}]}}, (err, user) => {
                         if (err) {}
-                        expect(user)
+                        expect(user);
                         Team.findById(team._id).find({boards: {"$in": [res.body._id]}}, (err, team) => {
                             if (err) {}
                             expect(team);
@@ -311,7 +311,7 @@ describe("Board", () => {
                     res.body.should.be.equal(`The board ${user._id} was not found`);
                     done();
                 });
-        })
+        });
         it("should NOT ADD a member to board if the _id for the user is malformed", (done) => {
             chai.request(server)
                 .put(`/api/boards/${board._id}/members`)
@@ -321,7 +321,7 @@ describe("Board", () => {
                     res.body.should.be.equal(`The userId frfrfrr552 is malformed`);
                     done();
                 });
-        })
+        });
         it("should NOT ADD a member to board if the user was not founds", (done) => {
             chai.request(server)
                 .put(`/api/boards/${user._id}/members`)
@@ -344,7 +344,7 @@ describe("Board", () => {
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.a("object");
-                    expect(res.body.teams.includes(team._id))
+                    expect(res.body.teams.includes(team._id));
                     Team.findById(team._id).find({boards: {"$in": [res.body._id]}}, (err, team) => {
                         if (err) {}
                         expect(team);
@@ -359,7 +359,7 @@ describe("Board", () => {
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.a("object");
-                    expect(res.body.teams.includes(team._id))
+                    expect(res.body.teams.includes(team._id));
                     Team.findById(team._id).find({boards: {"$in": [res.body._id]}}, (err, team) => {
                         if (err) {}
                         expect(team);
@@ -386,7 +386,7 @@ describe("Board", () => {
                     res.body.should.be.equal(`The board ${user._id} was not found`);
                     done();
                 });
-        })
+        });
         it("should NOT ADD a member to board if the _id for the team is malformed", (done) => {
             chai.request(server)
                 .put(`/api/boards/${board._id}/members`)
@@ -396,7 +396,7 @@ describe("Board", () => {
                     res.body.should.be.equal(`The userId frfrfrr552 is malformed`);
                     done();
                 });
-        })
+        });
         it("should NOT ADD a member to board if the team was not founds", (done) => {
             chai.request(server)
                 .put(`/api/boards/${user._id}/members`)
@@ -487,9 +487,9 @@ describe("Board", () => {
                         Board.findById(res.body._id, (error, newBoard) => {
                             if(error) {}
                             members.forEach(member => {
-                                const user = member.member
+                                const user = member.member;
                                 User.findOne({_id: user._id, boards: {board: {$in: boardClosed._id}}}).should.be.undefined
-                            })
+                            });
                             teams.forEach(team => {
                                 Team.findOne({_id: team._id, boards: {$in: boardClosed._id}}).should.be.undefined
                             });

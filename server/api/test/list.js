@@ -3,7 +3,7 @@ const List = require("../models/index").List;
 const Board = require("../models/index").Board;
 const Card = require("../models/index").Card;
 require("../../config/db");
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 const chai = require("chai");
 const chaiHttp = require("chai-http");
@@ -141,7 +141,7 @@ describe("Lists", () => {
                     .put(`/api/lists/${board1._id}`)
                     .send({name: "To Do"})
                     .end((err, res) => {
-                        console.log(JSON.stringify(res))
+                        console.log(JSON.stringify(res));
                         res.should.have.status(404);
                         res.body.should.equal(`The listId ${board1._id} was not found`);
                         done();
@@ -170,7 +170,7 @@ describe("Lists", () => {
                         });
                 });
             })
-        })
+        });
 
         it("should return a 404 not found if the given id doesn't exist", (done) => {
             let list = new List({name: "Doing", board: board1._id});
@@ -206,7 +206,7 @@ describe("Lists", () => {
                         });
                 });
             })
-        })
+        });
 
         it("should return a 400 bad request if the list is not empty", (done) => {
             let card = new Card({name: "card name"});

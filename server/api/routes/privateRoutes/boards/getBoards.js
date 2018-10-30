@@ -27,7 +27,7 @@ const boardsController = require('../../../controllers/BoardsController');
  */
 module.exports = async (req, res) => {
     try {
-        const boards = await boardsController.getBoards();
+        const boards = await boardsController.getBoards(req.user);
         return res.status(200).json(boards)
     } catch(error) {
         console.log(error)

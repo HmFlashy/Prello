@@ -1,7 +1,7 @@
 //During the test the env variable is set to test
 const Card = require("../models/index").Card;
 const Board = require("../models/index").Board;
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 require("../../config/db");
 
 const chai = require("chai");
@@ -11,7 +11,7 @@ const server = require("../../server");
 chai.use(chaiHttp);
 chai.should();
 const expect = chai.expect;
-let card = null
+let card = null;
 
 describe("Board", () => {
     beforeEach((done) => { // Before each test we empty the database
@@ -58,7 +58,7 @@ describe("Board", () => {
                     done();
                 });
         });
-    })
+    });
     /*
     * Test the /DELETE/:cardId route
     */
