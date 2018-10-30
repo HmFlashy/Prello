@@ -13,16 +13,15 @@ const getLabelById = async (id) => {
 
 const createLabel = async (name, color, boardId) => {
     try {
-        const newLabel = await Board.findOneAndUpdate({ _id: boardId },
-            {
-                $push: {
-                    labels: new Label({
-                        name: name,
-                        color: color
-                    })
-                }
-            }, { "new": true })
-        return newLabel.labels
+        const label = new Label({
+            name: name,
+            color: color,
+            board: boardId
+        });
+        const savedLabel= await label.save()
+        await Board.findOneAndUpdate({ _id: boardId },
+            { $push: { labels: savedLabel } }, { "new": true })
+        return savedLabel
     } catch (error) {
         throw error
     }
