@@ -50,9 +50,9 @@ module.exports = async (req, res) => {
     try {
         const email = req.body.email;
         const password = req.body.password;
-        if (!email || !email.match(emailRegEx)) {
+        /*if (!email || !email.match(emailRegEx)) {
             throwError(400, "EMAIL_MALFORMED")
-        }
+        }*/
         if(!password){
             throwError(400, "PASSWORD_EMPTY")
         }
