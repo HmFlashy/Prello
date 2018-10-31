@@ -6,7 +6,8 @@ require('./models')
 
 const oauth = new OAuthServer({
     model: require('./model'),
-    grants: ['password', 'authorization_code']
+    grants: ['password', 'authorization_code'],
+    useErrorHandler: true
   });
 
 oauth.populateCurrentUser = () => {

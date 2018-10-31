@@ -9,11 +9,13 @@ html(lang='en')
     div(class="ui middle aligned center aligned grid")
       div(class="column")
         h2(class="ui red image header") Log in to your Prello account
+        if error
+          div(class="ui message red")= error
         form(action=`/oauth/authorize?client_id=${client_id}&response_type=${response_type}&scope=${scope}&redirect_uri=${redirect_uri}&state=${state}`, class="ui large form", method="post")
           div(class="ui stacked segment")
             div(class="field")
               label Email or Username
-              input(type="text", placeholder="jeannette@saucisson.fr" name="username")
+              input(type="text", value=`${email}` placeholder="jeannette@saucisson.fr" name="username")
             div(class="field")
               label Password
               input(type="password", placeholder="Type password..." name="password")

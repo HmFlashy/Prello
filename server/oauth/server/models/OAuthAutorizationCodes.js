@@ -15,8 +15,12 @@ const OAuthAuthorizationCode = new Schema({
 const OAuthAuthorizationCodes = mongoose.model('OAuthAuthorizationCodes', OAuthAuthorizationCode);
 
 OAuthAuthorizationCodes.getAuthorizationCode = async (authorizationCode) => {
-    const code = await OAuthAuthorizationCodes.findOne({ authorizationCode: authorizationCode })
-    return code
+    try {
+        const code = await OAuthAuthorizationCodes.findOne({ authorizationCode: authorizationCode })
+        return code
+    } catch(error) {
+        throw error
+    }
 }
 
 OAuthAuthorizationCodes.revokeAuthorizationCode = async (code) => {
