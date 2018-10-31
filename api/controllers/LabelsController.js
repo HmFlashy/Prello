@@ -1,5 +1,6 @@
 const Board = require('../models').Board;
 const Label = require('../models').Label;
+const Card = require('../models').Card;
 const mongoose = require('mongoose');
 const throwError = require('../helper/RequestHelper').throwError;
 
@@ -39,6 +40,7 @@ const deleteLabel = async (boardId, labelId) => {
         if(!label) {
             throwError(404, `The label ${labelId} was not found`)
         }
+        deleteLabelFromBoard(boardId, labelId);    
         label.remove();
         await session.commitTransaction();
         session.endSession();
@@ -48,6 +50,15 @@ const deleteLabel = async (boardId, labelId) => {
         await session.abortTransaction();
         session.endSession();
         throw error;
+    }
+}
+
+const deleteLabelFromBoard = async (boardId, labelId) => {
+    try {
+        return await Board.findOneAndUpdate({ _id: boardId },
+        { $pull: { labels: { _id: labelId } } }, { "new": true })
+    } catch (error) {
+        throw error
     }
 }
 
