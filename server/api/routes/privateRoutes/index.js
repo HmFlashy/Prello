@@ -1,10 +1,15 @@
 const express = require('express');
-
+const oauth = require('../../../oauth/server/OAuth2Server')
 const router = express.Router();
 
-router.use('/cards', require('./cards/index'));
-router.use('/lists', require('./lists/index'));
-router.use('/boards', require('./boards/index'))
-router.use('/files', require('./files.js'))
+router.post('/*', oauth.authenticate({ scope: "write" }))
+router.put('/*', oauth.authenticate({ scope: "write" }))
+router.delete('/*', oauth.authenticate({ scope: "write" }))
+router.get('/*', oauth.authenticate({ scope: "read" }))
+
+router.use('/cards', require('./cards'));
+router.use('/lists', require('./lists'));
+router.use('/boards', require('./boards'))
+router.use('/files', require('./files'))
 
 module.exports = router;

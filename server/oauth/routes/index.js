@@ -11,7 +11,7 @@ module.exports = (app) => {
 
     const router = express.Router()
     router.post('/token', oauth.token())
-    router.post('/authorize', oauth.authorize())
-    router.get('/auth', require('./authentificationPage'))
+    router.post('/authorize', require('./authorize'))
+    router.get('/authorize', require('./login'))
     return router;
 }

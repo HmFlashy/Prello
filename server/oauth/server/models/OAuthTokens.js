@@ -7,8 +7,7 @@ const OAuthToken = new Schema({
   accessToken: { type: String },
   accessTokenExpiresAt: { type: Date },
   client: String,
-  refreshToken: { type: String },
-  refreshTokenExpiresAt: { type: Date },
+  scope: String,
   user: { type: Schema.Types.ObjectId, ref: 'OAuthUser' }
 });
 
@@ -30,6 +29,7 @@ OAuthTokens.saveToken = async (token, client, user) => {
   const accessToken = new OAuthTokens({
     accessToken: token.accessToken,
     accessTokenExpiresAt: token.accessTokenExpiresAt,
+    scope: token.scope,
     client: client.clientId,
     user: user
   });
@@ -54,17 +54,17 @@ OAuthTokens.saveToken = async (token, client, user) => {
 
 OAuthTokens.validateScope = async (user, client, scope) => {
   return scope
-    .split(' ')
+    .split('+')
     .filter(s => VALID_SCOPES.indexOf(s) >= 0)
-    .join(' ');
+    .join('+');
 }
 
 OAuthTokens.verifyScope = async (token, scope) => {
   if (!token.scope) {
     return false;
   }
-  let requestedScopes = scope.split(' ');
-  let authorizedScopes = token.scope.split(' ');
+  let requestedScopes = scope.split('+');
+  let authorizedScopes = token.scope.split('+');
   return requestedScopes.every(s => authorizedScopes.indexOf(s) >= 0);
 }
 

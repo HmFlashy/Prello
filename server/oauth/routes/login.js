@@ -1,12 +1,27 @@
 
+const InvalidRequestError = require('oauth2-server').InvalidRequestError;
+
 module.exports = (req, res) => {
+  console.log(req)
+  if(!req.query.response_type){
+    throw new InvalidRequestError("response_type is missing")
+  }
+  if(!req.query.client_id){
+    throw new InvalidRequestError("client_id is missing")
+  }
+  if(!req.query.scope){
+    throw new InvalidRequestError("the scope is missing")
+  }
+  if(!req.query.redirect_uri){
+    throw new InvalidRequestError("redirect_uri is missing")
+  }
+
   return res.render('login', { // views: login
-    redirect_uri: req.redirect_uri,
-    displayedForm: true,
+    redirect_uri: req.query.redirect_uri,
     client_id: req.query.client_id,
     scope: req.query.scope,
-    email: req.body.email || '',
-    errors: ['Invalid credentials']
+    response_type: req.query.response_type,
+    state: 'truc'
   })
 } 
 //app.post('/oauth/prello/login', (req, res, next) => {

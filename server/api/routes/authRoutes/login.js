@@ -62,6 +62,7 @@ module.exports = async (req, res) => {
             form: {
                 username: email,
                 password: password,
+                scope: "read+write",
                 grant_type: 'password'
             },
             headers: {
@@ -72,18 +73,6 @@ module.exports = async (req, res) => {
             json: true
         }
         const token = await request(options).catch(error => throwError(400, error.response.body.error_description))
-        // const userId = jwt.decode(token.access_token).userId
-        // const options2 = {
-        //     method: 'GET',
-        //     uri: `${process.env.URL_PRELLO_API}/api/users/${userId}`,
-        //     headers: {
-        //         'User-Agent': 'Request-Promise',
-        //         "Authorization": "Bearer " + token
-        //     },
-        //     json: true
-        // }
-        // const user = await request(options2).catch(error => throwError(400, error.response.body))
-        console.log(token)
         return res.status(200).json({
             token: token.access_token
         })

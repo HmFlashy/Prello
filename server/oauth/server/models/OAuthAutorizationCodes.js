@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 const OAuthAuthorizationCode = new Schema({
-    code: String,
+    authorizationCode: String,
     expiresAt: Date,
     redirectUri: String,
     scope: String,
@@ -26,6 +26,15 @@ OAuthAuthorizationCodes.revokeAuthorizationCode = async (code) => {
     } else {
         return false
     }
+}
+
+OAuthAuthorizationCodes.saveAuthorizationCode = async (code, client, user) => {
+    const authorizationCode = new OAuthAuthorizationCodes({
+        ...code,
+        client: client,
+        user: user
+    })
+    return await authorizationCode.save()
 }
 
 module.exports = OAuthAuthorizationCodes
