@@ -49,8 +49,7 @@ export default {
     },
     async deleteChecklist(cardId, checkListId) {
         try {
-            const res = await axios.delete(`${UrlConfig.API}/cards/${cardId}/checklists/${checkListId}`, {
-            }, tokenHeader())
+            const res = await axios.delete(`${UrlConfig.API}/cards/${cardId}/checklists/${checkListId}`, tokenHeader())
             return res.data
         } catch (error) {
             throw error
@@ -78,9 +77,7 @@ export default {
     },
     async deleteItemToChecklist(cardId, checkListId, itemId) {
         try {
-            const res = await axios.delete(`${UrlConfig.API}/cards/${cardId}/checklists/${checkListId}/items/${itemId}`, {
-
-            }, tokenHeader())
+            const res = await axios.delete(`${UrlConfig.API}/cards/${cardId}/checklists/${checkListId}/items/${itemId}`, tokenHeader())
             return res.data
         } catch (error) {
             throw error
