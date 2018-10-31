@@ -11,15 +11,15 @@ const throwError = require('../../../../helper/RequestHelper').throwError;
   *         type: string
   *
   * paths:
-  *   /boards/:boardId/labels:
+  *   /boards/:boardId/labels/:labelId:
   *     post:
   *       tags:
   *         - Label
-  *       description: Deleting a label from a board given its Id and the board Id
-  *       summary: Deleting a label in the database
+  *       description: Get a label given its Id
+  *       summary: Getting a label from the database
   *       responses:
   *         200:
-  *           description: The updated Board
+  *           description: Retrieve the label
   *           content:
   *             application/json:
   *               schema:
