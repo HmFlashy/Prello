@@ -26,8 +26,8 @@ async function initDB() {
 
     const PrelloClient = new OAuthClient({
         name: 'Khal-Prello-API',
-        clientId: process.env.OAUTH_CLIENTID_PRELLO,
-        clientSecret: process.env.OAUTH_SECRET_PRELLO,
+        id: process.env.OAUTH_CLIENTID_PRELLO,
+        secret: process.env.OAUTH_SECRET_PRELLO,
         redirectUris: [process.env.PRELLO_CLIENTURL],
         grants: ['password', 'authorization_code'],
       })

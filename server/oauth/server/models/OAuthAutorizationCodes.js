@@ -7,31 +7,29 @@ const OAuthAuthorizationCode = new Schema({
     expiresAt: Date,
     redirectUri: String,
     scope: String,
-    client: { type: Schema.Types.ObjectId, ref: 'OAuthClient' },
+    client: Object,
     user: { type: Schema.Types.ObjectId, ref: 'OAuthUser' }
 })
 
 
 const OAuthAuthorizationCodes = mongoose.model('OAuthAuthorizationCodes', OAuthAuthorizationCode);
 
-OAuthAuthorizationCodes.getAuthorizationCode = (authorizationCode, callback) => {
-    return OAuthAuthorizationCodes.findOne({ code: authorizationCode })
+OAuthAuthorizationCodes.getAuthorizationCode = async (authorizationCode) => {
+    const code = await OAuthAuthorizationCodes.findOne({ authorizationCode: authorizationCode })
+    return code
 }
 
 OAuthAuthorizationCodes.revokeAuthorizationCode = async (code) => {
-    const authorizationCode = await OAuthAuthorizationCodes.findOne({code: code.code})
-    if(authorizationCode){
-        await authorizationCode.destroy()
-        return true
-    } else {
-        return false
-    }
+    await code.remove()
+    return true
 }
 
 OAuthAuthorizationCodes.saveAuthorizationCode = async (code, client, user) => {
     const authorizationCode = new OAuthAuthorizationCodes({
         ...code,
-        client: client,
+        client: {
+            id: client.id
+        },
         user: user
     })
     return await authorizationCode.save()

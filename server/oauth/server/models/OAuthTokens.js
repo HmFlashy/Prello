@@ -30,7 +30,7 @@ OAuthTokens.saveToken = async (token, client, user) => {
     accessToken: token.accessToken,
     accessTokenExpiresAt: token.accessTokenExpiresAt,
     scope: token.scope,
-    client: client.clientId,
+    client: client.id,
     user: user
   });
   const OAuthRefreshTokensModel = mongoose.model('OAuthRefreshTokens')
@@ -38,7 +38,7 @@ OAuthTokens.saveToken = async (token, client, user) => {
     refreshToken: token.refreshToken,
     refreshTokenExpiresAt: token.refreshTokenExpiresAt,
     scope: token.scope,
-    client: client.clientId,
+    client: client.id,
     user: user,
   })
   // Can't just chain `lean()` to `save()` as we did with `findOne()` elsewhere. Instead we use `Promise` to resolve the data.
@@ -54,9 +54,9 @@ OAuthTokens.saveToken = async (token, client, user) => {
 
 OAuthTokens.validateScope = async (user, client, scope) => {
   return scope
-    .split('+')
+    .split(' ')
     .filter(s => VALID_SCOPES.indexOf(s) >= 0)
-    .join('+');
+    .join(' ');
 }
 
 OAuthTokens.verifyScope = async (token, scope) => {
