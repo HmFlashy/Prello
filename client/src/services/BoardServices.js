@@ -23,7 +23,7 @@ export default {
     },
     async fetchBoardInfo(boardId) {
         try {
-            const res = await axios.get(`${UrlConfig.API}/boards/${boardId}/info`, tokenHeader)
+            const res = await axios.get(`${UrlConfig.API}/boards/${boardId}/info`, tokenHeader())
             return res.data
         } catch (e) {
             console.log(e)

@@ -58,7 +58,6 @@ const throwError = require('../../../helper/RequestHelper').throwError;
  */
 module.exports = async (req, res) => {
     try {
-        console.log(req)
         const name = req.body.name;
         const visibility = req.body.visibility;
         const teamId = req.body.teamId;

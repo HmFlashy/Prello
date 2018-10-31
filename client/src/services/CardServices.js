@@ -19,7 +19,7 @@ export default {
         }
     }, async moveCardApi(cardId, data) {
         try {
-            const res = await axios.put(`${UrlConfig.API}/cards/${cardId}/move`, data, tokenHeader)
+            const res = await axios.put(`${UrlConfig.API}/cards/${cardId}/move`, data, tokenHeader())
             return res.data
         } catch (error) {
             throw error
