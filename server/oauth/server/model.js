@@ -7,6 +7,8 @@ const OAuthUsers = require('./models').OAuthUsers;
 
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const throwError = require('../../api/helper/RequestHelper').throwError;
+const InvalidGrantError = require('oauth2-server/lib/errors/invalid-grant-error');
 
 /**
  * Get access token.
@@ -47,11 +49,14 @@ module.exports.generateAccessToken = function(client, user, scope) {
  */
 
 module.exports.getUser = async function(username, password) {
-  const user = await OAuthUsers.findOne({ username: username }).lean();
-  if(true){//await bcrypt.compare(password, user.hash)) {
+  const user = await OAuthUsers.findOne({ $or: [{username: username}, {email: username}]}).lean();
+  if(user == null){
+    throw new InvalidGrantError("WRONG_USERNAME_OR_EMAIL")
+  }
+  if(await bcrypt.compare(password, user.hash)) {
     return user
   } else {
-    return null
+    throw new InvalidGrantError("WRONG_PASSWORD")
   }
 };
 

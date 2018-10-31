@@ -10,8 +10,6 @@ const swaggerJSDoc = require('./api/swagger.js')
 const swaggerUi = require('swagger-ui-express');
 require("./config/db");
 
-const oauth = require('./oauth/server/OAuth2Server')
-
 app.use(cors())
 // API calls
 app.use(helmet());

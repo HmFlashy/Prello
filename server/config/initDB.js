@@ -32,7 +32,7 @@ async function initDB() {
     const Hugo = User({
         name: "Hugo", fullName: "Hugo Maitre", bio: `Student ; Programer ; Gamer ; What else? Not active on github as 
         I would like to be but hey no worry, one day you'll know my name ;) jk x)
-`, initials: "HM", username: "HmFlashy", organization: "Polytech", email: "h", hash: hugoHash
+`, initials: "HM", username: "HmFlashy", organization: "Polytech", email: "hugo.maitre69@gmail.com", hash: hugoHash
     });
     const kevinHash = await passwordHelper.passwordHelper("g");
     const Kevin = User({
