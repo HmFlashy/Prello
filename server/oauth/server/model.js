@@ -7,7 +7,6 @@ const OAuthUsers = require('./models').OAuthUsers;
 
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const throwError = require('../../api/helper/RequestHelper').throwError;
 const InvalidGrantError = require('oauth2-server/lib/errors/invalid-grant-error');
 
 /**

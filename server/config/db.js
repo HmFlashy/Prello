@@ -9,3 +9,5 @@ mongoose.connection.once('open', function() {
 }).on('error', function(error){
   console.log('Connection error:', error)
 })
+
+require('../api/models')

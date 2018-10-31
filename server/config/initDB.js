@@ -10,6 +10,7 @@ const Category = require("../api/models/index").Category;
 const Team = require("../api/models/index").Team;
 const Checklist = require("../api/models/index").Checklist;
 const passwordHelper = require("../api/helper/passwordHelper");
+const OAuthClient = require('../oauth/server/models/OAuthClients')
 
 require("dotenv").config({  });
 connect();
@@ -22,6 +23,15 @@ function connect() {
 
 async function initDB() {
     await mongoose.connection.db.dropDatabase();
+
+    const PrelloClient = new OAuthClient({
+        name: 'Khal-Prello-API',
+        client_id: process.env.OAUTH_CLIENTID_PRELLO,
+        client_secret: process.env.OAUTH_SECRET_PRELLO,
+        redirectUris: [process.env.PRELLO_CLIENTURL],
+        grants: ['password'],
+      })
+
     const alexHash = await passwordHelper.passwordHelper("a");
     const Alex = User({
         name: "Alex", fullName: "Alex Aufauvre", bio: `Amazing skills in design, I'm the guy you need to 
@@ -292,6 +302,7 @@ async function initDB() {
             if (error) throw error
         }));
 
+    array.push(await PrelloClient.save())
     array.push(await Alex.save());
     array.push(await Kevin.save());
     array.push(await Hugo.save());

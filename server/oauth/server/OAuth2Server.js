@@ -1,24 +1,25 @@
+const mongoose = require('mongoose')
 const OAuthServer = require('express-oauth-server');
-const OAuthClient = require('./models/OAuthClients')
-
-OAuthClient.countDocuments({}).then(c => {
-  if (c === 0) {
-    let defaultClient = new OAuthClient({
-      name: 'PrelloAPI',
-      client_id: process.env.OAUTH_CLIENTID_PRELLO,
-      client_secret: process.env.OAUTH_SECRET_PRELLO,
-      redirectUris: [process.env.PRELLO_CLIENTURL],
-      grants: ['password'],
-      scope: 'boards:read boards:write users.profile:read users.profile:write teams:read teams:write'
-    })
-    defaultClient.save()
-  }
-})
+const OAuthUser = mongoose.model('User');
+const jwt = require('jsonwebtoken')
 
 const oauth = new OAuthServer({
     model: require('./model'),
-    grants: ['password'],
-    debug: true
+    grants: ['password']
   });
+
+oauth.populateCurrentUser = () => {
+  return (req, res, next) => {
+    const token = res.locals.oauth.token.accessToken
+    const tokenDecoded = jwt.decode(token)
+    OAuthUser.findById(tokenDecoded.userId)
+    .then(user => {
+      req.user = user
+      next()
+    })
+    .catch(error => console.log(error) || Promise.reject(error))
+  }
+}
+console.log(oauth.populateCurrentUser())
 
 module.exports = oauth;

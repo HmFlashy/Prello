@@ -4,7 +4,8 @@
   "description": "Project manager based on boards, list and cards",
   "main": "server.js",
   "dependencies": {
-    "mongoose": "^5.3.3"
+    "mongoose": "^5.3.3",
+    "request-promise": "^4.2.2"
   },
   "devDependencies": {
     "concurrently": "^4.0.1"
