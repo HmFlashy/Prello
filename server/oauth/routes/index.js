@@ -1,10 +1,17 @@
 const express = require('express')
-const router = express.Router()
 
 const oauth = require('../server/OAuth2Server')
+const path = require('path')
 
-router.post('/token', oauth.token())
-router.post('/authorise', oauth.authorize())
+module.exports = (app) => {
 
+    app.set('view engine', 'pug')
+    app.set('views', path.join(__dirname, '../views'));
+    app.use('/static', express.static(path.join(__dirname, '..', 'views', 'public')));
 
-module.exports = router;
+    const router = express.Router()
+    router.post('/token', oauth.token())
+    router.post('/authorize', oauth.authorize())
+    router.get('/auth', require('./authentificationPage'))
+    return router;
+}

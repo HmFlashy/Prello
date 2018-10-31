@@ -15,7 +15,9 @@ app.use(cors())
 app.use(helmet());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use('/oauth', require('./oauth/routes'))
+
+app.use('/oauth', require('./oauth/routes')(app))
+
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerJSDoc));
 app.use('/api', require("./api"));
 

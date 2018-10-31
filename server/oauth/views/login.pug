@@ -1,0 +1,24 @@
+doctype html
+html(lang='en')
+  head
+    title Prello login
+    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css")
+    link(rel="stylesheet", href="/static/oauth/css/login.css")
+    
+  body
+    div(class="ui middle aligned center aligned grid")
+      div(class="column")
+        h2(class="ui red image header") Log in to your Prello account
+        form(action={redirect_uri}, class="ui large form", method="post", novalidation)
+          div(class="ui stacked segment")
+            div(class="field")
+              label Email or Username
+              input(type="text", placeholder="jeannette@saucisson.fr" name="username")
+            div(class="field")
+              label Password
+              input(type="password", placeholder="Type password..." name="password")
+            button(class="ui fluid large google plus submit button") Login
+        div(class="ui message") Don't have an account ? Sign up to 
+          a(href="http://localhost:3000/register") Prello
+    script(src="/static/oauth/js/login.js")
+      

@@ -23,6 +23,7 @@
     "multer-s3": "^2.7.0",
     "oauth2-server": "^3.0.1",
     "prop-types": "^15.6.2",
+    "pug": "^2.0.3",
     "request": "^2.88.0",
     "request-promise": "^4.2.2",
     "socket.io": "^2.1.1",

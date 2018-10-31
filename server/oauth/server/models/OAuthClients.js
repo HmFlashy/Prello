@@ -1,15 +1,22 @@
-/**
- * Module dependencies.
- */
-
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-mongoose.model('OAuthClients', new Schema({
-  client_id: { type: String },
-  client_secret: { type: String },
+const OauthClient = new Schema({
+  clientId: { type: String },
+  clientSecret: { type: String },
   redirectUris: { type: Array },
   grants: { type: Array }
-}));
+});
 
-module.exports = mongoose.model('OAuthClients');
+const OAuthClients = mongoose.model('OAuthClients', OauthClient);
+
+OAuthClients.getClient = async (clientId, clientSecret) => {
+  const query = { 
+    clientId: clientId
+  }
+  clientSecret ? query.clientSecret = clientSecret : null
+  const client = await OAuthClients.findOne(query);
+  return client
+};
+
+module.exports = OAuthClients

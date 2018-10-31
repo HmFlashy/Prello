@@ -1,19 +1,71 @@
-/**
- * Module dependencies.
- */
-
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+const jwt = require('jsonwebtoken')
+const VALID_SCOPES = require('../scopes')
 
-mongoose.model('OAuthTokens', new Schema({
+const OAuthToken = new Schema({
   accessToken: { type: String },
   accessTokenExpiresAt: { type: Date },
-  client : { type: Object },  // `client` and `user` are required in multiple places, for example `getAccessToken()`
-  clientId: { type: String },
+  client: String,
   refreshToken: { type: String },
   refreshTokenExpiresAt: { type: Date },
-  user : { type: Object },
-  userId: { type: String },
-}));
+  user: { type: Schema.Types.ObjectId, ref: 'OAuthUser' }
+});
 
-module.exports = mongoose.model('OAuthTokens');
+const OAuthTokens = mongoose.model('OAuthTokens', OAuthToken);
+
+OAuthTokens.getAccessToken = async (bearerToken) => {
+  return await OAuthTokens.findOne({ accessToken: bearerToken });
+};
+
+OAuthTokens.generateAccessToken = (client, user, scope) => {
+  const payload = {
+    userId: user._id,
+    scope: scope
+  }
+  return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1h" })
+}
+
+OAuthTokens.saveToken = async (token, client, user) => {
+  const accessToken = new OAuthTokens({
+    accessToken: token.accessToken,
+    accessTokenExpiresAt: token.accessTokenExpiresAt,
+    client: client.clientId,
+    user: user
+  });
+  const OAuthRefreshTokensModel = mongoose.model('OAuthRefreshTokens')
+  const refreshToken = new OAuthRefreshTokensModel({
+    refreshToken: token.refreshToken,
+    refreshTokenExpiresAt: token.refreshTokenExpiresAt,
+    scope: token.scope,
+    client: client.clientId,
+    user: user,
+  })
+  // Can't just chain `lean()` to `save()` as we did with `findOne()` elsewhere. Instead we use `Promise` to resolve the data.
+  const savedAccessToken = await accessToken.save()
+  const savedRefreshToken = await refreshToken.save()
+  let saveResult = new Object({
+    ...token,
+    client: client,
+    user: user
+  })
+  return saveResult;
+};
+
+OAuthTokens.validateScope = async (user, client, scope) => {
+  return scope
+    .split(' ')
+    .filter(s => VALID_SCOPES.indexOf(s) >= 0)
+    .join(' ');
+}
+
+OAuthTokens.verifyScope = async (token, scope) => {
+  if (!token.scope) {
+    return false;
+  }
+  let requestedScopes = scope.split(' ');
+  let authorizedScopes = token.scope.split(' ');
+  return requestedScopes.every(s => authorizedScopes.indexOf(s) >= 0);
+}
+
+module.exports = OAuthTokens
