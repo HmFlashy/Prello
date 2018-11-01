@@ -62,7 +62,7 @@ module.exports = async (req, res) => {
             form: {
                 username: email,
                 password: password,
-                scope: "read+write",
+                scope: "read write",
                 grant_type: 'password'
             },
             headers: {

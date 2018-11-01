@@ -26,9 +26,13 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        subscribe(){
-            socketService.subscribe()
-            dispatch(actionBoardSubscribe())
+        subscribe(boardId){
+            socketService.subscribe(boardId)
+            dispatch(actionBoardSubscribe(boardId))
+        },
+        unsubscribe(boardId){
+            socketService.unsubscribe(boardId)
+            //dispatch(actionBoardUnsubscribe(boardId))
         },
         async fetchBoard(id){
             try {

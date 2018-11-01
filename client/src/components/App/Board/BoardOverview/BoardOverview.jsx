@@ -6,7 +6,6 @@ import {Link} from 'react-router-dom'
 class BoardOverview extends Component {
 
     componentWillMount(){
-        this.props.subscribe()
     }
 
     render(){

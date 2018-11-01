@@ -47,7 +47,7 @@ module.exports = async (req, res) => {
             throwError(400, `The cardId ${cardId} is malformed`)
         }
         const card = await CardController.deleteCard(cardId);
-        socketIO.broadcast('action', {
+        socketIO.broadcast('action', card.board, {
             type: 'DELETE_CARD',
             payload: card
         });

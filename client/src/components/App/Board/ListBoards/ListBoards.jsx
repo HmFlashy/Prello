@@ -6,7 +6,6 @@ import {List} from 'semantic-ui-react'
 class ListBoards extends Component {
 
     componentWillMount() {
-        this.props.subscribe()
         this.props.fetchBoards()
     }
 

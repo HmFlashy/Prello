@@ -66,7 +66,7 @@ module.exports = async (req, res) => {
             throwError(400, "Bad Request listId malformed")
         }
         const card = await CardController.addCard(name, listId)
-        socketIO.broadcast('action', {
+        socketIO.broadcast('action', card.board, {
             type: 'ADD_CARD',
             payload: card
         })

@@ -2,23 +2,34 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import header from '../components/App/Header';
 import boardServices from '../services/BoardServices'
+import socketService from '../services/SocketService.js'
 import {
     actionFailedFetchBoards,
     actionBoardsFetched,
     actionFetchingBoards,
     actionFetchingBoard,
     actionBoardFetched,
-    actionFailedFetchBoard
+    actionFailedFetchBoard,
+    actionBoardSubscribe
 } from '../redux/actions/BoardActions'
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        boards: state.boards.all
+        boards: state.boards.all,
+        boardId: state.boards.currentBoard._id
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
+        subscribe(boardId){
+            socketService.subscribe(boardId)
+            dispatch(actionBoardSubscribe(boardId))
+        },
+        unsubscribe(boardId){
+            socketService.unsubscribe(boardId)
+            //dispatch(actionBoardUnsubscribe(boardId))
+        },
         async fetchBoards() {
             try {
                 dispatch(actionFetchingBoards())

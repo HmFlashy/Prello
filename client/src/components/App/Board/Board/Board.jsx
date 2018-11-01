@@ -11,7 +11,7 @@ import { withRouter } from 'react-router-dom'
 class Board extends Component {
 
     componentWillMount() {
-        this.props.subscribe()
+        this.props.subscribe(this.props.boardId)
         const cardId = this.props.cardId
         if (cardId != null) {
             this.props.fetchCard(cardId)
@@ -22,6 +22,10 @@ class Board extends Component {
         this.setState = {
             cardId: this.props.cardId
         }
+    }
+
+    componentWillUnmount(){
+        this.props.unsubscribe(this.props.boardId)
     }
 
 

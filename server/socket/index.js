@@ -14,23 +14,36 @@ module.exports = {
 			io = socketio(server);
 			io.adapter(redisAdapter)
 			io.on('connection', (socket) => {
-				socketLog("A client is connected ( ip: " + socket.handshake.address + " )")
+				socketLog("A client is connected ( id: " + socket.id + " )")
 				//On place nos events ici
 	
-				socket.on('subscribeToBoard', () => {
-					console.log("subscribe to the board")
+				socket.on('subscribeBoard', (boardId) => {
+					io.of('/').adapter.remoteJoin(socket.id, boardId, (error) => {
+						if(error){
+							return socket.log("An error occured: " + error)
+						}
+						socketLog(`User ${socket.id} subscribed to board ${boardId}`)
+					})
 				});
-	
+
+				socket.on('unsubscribeBoard', (boardId) => {
+					io.of('/').adapter.remoteLeave(socket.id, boardId, (error) => {
+						if(error){
+							return socket.log("An error occured: " + error)
+						}
+						socketLog(`User ${socket.id} succesfully unsubscribed to board ${boardId}`)
+					})
+				});
 				socket.on("error", (error) => {
-					console.log(error)
+					socketLog(error)
 				})
 	
 			});
 		} catch (error) {
-			console.log("MDR")
+			sockerLog(error)
 		}
 	},
-	broadcast: (event, data) => {
-		io.of('/').emit(event, data)
+	broadcast: (event, boardId, data) => {
+		io.to(boardId).emit(event, data)
 	}
 }
