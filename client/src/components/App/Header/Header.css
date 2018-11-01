@@ -2,6 +2,8 @@
     justify-content: space-between;
     opacity: 0.8;
     z-index: 100;
+    flex: 0;
+    flex-basis: 60px;
 }
 .inline {
     display: flex;
