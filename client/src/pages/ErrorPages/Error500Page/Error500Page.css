@@ -1,0 +1,12 @@
+.error-500 {    
+    position: relative;
+    background-color: #DADADA;
+    height: 100%;
+}
+
+.error-500-content {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    left: 50%;
+}

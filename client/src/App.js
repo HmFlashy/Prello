@@ -16,16 +16,14 @@ class App extends Component {
       <Provider store={configureStore()}>
         <ConnectedRouter history={history}>
           <div className="App">
-            <div className="app-content">
-              <Switch>
-                    <Route exact path="/login"            component={AuthentificationPage} />
-                    <Route exact path="/register"         component={AuthentificationPage} />
-                    <Route exact path="/home"             component={HomePage} />
-                    <Route exact path="/boards/:boardId"  component={BoardPage} />
-                    <Route exact path="/card/:cardId"     component={BoardPage} />
-                    <Redirect to="/login"/>
-              </Switch>
-            </div>
+            <Switch>
+                  <Route exact path="/login"            component={AuthentificationPage} />
+                  <Route exact path="/register"         component={AuthentificationPage} />
+                  <Route exact path="/home"             component={HomePage} />
+                  <Route exact path="/boards/:boardId"  component={BoardPage} />
+                  <Route exact path="/card/:cardId"     component={BoardPage} />
+                  <Redirect to="/login"/>
+            </Switch>
           </div>
         </ConnectedRouter >
       </Provider >

@@ -3,19 +3,16 @@ import React, { Component } from 'react'
 import { Modal } from 'semantic-ui-react'
 import Header from "../../containers/HeaderContainer";
 import BoardContainer from '../../containers/BoardContainer/BoardContainer';
+import ErrorLayoutContainer from '../../containers/ErrorLayoutContainer';
 
 class BoardPage extends Component {
 
-    constructor(){
-        super()
-    }
-
     render(){
         return (
-            <div>
+            <ErrorLayoutContainer>
                 <Header />
                 <BoardContainer boardId={this.props.match.params.boardId} cardId={this.props.match.params.cardId}/>
-            </div>
+            </ErrorLayoutContainer>
         )
     }
 }

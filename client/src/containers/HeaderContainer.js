@@ -36,7 +36,7 @@ const mapDispatchToProps = dispatch => {
                 const boards = await boardServices.fetchBoards()
                 return dispatch(actionBoardsFetched(boards))
             } catch (error) {
-                return dispatch(actionFailedFetchBoards())
+                return dispatch(actionFailedFetchBoards(error))
             }
         },
         async fetchBoard(id) {
