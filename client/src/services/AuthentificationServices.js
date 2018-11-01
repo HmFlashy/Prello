@@ -21,5 +21,14 @@ export default {
         } catch(error){
             throw error.response
         }
+    },
+    getToken(){
+        return localStorage.getItem("token-prello")
+    },
+    logout(){
+        localStorage.removeItem("token-prello")
+    },
+    async authenticateLdap(email, password){
+        
     }
 }

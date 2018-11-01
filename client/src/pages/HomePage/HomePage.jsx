@@ -2,19 +2,16 @@ import './HomePage.css'
 import React, { Component } from 'react'
 import Header from "../../containers/HeaderContainer";
 import ListBoardContainer from '../../containers/BoardContainer/ListBoardContainer'
+import SecureLayoutContainer from '../../containers/SecureLayoutContainer';
 
 class HomePage extends Component {
 
-    constructor(){
-        super()
-    }
-
     render(){
         return (
-            <div>
+            <SecureLayoutContainer>
                 <Header />
                 <ListBoardContainer />
-            </div>
+            </SecureLayoutContainer>
         )
     }
 }

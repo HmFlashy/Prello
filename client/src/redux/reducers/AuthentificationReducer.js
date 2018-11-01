@@ -1,6 +1,7 @@
 const defaultAuthentificationState = {
     user: null,
-    error: null
+    error: null,
+    token: localStorage.getItem('token-prello')
 }
 
 export default (state = defaultAuthentificationState, action) => {

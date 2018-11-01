@@ -5,8 +5,8 @@ class Error404Page extends Component {
 
     render(){
         return ( 
-            <div class="error-400">
-                <div class="error-400-content">
+            <div className="error-400">
+                <div className="error-400-content">
                     <h1>ERROR 400</h1>
                     <h2>Bad request, the request is malformed</h2>
                 </div>

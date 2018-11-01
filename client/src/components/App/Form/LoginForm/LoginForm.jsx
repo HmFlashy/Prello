@@ -17,7 +17,7 @@ class LoginForm extends Component {
     async authenticate(){
         try {
             await this.props.authenticate(this.state.email, this.state.password)
-            this.props.history.push('/home')
+            this.props.history.push(this.props.location.redirect || { pathname: '/home' })
         } catch(error) {
         }
     }
