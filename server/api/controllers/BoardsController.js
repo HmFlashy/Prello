@@ -45,7 +45,9 @@ const getBoardById = async (boardId) => {
                 select: ["_id"]
             }, {
                 path: "activities"
-            }
+            }, {
+                path: "labels"
+             } 
             ]);
         if (!board) {
             throwError(404, `The board ${boardId} was not found`)

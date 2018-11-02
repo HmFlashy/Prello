@@ -105,7 +105,7 @@ class CardDetail extends Component {
                 <Divider />
                 <div className={this.state.width > 600 ? "displayRow main" : "main"}>
                     <div className="details main">
-                        {(this.props.card.members && this.props.card.members.length !== 0) || (this.props.card && this.props.card.labels.length !== 0) || this.props.card.dueDate
+                        {(this.props.card.members && this.props.card.members.length !== 0) || (this.props.card.labels && this.props.card.labels.length !== 0) || this.props.card.dueDate
                             ? <div>
                                 <div className="inline">
                                     <Icon name='tags' />
@@ -166,7 +166,8 @@ class CardDetail extends Component {
                         <Activity></Activity>
                     </div>
                     <Menu
-                        card={this.props.card}
+                        labelsCard={this.props.card.labels}
+                        labelsBoard={this.props.board.labels}
                         isArchived={this.props.card.isArchived}
                         onDueDate={(date) => this.updateCard({ dueDate: this.props.card.dueDate, _id: this.props.card._id }, { dueDate: date, _id: this.props.card._id })}
                         onArchive={(value) => this.updateCard({ isArchived: this.props.card.isArchived, _id: this.props.card._id }, { isArchived: value, _id: this.props.card._id })}
