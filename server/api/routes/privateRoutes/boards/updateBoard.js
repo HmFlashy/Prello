@@ -76,7 +76,7 @@ module.exports = async (req, res) => {
         }
         Object.keys(req.body).forEach(action => {
             if (types[action]) {
-                socketIO.broadcast('action', {
+                socketIO.broadcast('action', boardId, {
                     type: types[action],
                     payload: { [action]: boardUpdated[action], "_id": boardUpdated._id }
                 })

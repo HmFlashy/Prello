@@ -78,8 +78,21 @@ const updateList = async (listId, body) => {
     }
 };
 
+const getById = async(listId) => {
+    try {
+        const list = await List.findById(listId)
+        if(!list){
+            throwError(404, `The list ${listId} was not found`)
+        }
+        return list
+    } catch(error) {
+        throw error
+    }
+}
+
 module.exports = {
     addList,
     deleteList,
-    updateList
+    updateList,
+    getById
 };

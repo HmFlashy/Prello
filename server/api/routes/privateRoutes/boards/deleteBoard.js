@@ -51,7 +51,7 @@ module.exports = async (req, res) => {
         if (!board) {
             throwError(404, `The board ${boardId} was not found`)
         }
-        socketIO.broadcast("action", {
+        socketIO.broadcast("action", boardId, {
             type: "DELETE_BOARD",
             payload: board
         });

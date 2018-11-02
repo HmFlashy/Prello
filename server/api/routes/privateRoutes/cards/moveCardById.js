@@ -59,6 +59,14 @@ module.exports = async (req, res) => {
             throwError(400, "Bad Request pos malformed")
         }
         const card = await CardController.moveCard(cardId, oldListId, newListId, boardId, pos)
+        socketIO.broadcast('action', card.board, {
+            type: 'MOVE_CARD',
+            payload: {
+                oldListId: oldListId,
+                newListId: newListId,
+                pos: pos
+            }
+        });
         return res.status(200).json(card)
     } catch (error) {
         console.log(error)

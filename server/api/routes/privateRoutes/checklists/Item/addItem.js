@@ -1,3 +1,4 @@
+const CardController = require('../../../../controllers/CardsController')
 const ChecklistController = require('../../../../controllers/ChecklistController')
 const socketIO = require('../../../../../socket/index')
 const throwError = require('../../../../helper/RequestHelper').throwError;
@@ -58,8 +59,10 @@ module.exports = async (req, res) => {
         if (!name) {
             throwError(400, "Missing name parameter")
         }
-        const checklists = await ChecklistController.addItem(cardId, checklistId, name)
-        socketIO.broadcast('action', {
+        const card = await CardController.getCardById(cardId)
+        const checklists = await ChecklistController.addItem(card._id, checklistId, name)
+        console.log(card)
+        socketIO.broadcast('action', card.board, {
             type: 'ADDED_ITEM',
             payload: { _id: cardId, checklists }
         })

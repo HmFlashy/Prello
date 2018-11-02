@@ -1,4 +1,5 @@
 const CardController = require('../../../controllers/CardsController')
+const ListController = require('../../../controllers/ListsController')
 const socketIO = require('../../../../socket/index')
 const throwError = require('../../../helper/RequestHelper').throwError;
 
@@ -65,8 +66,9 @@ module.exports = async (req, res) => {
         if (!listId || !listId.match(/^[0-9a-fA-F]{24}$/)) {
             throwError(400, "Bad Request listId malformed")
         }
-        const card = await CardController.addCard(name, listId)
-        socketIO.broadcast('action', card.board, {
+        const list = await ListController.getById(listId)
+        const card = await CardController.addCard(name, list._id, list.board)
+        socketIO.broadcast('action', list.board, {
             type: 'ADD_CARD',
             payload: card
         })

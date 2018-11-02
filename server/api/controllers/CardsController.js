@@ -12,14 +12,15 @@ const getCardById = async (cardId) => {
     }
 };
 
-const addCard = async (name, listId) => {
+const addCard = async (name, listId, boardId) => {
     let session = null
     try {
         session = await mongoose.startSession()
         session.startTransaction();
         const card = new Card({
             name: name,
-            list: listId
+            list: listId,
+            board: boardId
         });
         const savedCard = await card.save();
         await List.findOneAndUpdate({ _id: listId },

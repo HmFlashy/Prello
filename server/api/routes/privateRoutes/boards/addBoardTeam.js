@@ -71,7 +71,7 @@ module.exports = async (req, res) => {
         }
 
         const board = await boardsController.addBoardTeam(boardId, req.body);
-        socketIO.broadcast("action", {
+        socketIO.broadcast("action", boardId, {
             type: "ADD_BOARD_TEAM",
             payload: board.teams
         });

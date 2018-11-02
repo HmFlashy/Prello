@@ -1,3 +1,4 @@
+const CardController = require('../../../../controllers/CardsController')
 const ChecklistController = require('../../../../controllers/ChecklistController')
 const socketIO = require('../../../../../socket/index')
 const throwError = require('../../../../helper/RequestHelper').throwError;
@@ -66,14 +67,15 @@ module.exports = async (req, res) => {
             throwError(400, "No data in body")
         }
         console.log(req.body)
-        const checklists = await ChecklistController.updateItem(cardId, checklistId, itemId, req.body)
+        const card = CardController.getCardById(cardId)
+        const checklists = await ChecklistController.updateItem(card._id, checklistId, itemId, req.body)
         Object.keys(req.body).forEach(action => {
             if (types[action]) {
                 checklists.forEach(checklist => {
                     if (checklist._id == checklistId) {
                         checklist.items.forEach(item => {
                             if (item._id == itemId) {
-                                socketIO.broadcast('action', {
+                                socketIO.broadcast('action', card.board, {
                                     type: types[action],
                                     payload: { _id: cardId, checklists, [action]: item[action] }
                                 })
