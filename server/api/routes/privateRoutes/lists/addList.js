@@ -69,7 +69,7 @@ module.exports = async (req, res) => {
         if(!list) {
             throwError(500, "Internal server issue")
         }
-        socketIO.broadcast("action", {
+        socketIO.broadcast("action", boardId, {
             type: "ADD_LIST",
             payload: list
         });
