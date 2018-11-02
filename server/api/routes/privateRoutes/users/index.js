@@ -1,12 +1,8 @@
+const express = require('express');
 
-/**
-  *   @swagger
-  *   components:
-  *     schemas:
-  *       User:
-  *         properties:
-  *           _id:
-  *             type: ObjectId
-  *           name:
-  *             type: string
-  */
+const router = express.Router();
+
+router.delete('/:userId/boardStars/:boardId', require('./unstarBoard'));
+router.post('/:userId/boardStars/:boardId', require('./starBoard'));
+
+module.exports = router;

@@ -15,6 +15,7 @@ import {
     actionCardFetched,
     actionFailedCardFetched
 } from '../../redux/actions/CardActions'
+import {withRouter} from 'react-router'
 
 const mapStateToProps = state => {
     return {
@@ -61,7 +62,7 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(
+export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps
-)(board);
+)(board));

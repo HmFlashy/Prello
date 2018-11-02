@@ -1,10 +1,20 @@
 const User = require("../models/index").User;
+const Board = require("../models/index").Board;
 const throwError = require("../helper/RequestHelper").throwError;
 const passwordHelper = require("../helper/passwordHelper");
 
 const getByEmail = async (email) => {
     try {
         const user = await User.findOne({email: email})
+        return user
+    } catch (error) {
+        throw error
+    }
+}
+
+const getById = async (userId) => {
+    try {
+        const user = await User.findById(userId)
         return user
     } catch (error) {
         throw error
@@ -44,7 +54,51 @@ const getUserByUsername = async (username) => {
     }
 }
 
+const unstarBoard = async (userId, boardId) => {
+    try {
+        const user = await User.findByIdAndUpdate(userId, {
+            $pull: {starred: boardId}
+        });
+        if(!user) {
+            throwError(404, `The user ${userId} was not found`)
+        }
+        const board = await Board.findOneAndUpdate({_id: boardId}, {
+            $pull: {starred: user._id}
+        })
+        if(!board) {
+            throwError(404, `The board ${boardId} was not found`)
+        }
+        return {user, board}
+    } catch (error) {
+        throw error
+    }
+}
+
+const starBoard = async (userId, boardId) => {
+    try {
+        const user = await User.findByIdAndUpdate(userId, {
+            $push: {starred: boardId}
+        });
+        if (!user) {
+            throwError(404, `The user ${userId} was not found`)
+        }
+        const board = await Board.findOneAndUpdate({_id: boardId}, {
+            $push: {starred: user._id}
+        });
+        if (!board) {
+            throwError(404, `The board ${boardId} was not found`)
+        }
+        return board
+    } catch (error) {
+        throw error
+    }
+}
+
+
 module.exports = {
     getByEmail,
-    addUser
+    addUser,
+    getById,
+    unstarBoard,
+    starBoard
 }
