@@ -113,7 +113,7 @@ class CardDetail extends Component {
                                         ? <Members className="membersContainer" members={this.props.card.members}></Members>
                                         : ""}
                                     {this.props.card.labels && this.props.card.labels.length !== 0
-                                        ? <Labels className="labelsContainer" labels={this.props.card.labels}></Labels>
+                                        ? <Labels className="labelsContainer" card={this.props.card}></Labels>
                                         : ""}
                                     {this.props.card.dueDate
                                         ? <DueDate className="duedateContainer" onChange={(isChecked) => this.updateCard({ dueDateCompleted: this.props.card.dueDateCompleted, _id: this.props.card._id }, { dueDateCompleted: isChecked ? moment() : null, _id: this.props.card._id })} date={this.props.card.dueDate} isCompleted={this.props.card.dueDateCompleted}></DueDate>
@@ -167,7 +167,7 @@ class CardDetail extends Component {
                     </div>
                     <Menu
                         card={this.props.card}
-                        labelsBoard={this.props.board.labels}
+                        board={this.props.board}
                         isArchived={this.props.card.isArchived}
                         onDueDate={(date) => this.updateCard({ dueDate: this.props.card.dueDate, _id: this.props.card._id }, { dueDate: date, _id: this.props.card._id })}
                         onArchive={(value) => this.updateCard({ isArchived: this.props.card.isArchived, _id: this.props.card._id }, { isArchived: value, _id: this.props.card._id })}

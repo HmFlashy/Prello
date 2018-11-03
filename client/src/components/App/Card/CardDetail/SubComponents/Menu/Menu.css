@@ -1,3 +1,10 @@
 .buttons{
     width: 100%
 }
+
+.label{
+    padding: 2px;
+    width: fit-content;
+    border-radius: 5px;
+    color: white;
+}
