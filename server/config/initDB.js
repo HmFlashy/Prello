@@ -189,7 +189,7 @@ async function initDB() {
         starred: [Kevin._id, Loris._id],
         labels: [DB._id, FrontEnd._id, BackEnd._id],
         boardInformation: {
-            nbStars: 3,
+            nbStars: 2,
             nbMembers: 4
         }
     });
@@ -208,10 +208,10 @@ async function initDB() {
                 member: Hugo._id,
                 role: "Member"
             }],
-        starred: [Loris._id],
+        starred: [Loris._id, Hugo._id],
         labels: [DB2._id],
         boardInformation: {
-            nbStars: 1,
+            nbStars: 2,
             nbMembers: 2
         }
     });
@@ -252,6 +252,7 @@ async function initDB() {
             member: Hugo._id,
             role: "Admin"
         }],
+        starred: [Hugo._id],
         boardInformation: {
             nbStars: 1,
             nbMembers: 1
