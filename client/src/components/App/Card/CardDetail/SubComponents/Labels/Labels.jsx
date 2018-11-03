@@ -8,7 +8,7 @@ export default (props) => (
         <div className="displayRow">
             {props.card.labels 
             ?
-            props.card.labels.map(label => console.log(label) || <p>{label}</p>)
+            props.card.labels.map(label => console.log(label) || <p className="label" style={{ background: label.color }}>{label.name}</p>)
         :""}
             <Icon name='plus' />
         </div>

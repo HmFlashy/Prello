@@ -4,7 +4,14 @@ const throwError = require("../helper/RequestHelper").throwError;
 
 const getCardById = async (cardId) => {
     try {
-        const card = await Card.findById(cardId)
+        const card = await Card.findById(cardId).populate(
+            [{
+                path: "labels"
+            }, {
+                path: "members"               
+            }]
+        )
+        console.log(card)
         return card
     } catch (error) {
         throw error

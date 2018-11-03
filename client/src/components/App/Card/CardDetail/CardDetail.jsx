@@ -110,7 +110,7 @@ class CardDetail extends Component {
                                 <div className="inline">
                                     <Icon name='tags' />
                                     {this.props.card.members && this.props.card.members.length !== 0
-                                        ? <Members className="membersContainer" members={this.props.card.members}></Members>
+                                        ? <Members className="membersContainer" card={this.props.card}></Members>
                                         : ""}
                                     {this.props.card.labels && this.props.card.labels.length !== 0
                                         ? <Labels className="labelsContainer" card={this.props.card}></Labels>

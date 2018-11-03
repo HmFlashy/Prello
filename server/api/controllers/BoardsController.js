@@ -24,7 +24,8 @@ const getBoardById = async (boardId) => {
                         }
                     ]
                 }
-            }, {
+            }, 
+             {
                 path: "members.member",
                 select: ["_id", "name", "email", "fullName", "initials", "username",
                     "organization", "teams"],
@@ -32,7 +33,8 @@ const getBoardById = async (boardId) => {
                     path: "teams.team",
                     select: ["_id", "name"]
                 }
-            }, {
+            },
+            {
                 path: "teams",
                 select: ["_id", "name", "members"],
                 populate: {
@@ -45,9 +47,10 @@ const getBoardById = async (boardId) => {
                 select: ["_id"]
             }, {
                 path: "activities"
-            }, {
+            },
+             {
                 path: "labels"
-             } 
+             }
             ]);
         if (!board) {
             throwError(404, `The board ${boardId} was not found`)
