@@ -23,7 +23,8 @@ class BoardOverview extends Component {
         this.props.history.push(`/boards/${this.props.board._id}`)
     }
 
-    starBoard() {
+    starBoard(event) {
+        event.stopPropagation();
         if (this.props.isStarred) {
             this.props.unstarBoard(this.props.userId)
         } else {
@@ -33,16 +34,20 @@ class BoardOverview extends Component {
 
     render() {
         return (
-            <Card>
-                <Card.Content onClick={this.displayBoard}>
-                    {this.props.board ? this.props.board.name : ""}
-                </Card.Content>
-                <Card.Content><span onClick={this.starBoard}
+            <Card onClick={this.displayBoard}>
+                <Card.Content>
+                    <h1>{this.props.board ? this.props.board.name : ""}</h1>
+                    <span onClick={this.starBoard}
                               onMouseEnter={() => this.changeStarState}
                               onMouseOut={() => this.changeStarState}>
                      <Icon disabled={!this.state.isHoverStar}
                            name={this.props.isStarred ?"star":"star outline"}/>
+                        {this.props.board?this.props.board.boardInformation.nbStars:0}
                         </span>
+                    <span>
+                        <Icon name="user circle"/>
+                        {this.props.board?this.props.board.boardInformation.nbMembers:1}
+                    </span>
                 </Card.Content>
             </Card>
         );

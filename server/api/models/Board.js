@@ -13,7 +13,7 @@ const BoardSchema = new mongoose.Schema({
     starred: [{type: mongoose.Schema.Types.ObjectId, ref: "User"}],
     isClosed: {type: Boolean, default: false},
     activities: [{type: mongoose.Schema.Types.ObjectId, ref: "Action"}],
-    visibility: {type: String},
+    visibility: {type: String, enum: ['Private', 'Team', 'Public'], default: 'Private'},
     labels: [{type: mongoose.Schema.Types.ObjectId, ref: "Label"}],
     boardInformation: {
         nbMembers: { type: Number, default: 1 },

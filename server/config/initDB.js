@@ -10,9 +10,9 @@ const Category = require("../api/models/index").Category;
 const Team = require("../api/models/index").Team;
 const Checklist = require("../api/models/index").Checklist;
 const passwordHelper = require("../api/helper/passwordHelper");
-const OAuthClient = require('../oauth/server/models/OAuthClients')
+const OAuthClient = require("../oauth/server/models/OAuthClients")
 
-require("dotenv").config({  });
+require("dotenv").config({});
 connect();
 
 function connect() {
@@ -71,14 +71,14 @@ async function initDB() {
         ], boards: []
     });
 
-    Alex.teams = [{ team: Khal._id, role: "Admin" }];
-    Hugo.teams = [{ team: Khal._id, role: "Member" }];
-    Kevin.teams = [{ team: Khal._id, role: "Member" }];
+    Alex.teams = [{team: Khal._id, role: "Admin"}];
+    Hugo.teams = [{team: Khal._id, role: "Member"}];
+    Kevin.teams = [{team: Khal._id, role: "Member"}];
 
-    const FrontEnd = Label({ name: "Front-End", color: "yellow" });
-    const BackEnd = Label({ name: "Back-End", color: "blue" });
-    const DB = Label({ name: "Database", color: "green" });
-    const DB2 = Label({ name: "Database", color: "green" });
+    const FrontEnd = Label({name: "Front-End", color: "yellow"});
+    const BackEnd = Label({name: "Back-End", color: "blue"});
+    const DB = Label({name: "Database", color: "green"});
+    const DB2 = Label({name: "Database", color: "green"});
 
     const card1 = Card({
         name: "Add comment to a card",
@@ -132,10 +132,10 @@ async function initDB() {
 
     const checkList1 = Checklist({
         title: "Checklist", items: [
-            { name: "BD" },
-            { name: "Front" },
-            { name: "Back" },
-            { name: "Design" }
+            {name: "BD"},
+            {name: "Front"},
+            {name: "Back"},
+            {name: "Design"}
         ]
     });
     card2.checklists = [checkList1];
@@ -143,27 +143,27 @@ async function initDB() {
 
     const checkList2 = Checklist({
         title: "Checklist No Idea", items: [
-            { name: "Idea 1" },
-            { name: "Idea 2", isChecked: true },
-            { name: "Idea 3", isChecked: true },
-            { name: "Idea 4" }]
+            {name: "Idea 1"},
+            {name: "Idea 2", isChecked: true},
+            {name: "Idea 3", isChecked: true},
+            {name: "Idea 4"}]
     });
     card3.checklists = [checkList2];
     card3.cardInformation.nbItems = 4;
     card3.cardInformation.nbItemsChecked = 2;
 
-    const list1 = List({ name: "Done", cards: [card1._id, card2._id] });
+    const list1 = List({name: "Done", cards: [card1._id, card2._id]});
     list1.listInformation.nbCards = 2;
-    list1.watchers = [{ watcher: Kevin._id }, { watcher: Loris._id }];
-    const list2 = List({ name: "Doing", cards: [card3._id] });
+    list1.watchers = [{watcher: Kevin._id}, {watcher: Loris._id}];
+    const list2 = List({name: "Doing", cards: [card3._id]});
     list2.listInformation.nbCards = 1;
-    list2.watchers = [{ watcher: Kevin._id }, { watcher: Loris._id }, { watcher: Hugo._id }
-        , { watcher: Alex._id }];
-    const list3 = List({ name: "To Do", cards: [card4._id] });
+    list2.watchers = [{watcher: Kevin._id}, {watcher: Loris._id}, {watcher: Hugo._id}
+        , {watcher: Alex._id}];
+    const list3 = List({name: "To Do", cards: [card4._id]});
     list3.listInformation.nbCards = 1;
-    const list4 = List({ name: "Doing", cards: [card5._id] });
+    const list4 = List({name: "Doing", cards: [card5._id]});
     list4.listInformation.nbCards = 1;
-    list3.watchers = [{ watcher: Loris._id }];
+    list3.watchers = [{watcher: Loris._id}];
 
     const board1 = Board({
         name: "Prello", lists: [list1._id, list2._id, list3._id], teams: [Khal._id],
@@ -187,7 +187,11 @@ async function initDB() {
             }],
         visibility: "Team",
         starred: [Kevin._id, Loris._id],
-        labels: [DB._id, FrontEnd._id, BackEnd._id]
+        labels: [DB._id, FrontEnd._id, BackEnd._id],
+        boardInformation: {
+            nbStars: 3,
+            nbMembers: 4
+        }
     });
 
     Khal.boards = [board1._id];
@@ -200,12 +204,58 @@ async function initDB() {
             member: Loris._id,
             role: "Admin"
         },
-        {
-            member: Hugo._id,
-            role: "Member"
-        }],
+            {
+                member: Hugo._id,
+                role: "Member"
+            }],
         starred: [Loris._id],
-        labels: [DB2._id]
+        labels: [DB2._id],
+        boardInformation: {
+            nbStars: 1,
+            nbMembers: 2
+        }
+    });
+
+    const board3 = Board({
+        name: "Alexa",
+        owner: Hugo._id,
+        visibility: "Private",
+        members: [{
+            member: Hugo._id,
+            role: "Admin"
+        }],
+        boardInformation: {
+            nbStars: 0,
+            nbMembers: 1
+        }
+    });
+
+    const board4 = Board({
+        name: "Industrial Project",
+        owner: Hugo._id,
+        visibility: "Private",
+        members: [{
+            member: Hugo._id,
+            role: "Admin"
+        }],
+        boardInformation: {
+            nbStars: 0,
+            nbMembers: 1
+        }
+    });
+
+    const board5 = Board({
+        name: "Teads",
+        owner: Hugo._id,
+        visibility: "Private",
+        members: [{
+            member: Hugo._id,
+            role: "Admin"
+        }],
+        boardInformation: {
+            nbStars: 1,
+            nbMembers: 1
+        }
     });
 
     DB.board = board1._id;
@@ -213,23 +263,41 @@ async function initDB() {
     BackEnd.board = board1._id;
     DB2.board = board2._id;
 
-    const hugoCategory1 = Category({ name: "School" });
-    const hugoCategory2 = Category({ name: "Hobbies" });
-    Hugo.categories = [hugoCategory1, hugoCategory2];
+    const hugoCategory1 = Category({name: "School"});
+    const hugoCategory2 = Category({name: "Hobbies"});
+    const hugoCategory3 = Category({name: "AI"});
+    Hugo.categories = [hugoCategory1, hugoCategory2, hugoCategory3];
 
-    Hugo.boards = [{
-        board: board1._id,
-        role: "Admin",
-        category: hugoCategory1
-    },
-    {
-        board: board2._id,
-        role: "Admin",
-        category: hugoCategory2
-    }];
+    Hugo.boards = [
+        {
+            board: board1._id,
+            role: "Admin",
+            category: hugoCategory1
+        },
+        {
+            board: board2._id,
+            role: "Admin",
+            category: hugoCategory2
+        },
+        {
+            board: board3._id,
+            role: "Admin",
+            category: hugoCategory3
+        },
+        {
+            board: board4._id,
+            role: "Admin",
+            category: hugoCategory1
+        },
+        {
+            board: board5._id,
+            role: "Admin",
+            category: hugoCategory1
+        }
+    ];
 
-    const kevinCategory1 = Category({ name: "IOT" });
-    const kevinCategory2 = Category({ name: "LOL" });
+    const kevinCategory1 = Category({name: "IOT"});
+    const kevinCategory2 = Category({name: "LOL"});
     Kevin.boards = [{
         board: board1._id,
         role: "Admin",
@@ -239,6 +307,7 @@ async function initDB() {
 
     Kevin.starred = [board1._id];
     Loris.starred = [board1._id, board2._id];
+    Hugo.starred = [board2._id, board5._id];
     Alex.boards = [{
         board: board1._id,
         role: "Member"
@@ -248,14 +317,14 @@ async function initDB() {
         board: board1._id,
         role: "Admin"
     },
-    {
-        board: board2._id,
-        role: "Admin"
-    }];
+        {
+            board: board2._id,
+            role: "Admin"
+        }];
 
     card1.list = list1._id;
     card1.board = board1._id;
-    card1.watchers = [{ watcher: Alex._id }];
+    card1.watchers = [{watcher: Alex._id}];
     Alex.cardsWatched = [card1._id];
 
     card2.list = list1._id;
@@ -263,7 +332,7 @@ async function initDB() {
 
     card3.list = list2._id;
     card3.board = board1._id;
-    card3.watchers = [{ watcher: Kevin._id }, { watcher: Hugo._id }];
+    card3.watchers = [{watcher: Kevin._id}, {watcher: Hugo._id}];
     Kevin.cardsWatched = [card3._id];
 
     card4.list = list3._id;
@@ -271,17 +340,17 @@ async function initDB() {
 
     card5.list = list4._id;
     card5.board = board2._id;
-    card5.watchers = [{ watcher: Loris._id }, { watcher: Hugo._id }];
+    card5.watchers = [{watcher: Loris._id}, {watcher: Hugo._id}];
     Loris.cardsWatched = [card5._id];
     Hugo.cardsWatched = [card3._id, card5._id];
 
     list1.board = board1._id;
-    list1.watchers = [{ watcher: Kevin._id }];
+    list1.watchers = [{watcher: Kevin._id}];
     list2.board = board1._id;
     list3.board = board1._id;
-    list3.watchers = [{ watcher: Loris._id }, { watcher: Kevin._id }];
+    list3.watchers = [{watcher: Loris._id}, {watcher: Kevin._id}];
     list4.board = board2._id;
-    list4.watchers = [{ watcher: Loris._id }];
+    list4.watchers = [{watcher: Loris._id}];
 
     Kevin.listsWatched = [list1._id];
     Loris.listsWatched = [list3._id, list4._id];
@@ -297,7 +366,7 @@ async function initDB() {
             if (error) throw error
         }));
 
-    await Board.insertMany([board1, board2],
+    await Board.insertMany([board1, board2, board3, board4, board5],
         array.push(function (error) {
             if (error) throw error
         }));

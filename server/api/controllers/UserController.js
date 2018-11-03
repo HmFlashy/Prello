@@ -63,7 +63,7 @@ const unstarBoard = async (userId, boardId) => {
             throwError(404, `The user ${userId} was not found`)
         }
         const board = await Board.findOneAndUpdate({_id: boardId}, {
-            $pull: {starred: user._id}
+            $pull: {starred: user._id}, $inc: {"boardInformation.nbStars": -1}
         })
         if(!board) {
             throwError(404, `The board ${boardId} was not found`)
@@ -83,7 +83,7 @@ const starBoard = async (userId, boardId) => {
             throwError(404, `The user ${userId} was not found`)
         }
         const board = await Board.findOneAndUpdate({_id: boardId}, {
-            $push: {starred: user._id}
+            $push: {starred: user._id}, $inc: {"boardInformation.nbStars": 1}
         });
         if (!board) {
             throwError(404, `The board ${boardId} was not found`)

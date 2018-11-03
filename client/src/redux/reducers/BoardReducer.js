@@ -83,7 +83,11 @@ export default (state = defaultBoardReducer, action) => {
                             return {
                                 ...board,
                                 starred:
-                                    [...board.starred, action.payload.user]
+                                    [...board.starred, action.payload.user],
+                                boardInformation: {
+                                    ...board.boardInformation,
+                                    nbStars: board.boardInformation.nbStars + 1
+                                }
                             }
                         } else return board
                     }
@@ -96,7 +100,11 @@ export default (state = defaultBoardReducer, action) => {
                         if (board._id === action.payload.board) {
                             return {
                                 ...board,
-                                starred: board.starred.filter(user => user._id === action.payload.user)
+                                starred: board.starred.filter(user => user._id === action.payload.user),
+                                boardInformation: {
+                                    ...board.boardInformation,
+                                    nbStars: board.boardInformation.nbStars - 1
+                                }
                             }
                         } else return board
                     }
