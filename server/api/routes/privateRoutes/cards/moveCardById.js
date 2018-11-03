@@ -50,15 +50,11 @@ module.exports = async (req, res) => {
         if (!newListId || !newListId.match(/^[0-9a-fA-F]{24}$/)) {
             throwError(400, "Bad Request newListId malformed")
         }
-        const boardId = req.body.boardId
-        if (!boardId || !boardId.match(/^[0-9a-fA-F]{24}$/)) {
-            throwError(400, "Bad Request boardId malformed")
-        }
         const pos = req.body.pos
-        if (!pos && pos != 0) {
+        if (!pos && pos !== 0) {
             throwError(400, "Bad Request pos malformed")
         }
-        const card = await CardController.moveCard(cardId, oldListId, newListId, boardId, pos)
+        const card = await CardController.moveCard(cardId, newListId, pos);
         socketIO.broadcast('action', card.board, {
             type: 'MOVE_CARD',
             payload: {

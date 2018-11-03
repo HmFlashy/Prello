@@ -1,8 +1,9 @@
 const express = require('express');
+const {cardValidator} = require('../../../validations/privateRoutes');
 
 const router = express.Router();
 
-router.post('/', require('./addCard'));
+router.post('/', cardValidator.addCardValidator, require('./addCard'));
 router.get('/', require('./getCards'));
 router.get('/:cardId', require('./getCardById'));
 router.put('/:cardId', require('./updateCard'));

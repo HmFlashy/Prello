@@ -14,16 +14,31 @@ chai.should();
 const expect = chai.expect;
 
 let board1 = null;
+let header = null;
 
 describe("Lists", () => {
+    before((done) => {
+        chai.request(server)
+            .post(`/api/login`)
+            .send({"email": "hugo.maitre69@gmail.com", "password": "m"})
+            .end((err, res) => {
+                header = `Bearer ${res.body.token}`;
+                done()
+            })
+    });
+
     beforeEach((done) => { // Before each test we empty the database
-        mongoose.connection.db.dropDatabase();
-        const boardModel = Board({name: "Prello"});
-        boardModel.save((err, board) => {
-            if (err) {}
-            board1 = board;
-            done()
-        })
+        let array = [];
+        array.push(Board.deleteMany());
+        array.push(List.deleteMany());
+        Promise.all(array).then(() => {
+            const boardModel = Board({name: "Prello"});
+            boardModel.save((err, board) => {
+                if (err) {}
+                board1 = board;
+                done()
+            })
+        });
     });
 
     /*
@@ -33,6 +48,7 @@ describe("Lists", () => {
         it("it should not POST a list without name field", (done) => {
             chai.request(server)
                 .post("/api/lists")
+                .set("Authorization", header)
                 .end((err, res) => {
                     res.should.have.status(400);
                     res.body.should.be.a("object");
@@ -43,6 +59,7 @@ describe("Lists", () => {
         it("it should not POST a list without boardId field", (done) => {
             chai.request(server)
                 .post("/api/lists")
+                .set("Authorization", header)
                 .send({name: "Doing"})
                 .end((err, res) => {
                     res.should.have.status(400);
@@ -55,6 +72,7 @@ describe("Lists", () => {
         it("it should POST a list with the given name and update the board", (done) => {
             chai.request(server)
                 .post("/api/lists/")
+                .set("Authorization", header)
                 .send({name: "Doing", boardId: board1._id})
                 .end((err, res) => {
                     res.should.have.status(201);
@@ -79,6 +97,7 @@ describe("Lists", () => {
             list.save((err, list) => {
                 chai.request(server)
                     .put(`/api/lists/${list._id}`)
+                    .set("Authorization", header)
                     .send({})
                     .end((err, res) => {
                         res.should.have.status(200);
@@ -93,6 +112,7 @@ describe("Lists", () => {
             list.save((err, list) => {
                 chai.request(server)
                     .put(`/api/lists/${list._id}`)
+                    .set("Authorization", header)
                     .send({name: "Done"})
                     .end((err, res) => {
                         res.should.have.status(200);
@@ -108,6 +128,7 @@ describe("Lists", () => {
             list.save((err, list) => {
                 chai.request(server)
                     .put(`/api/lists/${list._id}`)
+                    .set("Authorization", header)
                     .send({isArchived: true})
                     .end((err, res) => {
                         res.should.have.status(200);
@@ -124,6 +145,7 @@ describe("Lists", () => {
                 if (err) {}
                 chai.request(server)
                     .put("/api/lists/52d5e1d52")
+                    .set("Authorization", header)
                     .send({})
                     .end((err, res) => {
                         res.should.have.status(400);
@@ -139,6 +161,7 @@ describe("Lists", () => {
                 if (err) {}
                 chai.request(server)
                     .put(`/api/lists/${board1._id}`)
+                    .set("Authorization", header)
                     .send({name: "To Do"})
                     .end((err, res) => {
                         console.log(JSON.stringify(res));
@@ -163,6 +186,7 @@ describe("Lists", () => {
                     if (err) {}
                     chai.request(server)
                         .delete("/api/lists/52d5e1d52")
+                        .set("Authorization", header)
                         .end((err, res) => {
                             res.should.have.status(400);
                             res.body.should.equal("The listId 52d5e1d52 is malformed");
@@ -181,6 +205,7 @@ describe("Lists", () => {
                     if (err) {}
                     chai.request(server)
                         .delete(`/api/lists/${board1._id}`)
+                        .set("Authorization", header)
                         .end((err, res) => {
                             res.should.have.status(404);
                             res.body.should.equal(`The listId ${board1._id} was not found`);
@@ -199,6 +224,7 @@ describe("Lists", () => {
                     if (err) {}
                     chai.request(server)
                         .delete(`/api/lists/${list._id}`)
+                        .set("Authorization", header)
                         .end((err, res) => {
                             res.should.have.status(400);
                             res.body.should.equal("Can't delete a list not archived");
@@ -224,6 +250,7 @@ describe("Lists", () => {
                         if (err) {}
                         chai.request(server)
                             .delete(`/api/lists/${list._id}`)
+                            .set("Authorization", header)
                             .end((err, res) => {
                                 res.should.have.status(400);
                                 res.body.should.equal("Can't delete a list not empty");
@@ -243,6 +270,7 @@ describe("Lists", () => {
                     if (err) {}
                     chai.request(server)
                         .delete(`/api/lists/${list._id}`)
+                        .set("Authorization", header)
                         .end((err, res) => {
                             res.should.have.status(200);
                             Board.findById(board1._id).find({lists: {"$in": [list._id]}}, (err, board) => {

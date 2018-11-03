@@ -1,6 +1,5 @@
-const List = require('../models/index').List;
-const Card = require('../models/index').Card;
-const mongoose = require('mongoose');
+const List = require("../models/index").List;
+const Card = require("../models/index").Card;
 const throwError = require("../helper/RequestHelper").throwError;
 
 const getCardById = async (cardId) => {
@@ -12,38 +11,73 @@ const getCardById = async (cardId) => {
     }
 };
 
-const addCard = async (name, listId, boardId) => {
-    let session = null
+const addCard = async (name, listId) => {
+    let card = null;
+    let list = null;
     try {
-        session = await mongoose.startSession()
-        session.startTransaction();
-        const card = new Card({
+        const list = await List.findById(listId);
+        if(!list) throwError(404, 'LIST_NOT_FOUND');
+
+        card = new Card({
             name: name,
             list: listId,
-            board: boardId
+            board: list.board
         });
-        const savedCard = await card.save();
-        await List.findOneAndUpdate({ _id: listId },
-            { $push: { cards: savedCard } }, { "new": true})
-        await session.commitTransaction();
-        session.endSession();
-        return savedCard
+        let array = [];
+        array.push(card.save());
+        array.push(List.updateOne({_id: listId},
+            {$push: {cards: card}}));
+        [card] = await Promise.all(array);
+        return card
     } catch (error) {
-        await session.abortTransaction();
-        session.endSession();
+        try {
+            if (card) await card.remove();
+            await list.save();
+        } catch (error) {
+            console.log("DB corrupted!!!");
+            throw error
+        }
         throw error
     }
 };
 
-const moveCard = async (cardId, oldList, newList, boardId, pos) => {
+const moveCard = async (cardId, newListId, pos) => {
+    let oldList = null;
+    let newList = null;
+    let card = null;
     try {
-        await dbList.findOneAndUpdate({ _id: oldList }, { $pull: { cards: cardId } })
-        await dbList.findOneAndUpdate({ _id: newList }, { $push: { cards: cardId } })
-        return await db.Card.findOneAndUpdate({ _id: cardId }, { list: newList, board: boardId, pos })
+        let array = [];
+        array.push(await List.findOne({cards: {$in: [cardId]}}));
+        array.push(await List.findById(newListId).exec());
+        array.push(await Card.findById(cardId));
+        [oldList, newList, card] = await Promise.all(array);
+        if (!oldList) throwError(404, `OLD_LIST_NOT_FOUND`);
+        if (!card) throwError(404, `CARD_NOT_FOUND`);
+        if (!newList) throwError(404, `NEW_LIST_NOT_FOUND`);
+
+        array = [];
+        array.push(await List.updateOne({_id: card.list}, {$pull: {cards: cardId}}));
+        array.push(await List.updateOne({_id: newListId}, {$push: {cards: cardId}}));
+        array.push(await Card.findOneAndUpdate({_id: cardId}, {
+            list: newListId,
+            board: newList.board,
+            pos
+        }));
+        const [cardUpdated] = await Promise.all(array);
+        if (!cardUpdated) throwError(404, `CARD_NOT_FOUND`);
+        return cardUpdated;
     } catch (error) {
+        try {
+            if (oldList) await oldList.save();
+            if (newList) await newList.save();
+            if (card) await card.save();
+        } catch (error) {
+            console.log("DB corrupted !!!");
+            throw error
+        }
         throw error
     }
-}
+};
 
 const getCards = async () => {
     try {
@@ -56,7 +90,7 @@ const getCards = async () => {
 
 const updateCard = async (cardId, data) => {
     try {
-        return await Card.findOneAndUpdate({ _id: cardId }, { $set: data }, { "new": true })
+        return await Card.findOneAndUpdate({_id: cardId}, {$set: data}, {"new": true})
     } catch (error) {
         throw error
     }
@@ -64,8 +98,8 @@ const updateCard = async (cardId, data) => {
 
 const addToArray = async (cardId, key, data) => {
     try {
-        return await Card.findOneAndUpdate({ _id: cardId },
-            { $push: { [key]: data } }, { "new": true })
+        return await Card.findOneAndUpdate({_id: cardId},
+            {$push: {[key]: data}}, {"new": true})
     } catch (error) {
         throw error
     }
@@ -73,37 +107,29 @@ const addToArray = async (cardId, key, data) => {
 
 const removeToArray = async (cardId, key, data) => {
     try {
-        return await Card.findOneAndUpdate({ _id: cardId },
-            { $pull: { [key]: data } }, { "new": true })
+        return await Card.findOneAndUpdate({_id: cardId},
+            {$pull: {[key]: data}}, {"new": true})
     } catch (error) {
         throw error
     }
 }
 
 const deleteCard = async (cardId) => {
-    let session = null
     try {
-        session = await mongoose.startSession()
-        session.startTransaction();
-        const card = await Card.findById(cardId)
-        if(!card) {
+        const card = await Card.findById(cardId);
+        if (!card) {
             throwError(404, `The card ${cardId} was not found`)
         }
-        if(!card.isArchived) {
+        if (!card.isArchived) {
             throwError(400, "Can't delete a card not archived")
         }
         card.remove();
-        await session.commitTransaction();
-        session.endSession();
         return card
     } catch (error) {
         console.log(error)
-        await session.abortTransaction();
-        session.endSession();
         throw error;
     }
 }
-
 
 module.exports = {
     getCardById,

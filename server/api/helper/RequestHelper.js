@@ -1,5 +1,5 @@
 const throwError = function(code, errorMessage) {
-    let error = new Error(errorMessage || 'Default Error')
+    let error = new Error(errorMessage || 'INTERVAL_SERVER_ISSUE')
     error.code = code
     throw error
 };

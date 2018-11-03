@@ -128,10 +128,7 @@ const updateBoard = async (boardId, data) => {
 
 
 const addBoardMember = async (boardId, body) => {
-    let session = null
     try {
-        session = await mongoose.startSession();
-        session.startTransaction();
         const user = await User.findOneAndUpdate(body, {
             $push:
                 { boards: { board: boardId, role: "Member" } }
@@ -148,21 +145,14 @@ const addBoardMember = async (boardId, body) => {
         if (!board) {
             throwError(404, `The board ${boardId} was not found`)
         }
-        await session.commitTransaction();
-        session.endSession();
         return board;
     } catch (error) {
-        await session.abortTransaction();
-        session.endSession();
         throw error
     }
 };
 
 const addBoardTeam = async (boardId, body) => {
-    let session = null
     try {
-        session = await mongoose.startSession();
-        session.startTransaction();
         const team = await Team.findOneAndUpdate(body, {
             $push:
                 { boards: boardId }
@@ -178,21 +168,14 @@ const addBoardTeam = async (boardId, body) => {
         if (!board) {
             throwError(404, `The board ${boardId} was not found`)
         }
-        await session.commitTransaction();
-        session.endSession();
         return board;
     } catch (error) {
-        await session.abortTransaction();
-        session.endSession();
         throw error
     }
 };
 
 const deleteBord = async (boardId) => {
-    let session = null
     try {
-        session = await mongoose.startSession();
-        session.startTransaction();
         const board = await Board.findById(boardId);
         if (!board) {
             throwError(404, `The board ${boardId} was not found`)
@@ -202,12 +185,8 @@ const deleteBord = async (boardId) => {
         }
         board.remove()
 
-        await session.commitTransaction();
-        session.endSession();
         return board;
     } catch (error) {
-        await session.abortTransaction();
-        session.endSession();
         throw error
     }
 }

@@ -1,8 +1,10 @@
 //During the test the env variable is set to test
 const Card = require("../models/index").Card;
+const User = require("../models/index").User;
 const Board = require("../models/index").Board;
 const mongoose = require("mongoose");
 require("../../config/db");
+const passwordHelper = require("../../api/helper/passwordHelper");
 
 const chai = require("chai");
 const chaiHttp = require("chai-http");
@@ -12,15 +14,27 @@ chai.use(chaiHttp);
 chai.should();
 const expect = chai.expect;
 let card = null;
+let header = null;
 
 describe("Board", () => {
+    before((done) => {
+        chai.request(server)
+            .post(`/api/login`)
+            .send({"email": "hugo.maitre69@gmail.com", "password": "m"})
+            .end((err, res) => {
+                header = `Bearer ${res.body.token}`;
+                done()
+            })
+    });
+
     beforeEach((done) => { // Before each test we empty the database
-        mongoose.connection.db.dropDatabase();
-        const cardModel = Card({name: "Add comments"});
-        cardModel.save((err, card1) => {
-            if (err) {}
-            card = card1;
-            done()
+        Card.deleteMany().then(() => {
+            const cardModel = Card({name: "Add comments"});
+            cardModel.save((err, card1) => {
+                if (err) {}
+                card = card1;
+                done()
+            })
         })
     });
     /*
@@ -30,6 +44,7 @@ describe("Board", () => {
         it("it should not GET a card if the cardId is malformed", (done) => {
             chai.request(server)
                 .get(`/api/cards/dsd5de5d25`)
+                .set("Authorization", header)
                 .end((err, res) => {
                     res.should.have.status(400);
                     res.body.should.be.equal("The cardId dsd5de5d25 is malformed");
@@ -42,6 +57,7 @@ describe("Board", () => {
                 if (err) {}
                 chai.request(server)
                     .get(`/api/cards/${board._id}`)
+                    .set("Authorization", header)
                     .end((err, res) => {
                         res.should.have.status(404);
                         res.body.should.be.equal(`The card ${board._id} was not found`);
@@ -52,6 +68,7 @@ describe("Board", () => {
         it("it should GET a card given a cardId", (done) => {
             chai.request(server)
                 .get(`/api/cards/${card._id}`)
+                .set("Authorization", header)
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.have.property("name").equal("Add comments");
@@ -70,6 +87,7 @@ describe("Board", () => {
                 if (error) {}
                 chai.request(server)
                     .delete(`/api/cards/${cardArchived._id}`)
+                    .set("Authorization", header)
                     .end((err, res) => {
                         res.should.have.status(200);
                         res.body.should.be.a("object");
@@ -81,6 +99,7 @@ describe("Board", () => {
         it("should NOT DELETE the card if its not archived", (done) => {
             chai.request(server)
                 .delete(`/api/cards/${card._id}`)
+                .set("Authorization", header)
                 .end((err, res) => {
                     res.should.have.status(400);
                     res.body.should.be.equal(`Can't delete a card not archived`);
@@ -90,6 +109,7 @@ describe("Board", () => {
         it("should NOT DELETE the card if the cardId is malformed", (done) => {
             chai.request(server)
                 .delete(`/api/cards/5de2de52`)
+                .set("Authorization", header)
                 .end((err, res) => {
                     res.should.have.status(400);
                     res.body.should.be.equal(`The cardId 5de2de52 is malformed`);
@@ -102,6 +122,7 @@ describe("Board", () => {
                 if (err) {}
                 chai.request(server)
                     .delete(`/api/cards/${board._id}`)
+                    .set("Authorization", header)
                     .end((err, res) => {
                         res.should.have.status(404);
                         res.body.should.be.equal(`The card ${board._id} was not found`);

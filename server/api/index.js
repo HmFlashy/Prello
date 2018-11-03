@@ -3,8 +3,6 @@ const path = require('path');
 require('dotenv').config();
 
 const router = express.Router();
-const mongoose = require('mongoose');
-mongoose.Promise = global.Promise;
 const bearerToken = require('express-bearer-token')
 
 router.use(bearerToken())
