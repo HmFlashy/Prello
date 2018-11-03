@@ -24,8 +24,7 @@ const addCard = async (name, listId, boardId) => {
         });
         const savedCard = await card.save();
         await List.findOneAndUpdate({ _id: listId },
-            { $push: { cards: savedCard } }, { "new": true , session: session})
-        throwError(400, "test")
+            { $push: { cards: savedCard } }, { "new": true})
         await session.commitTransaction();
         session.endSession();
         return savedCard
