@@ -41,7 +41,7 @@ class Menu extends Component {
                         <Modal open={this.state.isLabelClicked}>
                             <Header icon='calendar' content='Update labels' />
                             <Modal.Content>
-                                <div> {this.props.labelsCard.map(label => console.log(this.props.labelsBoard) || <p>{label}</p>)}</div>
+                                <div> {this.props.card.labels.map(label => console.log(this.props.labelsBoard) || <p>{label}</p>)}</div>
                             </Modal.Content>
                             <Modal.Actions>
                                 <Button color='red' onClick={() => this.setState({ isLabelClicked: false })}>

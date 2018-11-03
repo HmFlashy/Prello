@@ -11,12 +11,6 @@ export default (state = defaultCardReducer, action) => {
         ...state,
         all: board.lists.flatMap(list => list.cards)
       }
-    case 'CARD_FETCHED':
-      return {
-        ...state,
-        card: action.payload.payload,
-        error: null
-      }
     case 'FAILED_GET_CARD':
       return {
         ...state,

@@ -166,7 +166,7 @@ class CardDetail extends Component {
                         <Activity></Activity>
                     </div>
                     <Menu
-                        labelsCard={this.props.card.labels}
+                        card={this.props.card}
                         labelsBoard={this.props.board.labels}
                         isArchived={this.props.card.isArchived}
                         onDueDate={(date) => this.updateCard({ dueDate: this.props.card.dueDate, _id: this.props.card._id }, { dueDate: date, _id: this.props.card._id })}
