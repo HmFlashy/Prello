@@ -22,7 +22,11 @@ function connect() {
 }
 
 async function initDB() {
-    await mongoose.connection.db.dropDatabase();
+    let array = [];
+    for (const collection in mongoose.connection.collections) {
+        array.push(mongoose.connection.collections[collection].remove());
+    }
+    await Promise.all(array);
 
     const PrelloClient = new OAuthClient({
         name: 'Khal-Prello-API',
@@ -356,7 +360,7 @@ async function initDB() {
     Kevin.listsWatched = [list1._id];
     Loris.listsWatched = [list3._id, list4._id];
 
-    let array = [];
+    array = [];
     await Card.insertMany([card1, card2, card3, card4, card5],
         array.push(function (error) {
             if (error) throw error
