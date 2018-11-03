@@ -16,7 +16,7 @@
     "client": "cd client && npm run dev",
     "server": "cd server && nodemon server.js",
     "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
-    "init:db": "cd server && node config/initDB.js",
+    "init:db": "cd server && npm run init:db",
     "install:all:prod": "concurrently --kill-others-on-fail \"cd server && npm install --production\" \" cd client && npm install --production\"",
     "install:all:dev": "concurrently --kill-others-on-fail \"cd server && npm install\" \" cd client && npm install\"",
     "client:build": "cd client && npm run build:production",

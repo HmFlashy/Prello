@@ -5,12 +5,13 @@
 server/node_modules
 client/node_modules
 server/.nyc_output
+client/build
 
 # testing
 /coverage
 
 # production
-/build
+client/build
 
 # misc
 .DS_Store
