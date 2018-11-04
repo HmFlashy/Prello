@@ -2,10 +2,12 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 const OauthClient = new Schema({
+  name: String,
   id: { type: String },
   secret: { type: String },
   redirectUris: { type: Array },
-  grants: { type: Array }
+  grants: { type: Array },
+  user: { type: Schema.Types.ObjectId, ref: 'OAuthUser' }
 });
 
 const OAuthClients = mongoose.model('OAuthClients', OauthClient);

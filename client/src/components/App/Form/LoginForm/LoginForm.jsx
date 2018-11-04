@@ -10,7 +10,8 @@ class LoginForm extends Component {
         this.authenticate = this.authenticate.bind(this)
         this.state = {
             email: '',
-            password: ''
+            password: '',
+            error: ''
         }
     }
 

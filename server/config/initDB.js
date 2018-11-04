@@ -28,13 +28,6 @@ async function initDB() {
     }
     await Promise.all(array);
 
-    const PrelloClient = new OAuthClient({
-        name: 'Khal-Prello-API',
-        id: process.env.OAUTH_CLIENTID_PRELLO,
-        secret: process.env.OAUTH_SECRET_PRELLO,
-        redirectUris: [process.env.PRELLO_CLIENTURL],
-        grants: ['password', 'authorization_code'],
-      })
 
     const alexHash = await passwordHelper.passwordHelper("a");
     const Alex = User({
@@ -48,6 +41,17 @@ async function initDB() {
         I would like to be but hey no worry, one day you'll know my name ;) jk x)
 `, initials: "HM", username: "HmFlashy", organization: "Polytech", email: "hugo.maitre69@gmail.com", hash: hugoHash
     });
+
+
+    const PrelloClient = new OAuthClient({
+        name: 'Khal-Prello-API',
+        id: process.env.OAUTH_CLIENTID_PRELLO,
+        secret: process.env.OAUTH_SECRET_PRELLO,
+        redirectUris: [process.env.PRELLO_CLIENTURL],
+        grants: ['password', 'authorization_code'],
+        
+      })
+
     const kevinHash = await passwordHelper.passwordHelper("g");
     const Kevin = User({
         name: "Kevin", fullName: "Kevin Giordani", bio: `IOT Expert, I will put my grain of salt 
