@@ -8,9 +8,9 @@ class MyList extends Component {
     constructor(){
         super()
         this.addCard = this.addCard.bind(this)
+        this.changeCardName = this.changeCardName.bind(this)
         this.state = {
-            cardName: '',
-            listId: this.props.list._id
+            cardName: ''
         }
     }
 
@@ -20,7 +20,7 @@ class MyList extends Component {
         })
     }
 
-    addCard(list) {
+    addCard() {
         this.props.addCard(this.state.cardName, this.state.listId)
         this.changeCardName('')
     }
@@ -37,12 +37,14 @@ class MyList extends Component {
                     </List>
                 </Container>
                 <Input 
+                    type="text"
+                    placeholder="Create a new card"
                     onChange={(event) => this.changeCardName(event.target.value)} 
                     onKeyDown={(event) => {
                         event.target.value = ''
                         return event.keyCode === 13 ? this.addCard() : null
                         }
-                    }></Input>
+                    } />
             </Segment>
         )
     }
