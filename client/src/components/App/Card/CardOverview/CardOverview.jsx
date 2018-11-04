@@ -87,6 +87,13 @@ class CardOverview extends Component {
                                     :
                                     null
                             }
+                            {
+                                
+                                this.props.card.cardInformation.nbItems > 0 ?
+                                    <Label><Icon name='check square' color={this.props.card.cardInformation.nbItemsChecked === this.props.card.cardInformation.nbItems ? "green": null} />{this.props.card.cardInformation.nbItemsChecked}/{this.props.card.cardInformation.nbItems}</Label>
+                                    :
+                                    null
+                            }
                         </Card.Content>
                         <Card.Content textAlign='right' className="members">
                             {

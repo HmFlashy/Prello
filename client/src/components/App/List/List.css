@@ -5,12 +5,12 @@
     flex-direction: column;
     overflow: hidden;
     background-color: #dfe3e6 !important;
+    max-height: 100%;
 }
 
 .items {
     overflow: hidden;
     overflow-y: scroll;
-    max-height: 72vh !important;
     margin-top: 0px !important;
-    text-align: left !important
+    text-align: left !important;
 }

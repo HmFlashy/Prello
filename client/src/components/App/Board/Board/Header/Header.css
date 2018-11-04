@@ -1,3 +1,5 @@
 .boardHeader {
-    justify-content: space-between
+    justify-content: space-between;
+    flex: 0;
+    flex-basis: 30px;
 }

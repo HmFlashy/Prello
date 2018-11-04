@@ -14,7 +14,10 @@ socket.on("error", (error) => {
 
 export default {
     subscribe(boardId) {
-        socket.emit("subscribeToBoard")
+        socket.emit("subscribeBoard", boardId)
+    },
+    unsubscribe(boardId) {
+        socket.emit("unsubscribeBoard", boardId)
     },
     init( store ){
         socket.on( "action", ( action ) => 

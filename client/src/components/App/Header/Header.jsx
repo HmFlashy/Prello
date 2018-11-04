@@ -12,6 +12,8 @@ class Header extends Component {
             height: 0
         }
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+        this.goHome = this.goHome.bind(this);
+        this.changeBoard = this.changeBoard.bind(this)
     }
 
     componentDidMount() {
@@ -32,24 +34,36 @@ class Header extends Component {
         this.setState({ width: window.innerWidth, height: window.innerHeight });
     }
 
+    goHome(){
+        this.props.fetchBoards()
+        this.nextPath('/home')
+    }
+
+    changeBoard(nextBoardId){
+        this.props.unsubscribe(this.props.boardId)
+        this.props.fetchBoard(nextBoardId) 
+        this.nextPath(`/boards/${nextBoardId}`)
+        this.props.subscribe(nextBoardId)
+    }
+
     render() {
         return (
             <Segment inverted color='teal' className="inline header" size='mini'>
                 <div className="inline">
-                    <Button icon='home' onClick={() => this.nextPath('/home')} />
+                    <Button icon='home' onClick={this.goHome} />
                     {
                         this.state.width > 800 ? 
                             <Dropdown text='Boards' icon='flipboard' floating labeled button className='icon'>
                                 <Dropdown.Menu>
                                     <Dropdown.Header icon='tags' content='Boards' />
-                                    {this.props.boards.map(board => <Dropdown.Item key={board._id} onClick={() => { this.nextPath(`/boards/${board._id}`); this.props.fetchBoard(board._id) }}>{board.name}</Dropdown.Item>)}
+                                    {this.props.boards.map(board => <Dropdown.Item key={board._id} onClick={() => { this.changeBoard(board._id) }}>{board.name}</Dropdown.Item>)}
                                 </Dropdown.Menu>
                             </Dropdown> 
                             :
                             <Dropdown trigger={<Button icon='flipboard' size='medium' />} icon={null} className='icon'>
                                 <Dropdown.Menu>
                                     <Dropdown.Header icon='tags' content='Boards' />
-                                    {this.props.boards.map(board => <Dropdown.Item key={board._id} onClick={() => { this.nextPath(`/boards/${board._id}`); this.props.fetchBoard(board._id) }}>{board.name}</Dropdown.Item>)}
+                                    {this.props.boards.map(board => <Dropdown.Item key={board._id} onClick={() => { this.changeBoard(board._id) }}>{board.name}</Dropdown.Item>)}
                                 </Dropdown.Menu>
                             </Dropdown>
                     }

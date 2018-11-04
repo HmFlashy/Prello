@@ -15,6 +15,7 @@ import {
     actionCardFetched,
     actionFailedCardFetched
 } from '../../redux/actions/CardActions'
+import {withRouter} from 'react-router'
 
 const mapStateToProps = state => {
     return {
@@ -26,9 +27,13 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        subscribe(){
-            socketService.subscribe()
-            dispatch(actionBoardSubscribe())
+        subscribe(boardId){
+            socketService.subscribe(boardId)
+            dispatch(actionBoardSubscribe(boardId))
+        },
+        unsubscribe(boardId){
+            socketService.unsubscribe(boardId)
+            //dispatch(actionBoardUnsubscribe(boardId))
         },
         async fetchBoard(id){
             try {
@@ -57,7 +62,7 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(
+export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps
-)(board);
+)(board));

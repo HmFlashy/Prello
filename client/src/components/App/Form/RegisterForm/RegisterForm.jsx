@@ -14,7 +14,7 @@ class RegisterForm extends Component {
             lastname: '',
             birthDate: '',
             email: '',
-            pseudo: '',
+            username: '',
             password: '',
             confirmPassword: '',
             organization: '',
@@ -27,13 +27,13 @@ class RegisterForm extends Component {
     }
 
     async register(){
-        const { firstname, lastname, pseudo, email, password, organization } = this.state
+        const { firstname, lastname, username, email, password, organization } = this.state
         try {
             if(await this.isFormValid()) {
                 await this.props.register({
                     firstname,
                     lastname,
-                    pseudo,
+                    username,
                     email,
                     password,
                     organization
@@ -52,7 +52,7 @@ class RegisterForm extends Component {
             this.setState({formError: false}),
             this.state.firstname === '' ? this.setState({ formError: true, firstnameError: true }) : this.setState({ firstnameError: false }),
             this.state.lastname === '' ? this.setState({ formError: true, lastnameError: true }) : this.setState({ lastnameError: false }),
-            this.state.pseudo === '' ? this.setState({ formError: true, pseudoError: true }) : this.setState({ pseudoError: false }),
+            this.state.username === '' ? this.setState({ formError: true, usernameError: true }) : this.setState({ usernameError: false }),
             this.state.email === '' ? this.setState({ formError: true, emailError: true }) : this.setState({ emailError: false }),
             this.state.birthDate === '' ? this.setState({ formError: true, birthDateError: true }) : this.setState({ birthDateError: false }),
             this.state.password.length > 8 ? this.setState({ passwordError: false }) : this.setState({ formError: true, passwordError: true }),
@@ -84,7 +84,7 @@ class RegisterForm extends Component {
                                     <Form.Input fluid label='First name' onChange={(event) => this.updateField({firstname: event.target.value})} placeholder='First name' error={this.state.firstnameError} required/>
                                     <Form.Input fluid label='Last name' onChange={(event) => this.updateField({lastname: event.target.value})}  placeholder='Last name' error={this.state.lastnameError} required/>
                                 </Form.Group>
-                                <Form.Input fluid label='Pseudo' onChange={(event) => this.updateField({pseudo: event.target.value})} placeholder='Pseudo' error={this.state.pseudoError} required />
+                                <Form.Input fluid label='Username' onChange={(event) => this.updateField({username: event.target.value})} placeholder='Username' error={this.state.usernameError} required />
                                 <Form.Input fluid label={<label>Date of birth</label>} onChange={(event) => this.updateField({birthDate: event.target.value})} type="date" error={this.state.birthDateError} required />
                                 <Form.Input fluid type='email' icon='user' iconPosition='left' onChange={(event) => this.updateField({email: event.target.value})} placeholder='E-mail address' error={this.state.emailError}  required/>
                                 <Form.Group widths="equal">

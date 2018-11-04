@@ -11,7 +11,7 @@ import { withRouter } from 'react-router-dom'
 class Board extends Component {
 
     componentWillMount() {
-        this.props.subscribe()
+        this.props.subscribe(this.props.boardId)
         const cardId = this.props.cardId
         if (cardId != null) {
             this.props.fetchCard(cardId)
@@ -24,17 +24,23 @@ class Board extends Component {
         }
     }
 
+    componentWillUnmount(){
+        this.props.unsubscribe(this.props.boardId)
+    }
+
 
     render() {
         return (
             <div className="board">
-                <Header></Header>
-                <List className='lists'>
-                    {this.props.board.lists.map(listId => (
-                        <List.Item key={listId} className='no-padding-top'><ListContainer key={listId} listId={listId} /></List.Item>
-                    ))}
-                    <List.Item className='no-padding-top'><NewListContainer /></List.Item>
-                </List>
+                <Header />
+                <div className="lists-content">
+                    <List className='lists'>
+                        {this.props.board.lists.map(listId => (
+                            <List.Item key={listId} className='no-padding-top'><ListContainer key={listId} listId={listId} /></List.Item>
+                        ))}
+                        <List.Item className='no-padding-top'><NewListContainer /></List.Item>
+                    </List>
+                </div>
                 <Modal
                     open={this.props.cardModal._id != null}
                     onClose={() => {

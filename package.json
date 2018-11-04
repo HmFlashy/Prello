@@ -1,50 +1,35 @@
 {
   "name": "prello",
-  "description": "Project manager using boards, lists and cards",
   "version": "1.0.0",
-  "scripts": {
-    "client": "cd client && npm start",
-    "server": "./node_modules/.bin/nodemon server.js",
-    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
-    "start": "node server.js",
-    "init:db": "node api/config/initDB.js",
-    "install:all:prod": "npm install --production && cd client && npm install --production",
-    "install:all:dev": "npm install && cd client && npm install",
-    "client:build": "cd client && npm run build:production",
-    "deploy": "sh ./deploy.sh",
-    "test": "mocha api/test/*.js --timeout 10000"
-  },
+  "description": "Project manager based on boards, list and cards",
+  "main": "server.js",
   "dependencies": {
-    "aws-sdk": "^2.344.0",
-    "bcrypt": "^3.0.2",
-    "body-parser": "^1.18.3",
-    "cors": "^2.8.4",
-    "dotenv": "^6.1.0",
-    "express": "^4.16.2",
-    "express-bearer-token": "^2.2.0",
-    "helmet": "^3.14.0",
-    "history": "^4.7.2",
-    "jsonwebtoken": "^8.3.0",
     "mongoose": "^5.3.3",
-    "multer": "^1.4.1",
-    "multer-s3": "^2.7.0",
-    "prop-types": "^15.6.2",
-    "redux-thunk": "^2.3.0",
-    "socket.io": "^2.1.1",
-    "socket.io-redis": "^5.2.0",
-    "swagger-jsdoc": "^3.2.3",
-    "swagger-ui-express": "^4.0.1"
+    "request-promise": "^4.2.2"
   },
   "devDependencies": {
-    "concurrently": "^3.5.0",
-    "nodemon": "^1.18.4",
-    "chai": "^4.1.2",
-    "chai-http": "^4.0.0",
-    "mocha": "^5.1.1"
+    "concurrently": "^4.0.1"
+  },
+  "scripts": {
+    "test": "npm run init:db && cd server && npm test && cd ../client && npm test",
+    "start": "node server.js",
+    "client": "cd client && npm run dev",
+    "server": "cd server && nodemon server.js",
+    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
+    "init:db": "cd server && npm run init:db",
+    "install:all:prod": "concurrently --kill-others-on-fail \"cd server && npm install --production\" \" cd client && npm install --production\"",
+    "install:all:dev": "concurrently --kill-others-on-fail \"cd server && npm install\" \" cd client && npm install\"",
+    "client:build": "cd client && npm run build:production",
+    "deploy": "sh ./deploy.sh"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/HmFlashy/prello.git"
+    "url": "git+https://github.com/HmFlashy/Prello.git"
   },
-  "license": "ISC"
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HmFlashy/Prello/issues"
+  },
+  "homepage": "https://github.com/HmFlashy/Prello#readme"
 }
