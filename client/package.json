@@ -31,7 +31,7 @@
     "dev": "react-scripts start",
     "build": "react-scripts build",
     "build:production": "REACT_APP_ENV=production npm run build",
-    "test": "react-scripts test",
+    "test": "react-scripts test  --watchAll=false",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
