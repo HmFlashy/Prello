@@ -1,9 +1,29 @@
 import React, { Component } from 'react';
 import CardOverviewContainer from '../../../containers/CardContainers/CardOverviewContainer';
-import { Segment, Container, List } from 'semantic-ui-react'
+import { Segment, Container, List, Input, Grid } from 'semantic-ui-react'
 import './List.css'
 
 class MyList extends Component {
+
+    constructor(){
+        super()
+        this.addCard = this.addCard.bind(this)
+        this.state = {
+            cardName: '',
+            listId: this.props.list._id
+        }
+    }
+
+    changeCardName(cardName){
+        this.setState({
+            cardName: cardName
+        })
+    }
+
+    addCard(list) {
+        this.props.addCard(this.state.cardName, this.state.listId)
+        this.changeCardName('')
+    }
 
     render() {
         return (
@@ -16,7 +36,13 @@ class MyList extends Component {
                         ))}
                     </List>
                 </Container>
-                <input onKeyDown={(event) => event.keyCode === 13 ? this.props.addCard(event.target.value, this.props.list._id) : null}></input>
+                <Input 
+                    onChange={(event) => this.changeCardName(event.target.value)} 
+                    onKeyDown={(event) => {
+                        event.target.value = ''
+                        return event.keyCode === 13 ? this.addCard() : null
+                        }
+                    }></Input>
             </Segment>
         )
     }
