@@ -21,8 +21,7 @@ class MyList extends Component {
     }
 
     addCard() {
-        this.props.addCard(this.state.cardName, this.state.listId)
-        this.changeCardName('')
+        this.props.addCard(this.state.cardName, this.props.listId)
     }
 
     render() {
@@ -41,8 +40,7 @@ class MyList extends Component {
                     placeholder="Create a new card"
                     onChange={(event) => this.changeCardName(event.target.value)} 
                     onKeyDown={(event) => {
-                        event.target.value = ''
-                        return event.keyCode === 13 ? this.addCard() : null
+                        return event.keyCode === 13 ? this.addCard() || (event.target.value = '') : null
                         }
                     } />
             </Segment>
