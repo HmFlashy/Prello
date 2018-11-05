@@ -295,8 +295,7 @@ async function initDB() {
         },
         {
             board: board4._id,
-            role: "Admin",
-            category: hugoCategory1
+            role: "Admin"
         },
         {
             board: board5._id,

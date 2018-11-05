@@ -9,7 +9,12 @@ import { actionGetProfile } from "../../redux/actions/UserActions";
 const mapStateToProps = state => {
     const user = state.authentification.user;
     return {
-        categories: user?user.categories:[]
+        teams: user?user.teams:[],
+        categories: user?user.categories: [],
+        categoryOptions: user ? [{key: "No Category", value: {_id: "No Category", name: "No Category"}, text: "No Category"},
+            ...user.categories.map(category => {
+                return {key: category._id, value: category, text: category.name}
+            })] : []
     }
 };
 

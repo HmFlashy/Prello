@@ -19,7 +19,6 @@ const mapStateToProps = (state, ownProps) => {
             {key: 2, value: "Team", text: "Team"},
             {key: 3, value: "Public", text: "Public"}
         ],
-        categoryId: ownProps.categoryId
     }
 };
 

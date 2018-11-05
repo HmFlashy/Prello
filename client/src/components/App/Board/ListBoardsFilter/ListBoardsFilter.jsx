@@ -1,10 +1,11 @@
 import React, {Component} from "react";
 import "../BoardOverview/BoardOverview"
+import './ListBoardsCategory.css'
 import {Icon, List} from "semantic-ui-react"
 import BoardOverviewContainer from "../../../../containers/BoardContainer/BoardOverviewContainer";
 import NewBoardModalContainer from "../../../../containers/BoardContainer/NewBoardModalContainer";
 
-class ListBoardNoCategory extends Component {
+class ListBoardsFilter extends Component {
 
     constructor(props) {
         super(props);
@@ -13,15 +14,15 @@ class ListBoardNoCategory extends Component {
     render() {
         return (
             <div>
-                <span><i className="user outline icon"/>{this.props.categoryName}</span>
-                <List className="lists">
+                <span><i className="user outline icon"/>{this.props.title}</span>
+                <List className="lists list-boards">
                     {this.props.boards.map(boardId => (
                         <List.Item key={boardId} className='no-padding-top'>
                             <BoardOverviewContainer key={boardId} boardId={boardId}/>
                         </List.Item>
                     ))}
                     <List.Item key="new-board" className='no-padding-top'>
-                        <NewBoardModalContainer categoryId={null}/>
+                        <NewBoardModalContainer categoryId={this.props.categoryId}/>
                     </List.Item>
                 </List>
             </div>
@@ -29,4 +30,4 @@ class ListBoardNoCategory extends Component {
     }
 }
 
-export default ListBoardNoCategory
+export default ListBoardsFilter
