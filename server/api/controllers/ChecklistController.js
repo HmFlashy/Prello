@@ -4,7 +4,7 @@ const Item = require('../models/index').Item;
 
 const addChecklist = async (name, cardId) => {
     try {
-        const newChecklist = await Card.findOneAndUpdate({ _id: cardId },
+        const card = await Card.findOneAndUpdate({ _id: cardId },
             {
                 $push: {
                     checklists: new Checklist({
@@ -13,7 +13,7 @@ const addChecklist = async (name, cardId) => {
                     })
                 }
             }, { "new": true })
-        return newChecklist.checklists
+        return card
     } catch (error) {
         throw error
     }
@@ -21,11 +21,17 @@ const addChecklist = async (name, cardId) => {
 
 const deleteChecklist = async (cardId, checklistId) => {
     try {
+        const newCard = await Card.find({ "_id": cardId })
+        const checklist = newCard[0].checklists.find(checklist => checklist._id == checklistId)
+        const checked = checklist.items.filter(item => item.isChecked).length
+        const items = checklist.items.length
         const card = await Card.findOneAndUpdate({ _id: cardId },
             {
                 $pull: { checklists: { _id: checklistId } }
             }, { "new": true })
-        return card.checklists
+        card.cardInformation.nbItemsChecked = card.cardInformation.nbItemsChecked - checked
+        card.cardInformation.nbItems = card.cardInformation.nbItems - items
+        return card
     } catch (error) {
         throw error
     }
@@ -44,7 +50,7 @@ const updateChecklist = async (cardId, checklistId, name) => {
                 checklists: newCard[0].checklists
             }
         }, { "new": true })
-        return card.checklists
+        return card
     } catch (error) {
         throw error
     }
