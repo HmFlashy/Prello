@@ -61,7 +61,8 @@ module.exports = async (req, res) => {
         const name = req.body.name;
         const visibility = req.body.visibility;
         const teamId = req.body.teamId;
-        const userId = req.body.userId;
+        const userId = req.user._id.toString();
+        const categoryId = req.body.categoryId;
         if(!name) {
             throwError(400, "Missing name parameter")
         }
@@ -73,13 +74,8 @@ module.exports = async (req, res) => {
                 throwError(400, `The teamId ${teamId} is malformed`)
             }
         }
-        if(!userId) {
-            throwError(400, "Missing userId parameter")
-        } else if(!userId.match(/^[0-9a-fA-F]{24}$/)) {
-            throwError(400, `The userId ${userId} is malformed`)
-        }
 
-        const board = await boardsController.addBoard(name, visibility, teamId, userId);
+        const board = await boardsController.addBoard(name, visibility, teamId, userId, categoryId);
         socketIO.broadcast("action", {
             type: "ADD_BOARD",
             payload: board

@@ -4,7 +4,6 @@ import listBoardsStar from '../../components/App/Board/ListBoardsStar/ListBoards
 const mapStateToProps = state => {
     const user = state.authentification.user;
     const boardsStar = user?user.starred:[];
-    console.log("nb stars " + console.log(boardsStar))
     return {
         boards: user?user.starred:[]
     }

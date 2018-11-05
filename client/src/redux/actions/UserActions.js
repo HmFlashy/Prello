@@ -18,3 +18,13 @@ export const actionGetProfile = (user) => {
         payload: user
     }
 };
+
+export const actionAddBoard = (board, categoryId) => {
+    return {
+        type: "ADD_BOARD",
+        payload: {
+            board: board,
+            categoryId: categoryId
+        }
+    }
+}

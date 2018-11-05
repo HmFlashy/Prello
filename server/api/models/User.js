@@ -14,7 +14,7 @@ const UserSchema = new mongoose.Schema({
     organization: String,
     teams: [{
         team: {type: mongoose.Schema.Types.ObjectId, ref: "Team"},
-        role: String,
+        role: {type: String, enum: ['Admin', 'Member'], default: "Member"},
         _id: false
     }],
     cardsWatched: [{type: mongoose.Schema.Types.ObjectId, ref: "Card"}],
@@ -22,7 +22,7 @@ const UserSchema = new mongoose.Schema({
     boards: [{
         board: {type: mongoose.Schema.Types.ObjectId, ref: "Board"},
         category: CategorySchema,
-        role: String,
+        role: {type: String, enum: ['Admin', 'Member'], default: "Member"},
         _id: false
     }],
     starred: [{type: mongoose.Schema.Types.ObjectId, ref: "Board"}],

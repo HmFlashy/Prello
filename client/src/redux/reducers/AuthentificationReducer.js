@@ -48,6 +48,15 @@ export default (state = defaultAuthentificationState, action) => {
                 ...state,
                 user: data
             };
+        case 'ADD_BOARD':
+            const category = state.user.categories.find(category => category._id === action.payload.categoryId);
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    boards: [...state.user.boards, {board: action.payload.board._id, category: category, role: "Admin"}]
+                }
+            };
         default:
             return {
                 ...state,

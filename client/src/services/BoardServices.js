@@ -1,10 +1,10 @@
-import axios from 'axios'
-import UrlConfig from '../config/UrlConfig'
-import { tokenHeader } from '../helpers/HeaderHelper'
+import axios from "axios"
+import UrlConfig from "../config/UrlConfig"
+import {tokenHeader} from "../helpers/HeaderHelper"
 
 export default {
     async fetchBoard(boardId) {
-        try{
+        try {
             const res = await axios.get(`${UrlConfig.API}/boards/${boardId}`, tokenHeader())
             return res.data
         } catch (e) {
@@ -13,7 +13,7 @@ export default {
         }
     },
     async fetchBoards() {
-        try{
+        try {
             const res = await axios.get(`${UrlConfig.API}/boards`, tokenHeader())
             return res.data
         } catch (e) {
@@ -30,9 +30,14 @@ export default {
             throw e
         }
     },
-    async addBoard(name, categoryId) {
+    async addBoard(name, categoryId, visibility, teamId) {
         try {
-            const res = await axios.post(`${UrlConfig.API}/boards/`, {name: name, categoryId: categoryId},
+            const res = await axios.post(`${UrlConfig.API}/boards/`, {
+                    name: name,
+                    categoryId: categoryId,
+                    visibility: visibility,
+                    teamId: teamId
+                },
                 tokenHeader())
             return res.data
         } catch (error) {

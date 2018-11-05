@@ -1,6 +1,7 @@
-const Board = require("../models/index").Board
-const User = require("../models/index").User
-const Team = require("../models/index").Team
+const Board = require("../models/index").Board;
+const User = require("../models/index").User;
+const Team = require("../models/index").Team;
+const Category = require("../models/index").Category;
 const throwError = require("../helper/RequestHelper").throwError;
 const mongoose = require("mongoose");
 
@@ -68,7 +69,7 @@ const getBoards = async (user) => {
 
 const getBoardsInfo = async (boardId) => {
     try {
-        const boards = await Board.find({ _id: boardId }).populate([{
+        const boards = await Board.find({_id: boardId}).populate([{
             path: "lists",
             select: ["name"],
             populate: {
@@ -77,7 +78,17 @@ const getBoardsInfo = async (boardId) => {
             }
         }]).select(["_id", "name"]);
         if (boards && boards[0]) {
-            return { _id: boards[0]._id, name: boards[0].name, lists: boards[0].lists.map(list => { return { name: list.name, _id: list._id, cards: list.cards.map(card => card.pos) } }) }
+            return {
+                _id: boards[0]._id,
+                name: boards[0].name,
+                lists: boards[0].lists.map(list => {
+                    return {
+                        name: list.name,
+                        _id: list._id,
+                        cards: list.cards.map(card => card.pos)
+                    }
+                })
+            }
         }
         return boards
     } catch (error) {
@@ -85,63 +96,92 @@ const getBoardsInfo = async (boardId) => {
     }
 };
 
-const addBoard = async (name, visibility, teamId, userId) => {
+const addBoard = async (name, visibility, teamId, userId, categoryId) => {
+    let newBoard = null;
+    let user = null;
+    let team = null;
     try {
-        const user = await User.findById(userId);
+        user = await User.findById(userId);
         if (!user) {
             throwError(404, `The user ${userId} was not found`)
         }
+        console.log(categoryId)
+        const category = await Category.findById(categoryId);
+        if (categoryId) {
+            if (!category) throwError(404, `The category ${categoryId} was not found`);
+            console.log(JSON.stringify(user.categories));
+            if (!user.categories.find(userCategory => userCategory._id.toString() === category._id.toString())) {
+                throwError(400, `The category ${categoryId} doesn't belong to the user`)
+            }
+        }
+
         if (teamId) {
-            const team = await Team.findById(teamId);
+            team = await Team.findById(teamId);
             if (!team) {
                 throwError(404, `The team ${teamId} was not found`)
             }
-            const savedBoard = await Board.create({
+            newBoard = await Board.create({
                 name: name,
                 teams: [team._id],
                 visibility: visibility,
                 owner: user._id,
-                members: [{ member: user._id, role: "Admin" }]
+                members: [{member: user._id, role: "Admin"}]
             });
-            return savedBoard;
+            await Team.updateOne({_id: team._id}, {$push: {boards: newBoard._id}});
         } else {
-            const savedBoard = await Board.create({
+            newBoard = await Board.create({
                 name: name,
                 visibility: visibility,
                 owner: user._id,
-                members: [{ member: user._id, role: "Admin" }]
+                members: [{member: user._id, role: "Admin"}]
             });
-            return savedBoard;
         }
+        await User.updateOne({_id: user._id}, {
+            $push: {
+                boards: {
+                    board: newBoard._id,
+                    role: "Admin",
+                    category: category
+                }
+            }
+        });
+        return newBoard;
     } catch (error) {
+        try {
+            if (team) await team.save();
+            if (user) await user.save();
+            if (newBoard) await newBoard.remove();
+        } catch (error) {
+            console.log("DB corrupted !!!");
+            throw error;
+        }
         throw error
     }
 };
 
 const updateBoard = async (boardId, data) => {
     try {
-        return await Board.findOneAndUpdate({ _id: boardId }, { $set: data }, { "new": true })
+        return await Board.findOneAndUpdate({_id: boardId}, {$set: data}, {"new": true})
     } catch (error) {
         throw error
     }
 }
 
-
 const addBoardMember = async (boardId, body) => {
     try {
         const user = await User.findOneAndUpdate(body, {
             $push:
-                { boards: { board: boardId, role: "Member" } }
-        }, { new: true });
+                {boards: {board: boardId, role: "Member"}}
+        }, {new: true});
         if (!user) {
             throwError(404, `The user ${JSON.stringify(body)} was not found`)
         }
-        const board = await Board.findOneAndUpdate({ _id: boardId }, {
+        const board = await Board.findOneAndUpdate({_id: boardId}, {
             $push: {
                 members:
-                    { member: user._id, role: "Member" }
+                    {member: user._id, role: "Member"}
             }
-        }, { new: true });
+        }, {new: true});
         if (!board) {
             throwError(404, `The board ${boardId} was not found`)
         }
@@ -155,16 +195,16 @@ const addBoardTeam = async (boardId, body) => {
     try {
         const team = await Team.findOneAndUpdate(body, {
             $push:
-                { boards: boardId }
-        }, { new: true });
+                {boards: boardId}
+        }, {new: true});
         if (!team) {
             throwError(404, `The team ${JSON.stringify(body)} was not found`)
         }
-        const board = await Board.findOneAndUpdate({ _id: boardId }, {
+        const board = await Board.findOneAndUpdate({_id: boardId}, {
             $push: {
                 teams: team._id
             }
-        }, { new: true });
+        }, {new: true});
         if (!board) {
             throwError(404, `The board ${boardId} was not found`)
         }

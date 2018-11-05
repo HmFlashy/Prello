@@ -20,7 +20,7 @@ class ListBoardCategory extends Component {
                             <BoardOverviewContainer key={boardId} boardId={boardId}/>
                         </List.Item>
                     ))}
-                    <List.Item className='no-padding-top'><NewBoardContainer categoryId={this.props.categoryId}/></List.Item>
+                    <NewBoardContainer categoryId={this.props.categoryId}/>
                 </List>
             </div>
         )

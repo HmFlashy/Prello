@@ -5,7 +5,7 @@ const TeamSchema = new mongoose.Schema({
     creator: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
     members: [{
         member: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-        role: String,
+        role: {type: String, enum: ['Admin', 'Member'], default: "Member"},
         _id: false
     }],
     boards: [{type: mongoose.Schema.Types.ObjectId, ref: 'Board'}]

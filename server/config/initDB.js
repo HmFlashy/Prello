@@ -386,7 +386,7 @@ async function initDB() {
     array.push(await Hugo.save());
     array.push(await Loris.save());
 
-    await Category.insertMany([hugoCategory2, hugoCategory1, kevinCategory1, kevinCategory2],
+    await Category.insertMany([hugoCategory2, hugoCategory1, hugoCategory3, kevinCategory1, kevinCategory2],
         array.push(function (error) {
             if (error) throw error
         })

@@ -14,7 +14,10 @@ const getByEmail = async (email) => {
 
 const getById = async (userId) => {
     try {
-        const user = await User.findById(userId)
+        const user = await User.findById(userId).populate({
+                path: "teams.team",
+                select: ["name"]
+            });
         return user
     } catch (error) {
         throw error

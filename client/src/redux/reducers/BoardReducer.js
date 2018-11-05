@@ -116,10 +116,10 @@ export default (state = defaultBoardReducer, action) => {
                     }
                 )
             };
-        case 'ADD_BOARd':
+        case 'ADD_BOARD':
             return {
                 ...state,
-                all: [...state.all, board]
+                all: [...state.all, action.payload.board]
             };
         default:
             return state
