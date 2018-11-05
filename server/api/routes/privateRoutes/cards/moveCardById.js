@@ -56,11 +56,13 @@ module.exports = async (req, res) => {
         }
         const card = await CardController.moveCard(cardId, newListId, pos);
         socketIO.broadcast('action', card.board, {
-            type: 'MOVE_CARD',
+            type: 'MOVED_CARD',
             payload: {
                 oldListId: oldListId,
                 newListId: newListId,
-                pos: pos
+                pos: pos,
+                _id: card._id,
+                boardId: card.board
             }
         });
         return res.status(200).json(card)

@@ -16,7 +16,7 @@ const addCard = async (name, listId) => {
     let list = null;
     try {
         const list = await List.findById(listId);
-        if(!list) throwError(404, 'LIST_NOT_FOUND');
+        if (!list) throwError(404, 'LIST_NOT_FOUND');
 
         card = new Card({
             name: name,
@@ -25,8 +25,8 @@ const addCard = async (name, listId) => {
         });
         let array = [];
         array.push(card.save());
-        array.push(List.updateOne({_id: listId},
-            {$push: {cards: card}}));
+        array.push(List.updateOne({ _id: listId },
+            { $push: { cards: card } }));
         [card] = await Promise.all(array);
         return card
     } catch (error) {
@@ -47,7 +47,7 @@ const moveCard = async (cardId, newListId, pos) => {
     let card = null;
     try {
         let array = [];
-        array.push(await List.findOne({cards: {$in: [cardId]}}));
+        array.push(await List.findOne({ cards: { $in: [cardId] } }));
         array.push(await List.findById(newListId).exec());
         array.push(await Card.findById(cardId));
         [oldList, newList, card] = await Promise.all(array);
@@ -56,14 +56,14 @@ const moveCard = async (cardId, newListId, pos) => {
         if (!newList) throwError(404, `NEW_LIST_NOT_FOUND`);
 
         array = [];
-        array.push(await List.updateOne({_id: card.list}, {$pull: {cards: cardId}}));
-        array.push(await List.updateOne({_id: newListId}, {$push: {cards: cardId}}));
-        array.push(await Card.findOneAndUpdate({_id: cardId}, {
+        array.push(await List.updateOne({ _id: card.list }, { $pull: { cards: cardId } }));
+        array.push(await List.updateOne({ _id: newListId }, { $push: { cards: cardId } }));
+        array.push(await Card.findOneAndUpdate({ _id: cardId }, {
             list: newListId,
             board: newList.board,
             pos
         }));
-        const [cardUpdated] = await Promise.all(array);
+        const [oldListUpdated, newListUpdated, cardUpdated] = await Promise.all(array);
         if (!cardUpdated) throwError(404, `CARD_NOT_FOUND`);
         return cardUpdated;
     } catch (error) {
@@ -90,7 +90,7 @@ const getCards = async () => {
 
 const updateCard = async (cardId, data) => {
     try {
-        return await Card.findOneAndUpdate({_id: cardId}, {$set: data}, {"new": true})
+        return await Card.findOneAndUpdate({ _id: cardId }, { $set: data }, { "new": true })
     } catch (error) {
         throw error
     }
@@ -98,8 +98,8 @@ const updateCard = async (cardId, data) => {
 
 const addToArray = async (cardId, key, data) => {
     try {
-        return await Card.findOneAndUpdate({_id: cardId},
-            {$push: {[key]: data}}, {"new": true})
+        return await Card.findOneAndUpdate({ _id: cardId },
+            { $push: { [key]: data } }, { "new": true })
     } catch (error) {
         throw error
     }
@@ -107,8 +107,8 @@ const addToArray = async (cardId, key, data) => {
 
 const removeToArray = async (cardId, key, data) => {
     try {
-        return await Card.findOneAndUpdate({_id: cardId},
-            {$pull: {[key]: data}}, {"new": true})
+        return await Card.findOneAndUpdate({ _id: cardId },
+            { $pull: { [key]: data } }, { "new": true })
     } catch (error) {
         throw error
     }
