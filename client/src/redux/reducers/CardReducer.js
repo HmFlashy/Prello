@@ -1,5 +1,6 @@
 const defaultCardReducer = {
-  cards: []
+  all: [],
+  error: null
 }
 
 export default (state = defaultCardReducer, action) => {

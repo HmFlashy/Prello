@@ -1,5 +1,5 @@
 const defaultListReducer = {
-    lists: []
+    all: []
 }
 
 export default (state = defaultListReducer, action) => {

@@ -1,5 +1,27 @@
 const defaultCardModalState = {
-    _id: null
+    name: null,
+    desc: null,
+    dueDate: null,
+    dueDateCompleted: null,
+    isArchived: null,
+    creator: null,
+    labels: [],
+    comments: [],
+    members: [],
+    attachments: [],
+    checklists: [],
+    watchers: [],
+    list: null,
+    board: null,
+    pos: null,
+    activities: [],
+    cardInformation: {
+        nbComments: 0,
+        nbItems: 0,
+        nbItemsChecked: 0,
+        nbAttachments: 0,
+        description: null
+    }
 }
 
 export default (state = defaultCardModalState, action) => {

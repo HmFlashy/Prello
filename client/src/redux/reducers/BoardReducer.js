@@ -1,18 +1,24 @@
 const defaultBoardReducer = {
     fetching: false,
+    all: [],
     currentBoard: {
-        _id: "",
-        name: "",
-        lists: []
-    },
-    all: [{
-        _id: "board1",
-        name: "tata"
-    }, {
-        _id: "board2",
-        name: "toto"
+        _id: null,
+        name: null,
+        lists: null,
+        owner: null,
+        teams: null,
+        members: [],
+        starred: null,
+        isClosed: null,
+        activities: [],
+        visibility: null,
+        labels: [],
+        boardInformation: {
+            nbMembers: null,
+            nbStars: null
+        }
+
     }
-    ]
 };
 
 export default (state = defaultBoardReducer, action) => {
