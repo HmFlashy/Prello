@@ -27,7 +27,7 @@ class MyList extends Component {
 
     render() {
         return (
-            <Draggable draggableId={this.props.list._id} index={0}>
+            <Draggable draggableId={this.props.list._id} index={this.props.list.pos}>
                 {(provided, snapshot) => (
                     <div
                         ref={provided.innerRef}

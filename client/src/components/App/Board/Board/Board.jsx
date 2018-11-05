@@ -35,23 +35,57 @@ class Board extends Component {
     onDragUpdate = () => {
     };
     onDragEnd = (data) => {
+        console.log(data)
+        const findPosition = (array, index, isUp) => {
+            if (array.length === 0) {
+                return 100000
+            }
+            if (index === 0) {
+                return array[0] / 2
+            }
+            else if (index === array.length - 1) {
+                return array[array.length - 1] + 100000
+            }
+            else {
+                return isUp ? (array[index + 1] + array[index]) / 2 : (array[index - 1] + array[index]) / 2
+            }
+        }
         if (data.destination && data.source) {
-            const newList = data.destination.droppableId
-            const oldList = data.source.droppableId
-            const index = data.destination.index
-            const cardId = data.draggableId
-            let list = this.props.lists.find(list => list._id === newList)
-
-            if (list) {
-                let pos
-                if (list.length === 0) {
-                    pos = 100000
+            if (data.type === "LIST") {
+                if (data.destination.droppableId === data.source.droppableId) {
+                    const cardId = data.draggableId
+                    const movement = (data.source.index - data.destination.index) * -1
+                    let list = this.props.lists.find(list => list._id === data.source.droppableId)
+                    const sorted = list.cards.sort((a, b) => a.pos - b.pos)
+                    const targetIndex = sorted.findIndex(list => list._id === data.draggableId) + movement
+                    console.log(sorted)
+                    this.props.moveCard(cardId, { boardId: this.props.board._id, oldListId: data.source.droppableId, newListId: data.source.droppableId, pos: findPosition(sorted.map(ele => ele.pos), targetIndex, movement > 0), _id: cardId })
                 }
                 else {
-                    let cards = list.cards.sort((a, b) => a.pos - b.pos)
-                    pos = index === cards.length && index !== 0 ? cards[index - 1].pos + 100000 : ((index - 1 < 0 ? 0 : cards[index - 1].pos) + (cards[index] ? cards[index].pos : 100000)) / 2
+                    const newList = data.destination.droppableId
+                    const oldList = data.source.droppableId
+                    const index = data.destination.index
+                    const cardId = data.draggableId
+                    let list = this.props.lists.find(list => list._id === newList)
+
+                    if (list) {
+                        let pos
+                        if (list.length === 0) {
+                            pos = 100000
+                        }
+                        else {
+                            let cards = list.cards.sort((a, b) => a.pos - b.pos)
+                            pos = index === cards.length && index !== 0 ? cards[index - 1].pos + 100000 : ((index - 1 < 0 ? 0 : cards[index - 1].pos) + (cards[index] ? cards[index].pos : 100000)) / 2
+                        }
+                        this.props.moveCard(cardId, { boardId: this.props.board._id, oldListId: oldList, newListId: newList, pos, _id: cardId })
+                    }
                 }
-                this.props.moveCard(cardId, { boardId: this.props.board._id, oldListId: oldList, newListId: newList, pos, _id: cardId })
+            }
+            else if (data.type === "BOARD") {
+                const movement = (data.source.index - data.destination.index) * -1
+                const sorted = this.props.lists.sort((a, b) => a.pos - b.pos)
+                const targetIndex = sorted.findIndex(list => list._id === data.draggableId) + movement
+                this.props.moveList(data.draggableId, findPosition(sorted.map(ele => ele.pos), targetIndex, movement > 0))
             }
         }
     };
@@ -71,8 +105,8 @@ class Board extends Component {
                                 {...provided.droppableProps}
                                 ref={provided.innerRef}>
                                 <List className='lists'>
-                                    {this.props.board.lists.map(listId => (
-                                        <List.Item key={listId} className='no-padding-top'><ListContainer key={listId} listId={listId} /></List.Item>
+                                    {this.props.board.lists.sort((a, b) => a.pos - b.pos).map(list => (
+                                        <List.Item key={list._id} className='no-padding-top'><ListContainer key={list._id} listId={list._id} /></List.Item>
                                     ))}
                                     <List.Item className='no-padding-top'><NewListContainer /></List.Item>
                                 </List>

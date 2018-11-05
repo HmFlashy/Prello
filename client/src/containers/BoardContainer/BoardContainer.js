@@ -4,6 +4,8 @@ import socketService from '../../services/SocketService'
 import boardServices from '../../services/BoardServices'
 import cardServices from '../../services/CardServices'
 import cardContainerServices from "../CardContainers/CardContainerServices"
+import listServices from '../../services/ListServices'
+import { failedMoveList, actionMoveList } from '../../redux/actions/ListActions'
 import {
     actionBoardSubscribe,
     actionFetchingBoard,
@@ -60,6 +62,15 @@ const mapDispatchToProps = dispatch => {
         },
         async moveCard(cardId, data) {
             await cardContainerServices.moveCard(cardId, data, dispatch)
+        },
+        async moveList(listId, pos) {
+            try {
+                dispatch(actionMoveList({ _id: listId, pos }))
+                await listServices.moveListApi(listId, pos)
+            } catch (error) {
+                console.log(error)
+                return dispatch(failedMoveList(error))
+            }
         },
         closeCardModal() {
             dispatch(actionCloseCardModal())

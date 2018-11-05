@@ -49,8 +49,8 @@ async function initDB() {
         secret: process.env.OAUTH_SECRET_PRELLO,
         redirectUris: [process.env.PRELLO_CLIENTURL],
         grants: ['password', 'authorization_code'],
-        
-      })
+
+    })
 
     const kevinHash = await passwordHelper.passwordHelper("g");
     const Kevin = User({
@@ -79,14 +79,14 @@ async function initDB() {
         ], boards: []
     });
 
-    Alex.teams = [{team: Khal._id, role: "Admin"}];
-    Hugo.teams = [{team: Khal._id, role: "Member"}];
-    Kevin.teams = [{team: Khal._id, role: "Member"}];
+    Alex.teams = [{ team: Khal._id, role: "Admin" }];
+    Hugo.teams = [{ team: Khal._id, role: "Member" }];
+    Kevin.teams = [{ team: Khal._id, role: "Member" }];
 
-    const FrontEnd = Label({name: "Front-End", color: "yellow"});
-    const BackEnd = Label({name: "Back-End", color: "blue"});
-    const DB = Label({name: "Database", color: "green"});
-    const DB2 = Label({name: "Database", color: "green"});
+    const FrontEnd = Label({ name: "Front-End", color: "yellow" });
+    const BackEnd = Label({ name: "Back-End", color: "blue" });
+    const DB = Label({ name: "Database", color: "green" });
+    const DB2 = Label({ name: "Database", color: "green" });
 
     const card1 = Card({
         name: "Add comment to a card",
@@ -140,10 +140,10 @@ async function initDB() {
 
     const checkList1 = Checklist({
         title: "Checklist", items: [
-            {name: "BD"},
-            {name: "Front"},
-            {name: "Back"},
-            {name: "Design"}
+            { name: "BD" },
+            { name: "Front" },
+            { name: "Back" },
+            { name: "Design" }
         ]
     });
     card2.checklists = [checkList1];
@@ -151,27 +151,27 @@ async function initDB() {
 
     const checkList2 = Checklist({
         title: "Checklist No Idea", items: [
-            {name: "Idea 1"},
-            {name: "Idea 2", isChecked: true},
-            {name: "Idea 3", isChecked: true},
-            {name: "Idea 4"}]
+            { name: "Idea 1" },
+            { name: "Idea 2", isChecked: true },
+            { name: "Idea 3", isChecked: true },
+            { name: "Idea 4" }]
     });
     card3.checklists = [checkList2];
     card3.cardInformation.nbItems = 4;
     card3.cardInformation.nbItemsChecked = 2;
 
-    const list1 = List({name: "Done", cards: [card1._id, card2._id]});
+    const list1 = List({ name: "Done", cards: [card1._id, card2._id], pos: 100000 });
     list1.listInformation.nbCards = 2;
-    list1.watchers = [{watcher: Kevin._id}, {watcher: Loris._id}];
-    const list2 = List({name: "Doing", cards: [card3._id]});
+    list1.watchers = [{ watcher: Kevin._id }, { watcher: Loris._id }];
+    const list2 = List({ name: "Doing", cards: [card3._id], pos: 200000 });
     list2.listInformation.nbCards = 1;
-    list2.watchers = [{watcher: Kevin._id}, {watcher: Loris._id}, {watcher: Hugo._id}
-        , {watcher: Alex._id}];
-    const list3 = List({name: "To Do", cards: [card4._id]});
+    list2.watchers = [{ watcher: Kevin._id }, { watcher: Loris._id }, { watcher: Hugo._id }
+        , { watcher: Alex._id }];
+    const list3 = List({ name: "To Do", cards: [card4._id], pos: 300000 });
     list3.listInformation.nbCards = 1;
-    const list4 = List({name: "Doing", cards: [card5._id]});
+    const list4 = List({ name: "Doing", cards: [card5._id], pos: 100000 });
     list4.listInformation.nbCards = 1;
-    list3.watchers = [{watcher: Loris._id}];
+    list3.watchers = [{ watcher: Loris._id }];
 
     const board1 = Board({
         name: "Prello", lists: [list1._id, list2._id, list3._id], teams: [Khal._id],
@@ -212,10 +212,10 @@ async function initDB() {
             member: Loris._id,
             role: "Admin"
         },
-            {
-                member: Hugo._id,
-                role: "Member"
-            }],
+        {
+            member: Hugo._id,
+            role: "Member"
+        }],
         starred: [Loris._id, Hugo._id],
         labels: [DB2._id],
         boardInformation: {
@@ -272,9 +272,9 @@ async function initDB() {
     BackEnd.board = board1._id;
     DB2.board = board2._id;
 
-    const hugoCategory1 = Category({name: "School"});
-    const hugoCategory2 = Category({name: "Hobbies"});
-    const hugoCategory3 = Category({name: "AI"});
+    const hugoCategory1 = Category({ name: "School" });
+    const hugoCategory2 = Category({ name: "Hobbies" });
+    const hugoCategory3 = Category({ name: "AI" });
     Hugo.categories = [hugoCategory1, hugoCategory2, hugoCategory3];
 
     Hugo.boards = [
@@ -305,8 +305,8 @@ async function initDB() {
         }
     ];
 
-    const kevinCategory1 = Category({name: "IOT"});
-    const kevinCategory2 = Category({name: "LOL"});
+    const kevinCategory1 = Category({ name: "IOT" });
+    const kevinCategory2 = Category({ name: "LOL" });
     Kevin.boards = [{
         board: board1._id,
         role: "Admin",
@@ -326,14 +326,14 @@ async function initDB() {
         board: board1._id,
         role: "Admin"
     },
-        {
-            board: board2._id,
-            role: "Admin"
-        }];
+    {
+        board: board2._id,
+        role: "Admin"
+    }];
 
     card1.list = list1._id;
     card1.board = board1._id;
-    card1.watchers = [{watcher: Alex._id}];
+    card1.watchers = [{ watcher: Alex._id }];
     Alex.cardsWatched = [card1._id];
 
     card2.list = list1._id;
@@ -341,7 +341,7 @@ async function initDB() {
 
     card3.list = list2._id;
     card3.board = board1._id;
-    card3.watchers = [{watcher: Kevin._id}, {watcher: Hugo._id}];
+    card3.watchers = [{ watcher: Kevin._id }, { watcher: Hugo._id }];
     Kevin.cardsWatched = [card3._id];
 
     card4.list = list3._id;
@@ -349,17 +349,17 @@ async function initDB() {
 
     card5.list = list4._id;
     card5.board = board2._id;
-    card5.watchers = [{watcher: Loris._id}, {watcher: Hugo._id}];
+    card5.watchers = [{ watcher: Loris._id }, { watcher: Hugo._id }];
     Loris.cardsWatched = [card5._id];
     Hugo.cardsWatched = [card3._id, card5._id];
 
     list1.board = board1._id;
-    list1.watchers = [{watcher: Kevin._id}];
+    list1.watchers = [{ watcher: Kevin._id }];
     list2.board = board1._id;
     list3.board = board1._id;
-    list3.watchers = [{watcher: Loris._id}, {watcher: Kevin._id}];
+    list3.watchers = [{ watcher: Loris._id }, { watcher: Kevin._id }];
     list4.board = board2._id;
-    list4.watchers = [{watcher: Loris._id}];
+    list4.watchers = [{ watcher: Loris._id }];
 
     Kevin.listsWatched = [list1._id];
     Loris.listsWatched = [list3._id, list4._id];

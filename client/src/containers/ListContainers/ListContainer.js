@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import listServices from '../../services/ListServices'
 import cardServices from '../../services/CardServices'
-import {actionUpdateListName, failedActionUpdateListName} from '../../redux/actions/ListActions'
+import { actionUpdateListName, failedActionUpdateListName } from '../../redux/actions/ListActions'
 import { failedActionAddCard } from '../../redux/actions/CardActions'
 import list from '../../components/App/List/index'
 
@@ -16,14 +16,14 @@ const mapDispatchToProps = (dispatch, onwProps) => {
         async updateListName(list) {
             try {
                 await listServices.updateListNameApi(list._id, list.name)
-            } catch(error) {
+            } catch (error) {
                 dispatch(failedActionUpdateListName(error))
             }
         },
         async addCard(name, listId) {
             try {
                 await cardServices.addCardApi(name, listId)
-            } catch(error) {
+            } catch (error) {
                 console.log(error)
                 return dispatch(failedActionAddCard(error))
             }

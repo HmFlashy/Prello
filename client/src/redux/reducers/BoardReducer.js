@@ -29,7 +29,7 @@ export default (state = defaultBoardReducer, action) => {
                 ...state,
                 currentBoard: {
                     ...board,
-                    lists: board.lists.map(list => list._id)
+                    lists: board.lists.map(list => ({ _id: list._id, pos: list.pos }))
                 }
             };
         case "FETCHING_BOARD":
@@ -73,7 +73,15 @@ export default (state = defaultBoardReducer, action) => {
                 ...state,
                 currentBoard: {
                     ...state.currentBoard,
-                    lists: [...state.currentBoard.lists, list._id]
+                    lists: [...state.currentBoard.lists, { _id: list._id, pos: list.pos }]
+                }
+            };
+        case "MOVE_LIST":
+            return {
+                ...state,
+                currentBoard: {
+                    ...state.currentBoard,
+                    lists: state.currentBoard.lists.map(list => list._id === action.payload._id ? { ...list, pos: action.payload.pos } : list)
                 }
             };
         case "FAILED_UPDATE_LIST_NAME":

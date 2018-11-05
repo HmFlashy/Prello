@@ -14,14 +14,24 @@ export default {
             throw err
         }
     },
-    async addListApi(name, boardID){
+    async addListApi(name, boardID) {
         try {
             const res = await axios.post(`${UrlConfig.API}/lists`, {
                 name: name,
                 boardId: boardID
             }, tokenHeader());
             return res.data
-        } catch(error) {
+        } catch (error) {
+            throw error
+        }
+    },
+    async moveListApi(listId, pos) {
+        try {
+            const res = await axios.put(`${UrlConfig.API}/lists/${listId}`, {
+                pos
+            }, tokenHeader());
+            return res.data
+        } catch (error) {
             throw error
         }
     }
