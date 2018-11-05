@@ -66,9 +66,8 @@ module.exports = async (req, res) => {
         if (Object.keys(req.body).length === 0) {
             throwError(400, "No data in body")
         }
-        console.log(req.body)
-        const card = CardController.getCardById(cardId)
-        const checklists = await ChecklistController.updateItem(card._id, checklistId, itemId, req.body)
+        const card = await ChecklistController.updateItem(cardId, checklistId, itemId, req.body)
+        const checklists = card.checklists
         Object.keys(req.body).forEach(action => {
             if (types[action]) {
                 checklists.forEach(checklist => {
@@ -77,7 +76,9 @@ module.exports = async (req, res) => {
                             if (item._id == itemId) {
                                 socketIO.broadcast('action', card.board, {
                                     type: types[action],
-                                    payload: { _id: cardId, checklists, [action]: item[action] }
+                                    payload: {
+                                        _id: cardId, checklists, [action]: item[action], cardInformation: card.cardInformation
+                                    }
                                 })
                             }
                         })
@@ -88,6 +89,7 @@ module.exports = async (req, res) => {
         )
         return res.status(200).json(checklists)
     } catch (error) {
+        console.log(error)
         res.status(500).json(error.message)
     }
 }

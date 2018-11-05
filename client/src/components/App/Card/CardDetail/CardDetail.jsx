@@ -83,7 +83,11 @@ class CardDetail extends Component {
     }
 
     onUpdateItem(checklistId, itemId, oldVal, newVal, data) {
-        this.props.updateItemToChecklist(this.props.card._id, checklistId, itemId, oldVal, { _id: this.props.card._id, ...newVal }, data)
+        let cardInfo
+        if (data.hasOwnProperty('isChecked')) {
+            cardInfo = data.isChecked ? { ...this.props.card.cardInformation, nbItemsChecked: this.props.card.cardInformation.nbItemsChecked + 1 } : { ...this.props.card.cardInformation, nbItemsChecked: this.props.card.cardInformation.nbItemsChecked - 1 }
+        }
+        this.props.updateItemToChecklist(this.props.card._id, checklistId, itemId, oldVal, { _id: this.props.card._id, ...newVal, cardInformation: cardInfo }, data)
     }
 
     moveCard(data) {

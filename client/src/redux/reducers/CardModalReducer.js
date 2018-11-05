@@ -123,7 +123,8 @@ export default (state = defaultCardModalState, action) => {
             return (state._id && state._id === action.payload._id) ?
                 ({
                     ...state,
-                    checklists: action.payload.checklists
+                    checklists: action.payload.checklists,
+                    cardInformation: action.payload.cardInformation
                 })
                 : state
         case 'MOVED_CARD':
