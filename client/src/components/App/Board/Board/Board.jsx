@@ -24,7 +24,7 @@ class Board extends Component {
         }
     }
 
-    componentWillUnmount(){
+    componentWillUnmount() {
         this.props.unsubscribe(this.props.boardId)
     }
 
