@@ -77,7 +77,7 @@ module.exports = async (req, res) => {
         if (cardUpdated = await CardController.updateCard(cardId, req.body)) {
             Object.keys(req.body).forEach(action => {
                 if (types[action]) {
-                    socketIO.broadcast('action', cardUpdated.board,  {
+                    socketIO.broadcast('action', cardUpdated.board, {
                         type: types[action],
                         payload: { [action]: cardUpdated[action], "_id": cardUpdated._id }
                     })

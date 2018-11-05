@@ -126,6 +126,16 @@ export default (state = defaultCardModalState, action) => {
                     checklists: action.payload.checklists
                 })
                 : state
+        case 'MOVED_CARD':
+        case 'MOVING_CARD':
+        case 'FAILED_MOVE_CARD':
+            return (state._id && state._id === action.payload._id) ?
+                ({
+                    ...state,
+                    list: action.payload.newListId,
+                    board: action.payload.boardId
+                })
+                : state
         default:
             return state
     }

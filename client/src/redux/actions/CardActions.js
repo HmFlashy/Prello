@@ -29,7 +29,7 @@ export const actionUpdatingCard = (data) => {
 
 export const actionMoveCard = (data) => {
     return {
-        type: "MOVE_CARD",
+        type: "MOVING_CARD",
         payload: data
     }
 }
