@@ -1,15 +1,16 @@
 import React, {Component} from "react";
 import { Card, Icon } from "semantic-ui-react";
+import './NewBoard.css'
 
 class NewBoard extends Component {
 
     render(){
         return (
-            <Card className="new-board" onClick={this.props.changeVisibility}>
+            <Card className="board-item new-board"  onClick={this.props.changeVisibility}>
                 <Card.Content>
-                    <h1>Create a new board</h1>
+                    <h1 style={{ color: "black" }}>Create a new board</h1>
                     <span>
-                        <Icon name="user circle"/>
+                        <Icon name="bars"/>
                     </span>
                 </Card.Content>
             </Card>

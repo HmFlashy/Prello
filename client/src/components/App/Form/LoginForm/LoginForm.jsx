@@ -41,7 +41,7 @@ class LoginForm extends Component {
                 <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
                     <Grid.Column style={{ maxWidth: 450 }}>
                         <Header as='h2' color='teal' textAlign='center'>
-                        <Image src='/logo.png' /> Log-in to your account
+                        <Image color="teal" src='http://cdn.onlinewebfonts.com/svg/img_311846.png' /> Log-in to your account
                         </Header>
                         {
                             this.props.error ?

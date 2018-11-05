@@ -20,7 +20,9 @@ class ListBoardNoCategory extends Component {
                             <BoardOverviewContainer key={boardId} boardId={boardId}/>
                         </List.Item>
                     ))}
-                    <NewBoardModalContainer categoryId={null}/>
+                    <List.Item key="new-board" className='no-padding-top'>
+                        <NewBoardModalContainer categoryId={null}/>
+                    </List.Item>
                 </List>
             </div>
         )

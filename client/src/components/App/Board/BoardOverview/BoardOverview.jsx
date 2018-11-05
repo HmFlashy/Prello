@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import {Card, Icon, List, Segment} from "semantic-ui-react"
+import './BoardOverview.css'
 
 class BoardOverview extends Component {
 
@@ -34,7 +35,7 @@ class BoardOverview extends Component {
 
     render() {
         return (
-            <Card onClick={this.displayBoard}>
+            <Card className="board-item" onClick={this.displayBoard}>
                 <Card.Content>
                     <h1>{this.props.board ? this.props.board.name : ""}</h1>
                     <span onClick={this.starBoard}
