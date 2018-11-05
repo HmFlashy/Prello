@@ -40,11 +40,11 @@ module.exports = async (req, res) => {
         if (!checklistId.match(/^[0-9a-fA-F]{24}$/)) {
             throwError(400, `The checklistId ${checklistId} is malformed`)
         }
-        const card = await CardController.getCardById(cardId)
-        const checklists = await ChecklistController.deleteChecklist(card._id, checklistId)
+        const card = await ChecklistController.deleteChecklist(cardId, checklistId)
+        const checklists = card.checklists
         socketIO.broadcast('action', card.board, {
             type: 'DELETED_CHECKLIST',
-            payload: { _id: cardId, checklists }
+            payload: { _id: cardId, checklists, cardInformation: card.cardInformation }
         })
         return res.status(200).json(checklists)
     } catch (error) {

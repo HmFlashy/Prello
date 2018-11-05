@@ -71,7 +71,7 @@ class CardDetail extends Component {
     }
 
     updateChecklist(checklistId, oldVal, newVal, name) {
-        this.props.updateChecklist(this.props.card._id, checklistId, oldVal, { _id: this.props.card._id, ...newVal }, name)
+        this.props.updateChecklist(this.props.card._id, checklistId, oldVal, { _id: this.props.card._id, ...newVal, cardInformation: this.props.card.cardInformation }, name)
     }
 
     onAddItem(checklistId, data) {
