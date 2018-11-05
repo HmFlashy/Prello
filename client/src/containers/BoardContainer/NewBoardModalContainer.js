@@ -1,6 +1,6 @@
 import {connect} from "react-redux";
 import boardServices from "../../services/BoardServices"
-import newBoard from "../../components/App/Board/NewBoard"
+import newBoard from "../../components/App/Board/NewBoardModal"
 import {actionAddBoard} from "../../redux/actions/UserActions"
 
 const mapStateToProps = (state, ownProps) => {

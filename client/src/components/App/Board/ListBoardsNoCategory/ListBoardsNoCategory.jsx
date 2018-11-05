@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import "../BoardOverview/BoardOverview"
 import {Icon, List} from "semantic-ui-react"
 import BoardOverviewContainer from "../../../../containers/BoardContainer/BoardOverviewContainer";
-import NewBoardContainer from "../../../../containers/BoardContainer/NewBoardContainer";
+import NewBoardModalContainer from "../../../../containers/BoardContainer/NewBoardModalContainer";
 
 class ListBoardNoCategory extends Component {
 
@@ -20,7 +20,7 @@ class ListBoardNoCategory extends Component {
                             <BoardOverviewContainer key={boardId} boardId={boardId}/>
                         </List.Item>
                     ))}
-                    <NewBoardContainer categoryId={null}/>
+                    <NewBoardModalContainer categoryId={null}/>
                 </List>
             </div>
         )
