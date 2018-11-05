@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import "../BoardOverview/BoardOverview"
-import './ListBoardsCategory.css'
+import './ListBoardsFilter.css'
 import {Icon, List} from "semantic-ui-react"
 import BoardOverviewContainer from "../../../../containers/BoardContainer/BoardOverviewContainer";
 import NewBoardModalContainer from "../../../../containers/BoardContainer/NewBoardModalContainer";

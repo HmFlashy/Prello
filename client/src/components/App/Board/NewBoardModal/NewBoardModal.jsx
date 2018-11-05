@@ -56,8 +56,10 @@ class NewBoardModal extends Component {
                           options={this.props.categoryOptions}/>
                 <Dropdown placeholder='Visibility' id={"Visibility"}
                           defaultValue={this.state.currentVisibility} search selection
+                          onChange={this.handleChange}
                           options={this.props.visibilityOptions}/>
                 <Dropdown placeholder='Team' id={"Team"}
+                          onChange={this.handleChange}
                           defaultValue={this.state.currentTeam} search selection options={this.props.teamOptions}/>
                 <Button.Group><Button positive onClick={this.addBoard}>Create the board</Button></Button.Group>
             </Modal>
