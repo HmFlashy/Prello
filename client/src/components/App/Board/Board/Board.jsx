@@ -7,6 +7,7 @@ import { List, Modal } from 'semantic-ui-react'
 import MessagesDisplayerContainer from "../../../../containers/MessageContainers/MessagesDisplayerContainer"
 import Header from "./Header"
 import { withRouter } from 'react-router-dom'
+import { DragDropContext } from 'react-beautiful-dnd';
 
 class Board extends Component {
 
@@ -29,18 +30,51 @@ class Board extends Component {
     }
 
 
+    onDragStart = (data) => {
+        console.log("STARTING DRAG")
+        console.log(data)
+    };
+    onDragUpdate = (data) => {
+        console.log("UPDATE DRAG")
+        console.log(data)
+    };
+    onDragEnd = (data) => {
+        console.log("END DRAG")
+        console.log(data)
+        if (data.destination && data.source) {
+            const newList = data.destination.droppableId
+            const oldList = data.source.droppableId
+            const index = data.destination.index
+            const cardId = data.draggableId
+            console.log(`Move ${cardId} from ${oldList} to ${newList} at ${index}`)
+            let list = this.props.lists.find(list => list._id == newList)
+
+            if (list) {
+                let pos = list.length == 0
+                    ? 100000
+                    : list.cards.sort((a, b) => a.pos - b.pos)
+            }
+        }
+    };
+
     render() {
         return (
             <div className="board">
                 <Header />
-                <div className="lists-content">
-                    <List className='lists'>
-                        {this.props.board.lists.map(listId => (
-                            <List.Item key={listId} className='no-padding-top'><ListContainer key={listId} listId={listId} /></List.Item>
-                        ))}
-                        <List.Item className='no-padding-top'><NewListContainer /></List.Item>
-                    </List>
-                </div>
+                <DragDropContext
+                    onDragStart={this.onDragStart}
+                    onDragUpdate={this.onDragUpdate}
+                    onDragEnd={this.onDragEnd}
+                >
+                    <div className="lists-content">
+                        <List className='lists'>
+                            {this.props.board.lists.map(listId => (
+                                <List.Item key={listId} className='no-padding-top'><ListContainer key={listId} listId={listId} /></List.Item>
+                            ))}
+                            <List.Item className='no-padding-top'><NewListContainer /></List.Item>
+                        </List>
+                    </div>
+                </DragDropContext>
                 <Modal
                     open={this.props.cardModal._id != null}
                     onClose={() => {
