@@ -4,7 +4,7 @@ const defaultBoardReducer = {
     currentBoard: {
         _id: null,
         name: null,
-        lists: null,
+        lists: [],
         owner: null,
         teams: null,
         members: [],
@@ -85,35 +85,35 @@ export default (state = defaultBoardReducer, action) => {
             return {
                 ...state,
                 all: state.all.map(function (board) {
-                        if (board._id === action.payload.board) {
-                            return {
-                                ...board,
-                                starred:
-                                    [...board.starred, action.payload.user],
-                                boardInformation: {
-                                    ...board.boardInformation,
-                                    nbStars: board.boardInformation.nbStars + 1
-                                }
+                    if (board._id === action.payload.board) {
+                        return {
+                            ...board,
+                            starred:
+                                [...board.starred, action.payload.user],
+                            boardInformation: {
+                                ...board.boardInformation,
+                                nbStars: board.boardInformation.nbStars + 1
                             }
-                        } else return board
-                    }
+                        }
+                    } else return board
+                }
                 )
             };
         case "USER_BOARD_UNSTAR":
             return {
                 ...state,
                 all: state.all.map(function (board) {
-                        if (board._id === action.payload.board) {
-                            return {
-                                ...board,
-                                starred: board.starred.filter(user => user._id === action.payload.user),
-                                boardInformation: {
-                                    ...board.boardInformation,
-                                    nbStars: board.boardInformation.nbStars - 1
-                                }
+                    if (board._id === action.payload.board) {
+                        return {
+                            ...board,
+                            starred: board.starred.filter(user => user._id === action.payload.user),
+                            boardInformation: {
+                                ...board.boardInformation,
+                                nbStars: board.boardInformation.nbStars - 1
                             }
-                        } else return board
-                    }
+                        }
+                    } else return board
+                }
                 )
             };
         case 'ADD_BOARd':
