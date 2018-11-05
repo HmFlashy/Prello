@@ -35,8 +35,8 @@ class MyList extends Component {
                             <h3>{this.props.list.name}</h3>
                             <Container className='items'>
                                 <List >
-                                    {this.props.list.cards.map(cardId => (
-                                        <List.Item key={cardId} ><CardOverviewContainer key={cardId} cardId={cardId} /></List.Item>
+                                    {this.props.list.cards.sort((a, b) => a.pos - b.pos).map(card => (
+                                        <List.Item key={console.log(card._id) || card._id} ><CardOverviewContainer key={card._id} cardId={card._id} /></List.Item>
                                     ))}
 
                                     {provided.placeholder}

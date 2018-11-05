@@ -14,19 +14,6 @@ import { DragDropContext } from 'react-beautiful-dnd';
 import TeamPage from "./pages/TeamPage";
 
 class App extends Component {
-  onDragStart = (data) => {
-    console.log("STARTING DRAG")
-    console.log(data)
-  };
-  onDragUpdate = (data) => {
-    console.log("UPDATE DRAG")
-    console.log(data)
-  };
-  onDragEnd = (data) => {
-    console.log("END DRAG")
-    console.log(data)
-  };
-
   render() {
     return (
       <DragDropContext
