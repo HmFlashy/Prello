@@ -99,7 +99,7 @@ export default (state = defaultCardReducer, action) => {
     case 'FAILED_UPDATE_ITEM':
       return {
         ...state,
-        all: state.all.map(card => card._id === action.payload._id ? { ...card, checklists: action.payload.checklists } : card)
+        all: state.all.map(card => card._id === action.payload._id ? { ...card, checklists: action.payload.checklists, cardInformation: action.payload.cardInformation } : card)
       }
     default:
       return state
