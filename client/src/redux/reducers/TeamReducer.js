@@ -3,7 +3,9 @@ const defaultTeamState = {
     currentTeam: {
         name: "Ma team",
         creator: null,
-        members: [],
+        members: [{
+            fullname: "Hugo Maitre"
+        }],
         boards: []
     }
 }

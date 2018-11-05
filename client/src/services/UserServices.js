@@ -21,12 +21,21 @@ export default {
     },
     async getUser() {
         try {
-            const res =  await axios.get(`${UrlConfig.API}/profile`,
+            const res = await axios.get(`${UrlConfig.API}/profile`,
                 tokenHeader())
             return res.data
         } catch (e) {
             console.log(e);
             throw e
+        }
+    },
+    async getUsersWithQuery(query){
+        try {
+            const res = axios.get(`${UrlConfig.API}/users?query=${query}`,
+                tokenHeader())
+            return res.data
+        } catch(error) {
+            throw error
         }
     }
 }

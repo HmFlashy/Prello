@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './TeamDetails.css'
 import { Menu, Segment, Container } from 'semantic-ui-react';
 import TeamBoards from '../TeamBoards';
+import TeamMembers from '../TeamMembers';
 
 class TeamDetails extends Component {
 
@@ -46,7 +47,7 @@ class TeamDetails extends Component {
                         <Container className="item-info">
                         {
                             activeItem === "boards" ? <TeamBoards team={ this.props.team } /> :
-                            activeItem === "members" ? <div>Members</div> :
+                            activeItem === "members" ? <TeamMembers team={ this.props.team } /> :
                             activeItem === "settings" ? <div>Settings</div> : <div>Error</div>
 
                         }   

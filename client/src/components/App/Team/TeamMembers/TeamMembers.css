@@ -1,0 +1,51 @@
+.team-members {
+    text-align: left;
+}
+
+.action-team-members {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+}
+
+.add-member {
+    float: right;
+}
+
+.member-cell {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    position: relative;
+}
+
+.member-fullname {
+    flex: 8;
+}
+
+.span-fullname {
+    margin-left: 10px;
+    text-align: left;
+    line-height: 32px;
+}
+
+.member-right-dropdown {
+    flex: 4!important;
+    text-align: center;
+    line-height: 32px;
+}
+
+.remove-member-button {
+    flex: 2 !important;
+}
+
+@media only screen and (max-width: 767px) {
+
+    .action-team-members {
+        text-align: center;
+    }
+    .add-member {
+        margin-top: 10px !important;
+        float: none;
+    }
+}
