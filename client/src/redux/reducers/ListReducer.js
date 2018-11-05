@@ -34,7 +34,7 @@ export default (state = defaultListReducer, action) => {
                 ...state,
                 all: state.all.map(list => card.list === list._id ? {
                     ...list,
-                    cards: [...list.cards, card._id]
+                    cards: [...list.cards, { _id: card._id, pos: card.pos }]
                 } : list)
 
             }

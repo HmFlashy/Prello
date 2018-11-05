@@ -49,10 +49,12 @@ class CardOverview extends Component {
         return (
             <Draggable draggableId={this.props.card._id} index={this.props.card.pos}>
                 {(provided, snapshot) => (
-                    <div ref={provided.innerRef}
+                    <div
+                        className='cardOverview'
+                        ref={provided.innerRef}
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}>
-                        <Card className='cardOverview' onClick={this.displayCardModal}>
+                        <Card onClick={this.displayCardModal}>
                             <Card.Content>
                                 {
                                     this.props.card.labels.length > 0 ?

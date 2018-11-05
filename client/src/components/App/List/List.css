@@ -8,6 +8,15 @@
     max-height: 100%;
 }
 
+.myDiv{
+    width: 305px !important;
+    margin: 0.3rem !important;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    max-height: 100%;
+}
+
 .items {
     overflow: hidden;
     overflow-y: scroll;
