@@ -56,7 +56,7 @@ class Board extends Component {
                 }
                 else {
                     let cards = list.cards.sort((a, b) => a.pos - b.pos)
-                    pos = ((index - 1 < 0 ? 0 : cards[index - 1].pos) + (cards[index] ? cards[index].pos : 100000)) / 2
+                    pos = index === cards.length && index !== 0 ? cards[index - 1].pos + 100000 : ((index - 1 < 0 ? 0 : cards[index - 1].pos) + (cards[index] ? cards[index].pos : 100000)) / 2
                 }
                 this.props.moveCard(cardId, { boardId: this.props.board._id, oldListId: oldList, newListId: newList, pos, _id: cardId })
             }
