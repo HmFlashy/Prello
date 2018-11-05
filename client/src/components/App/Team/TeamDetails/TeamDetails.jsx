@@ -45,7 +45,7 @@ class TeamDetails extends Component {
                     <Segment attached='bottom' className="item-content">
                         <Container className="item-info">
                         {
-                            activeItem === "boards" ? <TeamBoards /> :
+                            activeItem === "boards" ? <TeamBoards team={ this.props.team } /> :
                             activeItem === "members" ? <div>Members</div> :
                             activeItem === "settings" ? <div>Settings</div> : <div>Error</div>
 
