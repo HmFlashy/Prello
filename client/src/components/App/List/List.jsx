@@ -30,7 +30,8 @@ class MyList extends Component {
             <Droppable droppableId={this.props.list._id} type="LIST">
                 {(provided, snapshot) => (
                     <div {...provided.droppableProps}
-                        ref={provided.innerRef}>
+                        ref={provided.innerRef}
+                        className='myDiv'>
                         <Segment className='myList' >
                             <h3>{this.props.list.name}</h3>
                             <Container className='items'>
