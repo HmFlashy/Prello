@@ -4,6 +4,7 @@
     z-index: 100;
     flex: 0;
     flex-basis: 60px;
+    margin-bottom: 0px !important;
 }
 .inline {
     display: flex;

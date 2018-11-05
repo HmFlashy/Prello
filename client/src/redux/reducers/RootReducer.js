@@ -5,11 +5,14 @@ import listReducer from './ListReducer';
 import cardModalReducer from './CardModalReducer';
 import errorReducer from './ErrorReducer';
 import authentificationReducer from './AuthentificationReducer';
+import teamReducer from './TeamReducer'
+
 export default combineReducers({
     cards: cardReducer,
     boards: boardReducer,
     lists: listReducer,
     cardModal: cardModalReducer,
     errors: errorReducer,
-    authentification: authentificationReducer
+    authentification: authentificationReducer,
+    teams: teamReducer
 });

@@ -4,7 +4,7 @@ const defaultBoardReducer = {
     currentBoard: {
         _id: null,
         name: null,
-        lists: null,
+        lists: [],
         owner: null,
         teams: null,
         members: [],

@@ -10,6 +10,7 @@ import WelcomePage from "./pages/WelcomePage";
 
 import { Provider } from 'react-redux'
 import configureStore from './redux/store'
+import TeamPage from "./pages/TeamPage";
 
 class App extends Component {
   render() {
@@ -24,6 +25,7 @@ class App extends Component {
                   <Route exact path="/home"             component={HomePage} />
                   <Route exact path="/boards/:boardId"  component={BoardPage} />
                   <Route exact path="/card/:cardId"     component={BoardPage} />
+                  <Route exact path="/team"             component={TeamPage} />
                   <Redirect to="/welcome"/>
             </Switch>
           </div>

@@ -1,0 +1,50 @@
+.team-layout {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.team-header {
+    flex: 0;
+    flex-basis: 20%;
+    background-color: #f5f6f7;
+    padding-top: 10px;
+}
+
+.team-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.menu-content {
+    background-color: #f5f6f7 !important;
+    font-weight: bold;
+}
+
+.center-left {
+    margin-left: auto !important;
+}
+
+.center-right{
+    margin-right: auto !important;
+}
+
+.item-content {
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 0px !important;
+    background-color: white;
+}
+
+.item-info {
+    flex: 1;
+    padding: 15px !important;
+}
+ 
+
+.ui.grey.menu {
+    font-weight: bold !important;
+}
