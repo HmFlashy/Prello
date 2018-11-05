@@ -31,13 +31,13 @@ class App extends Component {
                 <Route exact path="/home" component={HomePage} />
                 <Route exact path="/boards/:boardId" component={BoardPage} />
                 <Route exact path="/card/:cardId" component={BoardPage} />
+                <Route exact path="/team" component={TeamPage} />
                 <Redirect to="/welcome" />
               </Switch>
             </div>
           </ConnectedRouter >
         </Provider >
       </DragDropContext>
-                  <Route exact path="/team"             component={TeamPage} />
     );
   }
 }
