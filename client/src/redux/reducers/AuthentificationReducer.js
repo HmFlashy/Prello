@@ -1,5 +1,17 @@
 const defaultAuthentificationState = {
-    user: null,
+    user: {
+        _id: '',
+        bio: '',
+        email: '',
+        fullName: '',
+        initials: '',
+        username: '',
+        organization: '',
+        teams: [],
+        boards: [],
+        starred: [],
+        categories: []
+    },
     error: null,
     token: localStorage.getItem('token-prello')
 };
@@ -17,8 +29,7 @@ export default (state = defaultAuthentificationState, action) => {
             return {
                 ...state,
                 error: null,
-                token: data.token,
-                user: data.user
+                token: data.token
             };
         case 'LOGING_IN':
         case 'REGISTERING':

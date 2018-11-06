@@ -15,8 +15,6 @@ class ListBoards extends Component {
     }
 
     componentWillMount() {
-        this.props.fetchBoards()
-        this.props.getUser()
     }
 
     handleChange(e, {value}) {

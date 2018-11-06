@@ -13,9 +13,6 @@ const ListSchema = new mongoose.Schema({
         nbUnviewedActions: { type: Number, default: 0 },
         _id: false
     }],
-    listInformation: {
-        nbCards: { type: Number, default: 0 }
-    },
     pos: Number
 }, { timestamps: true });
 

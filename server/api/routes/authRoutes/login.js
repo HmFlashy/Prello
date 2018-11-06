@@ -77,7 +77,11 @@ module.exports = async (req, res) => {
             token: token.access_token
         })
     } catch (error) {
-        console.log(error)
-        return res.status(error.code).send(error.message)
+        console.log(error);
+        if(error.code){
+            return res.status(error.code).json(error.message)
+        } else {
+            return res.sendStatus(500);
+        }
     }
 }

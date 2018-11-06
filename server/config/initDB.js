@@ -161,16 +161,12 @@ async function initDB() {
     card3.cardInformation.nbItemsChecked = 2;
 
     const list1 = List({ name: "Done", cards: [card1._id, card2._id], pos: 100000 });
-    list1.listInformation.nbCards = 2;
     list1.watchers = [{ watcher: Kevin._id }, { watcher: Loris._id }];
     const list2 = List({ name: "Doing", cards: [card3._id], pos: 200000 });
-    list2.listInformation.nbCards = 1;
     list2.watchers = [{ watcher: Kevin._id }, { watcher: Loris._id }, { watcher: Hugo._id }
         , { watcher: Alex._id }];
     const list3 = List({ name: "To Do", cards: [card4._id], pos: 300000 });
-    list3.listInformation.nbCards = 1;
     const list4 = List({ name: "Doing", cards: [card5._id], pos: 100000 });
-    list4.listInformation.nbCards = 1;
     list3.watchers = [{ watcher: Loris._id }];
 
     const board1 = Board({
