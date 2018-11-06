@@ -10,7 +10,7 @@ const throwError = require('../../../helper/RequestHelper').throwError
  *         type: string
  *
  * paths:
- *   /users/{userId}/boardStars/{boardId}:
+ *   /me/boardStars/{boardId}:
  *     delete:
  *       tags:
  *         - User
@@ -24,7 +24,7 @@ const throwError = require('../../../helper/RequestHelper').throwError
  */
 module.exports = async (req, res) => {
     try {
-        const userId = req.params.userId;
+        const userId = req.user._id.toString();
         const boardId = req.params.boardId;
         if(!userId) {
             throwError(400, 'Missing userId parameter')

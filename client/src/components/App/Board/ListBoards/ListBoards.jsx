@@ -8,6 +8,7 @@ class ListBoards extends Component {
     constructor() {
         super();
         this.handleChange = this.handleChange.bind(this);
+        this.handleAddition = this.handleAddition.bind(this);
         this.getCurrentValues = this.getCurrentValues.bind(this);
         this.state = {
             currentValues: []
@@ -19,6 +20,13 @@ class ListBoards extends Component {
 
     handleChange(e, {value}) {
         this.setState({currentValues: value});
+    }
+
+    handleAddition = (e, { value }) => {
+        this.props.addCategory(value);
+        this.setState({
+            currentValues: [{ text: value, value }, ...this.state.currentValues],
+        })
     }
 
     getCurrentValues() {
@@ -37,8 +45,10 @@ class ListBoards extends Component {
                     selection
                     fluid
                     multiple
+                    allowAdditions
                     value={this.state.currentValues}
                     onChange={this.handleChange}
+                    onAddItem={this.handleAddition}
                 />
                 <ListBoardsFilterContainer key={1} categories={this.getCurrentValues()} onlyStars={true} noTeam={false} title={"Your starred boards"}/>
                 <ListBoardsFilterContainer key={2} categories={this.getCurrentValues()} onlyStars={false} noTeam={true} title={"Your personal boards"}/>

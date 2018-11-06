@@ -23,11 +23,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             dispatch(actionBoardSubscribe())
         },
         async starBoard(userId) {
-            await userServices.starBoard(ownProps.boardId, userId);
+            await userServices.starBoard(ownProps.boardId);
             dispatch(actionStarBoard(ownProps.boardId, userId))
         },
         async unstarBoard(userId) {
-            await userServices.unstarBoard(ownProps.boardId, userId);
+            await userServices.unstarBoard(ownProps.boardId);
             dispatch(actionUnstarBoard(ownProps.boardId, userId))
         }
     }

@@ -5,21 +5,21 @@ const throwError = require('../../../helper/RequestHelper').throwError
  * @swagger
  *
  * paths:
- *   /users:
+ *   /me:
  *     get:
  *       tags:
  *         - User
- *       description: Get the 10 first users that match the given query
- *       summary: Get the 10 first users that match the given query
+ *       description: Get the 10 first me that match the given query
+ *       summary: Get the 10 first me that match the given query
  *       parameters:
  *         - in: query
  *           name: query
  *           schema:
  *             type: string
- *           description: The query that the users mail or username have to match
+ *           description: The query that the me mail or username have to match
  *       responses:
  *         200:
- *           description: The 10 first users that match the query
+ *           description: The 10 first me that match the query
  *         500:
  *           description: Internal error
  */

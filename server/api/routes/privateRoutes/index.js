@@ -11,7 +11,7 @@ router.use('/lists', require('./lists'));
 router.use('/boards', require('./boards'))
 router.use('/files', require('./files.js'))
 router.use('/profile', require('./profile'))
-router.use('/users', require('./users'))
+router.use('/me', require('./me'))
 
 router.use('/cards', require('./cards'));
 router.use('/lists', require('./lists'));
