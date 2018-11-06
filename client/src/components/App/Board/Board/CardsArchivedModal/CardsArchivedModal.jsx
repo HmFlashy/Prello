@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './CardsArchivedModal.css'
-import { Button, Icon, Modal } from 'semantic-ui-react'
+import { Button, List, Modal } from 'semantic-ui-react'
+import CardOverviewContainer from './../../../../../containers/CardContainers/CardOverviewContainer'
 
 class CardsArchivedModal extends Component {
 
@@ -9,8 +10,15 @@ class CardsArchivedModal extends Component {
         return (
             <Modal size='tiny' trigger={this.props.trigger}>
                 <Modal.Header>Archived cards</Modal.Header>
-                <Modal.Content>
-                    <p></p>
+                <Modal.Content  className="list-card-archived">
+                    <List>
+                        {
+                            this.props.archivedCards.length > 0 ?
+                                this.props.archivedCards.map(card => (<List.Item key={card._id} ><CardOverviewContainer key={card._id} cardId={card._id} /></List.Item>))
+                            :
+                            null
+                        }
+                    </List>
                 </Modal.Content>
                 <Modal.Actions>
                     <Button negative>No</Button>

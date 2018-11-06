@@ -5,7 +5,7 @@ import NewListContainer from '../../../../containers/ListContainers/NewListConta
 import CardDetailContainer from '../../../../containers/CardContainers/CardDetailContainer'
 import { List, Modal } from 'semantic-ui-react'
 import MessagesDisplayerContainer from "../../../../containers/MessageContainers/MessagesDisplayerContainer"
-import Header from "./Header"
+import BoardHeaderContainer from "./../../../../containers/BoardContainer/BoardHeaderContainer"
 import { withRouter } from 'react-router-dom'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 
@@ -95,7 +95,7 @@ class Board extends Component {
                 <div id="bg">
                     <img src="http://hdwpro.com/wp-content/uploads/2016/03/1080p-Background-Desktop.jpg" style={{ width: '100%', height: '100%' }} alt="" />
                 </div>
-                <Header board={ this.props.board }/>
+                <BoardHeaderContainer board={ this.props.board }/>
                 <DragDropContext
                     onDragStart={this.onDragStart}
                     onDragUpdate={this.onDragUpdate}

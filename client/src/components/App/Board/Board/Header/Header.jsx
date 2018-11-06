@@ -6,7 +6,6 @@ import CardsArchivedModal from '../CardsArchivedModal';
 
 class BoardHeader extends Component {
 
-
     render(){
         return (
             <div className="boardHeader">
@@ -34,6 +33,7 @@ class BoardHeader extends Component {
                                     Cards archived
                                 </Button>
                             }
+                            archivedCards={this.props.archivedCards}
                         />
                     </div>
                 </div>
