@@ -35,8 +35,31 @@ export default {
         } catch (error) {
             throw error
         }
-    }
-    ,
+    },
+    async addCommentApi(cardId, data) {
+        try {
+            const res = await axios.post(`${UrlConfig.API}/cards/${cardId}/comments`, data, tokenHeader())
+            return res.data
+        } catch (error) {
+            throw error
+        }
+    },
+    async deleteCommentApi(cardId, commentId) {
+        try {
+            const res = await axios.delete(`${UrlConfig.API}/cards/${cardId}/comments/${commentId}`, {}, tokenHeader())
+            return res.data
+        } catch (error) {
+            throw error
+        }
+    },
+    async updateCommentApi(cardId, commentId, data) {
+        try {
+            const res = await axios.put(`${UrlConfig.API}/cards/${cardId}/comments/${commentId}`, data, tokenHeader())
+            return res.data
+        } catch (error) {
+            throw error
+        }
+    },
     async createChecklist(cardId, data) {
         try {
             const res = await axios.post(`${UrlConfig.API}/cards/${cardId}/checklists`, {

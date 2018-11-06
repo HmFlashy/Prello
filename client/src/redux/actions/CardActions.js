@@ -151,3 +151,45 @@ export const actionFailedCardFetched = (error) => {
         payload: error
     }
 }
+
+export const failedActionUpdateComment = (error) => {
+    return {
+        type: 'FAILED_UPDATE_COMMENT',
+        payload: error
+    }
+}
+
+export const failedActionDeleteComment = (error) => {
+    return {
+        type: 'FAILED_DELETE_COMMENT',
+        payload: error
+    }
+}
+
+export const failedActionAddComment = (error) => {
+    return {
+        type: 'FAILED_ADD_COMMENT',
+        payload: error
+    }
+}
+
+export const actionUpdateComment = (data) => {
+    return {
+        type: 'UPDATING_COMMENT',
+        payload: data
+    }
+}
+
+export const actionDeleteComment = (data) => {
+    return {
+        type: 'DELETING_COMMENT',
+        payload: data
+    }
+}
+
+export const actionAddComment = (data) => {
+    return {
+        type: 'ADDING_COMMENT',
+        payload: data
+    }
+}

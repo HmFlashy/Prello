@@ -11,7 +11,8 @@ import {
 const mapStateToProps = (state, ownProps) => {
     return {
         board: state.boards.currentBoard,
-        card: state.cardModal
+        card: state.cardModal,
+        userId: state.authentification.user._id
     }
 }
 
@@ -48,6 +49,15 @@ const mapDispatchToProps = dispatch => {
         },
         async updateItemToChecklist(cardId, checklistId, itemId, oldVal, newVal, data) {
             await cardContainerServices.updateItemToChecklist(cardId, checklistId, itemId, oldVal, newVal, data, dispatch)
+        },
+        async addComment(cardId, data) {
+            await cardContainerServices.addComment(cardId, data, dispatch)
+        },
+        async deleteComment(cardId, commentId, data) {
+            await cardContainerServices.deleteComment(cardId, commentId, data, dispatch)
+        },
+        async updateComment(cardId, commentId, oldVal, data) {
+            await cardContainerServices.updateComment(cardId, commentId, oldVal, data, dispatch)
         }
     }
 }

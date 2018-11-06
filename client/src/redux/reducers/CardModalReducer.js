@@ -137,6 +137,28 @@ export default (state = defaultCardModalState, action) => {
                     board: action.payload.boardId
                 })
                 : state
+        case 'ADDED_COMMENT':
+            return (state._id && state._id === action.payload._id) ?
+                ({
+                    ...state,
+                    comments: [...state.comments, action.payload.comment]
+                })
+                : state
+        case 'DELETED_COMMENT':
+            return (state._id && state._id === action.payload._id) ?
+                ({
+                    ...state,
+                    comments: state.comments.filter(comment => comment._id !== action.payload._id)
+                })
+                : state
+        case 'UPDATING_COMMENT':
+        case 'UPDATED_COMMENT':
+            return (state._id && state._id === action.payload._id) ?
+                ({
+                    ...state,
+                    comments: state.comments.map(comment => comment._id === action.payload._id ? action.payload.comment : comment)
+                })
+                : state
         default:
             return state
     }

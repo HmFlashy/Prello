@@ -30,6 +30,7 @@ class CardDetail extends Component {
         this.deleteChecklist = this.deleteChecklist.bind(this);
         this.updateChecklist = this.updateChecklist.bind(this);
         this.onAddItem = this.onAddItem.bind(this);
+        this.onAddComment = this.onAddComment.bind(this);
         this.onDeleteItem = this.onDeleteItem.bind(this);
         this.onUpdateItem = this.onUpdateItem.bind(this);
         this.moveCard = this.moveCard.bind(this);
@@ -88,6 +89,10 @@ class CardDetail extends Component {
             cardInfo = data.isChecked ? { ...this.props.card.cardInformation, nbItemsChecked: this.props.card.cardInformation.nbItemsChecked + 1 } : { ...this.props.card.cardInformation, nbItemsChecked: this.props.card.cardInformation.nbItemsChecked - 1 }
         }
         this.props.updateItemToChecklist(this.props.card._id, checklistId, itemId, oldVal, { _id: this.props.card._id, ...newVal, cardInformation: cardInfo }, data)
+    }
+
+    onAddComment(content) {
+        this.props.addComment(this.props.card._id, { author: this.props.userId, content })
     }
 
     moveCard(data) {
@@ -161,7 +166,9 @@ class CardDetail extends Component {
                                 <Divider />
                             </div>
                             : ""}
-                        <Comment></Comment>
+                        <Comment
+                            onAddComment={content => this.onAddComment(content)}
+                        />
                         <Divider />
                         <Activity></Activity>
                     </div>

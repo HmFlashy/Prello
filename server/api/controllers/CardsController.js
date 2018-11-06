@@ -31,8 +31,8 @@ const addComment = async (cardId, author, content) => {
         content
     });
     comment = await comment.save()
-    return await Card.findOneAndUpdate({ _id: cardId },
-        { $push: { comments: comment._id } }, { "new": true })
+    return [comment, await Card.findOneAndUpdate({ _id: cardId },
+        { $push: { comments: comment._id } }, { "new": true })]
 }
 
 const deleteComment = async (cardId, commentId) => {

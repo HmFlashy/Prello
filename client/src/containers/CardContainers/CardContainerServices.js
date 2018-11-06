@@ -13,7 +13,13 @@ import {
     failedActionCardUpdateItemToChecklist,
     actionCardUpdateItemToChecklist,
     actionMoveCard,
-    failedActionMoveCard
+    failedActionMoveCard,
+    failedActionAddComment,
+    failedActionDeleteComment,
+    failedActionUpdateComment,
+    actionAddComment,
+    actionDeleteComment,
+    actionUpdateComment
 } from '../../redux/actions/CardActions'
 
 export default {
@@ -46,6 +52,28 @@ export default {
         } catch (error) {
             console.log(error)
             return dispatch(failedActionMoveCard(data, error))
+        }
+    }, async addComment(cardId, data, dispatch) {
+        try {
+            await cardServices.addCommentApi(cardId, data)
+        } catch (error) {
+            console.log(error)
+            return dispatch(failedActionAddComment(data, error))
+        }
+    }, async deleteComment(cardId, commentId, data, dispatch) {
+        try {
+            await cardServices.deleteCommentApi(cardId, commentId)
+        } catch (error) {
+            console.log(error)
+            return dispatch(failedActionDeleteComment(data, error))
+        }
+    }, async updateComment(cardId, commentId, oldValue, data, dispatch) {
+        try {
+            dispatch(actionUpdateComment(data))
+            await cardServices.updateCommentApi(cardId, commentId, data)
+        } catch (error) {
+            console.log(error)
+            return dispatch(failedActionUpdateComment(oldValue, error))
         }
     },
     async createChecklist(cardId, data, dispatch) {
