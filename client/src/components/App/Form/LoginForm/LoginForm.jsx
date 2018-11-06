@@ -7,7 +7,7 @@ class LoginForm extends Component {
 
     constructor(){
         super()
-        this.authenticate = this.authenticate.bind(this);
+        this.authenticate = this.authenticate.bind(this)
         this.state = {
             email: '',
             password: '',

@@ -14,7 +14,7 @@ class ListBoardsFilter extends Component {
     render() {
         return (
             <div>
-                {this.props.title?(<span><i className="user outline icon"/>{this.props.title}</span>):null}
+                <span><i className="user outline icon"/>{this.props.title}</span>
                 <List className="lists list-boards">
                     {this.props.boards.map(boardId => (
                         <List.Item key={boardId} className='no-padding-top'>

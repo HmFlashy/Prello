@@ -6,14 +6,14 @@ import {actionAddBoard} from "../../redux/actions/UserActions"
 const mapStateToProps = (state, ownProps) => {
     const user = state.authentification.user;
     return {
-        categoryOptions: [{key: "No Category", value: "No Category", text: "No Category"},
+        categoryOptions: user ? [{key: "No Category", value: "No Category", text: "No Category"},
             ...user.categories.map(category => {
                 return {key: category._id, value: category, text: category.name}
-            })],
-        teamOptions: [{key: "No Team", value: "No Team", text: "No Team"},
+            })] : [],
+        teamOptions: user ? [{key: "No Team", value: "No Team", text: "No Team"},
             ...user.teams.map(team => {
                 return {key: team.team._id, value: team.team, text: team.team.name}
-            })],
+            })] : [],
         visibilityOptions: [
             {key: 1, value: "Private", text: "Private"},
             {key: 2, value: "Team", text: "Team"},

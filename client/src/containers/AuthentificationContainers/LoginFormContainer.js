@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 import loginForm from './../../components/App/Form/LoginForm'
 import authentificationServices from '../../services/AuthentificationServices'
-
 import {
     actionLogin,
     actionLoggedIn,
