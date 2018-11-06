@@ -19,7 +19,7 @@ export default {
             throw e
         }
     },
-    async getUser() {
+    async getProfile() {
         try {
             const res = await axios.get(`${UrlConfig.API}/profile`,
                 tokenHeader())

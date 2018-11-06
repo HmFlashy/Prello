@@ -18,6 +18,7 @@ class Header extends Component {
 
     componentDidMount() {
         this.props.fetchBoards()
+        this.props.getProfile()
         this.updateWindowDimensions();
         window.addEventListener('resize', this.updateWindowDimensions);
     }

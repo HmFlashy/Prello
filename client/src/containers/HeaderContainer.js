@@ -12,6 +12,8 @@ import {
     actionFailedFetchBoard,
     actionBoardSubscribe
 } from '../redux/actions/BoardActions'
+import userServices from "../services/UserServices";
+import {actionGetProfile} from "../redux/actions/UserActions";
 
 const mapStateToProps = (state, ownProps) => {
     return {
@@ -46,6 +48,13 @@ const mapDispatchToProps = dispatch => {
                 dispatch(actionBoardFetched(board))
             } catch (error) {
                 return dispatch(actionFailedFetchBoard(error))
+            }
+        },
+        async getProfile(){
+            try {
+                const user = await userServices.getProfile();
+                dispatch(actionGetProfile(user))
+            } catch(error) {
             }
         }
     }
