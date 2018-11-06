@@ -42,8 +42,14 @@ export const failedActionMoveCard = (data) => {
 }
 
 export const failedActionUpdateCard = (error) => {
+    let type
+    Object.keys(error).map(key => {
+        if(key !== "_id"){
+            type = `FAILED_UPDATE_${key.toUpperCase()}`
+        }
+    })
     return {
-        type: 'FAILED_UPDATE_CARD_NAME',
+        type,
         payload: error
     }
 }
