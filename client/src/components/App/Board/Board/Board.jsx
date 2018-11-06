@@ -12,7 +12,6 @@ import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 class Board extends Component {
 
     componentWillMount() {
-        this.props.subscribe(this.props.boardId)
         const cardId = this.props.cardId
         if (cardId != null) {
             this.props.fetchCard(cardId)

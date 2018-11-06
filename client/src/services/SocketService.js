@@ -4,10 +4,6 @@ import urlConfig from '../config/UrlConfig'
 
 const socket = io(urlConfig.SOCKET)
 
-socket.on("connect", () => {
-    console.log("Connected !")
-})
-
 socket.on("error", (error) => {
     console.log(error)
 })
@@ -23,6 +19,15 @@ export default {
         socket.on( "action", ( action ) => 
             store.dispatch(action) 
         )
+
+        
+        socket.on("connect", () => {
+            const boardId = store.getState().boards.currentBoard._id
+            if(boardId !== null){
+                this.subscribe(boardId)
+            }
+            console.log("Connected !")
+        })
     },
     emit( type, payload ) {
         socket.emit( type, payload )

@@ -43,6 +43,7 @@ const mapDispatchToProps = dispatch => {
             try {
                 dispatch(actionFetchingBoard(id))
                 const board = await boardServices.fetchBoard(id)
+                this.subscribe(board._id)
                 dispatch(actionBoardFetched(board))
             } catch (error) {
                 return dispatch(actionFailedFetchBoard(error))
@@ -53,9 +54,7 @@ const mapDispatchToProps = dispatch => {
                 dispatch(actionFetchingCard(cardId))
                 const card = await cardServices.fetchCard(cardId)
                 dispatch(actionCardFetched(card))
-                dispatch(actionFetchingBoard(card.board))
-                const board = await boardServices.fetchBoard(card.board)
-                return dispatch(actionBoardFetched(board))
+                this.fetchBoard(card.board)
             } catch (error) {
                 return dispatch(actionFailedCardFetched(error))
             }
