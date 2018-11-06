@@ -4,14 +4,18 @@ import './NewList.css'
 
 class NewList extends Component {
 
+    getPos() {
+        const posSorted = this.props.board.lists.map(list => list.pos).sort((a, b) => a - b)
+        return posSorted[posSorted.length - 1] + 100000
+    }
 
     render() {
         return (
             <div className="myDiv">
                 <Segment className='myList'>
-                    <Input placeholder="Create a new list" onKeyDown={(event) => event.keyCode === 13 ? this.props.addList(event.target.value, this.props.boardId) : null}></Input>
+                    <Input placeholder="Create a new list" onKeyDown={(event) => event.keyCode === 13 ? this.props.addList(event.target.value, this.props.board._id, this.getPos()) : null}></Input>
                 </Segment>
-            </div>
+            </div >
         )
     }
 }
