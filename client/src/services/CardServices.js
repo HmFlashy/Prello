@@ -25,11 +25,12 @@ export default {
             throw error
         }
     },
-    async addCardApi(name, listId) {
+    async addCardApi(name, listId, pos) {
         try {
             const res = await axios.post(`${UrlConfig.API}/cards`, {
                 name: name,
-                listId: listId
+                listId: listId,
+                pos
             }, tokenHeader())
             return res.data
         } catch (error) {

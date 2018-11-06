@@ -56,7 +56,7 @@ const updateComment = async (cardId, commentId, content) => {
     return await Card.findOne({ _id: cardId })
 }
 
-const addCard = async (name, listId) => {
+const addCard = async (name, listId, pos) => {
     try {
         const list = await List.findById(listId);
         if (!list) throwError(404, 'LIST_NOT_FOUND');
@@ -64,7 +64,8 @@ const addCard = async (name, listId) => {
         card = new Card({
             name: name,
             list: listId,
-            board: list.board
+            board: list.board,
+            pos
         });
         let array = [];
         array.push(card.save());

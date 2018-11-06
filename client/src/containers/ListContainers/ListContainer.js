@@ -20,9 +20,9 @@ const mapDispatchToProps = (dispatch, onwProps) => {
                 dispatch(failedActionUpdateListName(error))
             }
         },
-        async addCard(name, listId) {
+        async addCard(name, listId, pos) {
             try {
-                await cardServices.addCardApi(name, listId)
+                await cardServices.addCardApi(name, listId, pos)
             } catch (error) {
                 console.log(error)
                 return dispatch(failedActionAddCard(error))
