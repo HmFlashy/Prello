@@ -1,5 +1,6 @@
 const List = require("../models/index").List;
 const Card = require("../models/index").Card;
+const Comment = require("../models/index").Comment;
 const throwError = require("../helper/RequestHelper").throwError;
 
 const getCardById = async (cardId) => {
@@ -8,22 +9,45 @@ const getCardById = async (cardId) => {
             [{
                 path: "labels"
             }, {
-                path: "members"               
+                path: "members"
             },
             {
                 path: "list"
+            },
+            {
+                path: "comments"
             }]
         )
-        console.log(card)
         return card
     } catch (error) {
         throw error
     }
 };
 
+const addComment = async (cardId, author, content) => {
+    comment = new Comment({
+        author,
+        card: cardId,
+        content
+    });
+    comment = await comment.save()
+    return await Card.findOneAndUpdate({ _id: cardId },
+        { $push: { comments: comment._id } }, { "new": true })
+}
+
+const deleteComment = async (cardId, commentId) => {
+    await Comment.deleteOne({ _id: commentId })
+    return await Card.findOneAndUpdate({ _id: cardId },
+        { $pull: { comments: commentId } }, { "new": true })
+}
+
+const updateComment = async (cardId, commentId, content) => {
+    await Comment.findOneAndUpdate({ _id: commentId },
+        { $set: { content: content } }, { "new": true })
+    return await Card.findOne({ _id: cardId })
+}
+
 const addCard = async (name, listId) => {
-    let card = null;
-    let list = null;
     try {
         const list = await List.findById(listId);
         if (!list) throwError(404, 'LIST_NOT_FOUND');
@@ -149,5 +173,8 @@ module.exports = {
     addToArray,
     removeToArray,
     deleteCard,
-    moveCard
+    moveCard,
+    addComment,
+    deleteComment,
+    updateComment
 };

@@ -1,5 +1,5 @@
 const express = require('express');
-const {cardValidator} = require('../../../validations/privateRoutes');
+const { cardValidator, commentValidator } = require('../../../validations/privateRoutes');
 
 const router = express.Router();
 
@@ -21,5 +21,8 @@ router.post('/:cardId/checklists/:checklistId/items', require('../checklists/Ite
 router.delete('/:cardId/checklists/:checklistId/items/:itemId', require('../checklists/Item/deleteItem'));
 router.put('/:cardId/checklists/:checklistId/items/:itemId', require('../checklists/Item/updateItem'));
 
+router.post('/:cardId/comments', commentValidator.addCommentValidator, require('../comments/addComment'));
+router.delete('/:cardId/comments/:commentId', commentValidator.deleteCommentValidator, require('../comments/deleteComment'));
+router.put('/:cardId/comments/:commentId', commentValidator.updateCommentValidator, require('../comments/updateComment'));
 
 module.exports = router;
