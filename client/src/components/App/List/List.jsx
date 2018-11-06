@@ -27,17 +27,18 @@ class MyList extends Component {
 
     render() {
         return (
-            <Draggable draggableId={this.props.list._id} index={this.props.list.pos}>
+            <Draggable  className="myDiv" draggableId={this.props.list._id} index={this.props.list.pos}>
                 {(provided, snapshot) => (
                     <div
                         ref={provided.innerRef}
                         {...provided.draggableProps}
-                        {...provided.dragHandleProps}>
+                        {...provided.dragHandleProps}
+                        className="lists" >
                         <Droppable droppableId={this.props.list._id} type="LIST">
                             {(provided, snapshot) => (
                                 <div {...provided.droppableProps}
                                     ref={provided.innerRef}
-                                    className='myDiv'>
+                                    className="myDiv">
 
                                     <Segment className='myList' >
                                         <h3>{this.props.list.name}</h3>

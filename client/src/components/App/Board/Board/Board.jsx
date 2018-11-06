@@ -103,7 +103,8 @@ class Board extends Component {
                         {(provided, snapshot) => (
                             <div
                                 {...provided.droppableProps}
-                                ref={provided.innerRef}>
+                                ref={provided.innerRef}
+                                className="myLists">
                                 <List className='lists'>
                                     {this.props.board.lists.sort((a, b) => a.pos - b.pos).map(list => (
                                         <List.Item key={list._id} className='no-padding-top'><ListContainer key={list._id} listId={list._id} /></List.Item>
