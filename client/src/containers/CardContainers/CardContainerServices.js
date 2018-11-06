@@ -60,12 +60,12 @@ export default {
             console.log(error)
             return dispatch(failedActionAddComment(data, error))
         }
-    }, async deleteComment(cardId, commentId, data, dispatch) {
+    }, async deleteComment(cardId, commentId, dispatch) {
         try {
             await cardServices.deleteCommentApi(cardId, commentId)
         } catch (error) {
             console.log(error)
-            return dispatch(failedActionDeleteComment(data, error))
+            return dispatch(failedActionDeleteComment(error))
         }
     }, async updateComment(cardId, commentId, oldValue, data, dispatch) {
         try {

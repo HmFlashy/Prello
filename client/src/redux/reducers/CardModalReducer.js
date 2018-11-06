@@ -148,7 +148,7 @@ export default (state = defaultCardModalState, action) => {
             return (state._id && state._id === action.payload._id) ?
                 ({
                     ...state,
-                    comments: state.comments.filter(comment => comment._id !== action.payload._id)
+                    comments: state.comments.filter(comment => comment._id !== action.payload.commentId)
                 })
                 : state
         case 'UPDATING_COMMENT':

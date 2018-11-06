@@ -46,7 +46,7 @@ export default {
     },
     async deleteCommentApi(cardId, commentId) {
         try {
-            const res = await axios.delete(`${UrlConfig.API}/cards/${cardId}/comments/${commentId}`, {}, tokenHeader())
+            const res = await axios.delete(`${UrlConfig.API}/cards/${cardId}/comments/${commentId}`, tokenHeader())
             return res.data
         } catch (error) {
             throw error

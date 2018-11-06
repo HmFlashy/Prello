@@ -39,8 +39,13 @@ module.exports = async (req, res) => {
         const cardId = req.params.cardId;
         const commentId = req.params.commentId;
         const card = await CardController.deleteComment(cardId, commentId);
+        socketIO.broadcast('action', card.board, {
+            type: 'DELETED_COMMENT',
+            payload: { _id: card._id, commentId }
+        })
         return res.status(200).json(card)
     } catch (error) {
+        console.log(error)
         if (error.code) {
             res.status(error.code).json(error.message);
         } else {

@@ -15,7 +15,11 @@ const getCardById = async (cardId) => {
                 path: "list"
             },
             {
-                path: "comments"
+                path: "comments",
+                populate: {
+                    path: "author",
+                    select: ["_id", "fullName", "initials", "username"]
+                }
             }]
         )
         return card
@@ -31,7 +35,12 @@ const addComment = async (cardId, author, content) => {
         content
     });
     comment = await comment.save()
-    return [comment, await Card.findOneAndUpdate({ _id: cardId },
+    return [await Comment.findById(comment._id).populate(
+        [{
+            path: "author",
+            select: ["_id", "fullName", "initials", "username"]
+        }]
+    ), await Card.findOneAndUpdate({ _id: cardId },
         { $push: { comments: comment._id } }, { "new": true })]
 }
 

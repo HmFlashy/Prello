@@ -53,8 +53,8 @@ const mapDispatchToProps = dispatch => {
         async addComment(cardId, data) {
             await cardContainerServices.addComment(cardId, data, dispatch)
         },
-        async deleteComment(cardId, commentId, data) {
-            await cardContainerServices.deleteComment(cardId, commentId, data, dispatch)
+        async deleteComment(cardId, commentId) {
+            await cardContainerServices.deleteComment(cardId, commentId, dispatch)
         },
         async updateComment(cardId, commentId, oldVal, data) {
             await cardContainerServices.updateComment(cardId, commentId, oldVal, data, dispatch)
