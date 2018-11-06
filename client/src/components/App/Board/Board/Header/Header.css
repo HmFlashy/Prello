@@ -1,5 +1,44 @@
 .boardHeader {
-    justify-content: space-between;
     flex: 0;
-    flex-basis: 30px;
+    flex-basis: 20px;
+    background-color: rgb(62, 245, 255);
+    padding: 8px 4px 8px 8px !important;
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.3) inset;
+    filter: blur(4px)
+}
+
+.header-row {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+}
+
+.header-button {
+    margin: 8px;
+}
+
+.header-board-left {
+    flex: 2;
+    display: flex;
+    flex-direction: row;
+}
+
+.header-board-name {
+    flex: 1;
+    text-align: left;
+    font-size: 20px;
+    font-weight: bold;
+    margin-right: 10px;
+    line-height: 36px;
+    border-right: 1px solid #16222c;
+    text-align: center;
+}
+
+.header-board-center {
+    flex: 8;
+}
+
+
+.header-board-archived {
+    flex-basis: 150px;
 }

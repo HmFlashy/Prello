@@ -92,7 +92,7 @@ class Board extends Component {
     render() {
         return (
             <div className="board">
-                <Header />
+                <Header board={ this.props.board }/>
                 <DragDropContext
                     onDragStart={this.onDragStart}
                     onDragUpdate={this.onDragUpdate}

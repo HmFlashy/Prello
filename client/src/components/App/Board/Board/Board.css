@@ -14,13 +14,13 @@
     flex-direction: row;
     height: 100%;
     flex-wrap: nowrap;
-    margin-bottom: 8px !important;
 }
 
 .lists {
     display: flex;
     flex: 1;
     flex-direction: row;
+    overflow-y: auto;
     height: 100%;
 }
 

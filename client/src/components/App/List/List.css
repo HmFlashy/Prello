@@ -3,7 +3,7 @@
     margin: 0.3rem !important;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    overflow-x: auto;
     background-color: #dfe3e6 !important;
     max-height: 100%;
 }
@@ -13,7 +13,7 @@
     margin: 0.3rem !important;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    overflow-x: auto;
     max-height: 100%;
 }
 
