@@ -1,14 +1,7 @@
 import {connect} from "react-redux";
-import socketService from "../../services/SocketService"
-import boardServices from "../../services/BoardServices"
 import userServices from "../../services/UserServices"
 import listBoards from "../../components/App/Board/ListBoards/ListBoards"
-import {
-    actionBoardSubscribe,
-    actionFetchingBoards,
-    actionFailedFetchBoards,
-    actionBoardsFetched
-} from "../../redux/actions/BoardActions"
+import {actionAddCategory} from "../../redux/actions/UserActions";
 
 const mapStateToProps = state => {
     const user = state.authentification.user;
@@ -29,8 +22,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = (dispatch) => {
     return {
         async addCategory(name) {
-            try{
+            try {
                 const category = await userServices.addCategory(name);
+                dispatch(actionAddCategory(category))
             } catch(error) {
                 console.log(error)
             }

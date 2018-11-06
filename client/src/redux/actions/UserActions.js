@@ -28,3 +28,10 @@ export const actionAddBoard = (board, categoryId) => {
         }
     }
 }
+
+export const actionAddCategory = (category) => {
+    return {
+        type: "ADD_CATEGORY",
+        payload: category
+    }
+}

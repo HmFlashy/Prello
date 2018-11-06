@@ -19,14 +19,14 @@ class ListBoards extends Component {
     }
 
     handleChange(e, {value}) {
-        this.setState({currentValues: value});
+        console.log(value)
+        if(!value.some(categoryValue => !this.props.categoryOptions.map(category => category.value).includes(categoryValue))) {
+            this.setState({currentValues: value});
+        }
     }
 
-    handleAddition = (e, { value }) => {
-        this.props.addCategory(value);
-        this.setState({
-            currentValues: [{ text: value, value }, ...this.state.currentValues],
-        })
+    handleAddition = async (e, { value }) => {
+        await this.props.addCategory(value);
     }
 
     getCurrentValues() {

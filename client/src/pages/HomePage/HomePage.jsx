@@ -1,16 +1,20 @@
-import './HomePage.css'
-import React, { Component } from 'react'
-import Header from "../../containers/HeaderContainer";
-import ListBoardContainer from '../../containers/BoardContainer/ListBoardsContainer'
-import SecureLayoutContainer from '../../containers/SecureLayoutContainer';
+import "./HomePage.css"
+import React, {Component} from "react"
+import ListBoardsContainer from "../../containers/BoardContainer/ListBoardsContainer"
+import SecureLayoutContainer from "../../containers/SecureLayoutContainer";
+import HeaderLayout from "../../components/App/Layout/HeaderLayout/HeaderLayout";
+import ErrorLayoutContainer from "../../containers/ErrorLayoutContainer";
 
 class HomePage extends Component {
 
-    render(){
+    render() {
         return (
             <SecureLayoutContainer>
-                <Header />
-                <ListBoardContainer />
+                <HeaderLayout>
+                    <ErrorLayoutContainer>
+                        <ListBoardsContainer/>
+                    </ErrorLayoutContainer>
+                </HeaderLayout>
             </SecureLayoutContainer>
         )
     }

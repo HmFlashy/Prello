@@ -1,5 +1,6 @@
 const User = require("../models/index").User;
 const Board = require("../models/index").Board;
+const Category = require("../models/index").Category;
 const throwError = require("../helper/RequestHelper").throwError;
 const passwordHelper = require("../helper/passwordHelper");
 
@@ -110,6 +111,19 @@ const getUsersWithQuery = async (query) => {
     }
 }
 
+const addCategory = async (userId, name) => {
+    let user = null;
+    try {
+        user = await User.findById(userId);
+        const category = await Category.create({
+            name: name
+        });
+        await User.updateOne({_id: user._id}, {$push: {categories: category}});
+        return category
+    } catch(error) {
+        throw error
+    }
+}
 
 module.exports = {
     getByEmail,
@@ -117,5 +131,6 @@ module.exports = {
     getById,
     unstarBoard,
     starBoard,
-    getUsersWithQuery
+    getUsersWithQuery,
+    addCategory
 }

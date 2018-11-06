@@ -68,6 +68,22 @@ export default (state = defaultAuthentificationState, action) => {
                     boards: [...state.user.boards, {board: action.payload.board._id, category: category, role: "Admin"}]
                 }
             };
+        case 'ADD_CATEGORY':
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    categories: [...state.user.categories, action.payload]
+                }
+            };
+        case 'DELETE_CATEGORY':
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    categories: state.user.categories.map(category => category._id === action.payload)
+                }
+            };
         default:
             return {
                 ...state,

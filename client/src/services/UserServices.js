@@ -40,8 +40,7 @@ export default {
     },
     async addCategory(name){
         try {
-            const res = await axios.post(`${UrlConfig.API}/me/categories}`, {name: name},
-                tokenHeader())
+            const res = await axios.post(`${UrlConfig.API}/me/categories`, {name: name}, tokenHeader())
             return res.data
         } catch(error) {
             throw error
