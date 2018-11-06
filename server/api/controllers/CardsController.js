@@ -9,6 +9,9 @@ const getCardById = async (cardId) => {
                 path: "labels"
             }, {
                 path: "members"               
+            },
+            {
+                path: "list"
             }]
         )
         console.log(card)

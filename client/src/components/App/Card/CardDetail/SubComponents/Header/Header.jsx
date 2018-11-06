@@ -7,11 +7,11 @@ export default (props) => (
         <Icon name='file alternate outline' />
 
         <div>
-            <p>
+            <h1>
                 {props.name}
-            </p>
+            </h1>
             <p>
-                to list {props.list}
+                to list <b>{props.list.name}</b>
             </p>
         </div>
     </div>

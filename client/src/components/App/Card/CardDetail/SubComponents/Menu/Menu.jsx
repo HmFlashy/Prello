@@ -3,6 +3,8 @@ import './Menu.css'
 import { Button, Icon, Divider, Modal, Header, Input } from 'semantic-ui-react'
 import DatePicker from './datepicker';
 import Move from './subComponents/Move/MoveContainer.js'
+import Labels from './subComponents/Labels/LabelsContainer.js'
+
 
 class Menu extends Component {
 
@@ -33,30 +35,17 @@ class Menu extends Component {
                             <Icon name='users' />
                             Members
                         </Button>
-
                         <Button icon labelPosition='left' onClick={() => { this.setState({ isLabelClicked: true }); console.log("Change labels: " + this.state.isLabelClicked) }}>
                             <Icon name='tag' />
                             Labels
                         </Button>
-                        <Modal open={this.state.isLabelClicked}>
-                            <Header icon='calendar' content='Update labels' />
-                            <Modal.Content>
-                                <div> {this.props.board.labels
-                                ?
-                                this.props.board.labels.map(label => console.log(this.props.board) ||  <p className="label" style={{ background: label.color }}>{label.name}</p>)
-                                : ""}</div>
-                                
-                            </Modal.Content>
-                            <Modal.Actions>
-                                <Button color='red' onClick={() => this.setState({ isLabelClicked: false })}>
-                                    <Icon name='remove' /> Cancel
-                                </Button>
-                                <Button color='green' onClick={() => { this.setState({ isLabelClicked: false }); console.log("Labels updated") }}>
-                                    <Icon name='checkmark' /> Validate
-                                </Button>
-                            </Modal.Actions>
-                        </Modal>
-
+                        <Labels
+                            card={this.props.card}
+                            board={this.props.board}
+                            isOpened={this.state.isLabelClicked}
+                            onValidate={(cardLabels, boardLabels) => { this.setState({ isLabelClicked: false });this.props.updateLabels(cardLabels, boardLabels)}}
+                            onCancel={() => this.setState({ isLabelClicked: false })}>
+                        </Labels>
                         <Button icon labelPosition='left' onClick={() => this.setState({ isCreatingChecklist: true })}>
                             <Icon name='check square outline' />
                             Checklist
@@ -142,7 +131,7 @@ class Menu extends Component {
                         </Button>
                     </Button.Group>
                 </div>
-            </div >
+            </div>
         )
     }
 }

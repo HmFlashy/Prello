@@ -1,6 +1,6 @@
 import React from 'react';
 import './Labels.css'
-import { Icon } from 'semantic-ui-react'
+import { Icon, Label } from 'semantic-ui-react'
 
 export default (props) => (
     <div className={props.className}>
@@ -8,7 +8,9 @@ export default (props) => (
         <div className="displayRow">
             {props.card.labels 
             ?
-            props.card.labels.map(label => console.log(label) || <p className="label" style={{ background: label.color }}>{label.name}</p>)
+            props.card.labels.map(label => console.log(props.card) ||  <p><Label color={label.color} horizontal>
+            {label.name}
+          </Label></p>)
         :""}
             <Icon name='plus' />
         </div>
