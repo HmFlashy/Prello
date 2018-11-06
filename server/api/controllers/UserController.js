@@ -97,11 +97,25 @@ const starBoard = async (userId, boardId) => {
     }
 }
 
+const getUsersWithQuery = async (query) => {
+    try {
+        const users = await User.find({ $or: [{username: new RegExp(query)}, {email: new RegExp(query)}]})
+        console.log(users)
+        if (!users) {
+            throwError(404, `No users was found`)
+        }
+        return users
+    } catch (error) {
+        throw error
+    }
+}
+
 
 module.exports = {
     getByEmail,
     addUser,
     getById,
     unstarBoard,
-    starBoard
+    starBoard,
+    getUsersWithQuery
 }

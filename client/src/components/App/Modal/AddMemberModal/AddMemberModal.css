@@ -1,0 +1,47 @@
+.user-input {
+    width: 250px;
+}
+
+.user-item {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.container-users-found {
+    margin-top: 0.5em;
+}
+
+.users-found {
+    width: 100%;
+    position: relative;
+    cursor: pointer;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.container-user-item {
+    position: relative;
+    margin-top: 0.5em;
+    width: 100%;
+}
+
+.user-item-info {
+    flex: 8;
+}
+
+.user-item-checkbox {
+    flex: 1
+}
+
+.container-users-checked {
+    width: 100%;
+    overflow-x: auto !important;
+    margin-top: 0.5em;
+}
+
+.user-checked-icon {
+    margin-left: 5px !important;
+    margin-right: 0px !important;
+    cursor: pointer;
+}

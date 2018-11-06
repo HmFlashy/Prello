@@ -17,6 +17,14 @@ const rightOptions = [
 ]
 class TeamMembers extends Component {
 
+    constructor(){
+        super()
+        this.addUsers = this.addUsers.bind(this)
+    }
+
+    addUsers(users){
+        this.props.addUsers(users)
+    }
 
     render(){
         return (
@@ -24,7 +32,7 @@ class TeamMembers extends Component {
                 <h2>Team members ({this.props.team.members.length})</h2>
                 <Container className="action-team-members">
                     <Input placeholder='Search...' />
-                    <AddMemberModal className="add-member"/>
+                    <AddMemberModal addUsers={this.addUsers} className="add-member"/>
                 </Container>
                         {
                             this.props.team.members.length > 0 ?

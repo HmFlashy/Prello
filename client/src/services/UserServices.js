@@ -31,7 +31,7 @@ export default {
     },
     async getUsersWithQuery(query){
         try {
-            const res = axios.get(`${UrlConfig.API}/users?query=${query}`,
+            const res = await axios.get(`${UrlConfig.API}/users?query=${query}`,
                 tokenHeader())
             return res.data
         } catch(error) {

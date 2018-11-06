@@ -12,12 +12,17 @@ class TeamDetails extends Component {
             activeItem: "boards"
         }
         this.handleItemClick = this.handleItemClick.bind(this)
+        this.addUsers = this.addUsers.bind(this)
     }
 
     handleItemClick(e, { name }){
         this.setState({
             activeItem: name
         })
+    }
+
+    addUsers(users){
+        this.props.addUsersToTeam(this.props.team._id, users)
     }
 
     render(){
@@ -47,7 +52,7 @@ class TeamDetails extends Component {
                         <Container className="item-info">
                         {
                             activeItem === "boards" ? <TeamBoards team={ this.props.team } /> :
-                            activeItem === "members" ? <TeamMembers team={ this.props.team } /> :
+                            activeItem === "members" ? <TeamMembers addUsers={this.addUsers} team={ this.props.team } /> :
                             activeItem === "settings" ? <div>Settings</div> : <div>Error</div>
 
                         }   
