@@ -13,7 +13,7 @@ class BoardHeader extends Component {
                 <div className="displayRow header-row">
                     <div className="header-board-left">
                         <div className="header-board-name">
-                            <p>{ this.props.board.name }</p>
+                            { this.props.board.name }
                         </div>
                         <div className="header-board-star">
                             <Button icon className="button-header">

@@ -8,9 +8,9 @@ class CardsArchivedModal extends Component {
     render(){
         return (
             <Modal size='tiny' trigger={this.props.trigger}>
-                <Modal.Header>Delete Your Account</Modal.Header>
+                <Modal.Header>Archived cards</Modal.Header>
                 <Modal.Content>
-                    <p>Are you sure you want to delete your account</p>
+                    <p></p>
                 </Modal.Content>
                 <Modal.Actions>
                     <Button negative>No</Button>
