@@ -1,4 +1,6 @@
-const LabelsController = require('../../../controllers/LabelsController')
+// const LabelsController = require('../../../../controllers/LabelsController')
+const CardsController = require('../../../../controllers/CardsController')
+
 const socketIO = require('../../../../../socket')
 const throwError = require('../../../../helper/RequestHelper').throwError;
 
@@ -39,7 +41,8 @@ module.exports = async (req, res) => {
         if (!cardId.match(/^[0-9a-fA-F]{24}$/)) {
             throwError(400, `The cardId ${cardId} is malformed`)
         }
-        const labels = await LabelsController.removeLabel(cardId, labelId)
+        // const labels = await LabelsController.removeLabel(cardId, labelId)
+        const labels = await CardsController.removeToArray(cardId, 'labels', labelId)
         socketIO.broadcast('action', {
             type: 'REMOVED_LABEL',
             payload: { _id: cardId, labels }

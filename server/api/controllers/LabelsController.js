@@ -1,6 +1,6 @@
 const Board = require('../models').Board;
 const Label = require('../models').Label;
-const Card = require('../models').Card;
+const CardsController = require('./CardsController');
 const BoardsController = require('./BoardsController')
 const mongoose = require('mongoose');
 const throwError = require('../helper/RequestHelper').throwError;
@@ -61,11 +61,36 @@ const updateLabel = async (labelId, data) => {
     }
 }
 
+const addLabel = async (cardId, labelId) => {
+    try {
+        const label = await getLabelById(labelId)
+        const card = await CardsController.addToArray(cardId, 'labels', label)
+        return card
+    } catch (error) {
+        throw error
+    }
+
+}
+
+const removeLabel = async (cardId, labelId) => {
+    try {
+        const label = await getLabelById(labelId)
+        console.log(label)
+        const card = await CardsController.removeToArray(cardId, 'labels', label)
+        return card
+    } catch (error) {
+        throw error
+    }
+
+}
+
 
 module.exports = {
     getLabelById,
     createLabel,
     deleteLabel,
-    updateLabel
+    updateLabel,
+    addLabel,
+    removeLabel
 };
 

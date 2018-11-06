@@ -1,6 +1,5 @@
 import React from 'react';
-import Labels from './Labels'
-import BoardContainer from '../../../../../../../../services/BoardServices'
+import Labels from './LabelsModal'
 
 export default class LabelsContainer extends React.Component {
 

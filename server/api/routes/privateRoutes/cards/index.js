@@ -25,4 +25,8 @@ router.post('/:cardId/comments', commentValidator.addCommentValidator, require('
 router.delete('/:cardId/comments/:commentId', commentValidator.deleteCommentValidator, require('../comments/deleteComment'));
 router.put('/:cardId/comments/:commentId', commentValidator.updateCommentValidator, require('../comments/updateComment'));
 
+router.put('/:cardId/labels/:labelId', require('../labels/Card/addLabel'));
+router.delete('/:cardId/labels/:labelId', require('../labels/Card/removeLabel'));
+
+
 module.exports = router;

@@ -1,4 +1,4 @@
-const LabelsController = require('../../../controllers/LabelsController')
+const LabelsController = require('../../../../controllers/LabelsController')
 const socketIO = require('../../../../../socket')
 const throwError = require('../../../../helper/RequestHelper').throwError;
 

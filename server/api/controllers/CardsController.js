@@ -151,6 +151,7 @@ const addToArray = async (cardId, key, data) => {
 
 const removeToArray = async (cardId, key, data) => {
     try {
+        console.log(data)
         return await Card.findOneAndUpdate({ _id: cardId },
             { $pull: { [key]: data } }, { "new": true })
     } catch (error) {

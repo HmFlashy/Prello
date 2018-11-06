@@ -2,6 +2,7 @@ const Board = require("../models/index").Board;
 const User = require("../models/index").User;
 const Team = require("../models/index").Team;
 const Category = require("../models/index").Category;
+const ListsController = require("./ListsController")
 const throwError = require("../helper/RequestHelper").throwError;
 const mongoose = require("mongoose");
 
@@ -171,6 +172,24 @@ const updateBoard = async (boardId, data) => {
         throw error
     }
 }
+const addLabel = async (boardId, label) => {
+    try {
+        await Board.findOneAndUpdate({ _id: boardId },
+            { $push: { labels: label } }, { "new": true })
+    } catch (error) {
+        throw error
+    }
+}
+const removeLabel = async (boardId, labelId) => {
+    try {
+        const board = await Board.findOneAndUpdate({ _id: boardId },
+        { $pull: { labels: labelId } }, { "new": true })
+        const boardLists = board.lists
+        boardLists.forEach(boardList => ListsController.removeLabel(boardList._id, labelId))
+    } catch (error) {
+        throw error
+    }
+}
 
 const addBoardMember = async (boardId, body) => {
     try {
@@ -236,10 +255,13 @@ const deleteBord = async (boardId) => {
     }
 }
 
+
 module.exports = {
     getBoardById,
     getBoards,
     addBoard,
+    addLabel,
+    removeLabel,
     addBoardTeam,
     addBoardMember,
     deleteBord,

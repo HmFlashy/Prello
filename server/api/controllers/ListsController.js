@@ -85,9 +85,20 @@ const getById = async (listId) => {
     }
 }
 
+const removeLabel = async (listId, labelId) => {
+    try {
+        const list = await List.findById(listId)
+        const listCards = list.cards
+        listCards.forEach(listCard => CardsController.removeToArray(listCard._id, 'labels', labelId))
+    } catch (error) {
+        throw error
+    }
+}
+
 module.exports = {
     addList,
     deleteList,
     updateList,
-    getById
+    getById,
+    removeLabel
 };
