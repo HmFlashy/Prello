@@ -37,9 +37,20 @@
     height: 100%;
 }
 .board {
+    position: relative;
     flex: 1;
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
     height: 100%;
+}
+
+#bg {
+  position: fixed; 
+  top: 0; 
+  left: 0; 
+  z-index: -10;
+  /* Preserve aspet ratio */
+  min-width: 100%;
+  min-height: 100%;
 }
