@@ -51,7 +51,7 @@ class MyList extends Component {
                                         <Container className='items'>
                                             <List >
                                                 {this.props.list.cards.sort((a, b) => a.pos - b.pos).map(card => (
-                                                    !card.isArchived ? <List.Item key={card._id} ><CardOverviewContainer key={card._id} cardId={card._id} /></List.Item> :
+                                                    !card.isArchived ? <List.Item key={card._id} ><CardOverviewContainer key={card._id} cardId={card._id} fullLabelDisplay={this.props.fullLabelDisplay} changeFullLabelDisplay={() => this.props.changeFullLabelDisplay()} /></List.Item> :
                                                         null
                                                 ))}
 

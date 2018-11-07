@@ -9,8 +9,13 @@
   margin-bottom: 5px; 
 }
 
-.little-label {
-  width: 30px !important;
+.label {
+  min-width: 30px; 
+}
+
+.transition{
+  
+  transition: all 3s;
 }
 
 .information {

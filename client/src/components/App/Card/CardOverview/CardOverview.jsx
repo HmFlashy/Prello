@@ -60,7 +60,15 @@ class CardOverview extends Component {
                                     this.props.card.labels.length > 0 ?
                                         <Card.Content className="labels">
                                             {
-                                                this.props.card.labels.map(label => <Label key={label._id} className="little-label" color={label.color} />)
+                                                this.props.card.labels.map(label => <Label key={label._id}
+                                                    className="big_label"
+                                                    color={label.color}
+                                                    onClick={(event) => {
+                                                        event.stopPropagation()
+                                                        this.props.changeFullLabelDisplay()
+                                                    }}
+                                                >{this.props.fullLabelDisplay ? label.name : ""}
+                                                </Label>)
                                             }
                                         </Card.Content>
                                         :
@@ -77,7 +85,7 @@ class CardOverview extends Component {
                                 <Card.Content className="information">
                                     {
                                         this.props.card.dueDate ?
-                                            <Label color={GetDueDateColor(this.props.card.dueDate, this.props.card.dueDateCompleted)} ><Icon name='calendar alternate outline' />{SmallDate(this.props.card.dueDate)}</Label>
+                                            <Label color={GetDueDateColor(this.props.card.dueDate, this.props.card.dueDateCompleted)}><Icon name='calendar alternate outline' />{SmallDate(this.props.card.dueDate)}</Label>
                                             :
                                             null
                                     }

@@ -11,6 +11,14 @@ import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 
 class Board extends Component {
 
+    constructor(props) {
+        super(props)
+        this.state = {
+            fullLabelDisplay: true
+        }
+        this.changeFullLabelDisplay = this.changeFullLabelDisplay.bind(this)
+    }
+
     componentWillMount() {
         const cardId = this.props.cardId
         if (cardId != null) {
@@ -19,9 +27,9 @@ class Board extends Component {
             this.props.fetchBoard(this.props.boardId)
         }
 
-        this.setState = {
+        this.setState({
             cardId: this.props.cardId
-        }
+        })
     }
 
     componentWillUnmount() {
@@ -89,13 +97,18 @@ class Board extends Component {
         }
     };
 
+    changeFullLabelDisplay() {
+        console.log(this)
+        this.setState({ fullLabelDisplay: !this.state.fullLabelDisplay })
+    }
+
     render() {
         return (
             <div className="board">
                 <div id="bg">
                     <img src="http://hdwpro.com/wp-content/uploads/2016/03/1080p-Background-Desktop.jpg" style={{ width: '100%', height: '100%' }} alt="" />
                 </div>
-                <BoardHeaderContainer board={ this.props.board }/>
+                <BoardHeaderContainer board={this.props.board} />
                 <DragDropContext
                     onDragStart={this.onDragStart}
                     onDragUpdate={this.onDragUpdate}
@@ -109,7 +122,7 @@ class Board extends Component {
                                 className="myLists">
                                 <List className='lists'>
                                     {this.props.board.lists.sort((a, b) => a.pos - b.pos).map(list => (
-                                        <List.Item key={list._id} className='no-padding-top'><ListContainer key={list._id} listId={list._id} /></List.Item>
+                                        <List.Item key={list._id} className='no-padding-top'><ListContainer key={list._id} listId={list._id} fullLabelDisplay={this.state.fullLabelDisplay} changeFullLabelDisplay={() => this.changeFullLabelDisplay()} /></List.Item>
                                     ))}
                                     <List.Item className='no-padding-top'><NewListContainer /></List.Item>
                                 </List>
