@@ -73,7 +73,7 @@ class Header extends Component {
                     </div>
                 </div>
                 <div className="header-center">
-                    <img className="header-center-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/ITunes_12.2_logo.png/768px-ITunes_12.2_logo.png"></img>
+                    <img className="header-center-image" src="https://www.freepnglogos.com/uploads/pinterest-logo-p-png-0.png"></img>
                 </div>
                 <div className="header-right">
                     { /*
