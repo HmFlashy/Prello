@@ -58,6 +58,12 @@ const mapDispatchToProps = dispatch => {
         },
         async updateComment(cardId, commentId, oldVal, data) {
             await cardContainerServices.updateComment(cardId, commentId, oldVal, data, dispatch)
+        },
+        async addCardLabel(cardId, labelId) {
+            await cardContainerServices.addCardLabel(cardId, labelId, dispatch)
+        },
+        async removeCardLabel(cardId, labelId) {
+            await cardContainerServices.removeCardLabel(cardId, labelId, dispatch)
         }
     }
 }

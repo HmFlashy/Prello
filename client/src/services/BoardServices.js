@@ -43,5 +43,21 @@ export default {
         } catch (error) {
             throw error
         }
+    },
+    async addLabels(boardId, labelId) {
+        try {
+            const res = await axios.put(`${UrlConfig.API}/boards/${boardId}/labels/${labelId}`, tokenHeader())
+            return res.data
+        } catch (error) {
+            throw error
+        }
+    },
+    async removeLabels(boardId, labelId) {
+        try {
+            const res = await axios.delete(`${UrlConfig.API}/boards/${boardId}/labels/${labelId}`, tokenHeader())
+            return res.data
+        } catch (error) {
+            throw error
+        }
     }
 }

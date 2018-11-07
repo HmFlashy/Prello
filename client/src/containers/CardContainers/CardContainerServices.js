@@ -19,7 +19,11 @@ import {
     failedActionUpdateComment,
     actionAddComment,
     actionDeleteComment,
-    actionUpdateComment
+    actionUpdateComment,
+    actionCardAddLabel,
+    failedActionCardAddLabel,
+    actionCardRemoveLabel,
+    failedActionCardRemoveLabel
 } from '../../redux/actions/CardActions'
 
 export default {
@@ -124,6 +128,24 @@ export default {
         } catch (error) {
             console.log(error)
             return dispatch(failedActionCardUpdateItemToChecklist(oldVal))
+        }
+    },
+    async addCardLabel(cardId, labelId, dispatch) {
+        try {
+            dispatch(actionCardAddLabel('Yes'))
+            await cardServices.addLabel(cardId, labelId)
+        } catch (error) {
+            console.log(error)
+            return dispatch(failedActionCardAddLabel(error))
+        }
+    },
+    async removeCardLabel(cardId, labelId, dispatch) {
+        try {
+            dispatch(actionCardRemoveLabel('Yes'))
+            await cardServices.removeLabel(cardId, labelId)
+        } catch (error) {
+            console.log(error)
+            return dispatch(failedActionCardRemoveLabel(error))
         }
     }
 }

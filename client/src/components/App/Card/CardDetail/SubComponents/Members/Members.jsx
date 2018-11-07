@@ -5,6 +5,7 @@ import Avatar from 'react-avatar';
 
 export default (props) => (
     <div className={props.className}>
+            <p>Members</p>
         <div className="    ">
         {
             props.card ? 

@@ -152,6 +152,34 @@ export const actionFailedCardFetched = (error) => {
     }
 }
 
+export const actionCardAddLabel = (card) => {
+    return {
+        type: 'CARD_LABEL_ADDED',
+        payload: card
+    }
+}
+
+export const failedActionCardAddLabel = (error) => {
+    return {
+        type: 'FAILED_CARD_ADD_LABEL',
+        payload: error
+    }
+}
+
+export const actionCardRemoveLabel = (card) => {
+    return {
+        type: 'CARD_LABEL_REMOVED',
+        payload: card
+    }
+}
+
+export const failedActionCardRemoveLabel = (error) => {
+    return {
+        type: 'FAILED_CARD_REMOVE_LABEL',
+        payload: error
+    }
+}
+
 export const failedActionUpdateComment = (error) => {
     return {
         type: 'FAILED_UPDATE_COMMENT',

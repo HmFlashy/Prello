@@ -27,7 +27,7 @@ class LabelsModal extends Component{
     {this.props.board.labels && this.props.card.labels
     ?
     this.props.board.labels.map(label => console.log(this.props.board.labels) ||  
-    <p><Checkbox id={label._id} onClick={(event, data) => this.setState({ newCardLabels: data.value })} defaultChecked={this.props.card.labels.map(cardLabel => cardLabel._id).includes(label._id)}/>
+    <p><Checkbox id={label._id}  defaultChecked={this.props.card.labels.map(cardLabel => cardLabel._id).includes(label._id)} onClick={(event, data) => event.target.checked ? this.props.onAddLabel(label._id) : this.props.onRemoveLabel(label._id)}/>
     <Label color={label.color} size='big' horizontal>
     {label.name}
     </Label></p>)
@@ -36,10 +36,7 @@ class LabelsModal extends Component{
     
 </Modal.Content>
 <Modal.Actions>
-    <Button color='red' onClick={this.props.onCancel}>
-        <Icon name='remove' /> Cancel
-    </Button>
-    <Button color='green' onClick={() => this.props.onValidate(this.props.cardLabels, this.props.boardLabels)}>
+    <Button color='green' onClick={() => this.props.onValidate()}>
         <Icon name='checkmark' /> Validate
     </Button>
 </Modal.Actions>

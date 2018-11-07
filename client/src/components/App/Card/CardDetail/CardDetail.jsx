@@ -39,6 +39,9 @@ class CardDetail extends Component {
         this.onDeleteComment = this.onDeleteComment.bind(this);
 
         this.moveCard = this.moveCard.bind(this);
+        this.addCardLabel = this.addCardLabel.bind(this);
+        this.removeCardLabel = this.removeCardLabel.bind(this);
+
     }
 
     componentDidMount() {
@@ -94,6 +97,14 @@ class CardDetail extends Component {
             cardInfo = data.isChecked ? { ...this.props.card.cardInformation, nbItemsChecked: this.props.card.cardInformation.nbItemsChecked + 1 } : { ...this.props.card.cardInformation, nbItemsChecked: this.props.card.cardInformation.nbItemsChecked - 1 }
         }
         this.props.updateItemToChecklist(this.props.card._id, checklistId, itemId, oldVal, { _id: this.props.card._id, ...newVal, cardInformation: cardInfo }, data)
+    }
+
+    addCardLabel(labelId) {
+        this.props.addCardLabel(this.props.card._id, labelId)
+    }
+
+    removeCardLabel(labelId) {
+        this.props.removeCardLabel(this.props.card._id, labelId)
     }
 
     moveCard(data) {
@@ -206,7 +217,8 @@ class CardDetail extends Component {
                         onArchive={(value) => this.updateCard({ isArchived: this.props.card.isArchived, _id: this.props.card._id }, { isArchived: value, _id: this.props.card._id })}
                         onChecklist={(value) => this.createChecklist({ name: value, _id: this.props.card._id })}
                         onMove={(boardId, oldListId, newListId, newName, pos) => this.moveCard({ boardId, oldListId, newListId, listName: newName, pos, _id: this.props.card._id })}
-                    />
+                        onAddLabel={(labelId) => this.addCardLabel(labelId)}
+                        onRemoveLabel={(labelId) => this.removeCardLabel(labelId)} />
                 </div>
             </div>
             : <Loader />

@@ -1,1 +1,1 @@
-export { default } from './LabelsModalContainer.js'
+export { default } from './LabelsModal.jsx'

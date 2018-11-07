@@ -8,11 +8,11 @@ export default (props) => (
         <div className="displayRow">
             {props.card.labels 
             ?
-            props.card.labels.map(label => console.log(props.card) ||  <p><Label color={label.color} horizontal>
+            props.card.labels.map(label => console.log("Yeppa" + this) ||  <p><Label color={label.color} horizontal>
             {label.name}
           </Label></p>)
         :""}
-            <Icon name='plus' />
+            <Icon name='plus'/>
         </div>
     </div>
 )

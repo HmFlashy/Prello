@@ -116,5 +116,22 @@ export default {
         } catch (error) {
             throw error
         }
+    },
+    async addLabel(cardId, labelId) {
+        try {
+            console.log("CardServices cardId" + cardId + "CardServices labelId" + labelId)
+            const res = await axios.put(`${UrlConfig.API}/cards/${cardId}/labels/${labelId}`, null, tokenHeader())
+            return res.data
+        } catch (error) {
+            throw error
+        }
+    },
+    async removeLabel(cardId, labelId) {
+        try {
+            const res = await axios.delete(`${UrlConfig.API}/cards/${cardId}/labels/${labelId}`, tokenHeader())
+            return res.data
+        } catch (error) {
+            throw error
+        }
     }
 }

@@ -3,8 +3,8 @@ import './Menu.css'
 import { Button, Icon, Divider, Modal, Header, Input } from 'semantic-ui-react'
 import DatePicker from './datepicker';
 import Move from './subComponents/Move/MoveContainer.js'
-import Labels from './subComponents/Labels/LabelsContainer.js'
 import moment from 'moment';
+import Labels from '../../../../Modal/LabelsModal'
 
 
 class Menu extends Component {
@@ -45,8 +45,10 @@ class Menu extends Component {
                             card={this.props.card}
                             board={this.props.board}
                             isOpened={this.state.isLabelClicked}
-                            onValidate={(cardLabels, boardLabels) => { this.setState({ isLabelClicked: false }); this.props.updateLabels(cardLabels, boardLabels) }}
-                            onCancel={() => this.setState({ isLabelClicked: false })}>
+                            onRemoveLabel={(labelId) => { this.props.onRemoveLabel(labelId)}}
+                            onAddLabel={(labelId) => { this.props.onAddLabel(labelId)}}
+                            onValidate={(labelId) => { this.setState({ isLabelClicked: false })}}
+                            >
                         </Labels>
                         <Button icon labelPosition='left' onClick={() => this.setState({ isCreatingChecklist: true })}>
                             <Icon name='check square outline' />
