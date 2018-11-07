@@ -134,7 +134,11 @@ class CardDetail extends Component {
                                         ? <Labels className="labelsContainer" card={this.props.card}></Labels>
                                         : ""}
                                     {this.props.card.dueDate
-                                        ? <DueDate className="duedateContainer" onChange={(isChecked) => this.updateCard({ dueDateCompleted: this.props.card.dueDateCompleted, _id: this.props.card._id }, { dueDateCompleted: isChecked ? moment() : null, _id: this.props.card._id })} date={this.props.card.dueDate} isCompleted={this.props.card.dueDateCompleted}></DueDate>
+                                        ? <DueDate
+                                            className="duedateContainer"
+                                            onChange={(isChecked) => this.updateCard({ dueDateCompleted: this.props.card.dueDateCompleted, _id: this.props.card._id }, { dueDateCompleted: isChecked ? moment() : null, _id: this.props.card._id })} date={this.props.card.dueDate} isCompleted={this.props.card.dueDateCompleted}
+                                            deleteDueDate={() => this.updateCard({ dueDateCompleted: this.props.card.dueDateCompleted, _id: this.props.card._id }, { dueDateCompleted: null, dueDate: null, _id: this.props.card._id })}
+                                        ></DueDate>
                                         : ""}
                                 </div>
                                 <Divider />
@@ -147,18 +151,18 @@ class CardDetail extends Component {
                             </div>
                             : <div>
                                 <div>
-                                <div className={"displayRow"}>
-                                    <Icon name='align left' />
-                                    <p>Describe me</p>
-                                </div>
-                                <Form className="form" onSubmit={() => this.updateCard({ desc: this.props.card.desc, _id: this.props.card._id }, { desc: this.state.descriptionTextArea, _id: this.props.card._id })}>
+                                    <div className={"displayRow"}>
+                                        <Icon name='align left' />
+                                        <p>Describe me</p>
+                                    </div>
+                                    <Form className="form" onSubmit={() => this.updateCard({ desc: this.props.card.desc, _id: this.props.card._id }, { desc: this.state.descriptionTextArea, _id: this.props.card._id })}>
 
-                                    <Form.Field>
-                                        <TextArea onChange={(event, data) => this.setState({ descriptionTextArea: data.value })} rows={2} placeholder="Describe me..." />
-                                    </Form.Field>
-                                    <Button type='submit'>Submit</Button>
-                                </Form>
-                            </div>
+                                        <Form.Field>
+                                            <TextArea onChange={(event, data) => this.setState({ descriptionTextArea: data.value })} rows={2} placeholder="Describe me..." />
+                                        </Form.Field>
+                                        <Button type='submit'>Submit</Button>
+                                    </Form>
+                                </div>
                                 <Divider />
                             </div>
                         }
