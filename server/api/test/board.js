@@ -124,39 +124,6 @@ describe("POST board", () => {
                 done();
             });
     });
-    it("it should not POST a board without userId field", (done) => {
-        chai.request(server)
-            .post("/api/boards")
-            .set("Authorization", header)
-            .send({name: "Doing", visibility: "private"})
-            .end((err, res) => {
-                res.should.have.status(400);
-                res.body.should.be.equal("Missing userId parameter");
-                done();
-            });
-    });
-    it("it should not POST a board if the userId is malformed", (done) => {
-        chai.request(server)
-            .post("/api/boards")
-            .set("Authorization", header)
-            .send({name: "Prello", visibility: "private", userId: "dsd5de5d25"})
-            .end((err, res) => {
-                res.should.have.status(400);
-                res.body.should.be.equal("The userId dsd5de5d25 is malformed");
-                done();
-            });
-    });
-    it("it should not POST a board if the user was not found", (done) => {
-        chai.request(server)
-            .post("/api/boards")
-            .set("Authorization", header)
-            .send({name: "Prello", visibility: "private", userId: team._id})
-            .end((err, res) => {
-                res.should.have.status(404);
-                res.body.should.be.equal(`The user ${team._id} was not found`);
-                done();
-            });
-    });
     /*it("it should POST a board with the given name and user and update the user", (done) => {
         chai.request(server)
             .post("/api/boards/")
@@ -174,22 +141,11 @@ describe("POST board", () => {
                 });
             });
     });*/
-    it("it should not POST a board if the teamId is malformed", (done) => {
-        chai.request(server)
-            .post("/api/boards")
-            .set("Authorization", header)
-            .send({name: "Prello", visibility: "private", userId: user._id, teamId: "dede52565"})
-            .end((err, res) => {
-                res.should.have.status(400);
-                res.body.should.be.equal("The teamId dede52565 is malformed");
-                done();
-            });
-    });
     it("it should not POST a board if the team was not found", (done) => {
         chai.request(server)
             .post("/api/boards")
             .set("Authorization", header)
-            .send({name: "Prello", visibility: "private", userId: user._id, teamId: user._id})
+            .send({name: "Prello", visibility: "private", teamId: user._id})
             .end((err, res) => {
                 res.should.have.status(404);
                 res.body.should.be.equal(`The team ${user._id} was not found`);

@@ -73,7 +73,7 @@ describe("Lists", () => {
             chai.request(server)
                 .post("/api/lists/")
                 .set("Authorization", header)
-                .send({name: "Doing", boardId: board1._id})
+                .send({name: "Doing", boardId: board1._id, pos: 10000})
                 .end((err, res) => {
                     res.should.have.status(201);
                     res.body.should.be.a("object");
