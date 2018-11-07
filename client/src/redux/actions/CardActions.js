@@ -152,10 +152,10 @@ export const actionFailedCardFetched = (error) => {
     }
 }
 
-export const actionCardAddLabel = (card) => {
+export const actionCardAddingLabel = (data) => {
     return {
-        type: 'CARD_LABEL_ADDED',
-        payload: card
+        type: 'CARD_ADDING_LABEL',
+        payload: data
     }
 }
 
@@ -166,10 +166,10 @@ export const failedActionCardAddLabel = (error) => {
     }
 }
 
-export const actionCardRemoveLabel = (card) => {
+export const actionCardRemovingLabel = (data) => {
     return {
-        type: 'CARD_LABEL_REMOVED',
-        payload: card
+        type: 'CARD_REMOVING_LABEL',
+        payload: data
     }
 }
 

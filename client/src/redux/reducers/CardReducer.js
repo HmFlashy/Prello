@@ -100,6 +100,21 @@ export default (state = defaultCardReducer, action) => {
         ...state,
         all: state.all.filter(card => card._id !== action.payload._id)
       }
+
+    case 'FAILED_CARD_ADD_LABEL':
+    case 'CARD_ADDING_LABEL':
+    case 'ADDED_LABEL':
+      return {
+        ...state,
+        all: state.all.map(card => card._id === action.payload._id ? {...card, labels: [...card.labels, action.payload.label]} : card)
+      }
+    case 'FAILED_CARD_REMOVE_LABEL':
+    case 'CARD_REMOVING_LABEL':
+    case 'REMOVED_LABEL':
+      return {
+        ...state,
+        all: state.all.map(card => card._id === action.payload._id ? {...card, labels: card.labels.filter(label => label._id !== action.payload.labelId)} : card )
+      }
     default:
       return state
   }

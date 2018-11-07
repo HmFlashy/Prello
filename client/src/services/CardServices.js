@@ -126,7 +126,6 @@ export default {
     },
     async addLabel(cardId, labelId) {
         try {
-            console.log("CardServices cardId" + cardId + "CardServices labelId" + labelId)
             const res = await axios.put(`${UrlConfig.API}/cards/${cardId}/labels/${labelId}`, null, tokenHeader())
             return res.data
         } catch (error) {

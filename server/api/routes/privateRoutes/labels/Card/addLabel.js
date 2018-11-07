@@ -1,4 +1,5 @@
 const LabelsController = require('../../../../controllers/LabelsController')
+const Card = require('../../../../models').Card
 const socketIO = require('../../../../../socket')
 const throwError = require('../../../../helper/RequestHelper').throwError;
 
@@ -39,12 +40,14 @@ module.exports = async (req, res) => {
         if (!cardId.match(/^[0-9a-fA-F]{24}$/)) {
             throwError(400, `The cardId ${cardId} is malformed`)
         }
-        const labels = await LabelsController.addLabel(cardId, labelId)
-        socketIO.broadcast('action', {
+        const card = await Card.findById(cardId)
+
+        const label = await LabelsController.addLabel(cardId, labelId)
+        socketIO.broadcast('action', card.board,{
             type: 'ADDED_LABEL',
-            payload: { _id: cardId, labels }
+            payload: { _id: cardId, label }
         })
-        return res.status(200).json(labels)
+        return res.status(200).json(card.labels)
     } catch (error) {
         res.status(500).json(error.message)
     }

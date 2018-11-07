@@ -160,6 +160,19 @@ export default (state = defaultCardModalState, action) => {
                     comments: state.comments.map(comment => comment._id === action.payload.commentId ? { ...comment, ...action.payload.comment } : comment)
                 })
                 : state
+        case 'FAILED_CARD_ADD_LABEL':
+        case 'CARD_ADDING_LABEL':
+        case 'ADDED_LABEL':
+        return (state._id && state._id === action.payload._id) ?
+            ({ 
+                ...state, labels: [...state.labels, action.payload.label]
+            }): state
+        case 'FAILED_CARD_REMOVE_LABEL':
+        case 'CARD_REMOVING_LABEL':
+        case 'REMOVED_LABEL':
+            return (state._id && state._id === action.payload._id) ?
+           ({ ...state,
+            labels: state.labels.filter(label => label._id !== action.payload.labelId) }) : state
         default:
             return state
     }

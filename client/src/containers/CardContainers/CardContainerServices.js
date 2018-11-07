@@ -20,9 +20,7 @@ import {
     actionAddComment,
     actionDeleteComment,
     actionUpdateComment,
-    actionCardAddLabel,
     failedActionCardAddLabel,
-    actionCardRemoveLabel,
     failedActionCardRemoveLabel
 } from '../../redux/actions/CardActions'
 
@@ -139,7 +137,6 @@ export default {
     },
     async addCardLabel(cardId, labelId, dispatch) {
         try {
-            dispatch(actionCardAddLabel('Yes'))
             await cardServices.addLabel(cardId, labelId)
         } catch (error) {
             console.log(error)
@@ -148,7 +145,6 @@ export default {
     },
     async removeCardLabel(cardId, labelId, dispatch) {
         try {
-            dispatch(actionCardRemoveLabel('Yes'))
             await cardServices.removeLabel(cardId, labelId)
         } catch (error) {
             console.log(error)

@@ -65,7 +65,7 @@ const addLabel = async (cardId, labelId) => {
     try {
         const label = await getLabelById(labelId)
         const card = await CardsController.addToArray(cardId, 'labels', label)
-        return card
+        return label
     } catch (error) {
         throw error
     }
@@ -75,7 +75,6 @@ const addLabel = async (cardId, labelId) => {
 const removeLabel = async (cardId, labelId) => {
     try {
         const label = await getLabelById(labelId)
-        console.log(label)
         const card = await CardsController.removeToArray(cardId, 'labels', label)
         return card
     } catch (error) {
