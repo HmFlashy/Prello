@@ -39,6 +39,16 @@
     border-right: 1px solid #16222c;
 }
 
+.header-board-member{
+    flex: 1;
+    padding-left: 6px;
+    padding-right: 2px;
+    border-right: 1px solid #16222c;
+    display: flex;
+    flex-direction: row;
+    margin-top: 6px
+}
+
 .header-board-center {
     flex: 8;
 }

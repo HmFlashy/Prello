@@ -3,10 +3,11 @@ import './Header.css'
 import { Button, Icon } from 'semantic-ui-react'
 import Members from '../../../Card/CardDetail/SubComponents/Members'
 import CardsArchivedModal from '../CardsArchivedModal';
+import Avatar from 'react-avatar';
 
 class BoardHeader extends Component {
 
-    constructor(){
+    constructor() {
         super()
         this.state = {
             open: false
@@ -18,18 +19,21 @@ class BoardHeader extends Component {
     open = () => this.setState({ open: true })
     close = () => this.setState({ open: false })
 
-    render(){
+    render() {
         return (
             <div className="boardHeader">
                 <div className="displayRow header-row">
                     <div className="header-board-left">
                         <div className="header-board-name">
-                            { this.props.board.name }
+                            {this.props.board.name}
                         </div>
                         <div className="header-board-star">
                             <Button icon className="button-header">
                                 <Icon name='star' />
                             </Button>
+                        </div>
+                        <div className="header-board-member">
+                            {this.props.members.map(member => <Avatar key={member.member._id} name={member.member.fullName} round size="25" textSizeRatio={1.4}></Avatar>)}
                         </div>
                     </div>
                     <div className="header-board-center">
@@ -41,7 +45,7 @@ class BoardHeader extends Component {
                         <Button className="button-header" onClick={this.open}>
                             Cards archived
                         </Button>
-                        <CardsArchivedModal  
+                        <CardsArchivedModal
                             open={this.state.open}
                             archivedCards={this.props.archivedCards}
                             onClose={this.close}
