@@ -44,17 +44,31 @@ export default {
             throw error
         }
     },
-    async addLabels(boardId, labelId) {
+    async createLabel(boardId, name, color) {
         try {
-            const res = await axios.put(`${UrlConfig.API}/boards/${boardId}/labels/${labelId}`, tokenHeader());
+            const res = await axios.post(`${UrlConfig.API}/boards/${boardId}/labels/`, {
+                name: name,
+                color: color
+            }, tokenHeader())
             return res.data
         } catch (error) {
             throw error
         }
     },
-    async removeLabels(boardId, labelId) {
+    async updateLabel(boardId, labelId, name, color) {
         try {
-            const res = await axios.delete(`${UrlConfig.API}/boards/${boardId}/labels/${labelId}`, tokenHeader());
+            const res = await axios.put(`${UrlConfig.API}/boards/${boardId}/labels/${labelId}`, {
+                name: name,
+                color: color
+            }, tokenHeader())
+            return res.data
+        } catch (error) {
+            throw error
+        }
+    },
+    async deleteLabel(boardId, labelId) {
+        try {
+            const res = await axios.delete(`${UrlConfig.API}/boards/${boardId}/labels/${labelId}`, tokenHeader())
             return res.data
         } catch (error) {
             throw error

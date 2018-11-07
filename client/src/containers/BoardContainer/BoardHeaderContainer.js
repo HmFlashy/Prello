@@ -5,19 +5,34 @@ import userServices from "../../services/UserServices";
 import { actionBoardSubscribe } from "../../redux/actions/BoardActions";
 import { actionStarBoard, actionUnstarBoard } from "../../redux/actions/UserActions";
 import { withRouter } from "react-router"
+import BoardContainer from "./BoardContainer"
 
 const mapStateToProps = (state, ownProps) => {
     const archivedCards = state.cards.all.filter(card => card.isArchived)
     return {
         archivedCards: archivedCards,
-        members: state.boards.currentBoard.members
+        members: state.boards.currentBoard.members,
+        boardLabels: state.boards.currentBoard.labels
     }
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
+        subscribe(boardId) {
+        socketService.subscribe(boardId)
+        dispatch(actionBoardSubscribe(boardId))
+    },
+    unsubscribe(boardId) {
+        socketService.unsubscribe(boardId)
+        //dispatch(actionBoardUnsubscribe(boardId))
+    },
+        async onNewLabel(newLabelName, newLabelColor) {
+            await BoardContainer.onNewLabel(newLabelName, newLabelColor)
+        }
     }
 };
+
+
 
 export default withRouter(connect(
     mapStateToProps,
