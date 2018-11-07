@@ -1,17 +1,20 @@
-import React from 'react';
+import React, { Component } from 'react';
 import './Description.css'
 import { Icon } from 'semantic-ui-react'
 
-export default (props) => (
-    <div>
-        <div className={props.className + " displayRow"}>
-            <Icon name='align left' />
-            <p>Description</p>
-        </div>
-        <div>
-            <p onClick={props.textToTextInput}>
-                {props.description}
-            </p>
-        </div>
-    </div>
-)
+class CardDescription extends Component {
+ 
+    render(){
+        return(
+            <div>
+                <div>
+                    <p onClick={this.props.descToInput}>
+                        {this.props.description}
+                    </p>
+                </div>
+            </div>
+        )
+    }
+}
+
+export default CardDescription

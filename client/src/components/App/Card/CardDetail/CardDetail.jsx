@@ -12,6 +12,9 @@ import Activity from './SubComponents/Activity';
 import Description from './SubComponents/Description';
 import Header from './SubComponents/Header';
 import moment from 'moment';
+import ReactMde from "react-mde";
+import Showdown from "showdown";
+import 'react-mde/lib/styles/css/react-mde-all.css';
 
 class CardDetail extends Component {
 
@@ -23,7 +26,8 @@ class CardDetail extends Component {
             descriptionTextArea: "",
             isNameUpdating: false,
             width: 0,
-            height: 0
+            height: 0,
+            mdeState: null,
         }
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
 
@@ -43,6 +47,26 @@ class CardDetail extends Component {
         this.addCardLabel = this.addCardLabel.bind(this);
         this.removeCardLabel = this.removeCardLabel.bind(this);
 
+        this.descToInput = this.descToInput.bind(this)
+        this.inputToDesc = this.inputToDesc.bind(this)
+        this.changeDescription = this.changeDescription.bind(this)
+        this.handleValueChange = this.handleValueChange.bind(this)
+        
+        this.converter = new Showdown.Converter({
+            tables: true,
+            simplifiedAutoLink: true
+          });
+        
+
+    }
+
+    componentWillMount(){
+        this.setState({
+            isDescInput: this.props.card.desc === null,
+            mdeState: {
+                markdown: this.props.card.desc
+            }
+        })
     }
 
     componentDidMount() {
@@ -66,6 +90,31 @@ class CardDetail extends Component {
             isNameUpdating: true
         })
     }
+
+    changeDescription(mdeState){
+        console.log(mdeState)
+        this.setState({
+            descriptionTextArea: mdeState.markdown,
+            mdeState: mdeState
+        })
+    }
+
+    descToInput(){
+        this.setState({
+            isDescInput: true
+        })
+    }
+
+    inputToDesc(){
+        this.setState({
+            isDescInput: false
+        })
+    }
+
+    handleValueChange = (mdeState) => {
+        this.setState({mdeState});
+    }
+
 
     updateCard(oldValue, data) {
         console.log(data)
@@ -160,24 +209,26 @@ class CardDetail extends Component {
                                 <Divider />
                             </div>
                             : ""}
-                        {this.props.card.desc
-                            ? <div>
-                                <Description description={this.props.card.desc}></Description>
+                            <div className={"displayRow describe-me"}>
+                                <Icon name='align left' />
+                                <p>Describe me</p>
+                            </div>
+                        {
+                            !this.state.isDescInput ? 
+                            <div className="description-html">
+                                <Description descToInput={this.descToInput} description={<div dangerouslySetInnerHTML={{ __html: this.converter.makeHtml(this.props.card.desc)}}/>}></Description>
                                 <Divider />
                             </div>
                             : <div>
                                 <div>
-                                    <div className={"displayRow"}>
-                                        <Icon name='align left' />
-                                        <p>Describe me</p>
-                                    </div>
-                                    <Form className="form" onSubmit={() => this.updateCard({ desc: this.props.card.desc, _id: this.props.card._id }, { desc: this.state.descriptionTextArea, _id: this.props.card._id })}>
-
-                                        <Form.Field>
-                                            <TextArea onChange={(event, data) => this.setState({ descriptionTextArea: data.value })} rows={2} placeholder="Describe me..." />
-                                        </Form.Field>
-                                        <Button type='submit'>Submit</Button>
-                                    </Form>
+                                    <ReactMde
+                                        onChange={this.changeDescription}
+                                        editorState={this.state.mdeState}
+                                        generateMarkdownPreview={markdown =>
+                                            Promise.resolve(this.converter.makeHtml(markdown))
+                                          }
+                                    />
+                                    <Button className="validate-description" onClick={() => this.inputToDesc() || this.updateCard({ desc: this.props.card.desc, _id: this.props.card._id }, { desc: this.state.descriptionTextArea, _id: this.props.card._id })} >OK</Button>
                                 </div>
                                 <Divider />
                             </div>
