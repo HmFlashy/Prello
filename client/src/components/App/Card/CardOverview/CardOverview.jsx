@@ -67,7 +67,7 @@ class CardOverview extends Component {
                                                         event.stopPropagation()
                                                         this.props.changeFullLabelDisplay()
                                                     }}
-                                                >{this.props.fullLabelDisplay ? label.name : ""}
+                                                >{this.props.fullLabelDisplay ? label.name : " "}
                                                 </Label>)
                                             }
                                         </Card.Content>
