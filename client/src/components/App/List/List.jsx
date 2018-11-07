@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import CardOverviewContainer from '../../../containers/CardContainers/CardOverviewContainer';
-import { Segment, Container, List, Input, Grid } from 'semantic-ui-react'
+import { Segment, Container, List, Input, Grid, Label } from 'semantic-ui-react'
 import './List.css'
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 
@@ -42,7 +42,12 @@ class MyList extends Component {
                                     className="myDiv">
 
                                     <Segment className='myList' >
-                                        <h3>{this.props.list.name}</h3>
+                                        <div className="list-header">
+                                            <h3>
+                                                {this.props.list.name}
+                                                <Label color="olive">{this.props.list.cards.filter(card => !card.isArchived).length }</Label>
+                                            </h3>
+                                        </div>
                                         <Container className='items'>
                                             <List >
                                                 {this.props.list.cards.sort((a, b) => a.pos - b.pos).map(card => (
