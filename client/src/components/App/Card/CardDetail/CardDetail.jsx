@@ -12,7 +12,6 @@ import Activity from './SubComponents/Activity';
 import Description from './SubComponents/Description';
 import Header from './SubComponents/Header';
 import moment from 'moment';
-import ValidationInput from '../../Input/ValidationInput';
 
 class CardDetail extends Component {
 

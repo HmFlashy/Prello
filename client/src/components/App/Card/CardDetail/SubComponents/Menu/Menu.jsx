@@ -5,7 +5,7 @@ import DatePicker from './datepicker';
 import Move from './subComponents/Move/MoveContainer.js'
 import moment from 'moment';
 import Labels from '../../../../Modal/LabelsModal'
-import ValidationInput from '../../../../Input/ValidationInput';
+import LabelColorPicker from '../../../../Input/LabelColorPicker';
 
 
 class Menu extends Component {

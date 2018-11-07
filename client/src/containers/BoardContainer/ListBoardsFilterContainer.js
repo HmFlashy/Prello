@@ -1,4 +1,4 @@
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import listBoardsStar from "../../components/App/Board/ListBoardsFilter/ListBoardsFilter"
 
 const mapStateToProps = (state, ownProps) => {
