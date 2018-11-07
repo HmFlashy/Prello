@@ -26,14 +26,18 @@ class CardDetail extends Component {
             height: 0
         }
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+
         this.createChecklist = this.createChecklist.bind(this);
         this.deleteChecklist = this.deleteChecklist.bind(this);
         this.updateChecklist = this.updateChecklist.bind(this);
         this.onAddItem = this.onAddItem.bind(this);
-        this.onAddComment = this.onAddComment.bind(this);
-        this.onDeleteComment = this.onDeleteComment.bind(this);
         this.onDeleteItem = this.onDeleteItem.bind(this);
         this.onUpdateItem = this.onUpdateItem.bind(this);
+
+        this.onAddComment = this.onAddComment.bind(this);
+        this.onUpdateComment = this.onUpdateComment.bind(this);
+        this.onDeleteComment = this.onDeleteComment.bind(this);
+
         this.moveCard = this.moveCard.bind(this);
     }
 
@@ -102,6 +106,10 @@ class CardDetail extends Component {
 
     onDeleteComment(commentId) {
         this.props.deleteComment(this.props.card._id, commentId)
+    }
+
+    onUpdateComment(commentId, oldVal, newVal) {
+        this.props.updateComment(this.props.card._id, commentId, { _id: this.props.card._id, commentId, comment: oldVal }, { _id: this.props.card._id, commentId, comment: { content: newVal, wasModified: true, dateModified: Date.now() } })
     }
 
     render() {
@@ -178,6 +186,7 @@ class CardDetail extends Component {
                         <Activity
                             comments={this.props.card.comments}
                             onDeleteComment={commentId => this.onDeleteComment(commentId)}
+                            onUpdateComment={(commentId, oldVal, newVal) => this.onUpdateComment(commentId, oldVal, newVal)}
                         />
                     </div>
                     <Menu
@@ -187,7 +196,7 @@ class CardDetail extends Component {
                         onDueDate={(date) => this.updateCard({ dueDate: this.props.card.dueDate, _id: this.props.card._id }, { dueDate: date, _id: this.props.card._id })}
                         onArchive={(value) => this.updateCard({ isArchived: this.props.card.isArchived, _id: this.props.card._id }, { isArchived: value, _id: this.props.card._id })}
                         onChecklist={(value) => this.createChecklist({ name: value, _id: this.props.card._id })}
-                        onMove={(boardId, oldListId, newListId, pos) => this.moveCard({ boardId, oldListId, newListId, pos, _id: this.props.card._id })}
+                        onMove={(boardId, oldListId, newListId, newName, pos) => this.moveCard({ boardId, oldListId, newListId, listName: newName, pos, _id: this.props.card._id })}
                     />
                 </div>
             </div>

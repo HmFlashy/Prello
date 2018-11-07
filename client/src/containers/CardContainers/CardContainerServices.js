@@ -70,7 +70,7 @@ export default {
     }, async updateComment(cardId, commentId, oldValue, data, dispatch) {
         try {
             dispatch(actionUpdateComment(data))
-            await cardServices.updateCommentApi(cardId, commentId, data)
+            await cardServices.updateCommentApi(cardId, commentId, { content: data.comment.content })
         } catch (error) {
             console.log(error)
             return dispatch(failedActionUpdateComment(oldValue, error))

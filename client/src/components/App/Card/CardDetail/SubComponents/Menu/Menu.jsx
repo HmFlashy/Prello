@@ -43,7 +43,7 @@ class Menu extends Component {
                             card={this.props.card}
                             board={this.props.board}
                             isOpened={this.state.isLabelClicked}
-                            onValidate={(cardLabels, boardLabels) => { this.setState({ isLabelClicked: false });this.props.updateLabels(cardLabels, boardLabels)}}
+                            onValidate={(cardLabels, boardLabels) => { this.setState({ isLabelClicked: false }); this.props.updateLabels(cardLabels, boardLabels) }}
                             onCancel={() => this.setState({ isLabelClicked: false })}>
                         </Labels>
                         <Button icon labelPosition='left' onClick={() => this.setState({ isCreatingChecklist: true })}>
@@ -100,7 +100,7 @@ class Menu extends Component {
                         <Move
                             boardId={this.props.card.board}
                             isOpened={this.state.isMovingCard}
-                            onValidate={(boardId, listId, pos) => { this.setState({ isMovingCard: false }); this.props.onMove(boardId, this.props.card.list, listId, pos) }}
+                            onValidate={(boardId, listId, newName, pos) => { this.setState({ isMovingCard: false }); this.props.onMove(boardId, this.props.card.list._id, listId, newName, pos) }}
                             onCancel={() => this.setState({ isMovingCard: false })}
                         ></Move>
                         <Button icon labelPosition='left'>

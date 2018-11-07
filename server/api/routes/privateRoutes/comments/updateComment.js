@@ -52,6 +52,10 @@ module.exports = async (req, res) => {
         const commentId = req.params.commentId;
         const content = req.body.content
         const card = await CardController.updateComment(cardId, commentId, content);
+        socketIO.broadcast('action', card.board, {
+            type: 'UPDATED_COMMENT',
+            payload: { _id: card._id, commentId, content }
+        })
         return res.status(200).json(card)
     } catch (error) {
         if (error.code) {

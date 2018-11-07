@@ -133,7 +133,7 @@ export default (state = defaultCardModalState, action) => {
             return (state._id && state._id === action.payload._id) ?
                 ({
                     ...state,
-                    list: action.payload.newListId,
+                    list: { _id: action.payload.newListId, name: action.payload.listName },
                     board: action.payload.boardId
                 })
                 : state
@@ -153,10 +153,11 @@ export default (state = defaultCardModalState, action) => {
                 : state
         case 'UPDATING_COMMENT':
         case 'UPDATED_COMMENT':
+        case 'FAILED_UPDATE_COMMENT':
             return (state._id && state._id === action.payload._id) ?
                 ({
                     ...state,
-                    comments: state.comments.map(comment => comment._id === action.payload._id ? action.payload.comment : comment)
+                    comments: state.comments.map(comment => comment._id === action.payload.commentId ? { ...comment, ...action.payload.comment } : comment)
                 })
                 : state
         default:
