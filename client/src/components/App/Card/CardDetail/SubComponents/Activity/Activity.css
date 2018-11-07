@@ -1,7 +1,13 @@
 .commentDiv{
-    justify-content: space-between
+    justify-content: space-between;
+    text-align: justify;
+    text-justify: inter-word;
 }
 
 .avatarActivity{
     margin-right: 10px
+}
+.commentP{
+    max-width: 450px;
+    word-wrap: break-word;
 }

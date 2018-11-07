@@ -51,9 +51,9 @@ const deleteComment = async (cardId, commentId) => {
 }
 
 const updateComment = async (cardId, commentId, content) => {
-    await Comment.findOneAndUpdate({ _id: commentId },
+    const comment = await Comment.findOneAndUpdate({ _id: commentId },
         { $set: { content: content, wasModified: true, dateModified: Date.now() } }, { "new": true })
-    return await Card.findOne({ _id: cardId })
+    return [comment, await Card.findOne({ _id: cardId })]
 }
 
 const addCard = async (name, listId, pos) => {

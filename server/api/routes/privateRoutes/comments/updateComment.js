@@ -51,13 +51,16 @@ module.exports = async (req, res) => {
         const cardId = req.params.cardId;
         const commentId = req.params.commentId;
         const content = req.body.content
-        const card = await CardController.updateComment(cardId, commentId, content);
-        socketIO.broadcast('action', card.board, {
+        const result = await CardController.updateComment(cardId, commentId, content);
+        socketIO.broadcast('action', result[1].board, {
             type: 'UPDATED_COMMENT',
-            payload: { _id: card._id, commentId, content }
+            payload: {
+                _id: result[1]._id, commentId, comment: { wasModified: result[0].wasModified, dateModified: result[0].dateModified, content: result[0].content }
+            }
         })
-        return res.status(200).json(card)
+        return res.status(200).json(result[1])
     } catch (error) {
+        console.log(error)
         if (error.code) {
             res.status(error.code).json(error.message);
         } else {

@@ -26,20 +26,33 @@ export default class Actitivty extends Component {
                     <div className="displayRow commentDiv">
                         <div className="displayRow">
                             <Avatar className="avatarActivity" key={comment.author._id} name={comment.author.fullName} round size="25" textSizeRatio={1.4}></Avatar>
-                            <div>
-                                <DynamicInput
+
+                            {this.props.userId === comment.author._id
+                                ? <div><DynamicInput
                                     type='text'
-                                    textToDisplay={comment.content}
+                                    textToDisplay={<p className="commentP">{comment.content}    </p>}
                                     placeholder={comment.content}
                                     onValidate={(content) => this.props.onUpdateComment(comment._id, comment, content.target.value)}
                                 />
-                                {comment.wasModified
-                                    ? <p>Modified : {moment(comment.dateModified).fromNow()}</p>
-                                    : <p>Posted : {moment(comment.date).fromNow()}</p>
-                                }
-                            </div>
+                                    {comment.wasModified
+                                        ? <p>Modified : {moment(comment.dateModified).fromNow()}</p>
+                                        : <p>Posted : {moment(comment.date).fromNow()}</p>
+                                    }
+                                </div>
+                                : <div>
+                                    <p className="commentP">{comment.content}    </p>
+                                    {comment.wasModified
+                                        ? <p>Modified : {moment(comment.dateModified).fromNow()}</p>
+                                        : <p>Posted : {moment(comment.date).fromNow()}</p>
+                                    }
+                                </div>
+                            }
+
+
                         </div>
-                        <Button onClick={() => this.setState({ isDeleting: true })} color="red" inverted>Delete</Button>
+                        <div>
+                            <Button onClick={() => this.setState({ isDeleting: true })} color="red" inverted>Delete</Button>
+                        </div>
                         <ValidationInput
                             isVisible={this.state.isDeleting}
                             header={"Delete Your Account"}

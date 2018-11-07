@@ -5,7 +5,7 @@ import './DynamicInput.css'
 
 class DynamicInput extends Component {
 
-    constructor(){
+    constructor() {
         super()
         this.textToInput = this.textToInput.bind(this)
         this.inputToText = this.inputToText.bind(this)
@@ -29,8 +29,8 @@ class DynamicInput extends Component {
         })
     }
 
-    validate(event){
-        if(event.charCode === 13){
+    validate(event) {
+        if (event.charCode === 13) {
             this.inputToText()
             this.props.onValidate(event)
         }
@@ -39,7 +39,7 @@ class DynamicInput extends Component {
     setNode(node) {
         this.node = node
         document.addEventListener('mousedown', (event) => {
-            return this.node.contains(event.target) ? event.stopPropagation(): this.inputToText()
+            return this.node.contains(event.target) ? event.stopPropagation() : this.inputToText()
         })
         this.node.children[0].focus()
     }
@@ -48,16 +48,15 @@ class DynamicInput extends Component {
     render() {
         return (
             <div onClick={this.textToInput}>
-            {
-                this.state.isInput ?
-                    <Ref innerRef={ node => this.setNode(node) }>
-                        <Input type={this.props.type} maxLength={this.props.maxLength} name={this.props.name} placeholder={this.props.placeholder} 
-                                                onKeyPress={this.validate}>
-                        </Input>
-                    </Ref>
-                    :
-                    this.props.textToDisplay
-            }
+                {
+                    this.state.isInput ?
+                        <Ref innerRef={node => this.setNode(node)}>
+                            <Input type={this.props.type} maxLength={this.props.maxLength} name={this.props.name} placeholder={this.props.placeholder}
+                                onKeyPress={this.validate}>
+                            </Input>
+                        </Ref>
+                        : this.props.textToDisplay
+                }
             </div>
         )
     }
@@ -68,7 +67,7 @@ DynamicInput.propTypes = {
     name: PropTypes.string,
     placeholder: PropTypes.string,
     onValidate: PropTypes.func
-  };
+};
 
 
 

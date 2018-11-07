@@ -184,6 +184,7 @@ class CardDetail extends Component {
                         />
                         <Divider />
                         <Activity
+                            userId={this.props.userId}
                             comments={this.props.card.comments}
                             onDeleteComment={commentId => this.onDeleteComment(commentId)}
                             onUpdateComment={(commentId, oldVal, newVal) => this.onUpdateComment(commentId, oldVal, newVal)}
