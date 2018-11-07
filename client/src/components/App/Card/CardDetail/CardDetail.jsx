@@ -27,6 +27,7 @@ class CardDetail extends Component {
         }
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
 
+        this.onDelete = this.onDelete.bind(this);
         this.createChecklist = this.createChecklist.bind(this);
         this.deleteChecklist = this.deleteChecklist.bind(this);
         this.updateChecklist = this.updateChecklist.bind(this);
@@ -121,6 +122,10 @@ class CardDetail extends Component {
 
     onUpdateComment(commentId, oldVal, newVal) {
         this.props.updateComment(this.props.card._id, commentId, { _id: this.props.card._id, commentId, comment: oldVal }, { _id: this.props.card._id, commentId, comment: { content: newVal, wasModified: true, dateModified: Date.now() } })
+    }
+
+    onDelete() {
+        this.props.deleteCard(this.props.card._id)
     }
 
     render() {
@@ -218,7 +223,13 @@ class CardDetail extends Component {
                         onChecklist={(value) => this.createChecklist({ name: value, _id: this.props.card._id })}
                         onMove={(boardId, oldListId, newListId, newName, pos) => this.moveCard({ boardId, oldListId, newListId, listName: newName, pos, _id: this.props.card._id })}
                         onAddLabel={(labelId) => this.addCardLabel(labelId)}
-                        onRemoveLabel={(labelId) => this.removeCardLabel(labelId)} />
+                        onRemoveLabel={(labelId) => this.removeCardLabel(labelId)}
+                        onDelete={() => {
+                            this.onDelete(); 
+                            this.props.history.goBack();
+                            this.props.closeCardModal()
+                        }}
+                    />
                 </div>
             </div>
             : <Loader />

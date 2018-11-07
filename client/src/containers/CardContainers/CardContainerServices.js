@@ -57,6 +57,13 @@ export default {
             console.log(error)
             return dispatch(failedActionMoveCard(data, error))
         }
+    }, async deleteCard(cardId, dispatch) {
+        try {
+            await cardServices.deleteCardApi(cardId)
+        } catch (error) {
+            console.log(error)
+            return dispatch(failedActionMoveCard(error))
+        }
     }, async addComment(cardId, data, dispatch) {
         try {
             await cardServices.addCommentApi(cardId, data)

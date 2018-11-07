@@ -5,8 +5,11 @@ import cardContainerServices from "./CardContainerServices"
 import cardServices from '../../services/CardServices'
 import {
     actionCardFetched,
-    failedActionGetCard
+    failedActionGetCard,
 } from '../../redux/actions/CardActions'
+import {
+    actionCloseCardModal
+} from '../../redux/actions/BoardActions'
 
 const mapStateToProps = (state, ownProps) => {
     return {
@@ -18,6 +21,9 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => {
     return {
+        closeCardModal() {
+            dispatch(actionCloseCardModal())
+        },
         async fetchCard(cardId) {
             try {
                 const card = await cardServices.fetchCard(cardId)
@@ -31,6 +37,9 @@ const mapDispatchToProps = dispatch => {
         },
         async moveCard(cardId, data) {
             await cardContainerServices.moveCard(cardId, data, dispatch)
+        },
+        async deleteCard(cardId) {
+            await cardContainerServices.deleteCard(cardId)
         },
         async createChecklist(cardId, data) {
             await cardContainerServices.createChecklist(cardId, data, dispatch)

@@ -24,6 +24,13 @@ export default {
         } catch (error) {
             throw error
         }
+    }, async deleteCardApi(cardId) {
+        try {
+            const res = await axios.delete(`${UrlConfig.API}/cards/${cardId}`, tokenHeader())
+            return res.data
+        } catch (error) {
+            throw error
+        }
     },
     async addCardApi(name, listId, pos) {
         try {

@@ -95,6 +95,11 @@ export default (state = defaultCardReducer, action) => {
         ...state,
         all: state.all.map(card => card._id === action.payload._id ? { ...card, checklists: action.payload.checklists, cardInformation: action.payload.cardInformation } : card)
       }
+    case 'DELETE_CARD':
+      return {
+        ...state,
+        all: state.all.filter(card => card._id !== action.payload._id)
+      }
     default:
       return state
   }

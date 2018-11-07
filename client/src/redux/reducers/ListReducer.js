@@ -20,11 +20,11 @@ export default (state = defaultListReducer, action) => {
             return {
                 ...state,
                 all: state.all.map(list => {
-                    if(list.cards.some(cardToCheck => action.payload._id === cardToCheck._id)){
-                        return { 
-                            ...list, 
+                    if (list.cards.some(cardToCheck => action.payload._id === cardToCheck._id)) {
+                        return {
+                            ...list,
                             cards: list.cards.map(card => {
-                                if(card._id === action.payload._id){
+                                if (card._id === action.payload._id) {
                                     return ({ ...card, isArchived: action.payload.isArchived })
                                 }
                                 return card
@@ -87,6 +87,14 @@ export default (state = defaultListReducer, action) => {
                     ...list,
                     cards: []
                 }]
+            }
+        case 'DELETE_CARD':
+            return {
+                ...state,
+                all: state.all.map(list => list._id === action.payload.list ? {
+                    ...list,
+                    cards: list.cards.filter(card => card._id !== action.payload._id)
+                } : list)
             }
         default:
             return {
