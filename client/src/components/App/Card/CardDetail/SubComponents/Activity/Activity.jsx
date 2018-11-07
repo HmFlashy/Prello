@@ -50,9 +50,12 @@ export default class Actitivty extends Component {
 
 
                         </div>
-                        <div>
-                            <Button onClick={() => this.setState({ isDeleting: true })} color="red" inverted>Delete</Button>
-                        </div>
+                        {this.props.userId === comment.author._id ?
+                            <div>
+                                <Button onClick={() => this.setState({ isDeleting: true })} color="red" inverted>Delete</Button>
+                            </div>
+                            : ""
+                        }
                         <ValidationInput
                             isVisible={this.state.isDeleting}
                             header={"Delete Your Account"}
