@@ -21,6 +21,7 @@ class App extends Component {
         onDragUpdate={this.onDragUpdate}
         onDragEnd={this.onDragEnd}
       >
+      
         <Provider store={configureStore()}>
           <ConnectedRouter history={history}>
             <div className="App">

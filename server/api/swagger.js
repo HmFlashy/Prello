@@ -29,5 +29,4 @@ let options = {
   swaggerDefinition: swaggerDefinition,
   apis: ['./api/routes/**/*.js', './api/models/**/*.js']
 }
-console.log(swaggerJSDoc(options))
 module.exports = swaggerJSDoc(options)

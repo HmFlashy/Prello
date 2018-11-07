@@ -16,7 +16,7 @@ require("dotenv").config({});
 connect();
 
 function connect() {
-    return mongoose.connect(process.env.URL_MONGODB, {
+    return mongoose.connect(process.env.MONGO_URL, {
         useNewUrlParser: true
     })
 }
@@ -41,7 +41,6 @@ async function initDB() {
         I would like to be but hey no worry, one day you'll know my name ;) jk x)
 `, initials: "HM", username: "HmFlashy", organization: "Polytech", email: "hugo.maitre69@gmail.com", hash: hugoHash
     });
-
 
     const PrelloClient = new OAuthClient({
         name: 'Khal-Prello-API',

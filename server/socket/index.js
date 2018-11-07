@@ -1,5 +1,5 @@
 const socketio = require('socket.io');
-const redisAdapter = require('socket.io-redis')(process.env.URL_REDIS);
+const redisAdapter = require('socket.io-redis')(process.env.REDIS_URL);
 redisAdapter.pubClient.on('error', (error) => console.log(error));
 redisAdapter.pubClient.on('connect', () => console.log("Connected to Redis"));
 let io = null
