@@ -6,6 +6,18 @@ import CardsArchivedModal from '../CardsArchivedModal';
 
 class BoardHeader extends Component {
 
+    constructor(){
+        super()
+        this.state = {
+            open: false
+        }
+        this.open = this.open.bind(this)
+        this.close = this.close.bind(this)
+    }
+
+    open = () => this.setState({ open: true })
+    close = () => this.setState({ open: false })
+
     render(){
         return (
             <div className="boardHeader">
@@ -27,13 +39,13 @@ class BoardHeader extends Component {
                         <div className="header-board-members">
                             <Members></Members>
                         </div>
+                        <Button className="button-header" onClick={this.open}>
+                            Cards archived
+                        </Button>
                         <CardsArchivedModal  
-                            trigger={
-                                <Button className="button-header">
-                                    Cards archived
-                                </Button>
-                            }
+                            open={this.state.open}
                             archivedCards={this.props.archivedCards}
+                            onClose={this.close}
                         />
                     </div>
                 </div>

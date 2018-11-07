@@ -5,10 +5,9 @@ import CardOverviewContainer from './../../../../../containers/CardContainers/Ca
 
 class CardsArchivedModal extends Component {
 
-
     render(){
         return (
-            <Modal size='tiny' trigger={this.props.trigger}>
+            <Modal open={ this.props.open } size='tiny' trigger={this.props.trigger}>
                 <Modal.Header>Archived cards</Modal.Header>
                 <Modal.Content  className="list-card-archived">
                     <List>
@@ -16,13 +15,12 @@ class CardsArchivedModal extends Component {
                             this.props.archivedCards.length > 0 ?
                                 this.props.archivedCards.map(card => (<List.Item key={card._id} ><CardOverviewContainer key={card._id} cardId={card._id} /></List.Item>))
                             :
-                            null
+                            <p>No cards archived</p>
                         }
                     </List>
                 </Modal.Content>
                 <Modal.Actions>
-                    <Button negative>No</Button>
-                    <Button positive icon='checkmark' labelPosition='right' content='Yes' />
+                    <Button negative onClick={this.props.onClose}>Back</Button>
                 </Modal.Actions>
             </Modal>
         )
