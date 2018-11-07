@@ -24,10 +24,9 @@ function connect() {
 async function initDB() {
     let array = [];
     for (const collection in mongoose.connection.collections) {
-        array.push(mongoose.connection.collections[collection].remove());
+        array.push(mongoose.connection.collections[collection].deleteMany());
     }
     await Promise.all(array);
-
 
     const alexHash = await passwordHelper.passwordHelper("a");
     const Alex = User({
@@ -399,9 +398,14 @@ async function initDB() {
             if (error) throw error
         })
     );
-    Promise.all(array).then(mongoose.connection.close()).catch(error => console.log(error))
+    Promise.all(array).then(() => {
+        console.log("Init DB successful");
+        console.log("Closing the connection to the database")
+        mongoose.connection.close();
+    }).catch(error => console.log(error))
 }
 
 mongoose.connection.once("open", async function () {
+    console.log("Connected to MongoDB");
     await initDB()
 }).catch(err => console.log(err));
