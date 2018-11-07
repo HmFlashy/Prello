@@ -1,21 +1,13 @@
 import {connect} from "react-redux";
 import userServices from "../../services/UserServices"
 import listBoards from "../../components/App/Board/ListBoards/ListBoards"
-import {actionAddCategory} from "../../redux/actions/UserActions";
+import {actionAddCategory, actionDeleteCategory, actionUpdateCategoryName} from "../../redux/actions/UserActions";
 
 const mapStateToProps = state => {
     const user = state.authentification.user;
     return {
         teams: user ? user.teams : [],
-        categories: user ? user.categories : [],
-        categoryOptions: user ? [{
-            key: "No Category",
-            value: {_id: "No Category", name: "No Category"},
-            text: "No Category"
-        },
-            ...user.categories.map(category => {
-                return {key: category._id, value: category, text: category.name}
-            })] : []
+        categories: user ? user.categories : []
     }
 };
 
@@ -25,6 +17,22 @@ const mapDispatchToProps = (dispatch) => {
             try {
                 const category = await userServices.addCategory(name);
                 dispatch(actionAddCategory(category))
+            } catch(error) {
+                console.log(error)
+            }
+        },
+        async deleteCategory(id) {
+            try {
+                await userServices.deleteCategory(id);
+                dispatch(actionDeleteCategory(id))
+            } catch(error) {
+                console.log(error)
+            }
+        },
+        async updateCategoryName(id, name) {
+            try {
+                await userServices.updateCategoryName(id, name);
+                dispatch(actionUpdateCategoryName(id, name))
             } catch(error) {
                 console.log(error)
             }

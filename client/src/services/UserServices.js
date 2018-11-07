@@ -45,5 +45,21 @@ export default {
         } catch(error) {
             throw error
         }
+    },
+    async deleteCategory(id){
+        try {
+            const res = await axios.delete(`${UrlConfig.API}/me/categories/${id}`, tokenHeader())
+            return res.data
+        } catch(error) {
+            throw error
+        }
+    },
+    async updateCategoryName(id, name){
+        try {
+            const res = await axios.put(`${UrlConfig.API}/me/categories/${id}`, {name: name}, tokenHeader())
+            return res.data
+        } catch(error) {
+            throw error
+        }
     }
 }

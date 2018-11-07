@@ -35,3 +35,20 @@ export const actionAddCategory = (category) => {
         payload: category
     }
 }
+
+export const actionDeleteCategory = (id) => {
+    return {
+        type: "DELETE_CATEGORY",
+        payload: id
+    }
+}
+
+export const actionUpdateCategoryName = (id, name) => {
+    return {
+        type: "UPDATE_CATEGORY_NAME",
+        payload: {
+            id,
+            name
+        }
+    }
+}
