@@ -29,7 +29,7 @@ const mapDispatchToProps = dispatch => {
                 const card = await cardServices.fetchCard(cardId)
                 return dispatch(actionCardFetched(card))
             } catch (error) {
-                return dispatch(failedActionGetCard())
+                return dispatch(failedActionGetCard(error))
             }
         },
         async updateCard(cardId, oldValue, data) {
