@@ -12,17 +12,18 @@ export default class Menu extends Component {
     }
 
     render() {
-        return <div className={this.props.className + " displayRow"}>
-            <Icon name='comment outline' />
-            <Form className="form">
-                <p>
-                    Add comment
-                            </p>
-                <Form.Field>
-                    <TextArea rows={2} placeholder='Write a comment...' onChange={(event, data) => this.setState({ comment: data.value })} />
-                </Form.Field>
-                <Button type='submit' onClick={() => this.props.onAddComment(this.state.comment)}>Submit</Button>
-            </Form>
-        </div>
+        return (
+            <div>
+                <div className={this.props.className + " displayRow"}>
+                    <Icon name='comment outline' />
+                    <p>Add comment</p>
+                </div>
+                <Form className="form">
+                    <Form.Field>
+                        <TextArea rows={2} placeholder='Write a comment...' onChange={(event, data) => this.setState({ comment: data.value })} />
+                    </Form.Field>
+                    <Button type='submit' onClick={() => this.props.onAddComment(this.state.comment)}>Submit</Button>
+                </Form>
+            </div>)
     }
 }

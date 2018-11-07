@@ -146,18 +146,22 @@ class CardDetail extends Component {
                                 <Divider />
                             </div>
                             : <div>
+                                <div>
                                 <div className={"displayRow"}>
                                     <Icon name='align left' />
-                                    <Form className="form" onSubmit={() => this.updateCard({ desc: this.props.card.desc, _id: this.props.card._id }, { desc: this.state.descriptionTextArea, _id: this.props.card._id })}>
-                                        <p>Describe me</p>
-                                        <Form.Field>
-                                            <TextArea onChange={(event, data) => this.setState({ descriptionTextArea: data.value })} rows={2} placeholder="Describe me..." />
-                                        </Form.Field>
-                                        <Button type='submit'>Submit</Button>
-                                    </Form>
+                                    <p>Describe me</p>
                                 </div>
+                                <Form className="form" onSubmit={() => this.updateCard({ desc: this.props.card.desc, _id: this.props.card._id }, { desc: this.state.descriptionTextArea, _id: this.props.card._id })}>
+
+                                    <Form.Field>
+                                        <TextArea onChange={(event, data) => this.setState({ descriptionTextArea: data.value })} rows={2} placeholder="Describe me..." />
+                                    </Form.Field>
+                                    <Button type='submit'>Submit</Button>
+                                </Form>
+                            </div>
                                 <Divider />
-                            </div>}
+                            </div>
+                        }
 
                         {this.props.card.attachments && this.props.card.attachments.length !== 0
                             ? <div>
