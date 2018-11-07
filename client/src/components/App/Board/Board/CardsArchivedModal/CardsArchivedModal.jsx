@@ -7,7 +7,7 @@ class CardsArchivedModal extends Component {
 
     render(){
         return (
-            <Modal open={ this.props.open } size='tiny' trigger={this.props.trigger}>
+            <Modal open={ this.props.open } onClose={ this.props.onClose} size='tiny' trigger={this.props.trigger}>
                 <Modal.Header>Archived cards</Modal.Header>
                 <Modal.Content  className="list-card-archived">
                     <List>
