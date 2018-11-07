@@ -23,7 +23,7 @@ class MyList extends Component {
 
     addCard() {
         const posSorted = this.props.list.cards.map(card => card.pos).sort((a, b) => a - b)
-        this.props.addCard(this.state.cardName, this.props.listId, posSorted[posSorted.length - 1] + 100000)
+        this.props.addCard(this.state.cardName, this.props.listId, posSorted.length !== 0 ? posSorted[posSorted.length - 1] + 100000 : 100000)
     }
 
     render() {
@@ -45,7 +45,7 @@ class MyList extends Component {
                                         <div className="list-header">
                                             <h3>
                                                 {this.props.list.name}
-                                                <Label color="olive">{this.props.list.cards.filter(card => !card.isArchived).length }</Label>
+                                                <Label color="olive">{this.props.list.cards.filter(card => !card.isArchived).length}</Label>
                                             </h3>
                                         </div>
                                         <Container className='items'>

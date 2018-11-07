@@ -6,7 +6,7 @@ class NewList extends Component {
 
     getPos() {
         const posSorted = this.props.board.lists.map(list => list.pos).sort((a, b) => a - b)
-        return posSorted[posSorted.length - 1] + 100000
+        return posSorted.length !== 0 ? posSorted[posSorted.length - 1] + 100000 : 100000
     }
 
     render() {
