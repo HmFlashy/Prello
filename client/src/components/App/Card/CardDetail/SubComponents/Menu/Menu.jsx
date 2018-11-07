@@ -5,6 +5,7 @@ import DatePicker from './datepicker';
 import Move from './subComponents/Move/MoveContainer.js'
 import moment from 'moment';
 import Labels from '../../../../Modal/LabelsModal'
+import ValidationInput from '../../../../Input/ValidationInput';
 
 
 class Menu extends Component {
@@ -18,6 +19,7 @@ class Menu extends Component {
             duedate: null,
             checklistName: "",
             isMovingCard: false,
+            isDeleting: false,
             newCardLabels: []
         };
         this.handleOnDateSelect = this.handleOnDateSelect.bind(this);
@@ -118,7 +120,7 @@ class Menu extends Component {
                             Watch
                         </Button>
                         {this.props.isArchived
-                            ? <Button icon labelPosition='left' onClick={this.props.onDelete} color="red">
+                            ? <Button icon labelPosition='left' onClick={() => this.setState({ isDeleting: true })} color="red">
                                 <Icon name='trash' />
                                 Delete
                         </Button>
@@ -130,13 +132,22 @@ class Menu extends Component {
                                 : "Archive"
                             }
                         </Button>
-
                         <Button icon labelPosition='left'>
                             <Icon name='share' />
                             Share
                         </Button>
                     </Button.Group>
                 </div>
+                <Modal size="mini" open={this.state.isDeleting} onClose={() => this.setState({ isDeleting: false })}>
+                    <Modal.Header>{"Delete the card"}</Modal.Header>
+                    <Modal.Content>
+                        <p>{"Are you sure you want to delete this card ?"}</p>
+                    </Modal.Content>
+                    <Modal.Actions>
+                        <Button onClick={() => this.setState({ isDeleting: false })} negative>No</Button>
+                        <Button onClick={() => this.setState({ isDeleting: false }, () => this.props.onDelete())} positive icon='checkmark' labelPosition='right' content='Yes' />
+                    </Modal.Actions>
+                </Modal>
             </div>
         )
     }
