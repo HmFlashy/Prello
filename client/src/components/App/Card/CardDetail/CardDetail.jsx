@@ -64,7 +64,7 @@ class CardDetail extends Component {
         this.setState({
             isDescInput: this.props.card.desc === null,
             mdeState: {
-                markdown: this.props.card.desc
+                markdown: this.props.card.desc || ""
             }
         })
     }
@@ -216,7 +216,7 @@ class CardDetail extends Component {
                         {
                             !this.state.isDescInput ? 
                             <div className="description-html">
-                                <Description descToInput={this.descToInput} description={<div dangerouslySetInnerHTML={{ __html: this.converter.makeHtml(this.props.card.desc)}}/>}></Description>
+                                <Description descToInput={this.descToInput} description={<div className="mde-preview "><div className="mde-preview-content" dangerouslySetInnerHTML={{ __html: this.converter.makeHtml(this.props.card.desc)}}/></div>}></Description>
                                 <Divider />
                             </div>
                             : <div>
