@@ -37,7 +37,6 @@ class BoardHeader extends Component {
                     </div>
                     <div className="header-board-archived">
                         <div className="header-board-members">
-                            <Members></Members>
                         </div>
                         <Button className="button-header" onClick={this.open}>
                             Cards archived
