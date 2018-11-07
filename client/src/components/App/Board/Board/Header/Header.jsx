@@ -33,11 +33,8 @@ class BoardHeader extends Component {
                             </Button>
                         </div>
                         <div className="header-board-member">
-                            {this.props.members.map(member => <Avatar key={member.member._id} name={member.member.fullName} round size="25" textSizeRatio={1.4}></Avatar>)}
+                            {this.props.members.map(member => <span><Avatar key={member.member._id} name={member.member.fullName} round size="25" textSizeRatio={1.4}></Avatar></span>)}
                         </div>
-                    </div>
-                    <div className="header-board-center">
-
                     </div>
                     <div className="header-board-archived">
                         <div className="header-board-members">
