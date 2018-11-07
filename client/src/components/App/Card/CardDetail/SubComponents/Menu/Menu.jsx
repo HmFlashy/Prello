@@ -4,6 +4,7 @@ import { Button, Icon, Divider, Modal, Header, Input } from 'semantic-ui-react'
 import DatePicker from './datepicker';
 import Move from './subComponents/Move/MoveContainer.js'
 import Labels from './subComponents/Labels/LabelsContainer.js'
+import moment from 'moment';
 
 
 class Menu extends Component {
@@ -64,14 +65,16 @@ class Menu extends Component {
                                 </Button>
                             </Modal.Actions>
                         </Modal>
-                        <Button icon labelPosition='left' onClick={() => this.setState({ isPickingDate: true })}>
+                        <Button icon labelPosition='left' onClick={() => this.setState({ duedate: moment(new Date()).add(1, 'days') }, () => this.setState({ isPickingDate: true }))}>
                             <Icon name='calendar check' />
                             Due date
                         </Button>
                         <Modal open={this.state.isPickingDate}>
                             <Header icon='calendar' content='Select a date' />
                             <Modal.Content>
-                                <DatePicker onChange={this.handleOnDateSelect}
+                                <DatePicker
+                                    onChange={this.handleOnDateSelect}
+                                    startDate={this.state.duedate}
                                 />
                             </Modal.Content>
                             <Modal.Actions>

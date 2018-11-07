@@ -12,7 +12,7 @@ export default class Datepicker extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            startDate: moment()
+            startDate: this.props.startDate
         };
         this.handleChange = this.handleChange.bind(this);
     }
