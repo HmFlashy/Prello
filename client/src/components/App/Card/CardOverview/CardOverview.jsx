@@ -104,7 +104,7 @@ class CardOverview extends Component {
                                 <Card.Content textAlign='right' className="members">
                                     {
                                         this.props.card.members.map(member => {
-                                            return <Avatar key={member._id} name={member.fullName} round size="25" textSizeRatio={1.4}></Avatar>
+                                            return <Avatar key={member._id} className="member-avatar" name={member.fullName} round size="25" textSizeRatio={1.4}></Avatar>
                                         })
                                     }
                                 </Card.Content>

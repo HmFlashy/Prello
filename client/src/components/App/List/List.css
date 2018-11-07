@@ -10,7 +10,6 @@
 
 .myDiv{
     width: 305px !important;
-    margin: 0.3rem !important;
     display: flex;
     flex-direction: column;
     overflow-x: auto;
