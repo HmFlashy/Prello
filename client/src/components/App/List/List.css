@@ -4,7 +4,8 @@
     display: flex;
     flex-direction: column;
     overflow-x: auto;
-    background-color: #dfe3e6 !important;
+    color: white;
+    background-color: #624d757a !important;
     max-height: 100%;
 }
 
