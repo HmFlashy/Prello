@@ -61,16 +61,20 @@ class CardDetail extends Component {
     }
 
     componentWillMount(){
-        this.setState({
-            isDescInput: this.props.card.desc === null,
-            mdeState: {
-                markdown: this.props.card.desc || ""
-            }
-        })
+        console.log(this.props.card)
+        console.log("JE MONTE")
     }
 
     componentDidMount() {
-        this.props.fetchCard(this.props.match.params.cardId)
+        this.props.fetchCard(this.props.match.params.cardId).then(card => {
+            this.setState({
+                isDescInput: this.props.card.desc === null,
+                mdeState: {
+                    markdown: this.props.card.desc || ""
+                }
+            })
+            return Promise.resolve(card)
+        })
         this.updateWindowDimensions();
         window.addEventListener('resize', this.updateWindowDimensions);
     }
