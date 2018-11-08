@@ -9,6 +9,7 @@ class ListBoardsFilter extends Component {
 
     constructor(props) {
         super(props);
+        console.log(props)
     }
 
     render() {
@@ -22,7 +23,7 @@ class ListBoardsFilter extends Component {
                         </List.Item>
                     ))}
                     <List.Item key="new-board" className='no-padding-top'>
-                        <NewBoardModalContainer categoryId={this.props.categoryId}/>
+                        <NewBoardModalContainer teamId={this.props.teams?this.props.teams[0]:null}/>
                     </List.Item>
                 </List>
             </div>

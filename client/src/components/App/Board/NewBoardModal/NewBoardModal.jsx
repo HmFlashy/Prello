@@ -21,11 +21,15 @@ class NewBoardModal extends Component {
         this.state = {
             modalOpen: false,
             currentNameBoard: "",
-            currentCategory: this.props.categoryOptions.length > 0 ?
+            currentCategory: this.props.categoryOptions.length > 0 ? this.props.categoryOptions[0].value: "",
+            currentVisibility: this.props.visibilityOptions.length > 0 ? this.props.visibilityOptions[0].value: "",
+            /*currentCategory: this.props.categoryOptions.length > 0 ?
                 this.props.categoryOptions.find(
                 category => this.props.categoryId? this.props.categoryId === category.key: "No Category" === category.key).value: "",
-            currentVisibility: this.props.visibilityOptions.length > 0 ? this.props.visibilityOptions[0].value: "",
-            currentTeam: this.props.teamOptions.length > 0 ? this.props.teamOptions[0].value: ""
+            currentVisibility: this.props.visibilityOptions.length > 0 ? this.props.visibilityOptions[0].value: "",*/
+            //currentTeam: this.props.teamOptions.length > 0 ? this.props.teamOptions[0].value: ""
+            currentTeam: this.props.teamOptions.length > 0 ? this.props.teamOptions.find(
+                team => this.props.teamId? this.props.teamId === team.key: "No Team" === team.key).value: ""
         }
     }
 
