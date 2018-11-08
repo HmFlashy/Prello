@@ -53,17 +53,13 @@ class BoardOverview extends Component {
                 <Card className="board-item" onClick={this.displayBoard}>
                     <Card.Content>
                         <h1>{this.props.board ? this.props.board.name : ""}</h1>
-                        <span>
                      <Icon onClick={this.starBoard}
                            onMouseEnter={() => this.changeStarState}
                            onMouseOut={() => this.changeStarState} disabled={!this.state.isHoverStar}
                            name={this.props.isStarred ? "star" : "star outline"}/>
                             {this.props.board ? this.props.board.boardInformation.nbStars : 0}
-                    </span>
-                        <span>
                         <Icon name="user circle"/>
                             {this.props.board ? this.props.board.boardInformation.nbMembers : 1}
-                    </span>
                         <Icon name={"pencil"} onClick={this.updateBoard}/>
                     </Card.Content>
                 </Card>

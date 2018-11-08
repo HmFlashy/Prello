@@ -134,7 +134,11 @@ export default (state = defaultAuthentificationState, action) => {
                         if (board.board === action.payload.boardId) {
                             console.log("found")
                             console.log({...board, category: action.payload.category})
-                            return {...board, category: action.payload.category}
+                            if(action.payload.category==="No Category") {
+                                return {...board, category: null}
+                            }else {
+                                return {...board, category: action.payload.category}
+                            }
                         } else return board
                     })
                 }

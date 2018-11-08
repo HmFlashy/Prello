@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import "./ListBoards.css"
 import ListBoardsFilterContainer from "../../../../containers/BoardContainer/ListBoardsFilterContainer"
-import {Button, Dropdown, Ref} from "semantic-ui-react";
+import {Button, Dropdown, Icon, Ref} from "semantic-ui-react";
 import DynamicInput from "../../Input/DynamicInput";
 
 class ListBoards extends Component {
@@ -53,8 +53,10 @@ class ListBoards extends Component {
     }
 
     updateCategoryName = async (e, id) => {
-        await this.props.updateCategoryName(id, this.state.categoryName);
-        this.setState({currentEditValue: null})
+        if(this.state.categoryName && !this.props.categories.find(category => category.name === this.state.categoryName)){
+            await this.props.updateCategoryName(id, this.state.categoryName);
+            this.setState({currentEditValue: null})
+        }
     }
 
     cancelUpdate = (e) => {
@@ -86,19 +88,19 @@ class ListBoards extends Component {
                     content: <div>
                         <input onClick={(event) => event.stopPropagation()} value={this.state.categoryName}
                                onChange={this.handleCategoryName}/>
-                        <Button
+                        <Button icon={"check"} size={"mini"}
                             onClick={(event) => this.updateCategoryName(event, category._id)}
-                            positive>Validate</Button>
-                        <Button onClick={this.cancelUpdate} negative>Cancel</Button>
+                            positive />
+                        <Button icon={"redo"} size={"mini"} onClick={this.cancelUpdate} negative />
                     </div>
                 }
             } else {
                 return {
                     key: category._id, value: category._id, text: category.name,
                     content: <div>{category.name}
-                        <Button onClick={(event) => this.updateCategory(event, category._id, category.name)}
-                                positive>Update</Button>
-                        <Button onClick={(event) => this.deleteCategory(event, category._id)} negative>Delete</Button>
+                        <Button icon={"pencil"} size={"mini"} onClick={(event) => this.updateCategory(event, category._id, category.name)}
+                                color={"yellow"} />
+                        <Button icon={"delete"} size={"mini"} onClick={(event) => this.deleteCategory(event, category._id)} negative />
                     </div>
                 }
             }
