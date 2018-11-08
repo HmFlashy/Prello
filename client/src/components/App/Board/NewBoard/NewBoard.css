@@ -1,4 +1,9 @@
-.new-board {
-    margin-top: 0px !important;
-    padding-bottom: 3px !important;
+.newBoard{
+    height: 37px !important;
+    margin-left: 20px !important;
+    line-height: 15px;
+}
+
+.newBoard .icon-span .icon {
+    margin-right: 0px !important;
 }

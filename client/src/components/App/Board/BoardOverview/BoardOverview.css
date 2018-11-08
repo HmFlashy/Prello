@@ -1,4 +1,26 @@
 .board-item { 
     margin-left: 20px !important;
+    width: 200px !important;
+    background-color: rgba(190, 190, 190, 0.658)
 }
 
+.board-overview-bottom{
+    display: flex;
+    justify-content: space-between
+}
+
+.bo-icon {
+    margin-right: 10px !important;
+}
+
+.bo-pencil-icon {
+    margin-right: 0px !important;
+}
+
+.bo-labels:hover {
+    background-color: rgb(221, 90, 50) !important;
+}
+
+.no-board {
+    margin-left: 25px;
+}
