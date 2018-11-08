@@ -124,6 +124,21 @@ export default (state = defaultAuthentificationState, action) => {
                     })
                 }
             };
+        case "UPDATE_BOARD_CATEGORY":
+            console.log("oyo")
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    boards: state.user.boards.map(board => {
+                        if (board.board === action.payload.boardId) {
+                            console.log("found")
+                            console.log({...board, category: action.payload.category})
+                            return {...board, category: action.payload.category}
+                        } else return board
+                    })
+                }
+            }
         default:
             return {
                 ...state,

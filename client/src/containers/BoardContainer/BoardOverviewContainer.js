@@ -4,7 +4,6 @@ import socketService from "../../services/SocketService";
 import userServices from "../../services/UserServices";
 import {actionBoardSubscribe} from "../../redux/actions/BoardActions";
 import {actionStarBoard, actionUnstarBoard} from "../../redux/actions/UserActions";
-import {withRouter} from "react-router"
 
 const mapStateToProps = (state, ownProps) => {
     const user = state.authentification.user;
@@ -33,7 +32,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     }
 };
 
-export default withRouter(connect(
+export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(BoardOverview));
+)(BoardOverview);

@@ -5,28 +5,28 @@ import {tokenHeader} from "../helpers/HeaderHelper"
 export default {
     async fetchBoard(boardId) {
         try {
-            const res = await axios.get(`${UrlConfig.API}/boards/${boardId}`, tokenHeader())
+            const res = await axios.get(`${UrlConfig.API}/boards/${boardId}`, tokenHeader());
             return res.data
         } catch (e) {
-            console.log(e)
+            console.log(e);
             throw e
         }
     },
     async fetchBoards() {
         try {
-            const res = await axios.get(`${UrlConfig.API}/boards`, tokenHeader())
+            const res = await axios.get(`${UrlConfig.API}/boards`, tokenHeader());
             return res.data
         } catch (e) {
-            console.log(e)
+            console.log(e);
             throw e
         }
     },
     async fetchBoardInfo(boardId) {
         try {
-            const res = await axios.get(`${UrlConfig.API}/boards/${boardId}/info`, tokenHeader())
+            const res = await axios.get(`${UrlConfig.API}/boards/${boardId}/info`, tokenHeader());
             return res.data
         } catch (e) {
-            console.log(e)
+            console.log(e);
             throw e
         }
     },
@@ -38,7 +38,7 @@ export default {
                     visibility: visibility,
                     teamId: teamId
                 },
-                tokenHeader())
+                tokenHeader());
             return res.data
         } catch (error) {
             throw error
@@ -46,7 +46,7 @@ export default {
     },
     async addLabels(boardId, labelId) {
         try {
-            const res = await axios.put(`${UrlConfig.API}/boards/${boardId}/labels/${labelId}`, tokenHeader())
+            const res = await axios.put(`${UrlConfig.API}/boards/${boardId}/labels/${labelId}`, tokenHeader());
             return res.data
         } catch (error) {
             throw error
@@ -54,7 +54,21 @@ export default {
     },
     async removeLabels(boardId, labelId) {
         try {
-            const res = await axios.delete(`${UrlConfig.API}/boards/${boardId}/labels/${labelId}`, tokenHeader())
+            const res = await axios.delete(`${UrlConfig.API}/boards/${boardId}/labels/${labelId}`, tokenHeader());
+            return res.data
+        } catch (error) {
+            throw error
+        }
+    },
+    async updateBoard(boardId, name, categoryId, visibility) {
+        try {
+            const res = await axios.put(`${UrlConfig.API}/boards/${boardId}`, {
+                name: name,
+                visibility: visibility
+            }, tokenHeader());
+            await axios.put(`${UrlConfig.API}/me/boards/${boardId}/category`, {
+                categoryId: categoryId,
+            }, tokenHeader());
             return res.data
         } catch (error) {
             throw error

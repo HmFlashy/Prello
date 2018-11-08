@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import "../Board/Board.css"
+import "./ListBoards.css"
 import ListBoardsFilterContainer from "../../../../containers/BoardContainer/ListBoardsFilterContainer"
 import {Button, Dropdown, Ref} from "semantic-ui-react";
 import DynamicInput from "../../Input/DynamicInput";
@@ -123,14 +123,20 @@ class ListBoards extends Component {
                     onAddItem={this.handleAddition}
                 >
                 </Dropdown>
-                <ListBoardsFilterContainer key={1} categories={currentValues} onlyStars={true} noTeam={false}
-                                           title={"Your starred boards"}/>
-                <ListBoardsFilterContainer key={2} categories={currentValues} onlyStars={false} noTeam={true}
-                                           title={"Your personal boards"}/>
-                {this.props.teams.map(team => (
-                    <ListBoardsFilterContainer key={team.team._id} teams={[team.team._id]} title={team.team.name}
-                                               categories={currentValues} onlyStars={false} noTeam={false}/>
-                ))}
+                <div className={"listBoards"}>
+                    <ListBoardsFilterContainer key={1} categories={currentValues} onlyStars={true} noTeam={false}
+                                               title={"Your starred boards"}/>
+                </div>
+                <div className={"listBoards"}>
+                    <ListBoardsFilterContainer key={2} categories={currentValues} onlyStars={false} noTeam={true}
+                                               title={"Your personal boards"}/>
+                </div>
+                <div className={"listBoards"}>
+                    {this.props.teams.map(team => (
+                        <ListBoardsFilterContainer key={team.team._id} teams={[team.team._id]} title={team.team.name}
+                                                   categories={currentValues} onlyStars={false} noTeam={false}/>
+                    ))}
+                </div>
             </div>
         )
     }

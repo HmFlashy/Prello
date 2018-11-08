@@ -60,3 +60,33 @@ export const actionCloseCardModal = () => {
         payload: null
     }
 }
+
+export const actionUpdateBoardName = (boardId, name) => {
+    return {
+        type: 'UPDATE_BOARD_NAME',
+        payload: {
+            boardId: boardId,
+            name: name
+        }
+    }
+}
+
+export const actionUpdateBoardVisibility = (boardId, visibility) => {
+    return {
+        type: 'UPDATE_BOARD_VISIBILITY',
+        payload: {
+            boardId: boardId,
+            visibility: visibility
+        }
+    }
+}
+
+export const actionUpdateBoardCategory = (boardId, category) => {
+    return {
+        type: 'UPDATE_BOARD_CATEGORY',
+        payload: {
+            boardId: boardId,
+            category: category
+        }
+    }
+}

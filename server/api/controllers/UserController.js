@@ -130,42 +130,23 @@ const addCategory = async (userId, name) => {
 const deleteCategory = async (userId, categoryId) => {
     let user = null;
     try {
-        console.log("toto")
-        console.log("category id request : " +categoryId)
         const category = await Category.findById(categoryId)
         user = await User.findByIdAndUpdate({_id: userId}, {$pull: {categories: {_id: categoryId}}});
-        /*user = await User.findByIdAndUpdate({_id: userId}, {$set: { $elemMatch: {"boards.category._id": categoryId},
-                "boards.category": category
-            }})*/
         await Category.deleteOne({_id: category._id});
-        console.log("cat " + category)
         const newUserBoards = user.boards.map(board => {
             if (board.category) {
-                console.log("defined category : " +board.category)
-                console.log(categoryId)
-                console.log(mongoose.Types.ObjectId(categoryId))
-                console.log(board.category._id === mongoose.Types.ObjectId(categoryId))
-                console.log(board.category._id === categoryId)
-                console.log(board.category._id.toString() === categoryId)
                 if (board.category._id.toString() === categoryId) {
                     board.category = undefined
-                    console.log("JSSSSSSOn " + board)
                     return board
                 }
                 else return board;
             }
             else {
-                console.log("undefined category : " + board.category)
                 return board
             }
         })
-        console.log(newUserBoards)
         user.boards = newUserBoards
         await user.save()
-        //suser.updateOne({_id: user}, {$set: {boards: newUserBoards}})
-        //user.boards = newUserBoards
-        //await user.save()
-        console.log("category id  : " + categoryId)
     } catch (error) {
         throw error
     }
@@ -174,43 +155,43 @@ const deleteCategory = async (userId, categoryId) => {
 const updateCategoryName = async (userId, categoryId, name) => {
     let user = null;
     try {
-        console.log("toto")
-        console.log("category id request : " +categoryId)
         const category = await Category.findById(categoryId)
         const newCategory = await Category.findOneAndUpdate({_id: categoryId}, {$set: {name: name}}, {new: true})
         user = await User.findByIdAndUpdate({_id: userId}, {$pull: {categories: {_id: categoryId}}});
         user = await User.findByIdAndUpdate({_id: userId}, {$push: {categories: newCategory}});
-        /*user = await User.findByIdAndUpdate({_id: userId}, {$set: { $elemMatch: {"boards.category._id": categoryId},
-                "boards.category": category
-            }})*/
-        console.log("cat " + category)
         const newUserBoards = user.boards.map(board => {
             if (board.category) {
-                console.log("defined category : " +board.category)
-                console.log(categoryId)
-                console.log(mongoose.Types.ObjectId(categoryId))
-                console.log(board.category._id === mongoose.Types.ObjectId(categoryId))
-                console.log(board.category._id === categoryId)
-                console.log(board.category._id.toString() === categoryId)
                 if (board.category._id.toString() === categoryId) {
                     board.category = newCategory
-                    console.log("JSSSSSSOn " + board)
                     return board
                 }
                 else return board;
             }
             else {
-                console.log("undefined category : " + board.category)
                 return board
             }
         })
-        console.log(newUserBoards)
         user.boards = newUserBoards
         await user.save()
-        //suser.updateOne({_id: user}, {$set: {boards: newUserBoards}})
-        //user.boards = newUserBoards
-        //await user.save()
-        console.log("category id  : " + categoryId)
+    } catch (error) {
+        throw error
+    }
+}
+
+const updateBoardCategory = async (userId, boardId, categoryId) => {
+    try {
+        const user = await User.findById(userId)
+        const category = categoryId?await Category.findById(categoryId):null
+        const newBoards = user.boards.map(board => {
+            if (board.board.toString() === boardId) {
+                board.category = category
+                return board
+            }
+            else return board;
+        });
+        user.boards = newBoards;
+        await user.save();
+        return user;
     } catch (error) {
         throw error
     }
@@ -225,5 +206,6 @@ module.exports = {
     getUsersWithQuery,
     addCategory,
     deleteCategory,
-    updateCategoryName
+    updateCategoryName,
+    updateBoardCategory
 }

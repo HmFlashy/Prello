@@ -64,6 +64,7 @@ const types = {
 module.exports = async (req, res) => {
     try {
         const boardId = req.params.boardId;
+        const categoryId = req.body.categoryId;
         if(!boardId) {
             throwError(400, "Missing boardId parameter")
         }
