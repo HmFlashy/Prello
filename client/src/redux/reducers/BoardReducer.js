@@ -133,7 +133,6 @@ export default (state = defaultBoardReducer, action) => {
                 all: [...state.all, action.payload.board]
             };
         case "UPDATE_BOARD_NAME":
-            console.log("toto")
             return {
                 ...state,
                 all: state.all.map(board => {
@@ -160,6 +159,22 @@ export default (state = defaultBoardReducer, action) => {
                     visibility: action.payload.visibility
                 } : {...state.currentBoard}
 
+            };
+            case "CREATED_LABEL":
+            return (state.currentBoard._id && state.currentBoard._id === action.payload.boardId) ?
+            ({ 
+                ...state, 
+                currentBoard: { ...state.currentBoard, labels:[...state.currentBoard.labels, action.payload.label]}
+            }): state;
+            case "DELETED_LABEL":
+            return (state.currentBoard._id && state.currentBoard._id === action.payload.boardId) ?
+            ({ 
+                ...state, currentBoard: { ...state.currentBoard, labels: state.currentBoard.labels.filter(label => label._id !== action.payload.label._id) }}) : state;
+            case "FAILED_BOARD_CREATING_LABEL":
+            case "FAILED_BOARD_DELETING_LABEL":
+                return {
+                ...state, 
+                error: action.payload
             };
         default:
             return state

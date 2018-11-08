@@ -62,12 +62,12 @@ module.exports = async (req, res) => {
         if (!color) {
             throwError(400, "Missing color parameter")
         }
-        const labels = await LabelsController.createLabel(name, color, boardId)
-        socketIO.broadcast('action', {
+        const label = await LabelsController.createLabel(name, color, boardId)
+        socketIO.broadcast('action', boardId,{
             type: 'CREATED_LABEL',
-            payload: { _id: boardId, labels }
+            payload: { boardId: boardId, label }
         })
-        return res.status(200).json(labels)
+        return res.status(200).json(label)
     } catch (error) {
         res.status(500).json(error.message)
     }

@@ -90,3 +90,37 @@ export const actionUpdateBoardCategory = (boardId, category) => {
         }
     }
 }
+
+export const actionBoardCreatingLabel = (boardId, label) => {
+    return {
+        type: 'BOARD_CREATING_LABEL',
+        payload: {
+            boardId: boardId,
+            label: label
+        }
+    }
+}
+
+export const failedActionBoardCreatingLabel = (error) => {
+    return {
+        type: 'FAILED_BOARD_CREATING_LABEL',
+        payload: error
+    }
+}
+
+export const actionBoardDeletingLabel = (boardId, label) => {
+    return {
+        type: 'BOARD_DELETING_LABEL',
+        payload: {
+            boardId: boardId,
+            label: label
+        }
+    }
+}
+
+export const failedActionBoardDeletingLabel = (error) => {
+    return {
+        type: 'FAILED_BOARD_DELETING_LABEL',
+        payload: error
+    }
+}

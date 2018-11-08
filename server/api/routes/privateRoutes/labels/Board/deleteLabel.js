@@ -39,12 +39,12 @@ module.exports = async (req, res) => {
         if (!boardId.match(/^[0-9a-fA-F]{24}$/)) {
             throwError(400, `The boardId ${boardId} is malformed`)
         }
-        const labels = await LabelsController.deleteLabel(boardId, labelId)
-        socketIO.broadcast('action', {
+        const label = await LabelsController.deleteLabel(boardId, labelId)
+        socketIO.broadcast('action', boardId, {
             type: 'DELETED_LABEL',
-            payload: { _id: boardId, labels }
+            payload: { boardId: boardId, label }
         })
-        return res.status(200).json(labels)
+        return res.status(200).json(label)
     } catch (error) {
         res.status(500).json(error.message)
     }
