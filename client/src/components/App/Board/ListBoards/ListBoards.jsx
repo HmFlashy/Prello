@@ -53,7 +53,8 @@ class ListBoards extends Component {
     }
 
     updateCategoryName = async (e, id) => {
-        if(this.state.categoryName && !this.props.categories.find(category => category.name === this.state.categoryName)){
+        if(this.state.categoryName && !this.props.categories.find(category => category.name === this.state.categoryName
+        && category._id !== id)){
             await this.props.updateCategoryName(id, this.state.categoryName);
             this.setState({currentEditValue: null})
         }
