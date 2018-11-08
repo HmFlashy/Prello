@@ -51,26 +51,24 @@ class Header extends Component {
         return (
             <Segment inverted className="inline app-header" size='mini'>
                 <div className="inline header-left">
-                    <div>
-                        <Button icon='home' onClick={this.goHome} />
-                        {
-                            this.state.width > 800 ? 
-                                <Dropdown text='Boards' icon='flipboard' floating labeled button className='icon'>
-                                    <Dropdown.Menu>
-                                        <Dropdown.Header icon='tags' content='Boards' />
-                                        {this.props.boards.map(board => <Dropdown.Item key={board._id} onClick={() => { this.changeBoard(board._id) }}>{board.name}</Dropdown.Item>)}
-                                    </Dropdown.Menu>
-                                </Dropdown> 
-                                :
-                                <Dropdown trigger={<Button icon='flipboard' size='medium' />} icon={null} className='icon'>
-                                    <Dropdown.Menu>
-                                        <Dropdown.Header icon='tags' content='Boards' />
-                                        {this.props.boards.map(board => <Dropdown.Item key={board._id} onClick={() => { this.changeBoard(board._id) }}>{board.name}</Dropdown.Item>)}
-                                    </Dropdown.Menu>
-                                </Dropdown>
-                        }
-                        {/*<Search results={[{ title: "yo", description: "mdr" }]} size="small" className="search"></Search>*/}
-                    </div>
+                    <Button icon='home' onClick={this.goHome} />
+                    {
+                        this.state.width > 800 ? 
+                            <Dropdown text='Boards' icon='flipboard' floating labeled button className='icon'>
+                                <Dropdown.Menu>
+                                    <Dropdown.Header icon='tags' content='Boards' />
+                                    {this.props.boards.map(board => <Dropdown.Item key={board._id} onClick={() => { this.changeBoard(board._id) }}>{board.name}</Dropdown.Item>)}
+                                </Dropdown.Menu>
+                            </Dropdown> 
+                            :
+                            <Dropdown trigger={<Button icon='flipboard' size='medium' />} icon={null} className='icon'>
+                                <Dropdown.Menu>
+                                    <Dropdown.Header icon='tags' content='Boards' />
+                                    {this.props.boards.map(board => <Dropdown.Item key={board._id} onClick={() => { this.changeBoard(board._id) }}>{board.name}</Dropdown.Item>)}
+                                </Dropdown.Menu>
+                            </Dropdown>
+                    }
+                    {/*<Search results={[{ title: "yo", description: "mdr" }]} size="small" className="search"></Search>*/}
                 </div>
                 <div className="header-center">
                     <img className="header-center-image" src="http://image.noelshack.com/fichiers/2018/45/3/1541618482-logoprello.png"></img>
