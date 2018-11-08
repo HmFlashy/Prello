@@ -15,7 +15,8 @@ import {
     actionBoardCreatingLabel,
     failedActionBoardCreatingLabel,
     actionBoardDeletingLabel,
-    failedActionBoardDeletingLabel
+    failedActionBoardDeletingLabel,
+    failedActionBoardUpdatingLabel
 } from '../../redux/actions/BoardActions'
 import {
     actionFetchingCard,
@@ -85,6 +86,15 @@ const mapDispatchToProps = dispatch => {
             catch(error){
                 console.log(error)
                 return dispatch(failedActionBoardCreatingLabel(error))
+            }
+        },
+        async onUpdateLabel(boardId, updatedLabelId, updatedLabelName, updatedLabelColor) {
+            try{     
+                const label = await boardServices.updateLabel(boardId, updatedLabelId, updatedLabelName, updatedLabelColor)
+            }
+            catch(error){
+                console.log(error)
+                return dispatch(failedActionBoardUpdatingLabel(error))
             }
         },
         async onDeleteLabel(boardId, labelId)  {

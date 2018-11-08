@@ -5,10 +5,10 @@ import './LabelColorPicker.css'
 
 class LabelColorPicker extends Component {
 
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         this.state = {
-            color: "color"
+            color: props.color || "color"
         }
     }
 

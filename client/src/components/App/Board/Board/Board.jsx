@@ -111,6 +111,7 @@ class Board extends Component {
                 <BoardHeaderContainer 
                     board={this.props.board}
                     newLabel={(newLabelName, newLabelColor) => this.props.onNewLabel(this.props.board._id, newLabelName, newLabelColor)}
+                    updateLabel={(updatedLabelId, updatedLabelName, updatedLabelColor) => this.props.onUpdateLabel(this.props.board._id, updatedLabelId, updatedLabelName, updatedLabelColor)}
                     deleteLabel={(labelId) => this.props.onDeleteLabel(this.props.board._id, labelId)}
                     />
                 <DragDropContext

@@ -108,6 +108,23 @@ export const failedActionBoardCreatingLabel = (error) => {
     }
 }
 
+export const actionBoardUpdatingLabel = (boardId, label) => {
+    return {
+        type: 'BOARD_UPDATING_LABEL',
+        payload: {
+            boardId: boardId,
+            label: label
+        }
+    }
+}
+
+export const failedActionBoardUpdatingLabel = (error) => {
+    return {
+        type: 'FAILED_BOARD_UPDATING_LABEL',
+        payload: error
+    }
+}
+
 export const actionBoardDeletingLabel = (boardId, label) => {
     return {
         type: 'BOARD_DELETING_LABEL',

@@ -51,6 +51,7 @@ class BoardHeader extends Component {
                             open={this.state.openLabels}
                             boardLabels={this.props.boardLabels}
                             onNewLabel={(newLabelName, newLabelColor) => this.props.newLabel(newLabelName, newLabelColor)}
+                            onUpdateLabel={(updatedLabelId, updatedLabelName, updatedLabelColor) => this.props.updateLabel(updatedLabelId, updatedLabelName, updatedLabelColor)}
                             onDeleteLabel={(labelId) => this.props.deleteLabel(labelId)}
                             onClose={() => this.setState({ openLabels: false })}
                         />

@@ -12,7 +12,6 @@ export default (props) => (
             {label.name}
           </Label></p>)
         :""}
-            <Icon name='plus'/>
         </div>
     </div>
 )

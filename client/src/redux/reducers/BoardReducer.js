@@ -166,12 +166,19 @@ export default (state = defaultBoardReducer, action) => {
                 ...state, 
                 currentBoard: { ...state.currentBoard, labels:[...state.currentBoard.labels, action.payload.label]}
             }): state;
+            case "UPDATED_LABEL":
+            return (state.currentBoard._id && state.currentBoard._id === action.payload.boardId) ?
+            ({ 
+                ...state, 
+                currentBoard: { ...state.currentBoard, labels:[...state.currentBoard.labels.filter(label => label._id !== action.payload.labelUpdated._id), action.payload.labelUpdated]}
+            }): state;
             case "DELETED_LABEL":
             return (state.currentBoard._id && state.currentBoard._id === action.payload.boardId) ?
             ({ 
                 ...state, currentBoard: { ...state.currentBoard, labels: state.currentBoard.labels.filter(label => label._id !== action.payload.label._id) }}) : state;
             case "FAILED_BOARD_CREATING_LABEL":
             case "FAILED_BOARD_DELETING_LABEL":
+            case "FAILED_BOARD_UPDATING_LABEL":
                 return {
                 ...state, 
                 error: action.payload

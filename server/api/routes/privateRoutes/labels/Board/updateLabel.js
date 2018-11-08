@@ -2,10 +2,10 @@ const LabelsController = require('../../../../controllers/LabelsController')
 const socketIO = require('../../../../../socket')
 const throwError = require('../../../../helper/RequestHelper').throwError;
 
-const types = {
-    name: 'UPDATE_LABEL_NAME',
-    color: 'UPDATE_LABEL_COLOR'
-}
+// const types = {
+//     name: 'UPDATE_LABEL_NAME',
+//     color: 'UPDATE_LABEL_COLOR'
+// }
 /**
   * @swagger
   * definition:
@@ -42,14 +42,15 @@ const types = {
         if (Object.keys(req.body).length === 0) {
             throwError(400, "No data in body")
         }
+        const boardId = req.params.boardId;
+        if (!boardId.match(/^[0-9a-fA-F]{24}$/)) {
+            throwError(400, `The boardId ${boardId} is malformed`)
+        }
         if (labelUpdated = await LabelsController.updateLabel(labelId, req.body)) {
-            Object.keys(req.body).forEach(action => {
-                if (types[action]) {
-                    socketIO.broadcast('action', {
-                        type: types[action],
-                        payload: { [action]: labelUpdated[action], "_id": labelUpdated._id }
-                    })
-                }
+            socketIO.broadcast('action', boardId, {
+                type: 'UPDATED_LABEL',
+                payload: { boardId: boardId, labelUpdated }
+                   
             })
             return res.status(200).json({
                 type: "Success",
