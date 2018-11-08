@@ -115,6 +115,11 @@ export default (state = defaultCardReducer, action) => {
         ...state,
         all: state.all.map(card => card._id === action.payload._id ? {...card, labels: card.labels.filter(label => label._id !== action.payload.labelId)} : card )
       }
+    case 'DELETED_LABEL':
+    return {
+      ...state,
+      all: state.all.map(card => ({...card, labels: card.labels.filter(label => label._id !== action.payload.label._id)} ))
+    }
     default:
       return state
   }
