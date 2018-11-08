@@ -5,14 +5,16 @@ import './DynamicInput.css'
 
 class DynamicInput extends Component {
 
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         this.textToInput = this.textToInput.bind(this)
         this.inputToText = this.inputToText.bind(this)
         this.validate = this.validate.bind(this)
         this.setNode = this.setNode.bind(this)
+        this.onChange = this.onChange.bind(this)
         this.state = {
-            isInput: false
+            isInput: false,
+            name: this.props.placeholder
         }
     }
 
@@ -25,7 +27,8 @@ class DynamicInput extends Component {
 
     inputToText(event) {
         this.setState({
-            isInput: false
+            isInput: false,
+
         })
     }
 
@@ -39,11 +42,18 @@ class DynamicInput extends Component {
     setNode(node) {
         this.node = node
         document.addEventListener('mousedown', (event) => {
-            return this.node.contains(event.target) ? event.stopPropagation() : this.inputToText()
+            return this.node.contains(event.target) ? event.stopPropagation() : this.inputToText() || this.setState({
+                name: this.props.placeholder
+            })
         })
         this.node.children[0].focus()
     }
 
+    onChange(event){
+        this.setState({
+            name:event.target.value
+        })
+    }
 
     render() {
         return (
@@ -51,7 +61,7 @@ class DynamicInput extends Component {
                 {
                     this.state.isInput ?
                         <Ref innerRef={node => this.setNode(node)}>
-                            <Input type={this.props.type} maxLength={this.props.maxLength} name={this.props.name} placeholder={this.props.placeholder}
+                            <Input type={this.props.type} maxLength={this.props.maxLength} name={this.props.name} onChange={this.onChange} value={this.state.name}
                                 onKeyPress={this.validate}>
                             </Input>
                         </Ref>
