@@ -63,7 +63,9 @@ class MyList extends Component {
                                             placeholder="Create a new card"
                                             onChange={(event) => this.changeCardName(event.target.value)}
                                             onKeyDown={(event) => {
-                                                return event.keyCode === 13 ? this.addCard() || (event.target.value = '') : null
+                                                if (event.target.value !== ""){
+                                                return event.keyCode === 13 ? this.addCard() || (event.target.value = '') : null}
+                                                else console.log("Please fill the card name")
                                             }
                                             } />
                                     </Segment>
