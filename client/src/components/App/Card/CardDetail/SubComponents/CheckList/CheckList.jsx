@@ -42,6 +42,7 @@ export default class CheckList extends Component {
                                             newVal[index].title = event.target.value
                                         }
                                     }
+                                    checklist.title === "" ? console.log("Please fill the checklist name") :
                                     this.validateNewChecklistName(checklist._id, this.props.checklists, { checklists: newVal }, event.target.value)
                                 }}>
                             </DynamicInput>
@@ -80,6 +81,7 @@ export default class CheckList extends Component {
                                                     }
                                                 }
                                             }
+                                            item.name === "" ? console.log("Please fill the item name") :
                                             this.updateItem(checklist._id, item._id, this.props.checklists, { checklists: newVal }, { name: event.target.value })
                                         }} />
                                 </div>
@@ -87,12 +89,13 @@ export default class CheckList extends Component {
                             </div>)}
                         </div>
                         {this.state.isAddingItem[checklist._id]
-                            ? <Input className="addItemTF" value={this.state.newItemName} onKeyPress={(event) => event.charCode === 13 ? this.props.onAddItem(checklist._id, this.state.newItemName) || this.setState({ newItemName: "" }) : ""} onChange={(event, target) => this.setState({ newItemName: target.value })}></Input>
+                            ? <Input className="addItemTF" value={this.state.newItemName} onKeyPress={(event) => event.charCode === 13 && this.state.newItemName !== "" ? this.props.onAddItem(checklist._id, this.state.newItemName) || this.setState({ newItemName: "" }) : ""} onChange={(event, target) => this.setState({ newItemName: target.value })}></Input>
                             : ""
                         }
                         <Button className="addItem" onClick={() => {
                             if (this.state.isAddingItem[checklist._id]) {
-                                return this.props.onAddItem(checklist._id, this.state.newItemName) || this.setState({ newItemName: "" })
+                                if (this.state.newItemName === ""){}
+                                else return this.props.onAddItem(checklist._id, this.state.newItemName) || this.setState({ newItemName: "" })
                             }
                             else {
                                 let newIsAddingItem = [...this.state.isAddingItem]
