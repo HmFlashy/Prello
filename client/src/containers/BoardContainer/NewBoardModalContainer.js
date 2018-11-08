@@ -30,6 +30,7 @@ const mapDispatchToProps = (dispatch) => {
                 const teamId = team._id? team._id:null;
                 const board = await boardServices.addBoard(name, categoryId, visibility, teamId);
                 dispatch(actionAddBoard(board, categoryId))
+                return board;
             } catch (error) {
                 console.log(error)
             }

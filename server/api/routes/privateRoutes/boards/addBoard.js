@@ -76,10 +76,6 @@ module.exports = async (req, res) => {
         }
 
         const board = await boardsController.addBoard(name, visibility, teamId, userId, categoryId);
-        socketIO.broadcast("action", {
-            type: "ADD_BOARD",
-            payload: board
-        });
         return res.status(201).json(board)
     } catch(error) {
         console.log(error);

@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {Card, Button, Modal, Header, Dropdown, Input} from "semantic-ui-react"
 import NewBoard from "../NewBoard/NewBoard";
+import { withRouter } from 'react-router-dom'
 
 class NewBoardModal extends Component {
 
@@ -41,10 +42,11 @@ class NewBoardModal extends Component {
         this.setState({modalOpen: !this.state.modalOpen})
     }
 
-    addBoard() {
+    async addBoard() {
         if (this.state.currentNameBoard) {
-            this.props.addBoard(this.state.currentNameBoard, this.state.currentCategory, this.state.currentVisibility, this.state.currentTeam);
+            const newBoard = await this.props.addBoard(this.state.currentNameBoard, this.state.currentCategory, this.state.currentVisibility, this.state.currentTeam);
             this.changeVisibility();
+            this.props.history.push(`/boards/${newBoard._id}`)
         } else {
             console.log("name required")
         }
@@ -71,4 +73,4 @@ class NewBoardModal extends Component {
     }
 }
 
-export default NewBoardModal
+export default withRouter(NewBoardModal);
