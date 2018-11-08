@@ -7,6 +7,7 @@ class BoardOverviewModal extends Component {
         super();
         this.handleChange = this.handleChange.bind(this);
         this.updateBoard = this.updateBoard.bind(this);
+        this.refreshValues = this.refreshValues.bind(this);
         this.state = {
             currentNameBoard: "",
             currentCategory: null,
@@ -36,9 +37,19 @@ class BoardOverviewModal extends Component {
         }
     }
 
+    refreshValues() {
+        console.log(this.props.board)
+        this.setState({
+            currentNameBoard: this.props.board.name,
+            currentCategory: this.props.categoryOptions.find(
+                category => this.props.board.category? this.props.board.category._id === category.key: "No Category" === category.key).value,
+            currentVisibility: this.props.board.visibility
+        })
+    }
+
     render() {
         return (
-            <Modal open={this.props.isOpen}
+            <Modal open={this.props.isOpen} onMount={this.refreshValues}
                        onClose={this.props.closeBoardUpdateModal} closeIcon>
                 <Header icon='table' content={"Update the board"}/>
                 <Input placeholder={"Name"} id={"NameBoard"} value={this.state.currentNameBoard}
