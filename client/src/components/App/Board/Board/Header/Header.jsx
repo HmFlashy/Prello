@@ -50,7 +50,8 @@ class BoardHeader extends Component {
                         <BoardLabelsModal
                             open={this.state.openLabels}
                             boardLabels={this.props.boardLabels}
-                            onNewLabel={(newLabelName, newLabelColor) => this.props.onNewLabel(newLabelName, newLabelColor)}
+                            onNewLabel={(newLabelName, newLabelColor) => this.props.newLabel(newLabelName, newLabelColor)}
+                            onDeleteLabel={(labelId) => this.props.deleteLabel(labelId)}
                             onClose={() => this.setState({ openLabels: false })}
                         />
                         </div>

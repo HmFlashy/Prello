@@ -74,8 +74,11 @@ const mapDispatchToProps = dispatch => {
         closeCardModal() {
             dispatch(actionCloseCardModal())
         },
-        async onNewLabel(newLabelName, newLabelColor) {
-            await boardServices.createLabel(board._id, newLabelName, newLabelColor)
+        async onNewLabel(boardId, newLabelName, newLabelColor) {
+            await boardServices.createLabel(boardId, newLabelName, newLabelColor)
+        },
+        async onDeleteLabel(boardId, labelId) {
+            await boardServices.deleteLabel(boardId, labelId)
         }
     }
 }

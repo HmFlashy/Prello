@@ -108,7 +108,11 @@ class Board extends Component {
                 <div id="bg">
                     <img src="http://hdwpro.com/wp-content/uploads/2016/03/1080p-Background-Desktop.jpg" style={{ width: '100%', height: '100%' }} alt="" />
                 </div>
-                <BoardHeaderContainer board={this.props.board} />
+                <BoardHeaderContainer 
+                    board={this.props.board}
+                    newLabel={(newLabelName, newLabelColor) => this.props.onNewLabel(this.props.board._id, newLabelName, newLabelColor)}
+                    deleteLabel={(labelId) => this.props.onDeleteLabel(this.props.board._id, labelId)}
+                    />
                 <DragDropContext
                     onDragStart={this.onDragStart}
                     onDragUpdate={this.onDragUpdate}

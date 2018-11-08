@@ -27,13 +27,12 @@ class BoardLabelsModal extends Component {
                             
                                 this.props.boardLabels.map(label => <p><Label color={label.color} size='big' horizontal>
                                 {label.name}
-                                </Label><Button icon>
+                                </Label><Button icon onClick={() => this.props.onDeleteLabel(label._id)}>
                                     <Icon name='trash alternate' />
                                 </Button></p>)
                                 
                             :
-                        //    <p>No labels created</p> 
-                           console.log("Helloooo" + this.props)
+                           <p>No labels created</p> 
                         }
                         <p>Create a label</p>
                         <LabelColorPicker

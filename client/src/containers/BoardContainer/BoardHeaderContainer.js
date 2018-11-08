@@ -5,7 +5,6 @@ import userServices from "../../services/UserServices";
 import { actionBoardSubscribe } from "../../redux/actions/BoardActions";
 import { actionStarBoard, actionUnstarBoard } from "../../redux/actions/UserActions";
 import { withRouter } from "react-router"
-import BoardContainer from "./BoardContainer"
 
 const mapStateToProps = (state, ownProps) => {
     const archivedCards = state.cards.all.filter(card => card.isArchived)
@@ -25,10 +24,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     unsubscribe(boardId) {
         socketService.unsubscribe(boardId)
         //dispatch(actionBoardUnsubscribe(boardId))
-    },
-        async onNewLabel(newLabelName, newLabelColor) {
-            await BoardContainer.onNewLabel(newLabelName, newLabelColor)
-        }
+    }
     }
 };
 
