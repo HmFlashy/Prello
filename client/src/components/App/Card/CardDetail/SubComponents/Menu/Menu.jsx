@@ -65,7 +65,7 @@ class Menu extends Component {
                                 <Button color='red' onClick={() => this.setState({ isCreatingChecklist: false })}>
                                     <Icon name='remove' /> Cancel
                                 </Button>
-                                <Button color='green' onClick={() => { this.setState({ isCreatingChecklist: false }, () => this.props.onChecklist(this.state.checklistName)); }}>
+                                <Button color='green' onClick={() => { this.state.checklistName ? this.setState({ isCreatingChecklist: false }, () => this.props.onChecklist(this.state.checklistName)) : console.log("Please fill the name of the checklist"); }}>
                                     <Icon name='checkmark' /> Validate
                                 </Button>
                             </Modal.Actions>

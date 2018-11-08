@@ -31,7 +31,7 @@ class BoardLabelsModal extends Component {
                             
                                 this.props.boardLabels.map(label => <p><Label color={label.color} size='big' horizontal onClick={() => this.setState({ isLabelUpdating: true, currentLabel:label, updatedLabelName:label.name, updatedLabelColor: label.color})} >
                                 {label.name}
-                                </Label><Button icon >
+                                </Label><Button icon onClick={ () => this.props.onDeleteLabel(label._id)} >
                                     <Icon name='trash alternate' />
                                 </Button></p>)
                                 
@@ -46,7 +46,7 @@ class BoardLabelsModal extends Component {
                               />
                         <Input placeholder="Label name" onChange={(event, data) => this.setState({ newLabelName: data.value })}></Input>
                     </List> 
-                    <Button color='green' onClick={ () => this.props.onNewLabel(this.state.newLabelName, this.state.newLabelColor)}>
+                    <Button color='green' onClick={ () => (this.state.newLabelName && this.state.newLabelColor) ? this.props.onNewLabel(this.state.newLabelName, this.state.newLabelColor):console.log("Please fill all the fields")}>
                          <Icon name='checkmark' /> Validate
                       </Button>
                 </Modal.Content>
