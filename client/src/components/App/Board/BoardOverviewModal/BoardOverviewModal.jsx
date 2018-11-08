@@ -15,15 +15,6 @@ class BoardOverviewModal extends Component {
         }
     }
 
-    componentWillMount() {
-        this.setState({
-            currentNameBoard: this.props.board.name,
-            currentCategory: this.props.categoryOptions.find(
-                    category => this.props.board.category? this.props.board.category._id === category.key: "No Category" === category.key).value,
-            currentVisibility: this.props.board.visibility
-        })
-    }
-
     handleChange(e, {id, value}) {
         this.setState({[`current${id}`]: value});
     }
@@ -55,10 +46,10 @@ class BoardOverviewModal extends Component {
                 <Input placeholder={"Name"} id={"NameBoard"} value={this.state.currentNameBoard}
                        onChange={this.handleChange}/>
                 <Dropdown value={this.state.currentCategory} id={"Category"}
-                          onChange={this.handleChange} defaultValue={this.state.currentCategory} search selection
+                          onChange={this.handleChange} search selection
                           options={this.props.categoryOptions}/>
                 <Dropdown placeholder='Visibility' id={"Visibility"}
-                          defaultValue={this.state.currentVisibility} search selection
+                          value={this.state.currentVisibility} search selection
                           onChange={this.handleChange}
                           options={this.props.visibilityOptions}/>
                 <Button.Group><Button negative onClick={this.props.closeBoardUpdateModal}>Cancel</Button>
