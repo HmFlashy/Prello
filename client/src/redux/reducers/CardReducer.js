@@ -106,20 +106,30 @@ export default (state = defaultCardReducer, action) => {
     case 'ADDED_LABEL':
       return {
         ...state,
-        all: state.all.map(card => card._id === action.payload._id ? {...card, labels: [...card.labels, action.payload.label]} : card)
+        all: state.all.map(card => card._id === action.payload._id ? { ...card, labels: [...card.labels, action.payload.label] } : card)
       }
     case 'FAILED_CARD_REMOVE_LABEL':
     case 'CARD_REMOVING_LABEL':
     case 'REMOVED_LABEL':
       return {
         ...state,
-        all: state.all.map(card => card._id === action.payload._id ? {...card, labels: card.labels.filter(label => label._id !== action.payload.labelId)} : card )
+        all: state.all.map(card => card._id === action.payload._id ? { ...card, labels: card.labels.filter(label => label._id !== action.payload.labelId) } : card)
       }
     case 'DELETED_LABEL':
-    return {
-      ...state,
-      all: state.all.map(card => ({...card, labels: card.labels.filter(label => label._id !== action.payload.label._id)} ))
-    }
+      return {
+        ...state,
+        all: state.all.map(card => ({ ...card, labels: card.labels.filter(label => label._id !== action.payload.label._id) }))
+      }
+    case 'ADD_CARD_ATTACHMENT':
+      return {
+        ...state,
+        all: state.all.map(card => card._id === action.payload._id ? { ...card, cardInformation: { ...card.cardInformation, nbAttachments: card.cardInformation.nbAttachments + 1 } } : card)
+      }
+    case 'REMOVE_CARD_ATTACHMENT':
+      return {
+        ...state,
+        all: state.all.map(card => card._id === action.payload._id ? { ...card, cardInformation: { ...card.cardInformation, nbAttachments: card.cardInformation.nbAttachments - 1 } } : card)
+      }
     default:
       return state
   }

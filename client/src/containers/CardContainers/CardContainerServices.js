@@ -150,5 +150,30 @@ export default {
             console.log(error)
             return dispatch(failedActionCardRemoveLabel(error))
         }
+    },
+    async updloadLocalFile(cardId, file, dispatch) {
+        try {
+            await cardServices.uploadLocalFile(cardId, file)
+        } catch (error) {
+            console.log(error)
+            return dispatch(failedActionCardRemoveLabel(error))
+        }
+    },
+    async updloadFile(cardId, data, dispatch) {
+        try {
+            await cardServices.uploadFile(cardId, data)
+        } catch (error) {
+            console.log(error)
+            return dispatch(failedActionCardRemoveLabel(error))
+        }
+    },
+    async deleteAttachment(cardId, attachmentId, dispatch) {
+        try {
+            await cardServices.deleteAttachment(cardId, attachmentId)
+        } catch (error) {
+            console.log(error)
+            return dispatch(failedActionCardRemoveLabel(error))
+        }
     }
+
 }

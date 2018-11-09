@@ -163,16 +163,28 @@ export default (state = defaultCardModalState, action) => {
         case 'FAILED_CARD_ADD_LABEL':
         case 'CARD_ADDING_LABEL':
         case 'ADDED_LABEL':
-        return (state._id && state._id === action.payload._id) ?
-            ({ 
-                ...state, labels: [...state.labels, action.payload.label]
-            }): state
+            return (state._id && state._id === action.payload._id) ?
+                ({
+                    ...state, labels: [...state.labels, action.payload.label]
+                }) : state
+        case 'ADD_CARD_ATTACHMENT':
+            return (state._id && state._id === action.payload._id) ?
+                ({
+                    ...state, attachments: [...state.attachments, action.payload.attachment]
+                }) : state
+        case 'REMOVE_CARD_ATTACHMENT':
+            return (state._id && state._id === action.payload._id) ?
+                ({
+                    ...state, attachments: state.attachments.filter(attachment => attachment._id != action.payload.attachmentId)
+                }) : state
         case 'FAILED_CARD_REMOVE_LABEL':
         case 'CARD_REMOVING_LABEL':
         case 'REMOVED_LABEL':
             return (state._id && state._id === action.payload._id) ?
-           ({ ...state,
-            labels: state.labels.filter(label => label._id !== action.payload.labelId) }) : state
+                ({
+                    ...state,
+                    labels: state.labels.filter(label => label._id !== action.payload.labelId)
+                }) : state
         default:
             return state
     }

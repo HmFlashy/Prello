@@ -1,11 +1,13 @@
-import React, {Component} from "react";
-import "./Menu.css"
-import {Button, Icon, Divider, Modal, Header, Input, Popup} from "semantic-ui-react"
-import DatePicker from "./datepicker";
-import Move from "./subComponents/Move/MoveContainer.js"
-import moment from "moment";
-import Labels from "../../../../Modal/LabelsModal"
-import LabelColorPicker from "../../../../Input/LabelColorPicker";
+import React, { Component } from 'react';
+import './Menu.css'
+import { Button, Icon, Divider, Modal, Header, Input } from 'semantic-ui-react'
+import DatePicker from './datepicker';
+import Move from './subComponents/Move/MoveContainer.js'
+import moment from 'moment';
+import Labels from '../../../../Modal/LabelsModal'
+import LabelColorPicker from '../../../../Input/LabelColorPicker';
+import DropboxChooser from 'react-dropbox-chooser'
+import { FilePicker } from 'react-file-picker'
 
 class Menu extends Component {
 
@@ -19,6 +21,7 @@ class Menu extends Component {
             checklistName: "",
             isMovingCard: false,
             isDeleting: false,
+            isAttaching: false,
             newCardLabels: []
         };
         this.handleOnDateSelect = this.handleOnDateSelect.bind(this);
@@ -101,10 +104,40 @@ class Menu extends Component {
                                 </Button>
                             </Modal.Actions>
                         </Modal>
-                        <Button icon labelPosition='left'>
-                            <Icon name='paperclip'/>
+                        <Button icon labelPosition='left' onClick={() => this.setState({ isAttaching: true })}>
+                            <Icon name='paperclip' />
                             Attachments
                         </Button>
+                        <Modal open={this.state.isAttaching} size="tiny">
+                            <Header icon='calendar' content='Select an attachment' />
+                            <Modal.Content>
+                                <Button.Group>
+                                    <FilePicker
+                                        extensions={['pdf']}
+                                        onChange={file => this.props.onUploadLocalFile(file)}
+                                        onError={error => console.log(error)}
+                                    >
+                                        <Button positive>
+                                            <Icon name='computer' /> Local
+                                        </Button>
+                                    </FilePicker>
+                                    <DropboxChooser
+                                        appKey={'ad87evrukye9cq0'}
+                                        success={file => this.props.onUploadFile({ url: file[0].link, name: file[0].name })}
+                                        cancel={() => console.log("cancel")}
+                                        extensions={['.pdf']} >
+                                        <Button positive>
+                                            <Icon name='dropbox' /> Dropbox
+                                            </Button>
+                                    </DropboxChooser>
+                                </Button.Group>
+                            </Modal.Content>
+                            <Modal.Actions>
+                                <Button color='red' onClick={() => this.setState({ isAttaching: false })}>
+                                    <Icon name='remove' /> Cancel
+                                </Button>
+                            </Modal.Actions>
+                        </Modal>
                     </Button.Group>
                 </div>
                 <Divider/>

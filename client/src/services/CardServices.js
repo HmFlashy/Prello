@@ -139,5 +139,32 @@ export default {
         } catch (error) {
             throw error
         }
+    },
+    async uploadLocalFile(cardId, file) {
+        try {
+            var formData = new FormData();
+            formData.append("file", file);
+
+            const res = await axios.post(`${UrlConfig.API}/cards/${cardId}/attachments`, formData, { ...tokenHeader(), 'Content-Type': 'multipart/form-data' })
+            return res.data
+        } catch (error) {
+            throw error
+        }
+    },
+    async uploadFile(cardId, data) {
+        try {
+            const res = await axios.post(`${UrlConfig.API}/cards/${cardId}/attachments`, data, tokenHeader())
+            return res.data
+        } catch (error) {
+            throw error
+        }
+    },
+    async deleteAttachment(cardId, attachmentId) {
+        try {
+            const res = await axios.delete(`${UrlConfig.API}/cards/${cardId}/attachments/${attachmentId}`, tokenHeader())
+            return res.data
+        } catch (error) {
+            throw error
+        }
     }
 }

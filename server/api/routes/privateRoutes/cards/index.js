@@ -1,5 +1,5 @@
 const express = require('express');
-const { cardValidator, commentValidator } = require('../../../validations/privateRoutes');
+const { cardValidator, commentValidator, attachmentValidator } = require('../../../validations/privateRoutes');
 
 const router = express.Router();
 
@@ -27,6 +27,9 @@ router.put('/:cardId/comments/:commentId', commentValidator.updateCommentValidat
 
 router.put('/:cardId/labels/:labelId', require('../labels/Card/addLabel'));
 router.delete('/:cardId/labels/:labelId', require('../labels/Card/removeLabel'));
+
+router.post('/:cardId/attachments', attachmentValidator.addAttachmentValidator, require('./addAttachments'));
+router.delete('/:cardId/attachments/:attachmentId', attachmentValidator.deleteAttachmentValidator, require('./deleteAttachments'));
 
 
 module.exports = router;

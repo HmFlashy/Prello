@@ -51,16 +51,16 @@ class CardDetail extends Component {
         this.inputToDesc = this.inputToDesc.bind(this)
         this.changeDescription = this.changeDescription.bind(this)
         this.handleValueChange = this.handleValueChange.bind(this)
-        
+
         this.converter = new Showdown.Converter({
             tables: true,
             simplifiedAutoLink: true
-          });
-        
+        });
+
 
     }
 
-    componentWillMount(){
+    componentWillMount() {
         console.log(this.props.card)
         console.log("JE MONTE")
     }
@@ -95,7 +95,7 @@ class CardDetail extends Component {
         })
     }
 
-    changeDescription(mdeState){
+    changeDescription(mdeState) {
         console.log(mdeState)
         this.setState({
             descriptionTextArea: mdeState.markdown,
@@ -103,20 +103,20 @@ class CardDetail extends Component {
         })
     }
 
-    descToInput(){
+    descToInput() {
         this.setState({
             isDescInput: true
         })
     }
 
-    inputToDesc(){
+    inputToDesc() {
         this.setState({
             isDescInput: false
         })
     }
 
     handleValueChange = (mdeState) => {
-        this.setState({mdeState});
+        this.setState({ mdeState });
     }
 
 
@@ -213,34 +213,38 @@ class CardDetail extends Component {
                                 <Divider />
                             </div>
                             : ""}
-                            <div className={"displayRow describe-me"}>
-                                <Icon name='align left' />
-                                <p>Describe me</p>
-                            </div>
+                        <div className={"displayRow describe-me"}>
+                            <Icon name='align left' />
+                            <p>Describe me</p>
+                        </div>
                         {
-                            !this.state.isDescInput ? 
-                            <div className="description-html">
-                                <Description descToInput={this.descToInput} description={<div className="mde-preview "><div className="mde-preview-content" dangerouslySetInnerHTML={{ __html: this.converter.makeHtml(this.props.card.desc)}}/></div>}></Description>
-                                <Divider />
-                            </div>
-                            : <div>
-                                <div>
-                                    <ReactMde
-                                        onChange={this.changeDescription}
-                                        editorState={this.state.mdeState}
-                                        generateMarkdownPreview={markdown =>
-                                            Promise.resolve(this.converter.makeHtml(markdown))
-                                          }
-                                    />
-                                    <Button className="validate-description" onClick={() => this.inputToDesc() || this.updateCard({ desc: this.props.card.desc, _id: this.props.card._id }, { desc: this.state.descriptionTextArea, _id: this.props.card._id })} >OK</Button>
+                            !this.state.isDescInput ?
+                                <div className="description-html">
+                                    <Description descToInput={this.descToInput} description={<div className="mde-preview "><div className="mde-preview-content" dangerouslySetInnerHTML={{ __html: this.converter.makeHtml(this.props.card.desc) }} /></div>}></Description>
+                                    <Divider />
                                 </div>
-                                <Divider />
-                            </div>
+                                : <div>
+                                    <div>
+                                        <ReactMde
+                                            onChange={this.changeDescription}
+                                            editorState={this.state.mdeState}
+                                            generateMarkdownPreview={markdown =>
+                                                Promise.resolve(this.converter.makeHtml(markdown))
+                                            }
+                                        />
+                                        <Button className="validate-description" onClick={() => this.inputToDesc() || this.updateCard({ desc: this.props.card.desc, _id: this.props.card._id }, { desc: this.state.descriptionTextArea, _id: this.props.card._id })} >OK</Button>
+                                    </div>
+                                    <Divider />
+                                </div>
                         }
 
                         {this.props.card.attachments && this.props.card.attachments.length !== 0
                             ? <div>
-                                <Attachments className="attachmentsContainer" attachments={this.props.card.attachments}></Attachments>
+                                <Attachments
+                                    className="attachmentsContainer"
+                                    attachments={this.props.card.attachments}
+                                    onDeleteAttachment={(attachmentId) => this.props.deleteAttachment(this.props.card._id, attachmentId)}
+                                ></Attachments>
                                 <Divider />
                             </div>
                             : ""}
@@ -284,6 +288,8 @@ class CardDetail extends Component {
                             this.props.history.goBack();
                             this.props.closeCardModal()
                         }}
+                        onUploadLocalFile={(file) => this.props.uploadLocalFile(this.props.card._id, file)}
+                        onUploadFile={(data) => this.props.uploadFile(this.props.card._id, data)}
                     />
                 </div>
             </div>

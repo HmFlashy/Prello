@@ -73,6 +73,15 @@ const mapDispatchToProps = dispatch => {
         },
         async removeCardLabel(cardId, labelId) {
             await cardContainerServices.removeCardLabel(cardId, labelId, dispatch)
+        },
+        async uploadLocalFile(cardId, file) {
+            await cardContainerServices.updloadLocalFile(cardId, file, dispatch)
+        },
+        async uploadFile(cardId, data) {
+            await cardContainerServices.updloadFile(cardId, data, dispatch)
+        },
+        async deleteAttachment(cardId, attachmentId) {
+            await cardContainerServices.deleteAttachment(cardId, attachmentId, dispatch)
         }
     }
 }

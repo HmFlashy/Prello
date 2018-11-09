@@ -1,6 +1,7 @@
 const List = require("../models/index").List;
 const Card = require("../models/index").Card;
 const Comment = require("../models/index").Comment;
+const Attachment = require("../models/index").Attachment;
 const throwError = require("../helper/RequestHelper").throwError;
 
 const getCardById = async (cardId) => {
@@ -20,6 +21,13 @@ const getCardById = async (cardId) => {
                     path: "author",
                     select: ["_id", "fullName", "initials", "username"]
                 }
+            },
+            {
+                path: "attachments",
+                populate: {
+                    path: "owner",
+                    select: ["_id", "fullName", "initials", "username"]
+                }
             }]
         )
         return card
@@ -27,6 +35,38 @@ const getCardById = async (cardId) => {
         throw error
     }
 };
+
+const addAttachment = async (name, owner, cardId, url) => {
+    try {
+        attachment = new Attachment({
+            name,
+            owner,
+            card: cardId,
+            url
+        })
+        attachment = await attachment.save()
+        card = await Card.findOne({ _id: cardId })
+        card.cardInformation.nbAttachments = card.cardInformation.nbAttachments + 1
+        card.attachments.push(attachment._id)
+        return [await Attachment.findById(attachment._id).populate(
+            [{
+                path: "owner",
+                select: ["_id", "fullName", "initials", "username"]
+            }]
+        ), await card.save()]
+    } catch (error) {
+        throw error
+    }
+};
+
+const deleteAttachment = async (cardId, attachmentId) => {
+    await Attachment.deleteOne({ _id: attachmentId })
+    card = await Card.findOne({ _id: cardId })
+    card.cardInformation.nbAttachments = card.cardInformation.nbAttachments - 1
+    card.attachments = card.attachments.filter(attachment => attachment != attachmentId)
+    card = await card.save()
+    return card
+}
 
 const addComment = async (cardId, author, content) => {
     comment = new Comment({
@@ -187,5 +227,7 @@ module.exports = {
     moveCard,
     addComment,
     deleteComment,
-    updateComment
+    updateComment,
+    addAttachment,
+    deleteAttachment
 };
