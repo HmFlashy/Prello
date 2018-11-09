@@ -10,8 +10,8 @@ const mapStateToProps = (state, ownProps) => {
     const board = state.boards.all.find(board => ownProps.boardId === board._id)
     return {
         board: board,
-        userId: user?user._id:null,
-        isStarred: user?board?board.starred.includes(user._id):null:null
+        userId: user._id,
+        isStarred: board?board.starred.includes(user._id):null
     }
 };
 

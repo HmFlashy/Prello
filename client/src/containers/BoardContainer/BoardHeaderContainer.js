@@ -10,7 +10,7 @@ const mapStateToProps = state => {
     const user = state.authentification.user;
     const archivedCards = state.cards.all.filter(card => card.isArchived)
     return {
-        userId: state.authentification.user._id,
+        userId: user._id,
         archivedCards: archivedCards,
         members: state.boards.currentBoard.members,
         boardLabels: state.boards.currentBoard.labels,

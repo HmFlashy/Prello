@@ -6,8 +6,8 @@ import {actionAddCategory, actionDeleteCategory, actionUpdateCategoryName} from 
 const mapStateToProps = state => {
     const user = state.authentification.user;
     return {
-        teams: user ? user.teams : [],
-        categories: user ? user.categories : []
+        teams: user.teams,
+        categories: user.categories
     }
 };
 

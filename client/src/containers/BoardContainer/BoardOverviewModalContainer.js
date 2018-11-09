@@ -16,10 +16,10 @@ const mapStateToProps = (state, ownProps) => {
             ...board,
             category: userBoard ? userBoard.category : null
         },
-        categoryOptions: user ? [{key: "No Category", value: "No Category", text: "No Category"},
+        categoryOptions: [{key: "No Category", value: "No Category", text: "No Category"},
             ...user.categories.map(category => {
                 return {key: category._id, value: category, text: category.name}
-            })] : [],
+            })],
         visibilityOptions: [
             {key: 1, value: "Private", text: "Private"},
             {key: 2, value: "Team", text: "Team"},

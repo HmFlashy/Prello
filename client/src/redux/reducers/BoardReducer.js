@@ -14,8 +14,8 @@ const defaultBoardReducer = {
         visibility: null,
         labels: [],
         boardInformation: {
-            nbMembers: null,
-            nbStars: null
+            nbMembers: 0,
+            nbStars: 0
         }
 
     }

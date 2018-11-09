@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './Header.css'
-import { Button, Icon } from 'semantic-ui-react'
+import {Button, Icon, Label} from "semantic-ui-react"
 import Members from '../../../Card/CardDetail/SubComponents/Members'
 import CardsArchivedModal from '../CardsArchivedModal';
 import Avatar from 'react-avatar';
@@ -17,14 +17,21 @@ class BoardHeader extends Component {
             isHoverStar: false
         }
         this.open = this.open.bind(this)
-        this.changeStarState = this.changeStarState.bind(this);
+        this.overStar = this.overStar.bind(this)
+        this.unOverStar = this.unOverStar.bind(this)
         this.starBoard = this.starBoard.bind(this);
         this.close = this.close.bind(this)
     }
 
-    changeStarState() {
+    overStar() {
         this.setState({
-            isHoverStar: !this.state.isHoverStar
+            isHoverStar: true
+        })
+    }
+
+    unOverStar() {
+        this.setState({
+            isHoverStar: false
         })
     }
 
@@ -49,11 +56,17 @@ class BoardHeader extends Component {
                             {this.props.board.name}
                         </div>
                         <div className="header-board-star">
-                            <Button icon className="button-header">
-                                <Icon color="yellow" onClick={this.starBoard}
-                                      onMouseEnter={() => this.changeStarState}
-                                      onMouseOut={() => this.changeStarState}
-                                      name={this.props.isStarred ? "star" : "star outline"} />
+                            <Button icon className="button-header"
+                                onClick={this.starBoard}
+                                       onMouseEnter={this.overStar}
+                                       onMouseOut={this.unOverStar}>
+                                    <Icon className="bo-icon"
+                                          onMouseEnter={this.overStar}
+                                          onMouseOut={this.unOverStar}
+                                          color={(!this.props.isStarred && this.state.isHoverStar)
+                                          || (this.props.isStarred && !this.state.isHoverStar) ? "yellow" : "white"}
+                                          name={(!this.props.isStarred && this.state.isHoverStar)
+                                          || (this.props.isStarred && !this.state.isHoverStar) ? "star" : "star outline"}/>
                             </Button>
                         </div>
                         <div className="header-board-member">
