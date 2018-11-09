@@ -93,8 +93,18 @@ export default (state = defaultBoardReducer, action) => {
                 error: action.payload
             };
         case "USER_BOARD_STAR":
+            console.log(action.payload)
             return {
                 ...state,
+                currentBoard: {
+                    ...state.currentBoard,
+                    starred:
+                        [...state.currentBoard.starred, action.payload.user],
+                    boardInformation: {
+                        ...state.currentBoard.boardInformation,
+                        nbStars: state.currentBoard.boardInformation.nbStars + 1
+                    }
+                },
                 all: state.all.map(function (board) {
                         if (board._id === action.payload.board) {
                             return {
@@ -111,13 +121,22 @@ export default (state = defaultBoardReducer, action) => {
                 )
             };
         case "USER_BOARD_UNSTAR":
+            console.log(action.payload)
             return {
                 ...state,
+                currentBoard: {
+                    ...state.currentBoard,
+                    starred: state.currentBoard.starred.filter(user => user!== action.payload.user),
+                    boardInformation: {
+                        ...state.currentBoard.boardInformation,
+                        nbStars: state.currentBoard.boardInformation.nbStars - 1
+                    }
+                },
                 all: state.all.map(function (board) {
                         if (board._id === action.payload.board) {
                             return {
                                 ...board,
-                                starred: board.starred.filter(user => user._id === action.payload.user),
+                                starred: board.starred.filter(user => user !== action.payload.user),
                                 boardInformation: {
                                     ...board.boardInformation,
                                     nbStars: board.boardInformation.nbStars - 1

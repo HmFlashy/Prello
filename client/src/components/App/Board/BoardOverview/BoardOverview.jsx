@@ -57,6 +57,7 @@ class BoardOverview extends Component {
                             <div>
                                 <Label>
                                     <Icon className="bo-icon" onClick={this.starBoard}
+                                          color={"yellow"}
                                         onMouseEnter={() => this.changeStarState}
                                         onMouseOut={() => this.changeStarState} disabled={!this.state.isHoverStar}
                                         name={this.props.isStarred ? "star" : "star outline"} />

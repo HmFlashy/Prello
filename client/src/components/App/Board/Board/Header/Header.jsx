@@ -13,10 +13,28 @@ class BoardHeader extends Component {
         super()
         this.state = {
             openArchived: false,
-            openLabels: false
+            openLabels: false,
+            isHoverStar: false
         }
         this.open = this.open.bind(this)
+        this.changeStarState = this.changeStarState.bind(this);
+        this.starBoard = this.starBoard.bind(this);
         this.close = this.close.bind(this)
+    }
+
+    changeStarState() {
+        this.setState({
+            isHoverStar: !this.state.isHoverStar
+        })
+    }
+
+    starBoard(event) {
+        event.stopPropagation();
+        if (this.props.isStarred) {
+            this.props.unstarBoard(this.props.boardId, this.props.userId)
+        } else {
+            this.props.starBoard(this.props.boardId, this.props.userId)
+        }
     }
 
     open = () => this.setState({ open: true })
@@ -32,7 +50,10 @@ class BoardHeader extends Component {
                         </div>
                         <div className="header-board-star">
                             <Button icon className="button-header">
-                                <Icon name='star' />
+                                <Icon color="yellow" onClick={this.starBoard}
+                                      onMouseEnter={() => this.changeStarState}
+                                      onMouseOut={() => this.changeStarState}
+                                      name={this.props.isStarred ? "star" : "star outline"} />
                             </Button>
                         </div>
                         <div className="header-board-member">
