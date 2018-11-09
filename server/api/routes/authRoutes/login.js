@@ -64,7 +64,7 @@ module.exports = async (req, res) => {
                 password: password,
                 scope: "read write",
                 grant_type: 'password',
-                ldap: req.body.ldap ? req.body.ldap : "false",
+                ldap: req.body.ldap,
                 section: req.body.section,
                 year: req.body.year
             },
@@ -80,7 +80,7 @@ module.exports = async (req, res) => {
             token: token.access_token
         })
     } catch (error) {
-        console.log(error)
+        console.log(error.message)
         return res.status(error.code).send(error.message)
     }
 }

@@ -14,7 +14,7 @@ module.exports = async (req, res, next) => {
             const username = user.length > 0 ? `${name}${user.length + 10}` : name
             const firstname = name.split('.')[0]
             const lastname = name.split('.')[1]
-            await UserController.addUser(firstname, lastname, username, ldapUser[0].email, password, "Polytech", ldapUser[0].employeeID[0])
+            await UserController.addUser(firstname, lastname, username, ldapUser[0].mail[0], password, "Polytech", ldapUser[0].employeeID[0])
         }
     }
     next()

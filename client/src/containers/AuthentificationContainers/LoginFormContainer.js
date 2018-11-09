@@ -15,10 +15,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        async authenticate(email, password){
+        async authenticate(email, password, ldapConfig){
             try {
                 dispatch(actionLogin(email))
-                const data = await authentificationServices.authenticate(email, password)
+                const data = await authentificationServices.authenticate(email, password, ldapConfig)
                 localStorage.setItem('token-prello', data.token)
                 dispatch(actionLoggedIn(data))
                 return data

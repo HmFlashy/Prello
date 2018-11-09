@@ -3,11 +3,12 @@ import UrlConfig from '../config/UrlConfig'
 import { basicHeader } from '../helpers/HeaderHelper'
 
 export default {
-    async authenticate(email, password){
+    async authenticate(email, password, ldapConfig){
         try {
             const res = await axios.post(`${UrlConfig.API}/login`, {
                 email: email,
-                password: password
+                password: password,
+                ...ldapConfig
             }, basicHeader())
             return res.data
         } catch(error) {
