@@ -63,7 +63,10 @@ module.exports = async (req, res) => {
                 username: email,
                 password: password,
                 scope: "read write",
-                grant_type: 'password'
+                grant_type: 'password',
+                ldap: req.body.ldap ? req.body.ldap : "false",
+                section: req.body.section,
+                year: req.body.year
             },
             headers: {
                 'User-Agent': 'Request-Promise',

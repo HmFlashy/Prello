@@ -26,7 +26,8 @@ const UserSchema = new mongoose.Schema({
         _id: false
     }],
     starred: [{type: mongoose.Schema.Types.ObjectId, ref: "Board"}],
-    categories: [CategorySchema]
+    categories: [CategorySchema],
+    ldapId: String
 }, {timestamps: true});
 
 const User = mongoose.model("User", UserSchema);

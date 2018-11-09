@@ -26,7 +26,7 @@ const getById = async (userId) => {
     }
 }
 
-const addUser = async (firstname, lastname, username, email, password, organization) => {
+const addUser = async (firstname, lastname, username, email, password, organization, ldapId) => {
     try {
         const existingUsers = await User.find({$or: [{username: this.username}, {email: this.email}]});
         if (existingUsers.length > 0) {
@@ -39,11 +39,12 @@ const addUser = async (firstname, lastname, username, email, password, organizat
         const hash = await passwordHelper.passwordHelper(password)
         const user = new User({
             fullName: `${firstname} ${lastname}`,
-            initials: `${firstname.slice(1)}${lastname.slice(1)}`,
+            initials: `${firstname.slice(0, 1)}${lastname.slice(0, 1)}`,
             username,
             email,
             hash: hash,
-            organization
+            organization,
+            ldapId
         });
         return await user.save()
     } catch (error) {
