@@ -58,7 +58,7 @@ export default class Actitivty extends Component {
                         }
                         <ValidationInput
                             isVisible={this.state.isDeleting}
-                            header={"Delete Your Account"}
+                            header={"Delete Your Message"}
                             content={"Are you sure you want to delete your account"}
                             onResult={(isValidated) => isValidated ? this.setState({ isDeleting: false }, () => this.props.onDeleteComment(comment._id)) : this.setState({ isDeleting: false })}
                         />

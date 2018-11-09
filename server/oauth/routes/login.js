@@ -1,4 +1,4 @@
-const getUser = require('../server/model').getClient
+const getClient = require('../server/model').getClient
 const InvalidRequestError = require('oauth2-server').InvalidRequestError;
 
 module.exports = {
@@ -28,6 +28,7 @@ module.exports = {
         state: 'truc'
       })
     } catch(error){
+      console.log(error)
       return res.sendStatus(500)
     }
   },
