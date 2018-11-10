@@ -9,6 +9,7 @@
     "draft-js": "^0.10.5",
     "express": "^4.16.4",
     "history": "^4.7.2",
+    "js-file-download": "^0.4.4",
     "moment": "^2.22.2",
     "normalize.css": "^8.0.0",
     "prop-type": "0.0.1",

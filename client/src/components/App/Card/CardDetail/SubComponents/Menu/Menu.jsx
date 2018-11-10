@@ -115,7 +115,7 @@ class Menu extends Component {
                                     <FilePicker
                                         extensions={['pdf']}
                                         onChange={file => this.props.onUploadLocalFile(file)}
-                                        onError={error => console.log(error)}
+                                        onError={error => alert("Not a pdf file !")}
                                     >
                                         <Button positive>
                                             <Icon name='computer' /> Local
