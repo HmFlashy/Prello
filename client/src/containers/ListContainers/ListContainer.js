@@ -45,6 +45,7 @@ const mapStateToProps = (state, ownProps) => {
                         return state.boards.currentBoard.membersFilter.includes("No Members")
                     }
                 } else return true
+<<<<<<< refs/remotes/origin/develop
             }).filter(card => { // Search filter
                 const fullCard = state.cards.all.find(fullCard => fullCard._id === card._id);
                 if(state.boards.currentBoard.searchFilter.length > 0) {
@@ -54,6 +55,12 @@ const mapStateToProps = (state, ownProps) => {
                 const fullCard = state.cards.all.find(fullCard => fullCard._id === card._id);
                 if (state.boards.currentBoard.dueDateMode.length > 0) {
                     return getDueDateMode(fullCard.dueDate, fullCard.dueDateCompleted, state.boards.currentBoard.dueDateMode)
+=======
+            }).filter(card => {
+                const fullCard = state.cards.all.find(fullCard => fullCard._id === card._id);
+                if(state.boards.currentBoard.searchFilter.length > 0) {
+                    return fullCard.name.includes((state.boards.currentBoard.searchFilter))
+>>>>>>> Added search bar
                 } else return true
             })
         }

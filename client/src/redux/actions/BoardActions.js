@@ -186,6 +186,7 @@ export const actionUpdateSearchFilter = (value) => {
         }
     }
 };
+<<<<<<< refs/remotes/origin/develop
 
 export const actionSwitchFilterMode = (mode) => {
     return {
@@ -211,3 +212,5 @@ export const actionClearFilter = () => {
         payload: {}
     }
 };
+=======
+>>>>>>> Added search bar

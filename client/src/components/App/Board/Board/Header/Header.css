@@ -94,6 +94,7 @@
 }
 
 .filter-item {
+<<<<<<< refs/remotes/origin/develop
     width: 65% !important;
     display: flex !important;
     flex-direction: row !important;
@@ -119,4 +120,11 @@
 .clear-filter {
     opacity: 0.6;
     font-size: 90%;
+=======
+    width: 68% !important;
+}
+
+.search-bar {
+    width: 102% !important;
+>>>>>>> Added search bar
 }

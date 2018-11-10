@@ -55,6 +55,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         updateSearchFilter(value) {
             dispatch(actionUpdateSearchFilter(value))
+<<<<<<< refs/remotes/origin/develop
         },
         switchFilterMode(mode) {
             dispatch(actionSwitchFilterMode(mode))
@@ -64,6 +65,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         clearFilter() {
             dispatch(actionClearFilter())
+=======
+>>>>>>> Added search bar
         }
     }
 };
