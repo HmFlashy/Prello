@@ -143,12 +143,12 @@ export const failedActionBoardDeletingLabel = (error) => {
 };
 
 export const actionAddBoardLabelFilter = (label) => {
-  return {
-      type: 'ADD_BOARD_FILTER_LABEL',
-      payload: {
-          label: label
-      }
-  }
+    return {
+        type: 'ADD_BOARD_FILTER_LABEL',
+        payload: {
+            label: label
+        }
+    }
 };
 
 export const actionDeleteBoardLabelFilter = (label) => {
@@ -186,7 +186,6 @@ export const actionUpdateSearchFilter = (value) => {
         }
     }
 };
-<<<<<<< refs/remotes/origin/develop
 
 export const actionSwitchFilterMode = (mode) => {
     return {
@@ -212,5 +211,3 @@ export const actionClearFilter = () => {
         payload: {}
     }
 };
-=======
->>>>>>> Added search bar
