@@ -168,18 +168,18 @@ class Menu extends Component {
                 <div>
                     <p>Actions</p>
                     <Button.Group vertical size='medium' compact>
-                        <Button icon labelPosition='left' onClick={() => this.setState({ isMovingCard: true })}>
-                            <Icon name='arrow right' />
-                            Move
-                        </Button>
                         <Move
+                            trigger={<Button icon labelPosition='left' onClick={() => this.setState({ isMovingCard: true })}>
+                                <Icon name='arrow right' />
+                                Move
+                                </Button>}
                             boardId={this.props.card.board}
                             isOpened={this.state.isMovingCard}
                             onValidate={(boardId, listId, newName, pos) => {
                                 this.setState({ isMovingCard: false });
                                 this.props.onMove(boardId, this.props.card.list._id, listId, newName, pos)
                             }}
-                            onCancel={() => this.setState({ isMovingCard: false })}
+                            onCancel={() => console.log("cancel") || this.setState({ isMovingCard: false })}
                         />
                         <Button icon labelPosition='left'>
                             <Icon name='copy' />

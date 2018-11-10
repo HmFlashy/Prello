@@ -1,12 +1,17 @@
 import React from 'react';
 import './Move.css'
-import { Icon, Modal, Header, Button, Dropdown } from 'semantic-ui-react'
+import { Icon, Modal, Header, Button, Dropdown, Popup } from 'semantic-ui-react'
 import Avatar from 'react-avatar';
 
 export default (props) => (
-    <Modal size="tiny" open={props.isOpened} onClose={props.onCancel}>
+    <Popup
+        trigger={props.trigger}
+        open={console.log(props.isOpened) || props.isOpened}
+        onClose={props.onCancel}
+        position='bottom left'
+        on='click'>
         <Header icon='right arrow' content='Where to' />
-        <Modal.Content>
+        <Popup.Content>
             {
                 props.info && props.boards && props.info.lists
                     ?
@@ -38,14 +43,14 @@ export default (props) => (
                     </div>
                     : ""
             }
-        </Modal.Content>
-        <Modal.Actions>
+        </Popup.Content>
+        <div className="displayRow buttonMove">
             <Button color='red' onClick={props.onCancel}>
                 <Icon name='remove' /> Cancel
             </Button>
             <Button color='green' onClick={() => props.onValidate(props.currentBoard._id, props.currentList._id, props.currentList.name, props.currentPos.pos)}>
                 <Icon name='checkmark' /> Validate
             </Button>
-        </Modal.Actions>
-    </Modal>
+        </div>
+    </Popup>
 )
