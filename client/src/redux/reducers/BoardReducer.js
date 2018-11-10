@@ -222,6 +222,7 @@ export default (state = defaultBoardReducer, action) => {
                 }
             };
         case "DELETE_BOARD_FILTER_LABEL":
+            console.log(action.payload.label)
             return {
                 ...state,
                 currentBoard: {

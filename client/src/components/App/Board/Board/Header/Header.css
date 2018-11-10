@@ -73,15 +73,24 @@
     flex-basis: 150px;
 }
 
+.header-board-filter {
+    flex-basis: 90px;
+}
+
 .filter-popup {
-    position: absolute;
+    position: absolute !important;
     top: 10%;
-    height: 80%;
-    width: 30%;
+    height: 80% !important;
+    width: 350px !important;
     right: 0 !important;
+    display: flex;
+}
+
+.filter-list {
+    position: relative;
+    width: 150% !important;
 }
 
 .filter-item {
-    position: relative;
-    width: 150% !important;
+    width: 68% !important;
 }

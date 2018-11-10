@@ -12,20 +12,26 @@ const mapStateToProps = (state, ownProps) => {
             ...list,
             cards: list.cards.filter(card => {
                 const fullCard = state.cards.all.find(fullCard => fullCard._id === card._id);
-                return fullCard.labels.some(label => {
-                    if (state.boards.currentBoard.labelsFilter.length > 0) {
-                        return state.boards.currentBoard.labelsFilter.includes(label._id)
-                    } else return true
-                })
+                if(state.boards.currentBoard.labelsFilter.length > 0) {
+                    if(fullCard.labels.length >0) {
+                        return fullCard.labels.some(label =>
+                            state.boards.currentBoard.labelsFilter.includes(label._id)
+                        )
+                    } else{
+                        return state.boards.currentBoard.labelsFilter.includes("No Labels")
+                    }
+                } else return true
             }).filter(card => {
                 const fullCard = state.cards.all.find(fullCard => fullCard._id === card._id);
-                console.log(fullCard)
-                return fullCard.members.some(member => {
-                    console.log(member)
-                    if (state.boards.currentBoard.membersFilter.length > 0) {
-                        return state.boards.currentBoard.membersFilter.includes(member._id)
-                    } else return true
-                })
+                if(state.boards.currentBoard.membersFilter.length > 0) {
+                    if(fullCard.labels.length >0) {
+                        return fullCard.members.some(member =>
+                            state.boards.currentBoard.membersFilter.includes(member._id)
+                        )
+                    } else {
+                        return state.boards.currentBoard.membersFilter.includes("No Members")
+                    }
+                } else return true
             })
         }
     }

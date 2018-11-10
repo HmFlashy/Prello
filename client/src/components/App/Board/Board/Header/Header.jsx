@@ -106,10 +106,10 @@ class BoardHeader extends Component {
                                                                             textSizeRatio={1.4}/></span>)}
                         </div>
                     </div>
-                    <div className="header-board-center">
+                    <div className={"header-board-filter"}>
                         <Popup
                             className={"filter-popup"}
-                            trigger={<Button content='Filter'/>}
+                            trigger={<Button className={"button-header"} content='Filter'/>}
                             on='click'
                             open={this.state.isFilterOpen}
                             onClose={this.handleClose}
@@ -117,22 +117,40 @@ class BoardHeader extends Component {
                             position='bottom right'>
                             <List className={"list"}>
                                 Filter by labels...
+                                <List.Item className={"filter-list"}>
+                                    <Label className={"filter-item"} id={"No Labels"} color={"#008080"} onClick={this.clickLabel}>
+                                        No Labels
+                                        <Icon id={"No Labels"} name={this.props.board.labelsFilter.includes("No Labels")?"check":""}/>
+                                    </Label>
+                                </List.Item>
                                 {this.props.board.labels.map(label =>
-                                    <List.Item className={"filter-item"}>
-                                        <Label id={label._id} color={label.color} onClick={this.clickLabel}>
+                                    <List.Item className={"filter-list"}>
+                                        <Label className={"filter-item"} id={label._id} color={label.color} onClick={this.clickLabel}>
                                             {label.name}
-                                            <Icon name={this.props.board.labelsFilter.includes(label._id)?"check":""}/>
+                                            <Icon id={label._id} name={this.props.board.labelsFilter.includes(label._id)?"check":""}/>
                                         </Label>
                                     </List.Item>
                                 )}
                             </List>
                             <List className={"list"}>
                                 Filter by members...
-                                {this.props.board.members.map(member =>
-                                    <List.Item className={"filter-item"}>
-                                        <Label id={member.member._id} onClick={this.clickMember}>
-                                            {member.member.fullName}
-                                            <Icon name={this.props.board.membersFilter.includes(member.member._id)?"check":""}/>
+                                <List.Item className={"filter-list"}>
+                                    <Label className={"filter-item"} id={"No Members"} color={"#008080"} onClick={this.clickMember}>
+                                        No Members
+                                        <Icon id={"No Members"} name={this.props.board.labelsFilter.includes("No Members")?"check":""}/>
+                                    </Label>
+                                </List.Item>
+                                {this.props.board.members.map(boardMember =>
+                                    <List.Item className={"filter-list"}>
+                                        <Label className={"filter-item"} id={boardMember.member._id} onClick={this.clickMember}>
+                                            <span id={boardMember.member._id}><Avatar id={boardMember.member._id}
+                                                          key={boardMember.member._id}
+                                                          name={boardMember.member.fullName} round
+                                                          size="25"
+                                                          textSizeRatio={1.4}/></span>
+                                            {`${boardMember.member.fullName} (${boardMember.member.username})` }
+                                            <Icon id={boardMember.member._id}
+                                                  name={this.props.board.membersFilter.includes(boardMember.member._id)?"check":""}/>
                                         </Label>
                                     </List.Item>
                                 )}
@@ -142,7 +160,6 @@ class BoardHeader extends Component {
                     <div className="header-board-labels">
                         <Button className="button-header" onClick={() => this.setState({openLabels: true})}>
                             Labels
-                            {console.log(this.props.archivedCards)}
                         </Button>
                         <BoardLabelsModal
                             open={this.state.openLabels}
