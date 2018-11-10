@@ -134,7 +134,7 @@ class Menu extends Component {
                                 </FilePicker>
                                 <DropboxChooser
                                     appKey={'ad87evrukye9cq0'}
-                                    success={file => this.props.onUploadFile({ url: file[0].link, name: file[0].name })}
+                                    success={file => this.setState({ isUploading: true }, async () => { await this.props.onUploadFile({ url: file[0].link, name: file[0].name }); this.setState({ isUploading: false }) })}
                                     cancel={() => console.log("cancel")}
                                     extensions={['.pdf']} >
                                     <Button positive className="fullsize attaching-button">
