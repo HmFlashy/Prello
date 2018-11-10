@@ -83,7 +83,15 @@
     height: 80% !important;
     width: 350px !important;
     right: 0 !important;
-    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.filter-lists {
+    max-height:150px;
+    overflow: hidden;
+    overflow-y: scroll;
+    padding:10px;
 }
 
 .filter-list {
@@ -92,9 +100,29 @@
 }
 
 .filter-item {
-    width: 68% !important;
+    width: 65% !important;
+    display: flex !important;
+    flex-direction: row !important;
 }
 
 .search-bar {
-    width: 102% !important;
+    width: 100% !important;
+}
+
+.filter-item-icon {
+    flex-basis: 10px;
+}
+
+.filter-name {
+    flex: 2 !important;
+}
+
+.member-avatar {
+    margin-right: 5px !important;
+    margin-left: -5px !important;
+}
+
+.clear-filter {
+    opacity: 0.6;
+    font-size: 90%;
 }

@@ -13,9 +13,11 @@ const defaultBoardReducer = {
         activities: [],
         visibility: null,
         labels: [],
+        searchFilter: "",
         labelsFilter: [],
         membersFilter: [],
-        searchFilter: "",
+        filterMode: "UNION",
+        dueDateMode: "",
         boardInformation: {
             nbMembers: 0,
             nbStars: 0
@@ -223,7 +225,7 @@ export default (state = defaultBoardReducer, action) => {
                 }
             };
         case "DELETE_BOARD_FILTER_LABEL":
-            console.log(action.payload.label)
+            console.log(action.payload.label);
             return {
                 ...state,
                 currentBoard: {
@@ -254,7 +256,35 @@ export default (state = defaultBoardReducer, action) => {
                     ...state.currentBoard,
                     searchFilter: action.payload.value
                 }
-            }
+            };
+        case "SWITCH_FILTER_MODE":
+            return {
+                ...state,
+                currentBoard: {
+                    ...state.currentBoard,
+                    filterMode: action.payload.mode
+                }
+            };
+        case "SWITCH_DUE_DATE_MODE":
+            return {
+                ...state,
+                currentBoard: {
+                    ...state.currentBoard,
+                    dueDateMode: action.payload.mode
+                }
+            };
+        case "CLEAR_FILTER":
+            return {
+                ...state,
+                currentBoard: {
+                    ...state.currentBoard,
+                    searchFilter: defaultBoardReducer.currentBoard.searchFilter,
+                    labelsFilter: defaultBoardReducer.currentBoard.labelsFilter,
+                    membersFilter: defaultBoardReducer.currentBoard.membersFilter,
+                    filterMode: defaultBoardReducer.currentBoard.filterMode,
+                    dueDateMode: defaultBoardReducer.currentBoard.dueDateMode
+                }
+            };
         default:
             return state
     }

@@ -2,7 +2,12 @@ import Header from "./../../components/App/Board/Board/Header"
 import {connect} from "react-redux";
 import socketService from "../../services/SocketService";
 import userServices from "../../services/UserServices";
-import {actionBoardSubscribe} from "../../redux/actions/BoardActions";
+import {
+    actionBoardSubscribe,
+    actionClearFilter,
+    actionSwitchDueDateMode,
+    actionSwitchFilterMode
+} from "../../redux/actions/BoardActions";
 import {actionStarBoard, actionUnstarBoard} from "../../redux/actions/UserActions";
 import {actionUpdateSearchFilter, actionAddBoardLabelFilter, actionDeleteBoardLabelFilter, actionAddBoardMemberFilter, actionDeleteBoardMemberFilter} from "../../redux/actions/BoardActions";
 import {withRouter} from "react-router"
@@ -50,6 +55,15 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         updateSearchFilter(value) {
             dispatch(actionUpdateSearchFilter(value))
+        },
+        switchFilterMode(mode) {
+            dispatch(actionSwitchFilterMode(mode))
+        },
+        switchDueDateMode(mode) {
+            dispatch(actionSwitchDueDateMode(mode))
+        },
+        clearFilter() {
+            dispatch(actionClearFilter())
         }
     }
 };

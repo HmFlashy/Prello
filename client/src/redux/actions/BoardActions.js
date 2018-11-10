@@ -186,3 +186,28 @@ export const actionUpdateSearchFilter = (value) => {
         }
     }
 };
+
+export const actionSwitchFilterMode = (mode) => {
+    return {
+        type: 'SWITCH_FILTER_MODE',
+        payload: {
+            mode
+        }
+    }
+};
+
+export const actionSwitchDueDateMode = (mode) => {
+    return {
+        type: 'SWITCH_DUE_DATE_MODE',
+        payload: {
+            mode
+        }
+    }
+};
+
+export const actionClearFilter = () => {
+    return {
+        type: 'CLEAR_FILTER',
+        payload: {}
+    }
+};
