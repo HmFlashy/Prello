@@ -1,11 +1,10 @@
-import React, { Component } from 'react';
-import './Header.css'
-import {Button, Icon, Label} from "semantic-ui-react"
-import Members from '../../../Card/CardDetail/SubComponents/Members'
-import CardsArchivedModal from '../CardsArchivedModal';
-import Avatar from 'react-avatar';
-import BoardLabelsModal from '../BoardLabelsModal'
-
+import React, {Component} from "react";
+import "./Header.css"
+import {Button, Icon, Label, List, Popup} from "semantic-ui-react"
+import Members from "../../../Card/CardDetail/SubComponents/Members"
+import CardsArchivedModal from "../CardsArchivedModal";
+import Avatar from "react-avatar";
+import BoardLabelsModal from "../BoardLabelsModal"
 
 class BoardHeader extends Component {
 
@@ -14,13 +13,16 @@ class BoardHeader extends Component {
         this.state = {
             openArchived: false,
             openLabels: false,
-            isHoverStar: false
+            isHoverStar: false,
+            isFilterOpen: false
         }
-        this.open = this.open.bind(this)
-        this.overStar = this.overStar.bind(this)
-        this.unOverStar = this.unOverStar.bind(this)
+        this.open = this.open.bind(this);
+        this.overStar = this.overStar.bind(this);
+        this.unOverStar = this.unOverStar.bind(this);
         this.starBoard = this.starBoard.bind(this);
         this.close = this.close.bind(this)
+        this.clickLabel = this.clickLabel.bind(this)
+        this.clickMember = this.clickMember.bind(this)
     }
 
     overStar() {
@@ -38,14 +40,42 @@ class BoardHeader extends Component {
     starBoard(event) {
         event.stopPropagation();
         if (this.props.isStarred) {
-            this.props.unstarBoard(this.props.boardId, this.props.userId)
+            this.props.unstarBoard(this.props.board._id, this.props.userId)
         } else {
-            this.props.starBoard(this.props.boardId, this.props.userId)
+            this.props.starBoard(this.props.board._id, this.props.userId)
         }
     }
 
-    open = () => this.setState({ open: true })
-    close = () => this.setState({ open: false })
+    handleOpen = () => {
+        this.setState({
+            isFilterOpen: true
+        })
+    };
+
+    handleClose = () => {
+        this.setState({
+            isFilterOpen: false
+        })
+    };
+
+    clickLabel(event) {
+        if(this.props.board.labelsFilter.includes(event.target.id)){
+            this.props.removeLabelFilter(event.target.id)
+        } else {
+            this.props.addLabelFilter(event.target.id)
+        }
+    }
+
+    clickMember(event) {
+        if(this.props.board.membersFilter.includes(event.target.id)){
+            this.props.removeMemberFilter(event.target.id)
+        } else {
+            this.props.addMemberFilter(event.target.id)
+        }
+    }
+
+    open = () => this.setState({open: true})
+    close = () => this.setState({open: false})
 
     render() {
         return (
@@ -57,49 +87,82 @@ class BoardHeader extends Component {
                         </div>
                         <div className="header-board-star">
                             <Button icon className="button-header"
-                                onClick={this.starBoard}
-                                       onMouseEnter={this.overStar}
-                                       onMouseOut={this.unOverStar}>
-                                    <Icon className="bo-icon"
-                                          onMouseEnter={this.overStar}
-                                          onMouseOut={this.unOverStar}
-                                          color={(!this.props.isStarred && this.state.isHoverStar)
-                                          || (this.props.isStarred && !this.state.isHoverStar) ? "yellow" : "white"}
-                                          name={(!this.props.isStarred && this.state.isHoverStar)
-                                          || (this.props.isStarred && !this.state.isHoverStar) ? "star" : "star outline"}/>
+                                    onClick={this.starBoard}
+                                    onMouseEnter={this.overStar}
+                                    onMouseOut={this.unOverStar}>
+                                <Icon className="bo-icon"
+                                      onMouseEnter={this.overStar}
+                                      onMouseOut={this.unOverStar}
+                                      color={(!this.props.isStarred && this.state.isHoverStar)
+                                      || (this.props.isStarred && !this.state.isHoverStar) ? "yellow" : "white"}
+                                      name={(!this.props.isStarred && this.state.isHoverStar)
+                                      || (this.props.isStarred && !this.state.isHoverStar) ? "star" : "star outline"}/>
                             </Button>
                         </div>
                         <div className="header-board-member">
-                            {this.props.members.map(member => <span><Avatar key={member.member._id} name={member.member.fullName} round size="25" textSizeRatio={1.4}></Avatar></span>)}
+                            {this.props.board.members.map(member => <span><Avatar key={member.member._id}
+                                                                            name={member.member.fullName} round
+                                                                            size="25"
+                                                                            textSizeRatio={1.4}/></span>)}
                         </div>
                     </div>
                     <div className="header-board-center">
-
+                        <Popup
+                            className={"filter-popup"}
+                            trigger={<Button content='Filter'/>}
+                            on='click'
+                            open={this.state.isFilterOpen}
+                            onClose={this.handleClose}
+                            onOpen={this.handleOpen}
+                            position='bottom right'>
+                            <List className={"list"}>
+                                Filter by labels...
+                                {this.props.board.labels.map(label =>
+                                    <List.Item className={"filter-item"}>
+                                        <Label id={label._id} color={label.color} onClick={this.clickLabel}>
+                                            {label.name}
+                                            <Icon name={this.props.board.labelsFilter.includes(label._id)?"check":""}/>
+                                        </Label>
+                                    </List.Item>
+                                )}
+                            </List>
+                            <List className={"list"}>
+                                Filter by members...
+                                {this.props.board.members.map(member =>
+                                    <List.Item className={"filter-item"}>
+                                        <Label id={member.member._id} onClick={this.clickMember}>
+                                            {member.member.fullName}
+                                            <Icon name={this.props.board.membersFilter.includes(member.member._id)?"check":""}/>
+                                        </Label>
+                                    </List.Item>
+                                )}
+                            </List>
+                        </Popup>
                     </div>
                     <div className="header-board-labels">
-                    <Button className="button-header" onClick={() => this.setState({ openLabels: true })}>
+                        <Button className="button-header" onClick={() => this.setState({openLabels: true})}>
                             Labels
                             {console.log(this.props.archivedCards)}
                         </Button>
                         <BoardLabelsModal
                             open={this.state.openLabels}
-                            boardLabels={this.props.boardLabels}
+                            boardLabels={this.props.board.labels}
                             onNewLabel={(newLabelName, newLabelColor) => this.props.newLabel(newLabelName, newLabelColor)}
                             onUpdateLabel={(updatedLabelId, updatedLabelName, updatedLabelColor) => this.props.updateLabel(updatedLabelId, updatedLabelName, updatedLabelColor)}
                             onDeleteLabel={(labelId) => this.props.deleteLabel(labelId)}
-                            onClose={() => this.setState({ openLabels: false })}
+                            onClose={() => this.setState({openLabels: false})}
                         />
-                        </div>
+                    </div>
                     <div className="header-board-archived">
                         <div className="header-board-members">
                         </div>
-                        <Button className="button-header" onClick={() => this.setState({ openArchived: true })}>
+                        <Button className="button-header" onClick={() => this.setState({openArchived: true})}>
                             Cards archived
                         </Button>
                         <CardsArchivedModal
                             open={this.state.openArchived}
                             archivedCards={this.props.archivedCards}
-                            onClose={() => this.setState({ openArchived: false })}
+                            onClose={() => this.setState({openArchived: false})}
                         />
                     </div>
                 </div>

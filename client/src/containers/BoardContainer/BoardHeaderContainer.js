@@ -4,6 +4,7 @@ import socketService from "../../services/SocketService";
 import userServices from "../../services/UserServices";
 import {actionBoardSubscribe} from "../../redux/actions/BoardActions";
 import {actionStarBoard, actionUnstarBoard} from "../../redux/actions/UserActions";
+import {actionAddBoardLabelFilter, actionDeleteBoardLabelFilter, actionAddBoardMemberFilter, actionDeleteBoardMemberFilter} from "../../redux/actions/BoardActions";
 import {withRouter} from "react-router"
 
 const mapStateToProps = state => {
@@ -12,10 +13,8 @@ const mapStateToProps = state => {
     return {
         userId: user._id,
         archivedCards: archivedCards,
-        members: state.boards.currentBoard.members,
-        boardLabels: state.boards.currentBoard.labels,
+        board: state.boards.currentBoard,
         isStarred: state.boards.currentBoard.starred.includes( state.authentification.user._id),
-        boardId: state.boards.currentBoard._id
     }
 };
 
@@ -36,6 +35,18 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         async unstarBoard(boardId, userId) {
             await userServices.unstarBoard(boardId);
             dispatch(actionUnstarBoard(boardId, userId))
+        },
+        addLabelFilter(labelId) {
+            dispatch(actionAddBoardLabelFilter(labelId))
+        },
+        removeLabelFilter(labelId) {
+            dispatch(actionDeleteBoardLabelFilter(labelId))
+        },
+        addMemberFilter(labelId) {
+            dispatch(actionAddBoardMemberFilter(labelId))
+        },
+        removeMemberFilter(labelId) {
+            dispatch(actionDeleteBoardMemberFilter(labelId))
         }
     }
 };

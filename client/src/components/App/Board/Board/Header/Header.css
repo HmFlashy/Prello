@@ -72,3 +72,16 @@
 .header-board-archived {
     flex-basis: 150px;
 }
+
+.filter-popup {
+    position: absolute;
+    top: 10%;
+    height: 80%;
+    width: 30%;
+    right: 0 !important;
+}
+
+.filter-item {
+    position: relative;
+    width: 150% !important;
+}

@@ -3,63 +3,63 @@ export const actionBoardSubscribe = (socket) => {
         type: 'BOARD_SUBSCRIBE',
         payload: socket
     }
-}
+};
 
 export const actionFetchingBoard = (id) => {
     return {
         type: 'FETCHING_BOARD',
         payload: id
     }
-}
+};
 
 export const actionFailedFetchBoard = (error) => {
     return {
         type: 'FAILED_FETCH_BOARD',
         payload: error
     }
-}
+};
 
 export const actionBoardFetched = (board) => {
     return {
         type: 'FETCHED_BOARD',
         payload: board
     }
-}
+};
 
 export const actionFetchingBoards = () => {
     return {
         type: 'FETCHING_BOARDS',
         payload: null
     }
-}
+};
 
 export const actionFailedFetchBoards = (error) => {
     return {
         type: 'FAILED_FETCH_BOARDS',
         payload: error
     }
-}
+};
 
 export const actionBoardsFetched = (boards) => {
     return {
         type: 'FETCHED_BOARDS',
         payload: boards
     }
-}
+};
 
 export const actionDisplayCardModal = (cardId) => {
     return {
         type: 'DISPLAY_CARD_MODAL',
         payload: cardId
     }
-}
+};
 
 export const actionCloseCardModal = () => {
     return {
         type: 'CLOSE_CARD_MODAL',
         payload: null
     }
-}
+};
 
 export const actionUpdateBoardName = (boardId, name) => {
     return {
@@ -69,7 +69,7 @@ export const actionUpdateBoardName = (boardId, name) => {
             name: name
         }
     }
-}
+};
 
 export const actionUpdateBoardVisibility = (boardId, visibility) => {
     return {
@@ -79,7 +79,7 @@ export const actionUpdateBoardVisibility = (boardId, visibility) => {
             visibility: visibility
         }
     }
-}
+};
 
 export const actionUpdateBoardCategory = (boardId, category) => {
     return {
@@ -89,7 +89,7 @@ export const actionUpdateBoardCategory = (boardId, category) => {
             category: category
         }
     }
-}
+};
 
 export const actionBoardCreatingLabel = (boardId, label) => {
     return {
@@ -99,14 +99,14 @@ export const actionBoardCreatingLabel = (boardId, label) => {
             label: label
         }
     }
-}
+};
 
 export const failedActionBoardCreatingLabel = (error) => {
     return {
         type: 'FAILED_BOARD_CREATING_LABEL',
         payload: error
     }
-}
+};
 
 export const actionBoardUpdatingLabel = (boardId, label) => {
     return {
@@ -116,14 +116,14 @@ export const actionBoardUpdatingLabel = (boardId, label) => {
             label: label
         }
     }
-}
+};
 
 export const failedActionBoardUpdatingLabel = (error) => {
     return {
         type: 'FAILED_BOARD_UPDATING_LABEL',
         payload: error
     }
-}
+};
 
 export const actionBoardDeletingLabel = (boardId, label) => {
     return {
@@ -133,11 +133,47 @@ export const actionBoardDeletingLabel = (boardId, label) => {
             label: label
         }
     }
-}
+};
 
 export const failedActionBoardDeletingLabel = (error) => {
     return {
         type: 'FAILED_BOARD_DELETING_LABEL',
         payload: error
     }
-}
+};
+
+export const actionAddBoardLabelFilter = (label) => {
+  return {
+      type: 'ADD_BOARD_FILTER_LABEL',
+      payload: {
+          label: label
+      }
+  }
+};
+
+export const actionDeleteBoardLabelFilter = (label) => {
+    return {
+        type: 'DELETE_BOARD_FILTER_LABEL',
+        payload: {
+            label: label
+        }
+    }
+};
+
+export const actionAddBoardMemberFilter = (member) => {
+    return {
+        type: 'ADD_BOARD_FILTER_MEMBER',
+        payload: {
+            member: member
+        }
+    }
+};
+
+export const actionDeleteBoardMemberFilter = (member) => {
+    return {
+        type: 'DELETE_BOARD_FILTER_MEMBER',
+        payload: {
+            member: member
+        }
+    }
+};

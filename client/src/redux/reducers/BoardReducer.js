@@ -13,6 +13,8 @@ const defaultBoardReducer = {
         activities: [],
         visibility: null,
         labels: [],
+        labelsFilter: [],
+        membersFilter: [],
         boardInformation: {
             nbMembers: 0,
             nbStars: 0
@@ -28,6 +30,7 @@ export default (state = defaultBoardReducer, action) => {
             return {
                 ...state,
                 currentBoard: {
+                    ...defaultBoardReducer.currentBoard,
                     ...board,
                     lists: board.lists.map(list => ({_id: list._id, pos: list.pos}))
                 }
@@ -54,7 +57,7 @@ export default (state = defaultBoardReducer, action) => {
         case "GET_BOARD":
             return {
                 ...state,
-                currentBoard: action.payload,
+                currentBoard: {...defaultBoardReducer, ...action.payload},
                 error: null
             };
         case "FAILED_FETCH_BOARD":
@@ -93,7 +96,7 @@ export default (state = defaultBoardReducer, action) => {
                 error: action.payload
             };
         case "USER_BOARD_STAR":
-            console.log(action.payload)
+            console.log(action.payload);
             return {
                 ...state,
                 currentBoard: {
@@ -121,12 +124,12 @@ export default (state = defaultBoardReducer, action) => {
                 )
             };
         case "USER_BOARD_UNSTAR":
-            console.log(action.payload)
+            console.log(action.payload);
             return {
                 ...state,
                 currentBoard: {
                     ...state.currentBoard,
-                    starred: state.currentBoard.starred.filter(user => user!== action.payload.user),
+                    starred: state.currentBoard.starred.filter(user => user !== action.payload.user),
                     boardInformation: {
                         ...state.currentBoard.boardInformation,
                         nbStars: state.currentBoard.boardInformation.nbStars - 1
@@ -179,28 +182,68 @@ export default (state = defaultBoardReducer, action) => {
                 } : {...state.currentBoard}
 
             };
-            case "CREATED_LABEL":
+        case "CREATED_LABEL":
             return (state.currentBoard._id && state.currentBoard._id === action.payload.boardId) ?
-            ({ 
-                ...state, 
-                currentBoard: { ...state.currentBoard, labels:[...state.currentBoard.labels, action.payload.label]}
-            }): state;
-            case "UPDATED_LABEL":
+                ({
+                    ...state,
+                    currentBoard: {...state.currentBoard, labels: [...state.currentBoard.labels, action.payload.label]}
+                }) : state;
+        case "UPDATED_LABEL":
             return (state.currentBoard._id && state.currentBoard._id === action.payload.boardId) ?
-            ({ 
-                ...state, 
-                currentBoard: { ...state.currentBoard, labels:[...state.currentBoard.labels.filter(label => label._id !== action.payload.labelUpdated._id), action.payload.labelUpdated]}
-            }): state;
-            case "DELETED_LABEL":
+                ({
+                    ...state,
+                    currentBoard: {
+                        ...state.currentBoard,
+                        labels: [...state.currentBoard.labels.filter(label => label._id !== action.payload.labelUpdated._id), action.payload.labelUpdated]
+                    }
+                }) : state;
+        case "DELETED_LABEL":
             return (state.currentBoard._id && state.currentBoard._id === action.payload.boardId) ?
-            ({ 
-                ...state, currentBoard: { ...state.currentBoard, labels: state.currentBoard.labels.filter(label => label._id !== action.payload.label._id) }}) : state;
-            case "FAILED_BOARD_CREATING_LABEL":
-            case "FAILED_BOARD_DELETING_LABEL":
-            case "FAILED_BOARD_UPDATING_LABEL":
-                return {
-                ...state, 
+                ({
+                    ...state,
+                    currentBoard: {
+                        ...state.currentBoard,
+                        labels: state.currentBoard.labels.filter(label => label._id !== action.payload.label._id)
+                    }
+                }) : state;
+        case "FAILED_BOARD_CREATING_LABEL":
+        case "FAILED_BOARD_DELETING_LABEL":
+        case "FAILED_BOARD_UPDATING_LABEL":
+            return {
+                ...state,
                 error: action.payload
+            };
+        case "ADD_BOARD_FILTER_LABEL":
+            return {
+                ...state,
+                currentBoard: {
+                    ...state.currentBoard,
+                    labelsFilter: [...state.currentBoard.labelsFilter, action.payload.label]
+                }
+            };
+        case "DELETE_BOARD_FILTER_LABEL":
+            return {
+                ...state,
+                currentBoard: {
+                    ...state.currentBoard,
+                    labelsFilter: state.currentBoard.labelsFilter.filter(label => label !== action.payload.label)
+                }
+            };
+        case "ADD_BOARD_FILTER_MEMBER":
+            return {
+                ...state,
+                currentBoard: {
+                    ...state.currentBoard,
+                    membersFilter: [...state.currentBoard.membersFilter, action.payload.member]
+                }
+            };
+        case "DELETE_BOARD_FILTER_MEMBER":
+            return {
+                ...state,
+                currentBoard: {
+                    ...state.currentBoard,
+                    membersFilter: state.currentBoard.membersFilter.filter(member => member !== action.payload.member)
+                }
             };
         default:
             return state
