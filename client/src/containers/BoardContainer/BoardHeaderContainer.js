@@ -4,7 +4,7 @@ import socketService from "../../services/SocketService";
 import userServices from "../../services/UserServices";
 import {actionBoardSubscribe} from "../../redux/actions/BoardActions";
 import {actionStarBoard, actionUnstarBoard} from "../../redux/actions/UserActions";
-import {actionAddBoardLabelFilter, actionDeleteBoardLabelFilter, actionAddBoardMemberFilter, actionDeleteBoardMemberFilter} from "../../redux/actions/BoardActions";
+import {actionUpdateSearchFilter, actionAddBoardLabelFilter, actionDeleteBoardLabelFilter, actionAddBoardMemberFilter, actionDeleteBoardMemberFilter} from "../../redux/actions/BoardActions";
 import {withRouter} from "react-router"
 
 const mapStateToProps = state => {
@@ -47,6 +47,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         removeMemberFilter(labelId) {
             dispatch(actionDeleteBoardMemberFilter(labelId))
+        },
+        updateSearchFilter(value) {
+            dispatch(actionUpdateSearchFilter(value))
         }
     }
 };

@@ -177,3 +177,12 @@ export const actionDeleteBoardMemberFilter = (member) => {
         }
     }
 };
+
+export const actionUpdateSearchFilter = (value) => {
+    return {
+        type: 'UPDATE_SEARCH_FILTER',
+        payload: {
+            value
+        }
+    }
+};

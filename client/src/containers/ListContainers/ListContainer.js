@@ -32,6 +32,11 @@ const mapStateToProps = (state, ownProps) => {
                         return state.boards.currentBoard.membersFilter.includes("No Members")
                     }
                 } else return true
+            }).filter(card => {
+                const fullCard = state.cards.all.find(fullCard => fullCard._id === card._id);
+                if(state.boards.currentBoard.searchFilter.length > 0) {
+                    return fullCard.name.includes((state.boards.currentBoard.searchFilter))
+                } else return true
             })
         }
     }

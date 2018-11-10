@@ -15,6 +15,7 @@ const defaultBoardReducer = {
         labels: [],
         labelsFilter: [],
         membersFilter: [],
+        searchFilter: "",
         boardInformation: {
             nbMembers: 0,
             nbStars: 0
@@ -246,6 +247,14 @@ export default (state = defaultBoardReducer, action) => {
                     membersFilter: state.currentBoard.membersFilter.filter(member => member !== action.payload.member)
                 }
             };
+        case "UPDATE_SEARCH_FILTER":
+            return {
+                ...state,
+                currentBoard: {
+                    ...state.currentBoard,
+                    searchFilter: action.payload.value
+                }
+            }
         default:
             return state
     }
