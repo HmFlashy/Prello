@@ -8,3 +8,11 @@
     border-radius: 5px;
     color: white;
 }
+
+.checklist-add-button {
+    margin-top: 5px !important;
+}
+
+.checklist-div-add-button {
+    text-align:center;
+}
