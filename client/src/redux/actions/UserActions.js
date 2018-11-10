@@ -52,3 +52,24 @@ export const actionUpdateCategoryName = (id, name) => {
         }
     }
 }
+
+export const actionAddingClientApplication = (name) => {
+    return {
+        type: "ADDING_CLIENT_APPLICATION",
+        payload: name
+    }
+}
+
+export const failedActionAddingClientApplication = (error) => {
+    return {
+        type: "FAILED_ADD_CLIENT_APPLICATION",
+        payload: error
+    }
+}
+
+export const actionClientApplicationAdded = (name) => {
+    return {
+        type: "ADD_CLIENT_APPLICATION",
+        payload: name
+    }
+}

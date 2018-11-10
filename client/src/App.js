@@ -7,6 +7,7 @@ import { ConnectedRouter } from 'connected-react-router'
 import { history } from './history'
 import HomePage from './pages/HomePage'
 import WelcomePage from "./pages/WelcomePage";
+import DeveloperPage from './pages/DeveloperPage'
 
 import { Provider } from 'react-redux'
 import configureStore from './redux/store'
@@ -33,6 +34,7 @@ class App extends Component {
                 <Route exact path="/boards/:boardId" component={BoardPage} />
                 <Route exact path="/card/:cardId" component={BoardPage} />
                 <Route exact path="/team/:teamId" component={TeamPage} />
+                <Route exact path="/developer" component={DeveloperPage} />
                 <Redirect to="/welcome" />
               </Switch>
             </div>

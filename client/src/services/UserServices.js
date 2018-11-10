@@ -56,7 +56,15 @@ export default {
     },
     async updateCategoryName(id, name){
         try {
-            const res = await axios.put(`${UrlConfig.API}/me/categories/${id}`, {name: name}, tokenHeader())
+            const res = await axios.put(`${UrlConfig.API}/me/categories/${id}`, { name }, tokenHeader())
+            return res.data
+        } catch(error) {
+            throw error
+        }
+    },
+    async addClientApplication(name){
+        try {
+            const res = await axios.post(`${UrlConfig.API}/me/client_application`, { name }, tokenHeader())
             return res.data
         } catch(error) {
             throw error
