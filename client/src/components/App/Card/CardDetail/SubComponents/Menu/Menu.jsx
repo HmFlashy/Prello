@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import './Menu.css'
-import { Button, Icon, Divider, Modal, Header, Input, Popup, Loader, Dimmer } from 'semantic-ui-react'
+import { Button, Icon, Divider, Modal, Header, Input, Popup, Loader, Dimmer, Label, Checkbox } from 'semantic-ui-react'
 import DatePicker from './datepicker';
 import Move from './subComponents/Move/MoveContainer.js'
 import moment from 'moment';
-import Labels from '../../../../Modal/LabelsModal'
 import LabelColorPicker from '../../../../Input/LabelColorPicker';
 import DropboxChooser from 'react-dropbox-chooser'
 import { FilePicker } from 'react-file-picker'
@@ -42,22 +41,42 @@ class Menu extends Component {
                             <Icon name='users' />
                             Members
                         </Button>
-                        <Button icon labelPosition='left' onClick={() => {
-                            this.setState({ isLabelClicked: true });
-                            console.log("Change labels: " + this.state.isLabelClicked)
-                        }}>
-                            <Icon name='tag' />
-                            Labels
-                        </Button>
-                        <Labels
-                            card={this.props.card}
-                            board={this.props.board}
-                            isOpened={this.state.isLabelClicked}
-                            onRemoveLabel={(labelId) => { this.props.onRemoveLabel(labelId) }}
-                            onAddLabel={(labelId) => { this.props.onAddLabel(labelId) }}
-                            onValidate={(labelId) => { this.setState({ isLabelClicked: false }) }}
-                        >
-                        </Labels>
+
+
+                        <Popup
+                            trigger={<Button icon labelPosition='left'
+                                onClick={() => {
+                                    this.setState({ isLabelClicked: true });
+                                    console.log("Change labels: " + this.state.isLabelClicked)
+                                }}>
+                                <Icon name='tag' />Labels
+                                </Button>}
+                            open={this.state.isLabelClicked}
+                            onClose={() => this.setState({ isLabelClicked: false })}
+                            on='click'
+                            position='bottom left'>
+                            <Header icon='tags' content='Manage labels' />
+                            <Popup.Content>
+                                {
+                                    <div className="inline fullsize">
+
+
+                                        <div className="fullsize">
+                                            Select labels
+                            {this.props.board.labels && this.props.card.labels
+                                                ?
+                                                this.props.board.labels.map(label =>
+                                                    <Label className={"label-card"} id={label._id} color={label.color}
+                                                        onClick={() => this.props.card.labels.map(cardLabel => cardLabel._id).includes(label._id) ? this.props.onRemoveLabel(label._id) : this.props.onAddLabel(label._id)}>
+                                                        <div id={label._id} className={"filter-name"}>{label.name}</div>
+                                                        <Icon className={"filter-item-icon"} id={"No Labels"}
+                                                            name={this.props.card.labels.map(cardLabel => cardLabel._id).includes(label._id) ? "check" : ""} />
+                                                    </Label>)
+                                                : ""}</div></div>}
+
+
+                            </Popup.Content>
+                        </Popup>
                         <Popup
                             trigger={<Button icon labelPosition='left'>
                                 <Icon name='check square outline' />
