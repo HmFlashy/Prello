@@ -64,7 +64,7 @@ export default {
     },
     async addClientApplication(name){
         try {
-            const res = await axios.post(`${UrlConfig.API}/me/client_application`, { name }, tokenHeader())
+            const res = await axios.post(`${UrlConfig.API}/me/client_applications`, { name }, tokenHeader())
             return res.data
         } catch(error) {
             throw error

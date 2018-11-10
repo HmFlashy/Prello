@@ -4,6 +4,7 @@ const Category = require("../models/index").Category;
 const throwError = require("../helper/RequestHelper").throwError;
 const passwordHelper = require("../helper/passwordHelper");
 const mongoose = require("mongoose")
+const ClientApplication = require("../../oauth/server/models").OAuthClients
 
 const getByEmail = async (email) => {
     try {
@@ -16,10 +17,12 @@ const getByEmail = async (email) => {
 
 const getById = async (userId) => {
     try {
-        const user = await User.findById(userId).populate({
+        const user = await User.findById(userId).populate([{
             path: "teams.team",
             select: ["name"]
-        });
+        }, {
+            path: "client_applications"
+        }]);
         return user
     } catch (error) {
         throw error
@@ -198,6 +201,53 @@ const updateBoardCategory = async (userId, boardId, categoryId) => {
     }
 }
 
+
+const rand_string = (n) => {
+    if (n <= 0) {
+        return '';
+    }
+    var rs = '';
+    try {
+        rs = crypto.randomBytes(Math.ceil(n/2)).toString('hex').slice(0,n);
+        /* note: could do this non-blocking, but still might fail */
+    }
+    catch(ex) {
+        /* known exception cause: depletion of entropy info for randomBytes */
+        console.error('Exception generating random string: ' + ex);
+        /* weaker random fallback */
+        rs = '';
+        var r = n % 8, q = (n-r)/8, i;
+        for(i = 0; i < q; i++) {
+            rs += Math.random().toString(16).slice(2);
+        }
+        if(r > 0){
+            rs += Math.random().toString(16).slice(2,i);
+        }
+    }
+    return rs;
+}
+
+
+const addClientApplication = async (userId, name) => {   let user = null;
+    try {
+        user = await User.findById(userId);
+        const id = rand_string(12)
+        const secret = rand_string(20)
+        const clientApplication = await ClientApplication.create({
+            name: name,
+            id: id,
+            secret: secret,
+            redirectUris: [],
+            grants: ["authorization_code", "refresh_token"],
+            user: user
+        });
+        await User.updateOne({_id: user._id}, {$push: {client_applications: clientApplication}});
+        return clientApplication
+    } catch (error) {
+        throw error
+    }
+}
+
 module.exports = {
     getByEmail,
     addUser,
@@ -208,5 +258,6 @@ module.exports = {
     addCategory,
     deleteCategory,
     updateCategoryName,
-    updateBoardCategory
+    updateBoardCategory,
+    addClientApplication
 }

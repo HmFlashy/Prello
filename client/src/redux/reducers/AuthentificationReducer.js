@@ -10,7 +10,8 @@ const defaultAuthentificationState = {
         teams: [],
         boards: [],
         starred: [],
-        categories: []
+        categories: [],
+        client_applications: []
     },
     error: null,
     token: localStorage.getItem("token-prello")
@@ -125,15 +126,12 @@ export default (state = defaultAuthentificationState, action) => {
                 }
             };
         case "UPDATE_BOARD_CATEGORY":
-            console.log("oyo")
             return {
                 ...state,
                 user: {
                     ...state.user,
                     boards: state.user.boards.map(board => {
                         if (board.board === action.payload.boardId) {
-                            console.log("found")
-                            console.log({...board, category: action.payload.category})
                             if(action.payload.category==="No Category") {
                                 return {...board, category: null}
                             }else {
@@ -141,6 +139,15 @@ export default (state = defaultAuthentificationState, action) => {
                             }
                         } else return board
                     })
+                }
+            }
+        case "ADD_CLIENT_APPLICATION":
+            const newClientApp = action.payload
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    client_applications: [...state.user.client_applications, newClientApp]
                 }
             }
         default:

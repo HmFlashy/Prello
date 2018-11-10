@@ -10,27 +10,28 @@ import {
 const applications = [
     {
         name: "Test",
-        client_id: "12345",
-        client_secret: "secret",
-        redirect_uris: ["http://localhost", "https://mesfesse.com"]
+        id: "12345",
+        secret: "secret",
+        redirectUris: ["http://localhost", "https://mesfesse.com"]
     },
     {
         name: "Application2",
-        client_id: "12345",
-        client_secret: "secret",
-        redirect_uris: ["http://trutr", "https://yes.com"]
+        id: "12345",
+        secret: "secret",
+        redirectUris: ["http://trutr", "https://yes.com"]
     },
     {
         name: "Application3",
-        client_id: "12345",
-        client_secret: "secret",
-        redirect_uris: ["http://bijour", "https://hello.com"]
+        id: "12345",
+        secret: "secret",
+        redirectUris: ["http://bijour", "https://hello.com"]
     }
 ]
 
 const mapStateToProps = state => {
+    console.log(state.authentification.user)
     return {
-        applications: state.authentification.user.applications || applications
+        applications: state.authentification.user.client_applications || applications
     }
 };
 

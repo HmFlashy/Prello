@@ -9,5 +9,6 @@ router.delete('/categories/:categoryId', require('./deleteCategory'));
 router.put('/categories/:categoryId', require('./updateCategoryName'));
 router.put('/boards/:boardId/category', require('./updateBoardCategory'));
 router.get('/', require('./getUsersWithQuery'));
+router.post('/client_applications', require('./addClientApplication'))
 
 module.exports = router;

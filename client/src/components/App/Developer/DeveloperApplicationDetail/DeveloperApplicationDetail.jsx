@@ -16,11 +16,11 @@ class DeveloperApplicationDetail extends Component {
                             <Grid columns="equal" divided>
                                 <Grid.Row>
                                     <Grid.Column textAlign="left"><p>Client ID</p></Grid.Column>
-                                    <Grid.Column textAlign="right">{ this.props.application.client_id }</Grid.Column>
+                                    <Grid.Column textAlign="right">{ this.props.application.id }</Grid.Column>
                                 </Grid.Row>
                                 <Grid.Row>
                                     <Grid.Column textAlign="left">Client Secret</Grid.Column>
-                                    <Grid.Column textAlign="right">{ this.props.application.client_secret }</Grid.Column>
+                                    <Grid.Column textAlign="right">{ this.props.application.secret }</Grid.Column>
                                 </Grid.Row>
                             </Grid>
                         </Segment>
@@ -28,9 +28,9 @@ class DeveloperApplicationDetail extends Component {
                             <h3 className="di-header">Redirect URIs</h3>
                             <List className="text-align-left" verticalAlign="middle">
                                 {
-                                    this.props.application.redirect_uris.map(redirect_uri => 
+                                    this.props.application.redirectUris.map(redirectUri => 
                                         <List.Item className="di-redirect-uri">
-                                            { redirect_uri }
+                                            { redirectUri }
                                             <Button className="di-button" color="red">Remove</Button>
                                         </List.Item>
                                     )
@@ -48,9 +48,9 @@ class DeveloperApplicationDetail extends Component {
 DeveloperApplicationDetail.propTypes = {
     application: PropTypes.shape({
         name: PropTypes.string.isRequired,
-        client_id: PropTypes.string.isRequired,
-        client_secret: PropTypes.string.isRequired,
-        redirect_uris: PropTypes.arrayOf(PropTypes.string)
+        id: PropTypes.string.isRequired,
+        secret: PropTypes.string.isRequired,
+        redirectUris: PropTypes.arrayOf(PropTypes.string)
     })
 }
 

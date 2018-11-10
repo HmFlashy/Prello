@@ -27,7 +27,8 @@ const UserSchema = new mongoose.Schema({
     }],
     starred: [{type: mongoose.Schema.Types.ObjectId, ref: "Board"}],
     categories: [CategorySchema],
-    ldapId: String
+    ldapId: String,
+    client_applications: [{ type: mongoose.Schema.Types.ObjectId, ref: "OAuthClients"}]
 }, {timestamps: true});
 
 const User = mongoose.model("User", UserSchema);
