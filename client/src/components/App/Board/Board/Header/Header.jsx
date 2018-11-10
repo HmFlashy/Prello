@@ -142,7 +142,7 @@ class BoardHeader extends Component {
                             onClose={this.handleClose}
                             onOpen={this.handleOpen}
                             position='bottom right'>
-                            <div className={"filters-list"}>
+                            <div>
                                 <Input className={"search-bar"} placeholder={"Search"}
                                        value={this.props.board.searchFilter}
                                        onChange={this.handleChangeSearchFilter}/>
