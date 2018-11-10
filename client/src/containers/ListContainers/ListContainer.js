@@ -48,7 +48,7 @@ const mapStateToProps = (state, ownProps) => {
             }).filter(card => { // Search filter
                 const fullCard = state.cards.all.find(fullCard => fullCard._id === card._id);
                 if(state.boards.currentBoard.searchFilter.length > 0) {
-                    return fullCard.name.includes(state.boards.currentBoard.searchFilter)
+                    return fullCard.name.toLowerCase().includes(state.boards.currentBoard.searchFilter.toLowerCase())
                 } else return true
             }).filter(card => { // Due date filter
                 const fullCard = state.cards.all.find(fullCard => fullCard._id === card._id);
