@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './Menu.css'
-import { Button, Icon, Divider, Modal, Header, Input, Popup } from 'semantic-ui-react'
+import { Button, Icon, Divider, Modal, Header, Input, Popup, Loader, Dimmer } from 'semantic-ui-react'
 import DatePicker from './datepicker';
 import Move from './subComponents/Move/MoveContainer.js'
 import moment from 'moment';
@@ -19,6 +19,7 @@ class Menu extends Component {
             isLabelClicked: false,
             duedate: null,
             checklistName: "",
+            url: "",
             isMovingCard: false,
             isDeleting: false,
             isAttaching: false,
@@ -104,40 +105,44 @@ class Menu extends Component {
                                 </Button>
                             </Modal.Actions>
                         </Modal>
-                        <Button icon labelPosition='left' onClick={() => this.setState({ isAttaching: true })}>
-                            <Icon name='paperclip' />
-                            Attachments
-                        </Button>
-                        <Modal open={this.state.isAttaching} size="tiny">
-                            <Header icon='calendar' content='Select an attachment' />
-                            <Modal.Content>
-                                <Button.Group>
-                                    <FilePicker
-                                        extensions={['pdf']}
-                                        onChange={file => this.props.onUploadLocalFile(file)}
-                                        onError={error => alert("Not a pdf file !")}
-                                    >
-                                        <Button positive>
-                                            <Icon name='computer' /> Local
+                        <Popup
+                            trigger={<Button icon labelPosition='left'>
+                                <Icon name='paperclip' />
+                                Attachments
+                            </Button>}
+                            on='click'
+                            open={this.state.isAttaching}
+                            onClose={() => this.setState({ isAttaching: false })}
+                            onOpen={() => this.setState({ isAttaching: true })}
+                            position='bottom left'>
+                            <Header icon='paperclip' content='Choose a method' />
+                            {this.state.isUploading
+                                ? <Dimmer active inverted>
+                                    <Loader content="Loading" inverted />
+                                </Dimmer>
+                                : ""
+                            }
+                            <Popup.Content>
+                                <FilePicker
+                                    extensions={['pdf']}
+                                    onChange={file => this.setState({ isUploading: true }, async () => { await this.props.onUploadLocalFile(file); this.setState({ isUploading: false }) })}
+                                    onError={error => alert("Not a pdf file !")}
+                                >
+                                    <Button positive className="fullsize attaching-button">
+                                        <Icon name='computer' /> Local
                                         </Button>
-                                    </FilePicker>
-                                    <DropboxChooser
-                                        appKey={'ad87evrukye9cq0'}
-                                        success={file => this.props.onUploadFile({ url: file[0].link, name: file[0].name })}
-                                        cancel={() => console.log("cancel")}
-                                        extensions={['.pdf']} >
-                                        <Button positive>
-                                            <Icon name='dropbox' /> Dropbox
+                                </FilePicker>
+                                <DropboxChooser
+                                    appKey={'ad87evrukye9cq0'}
+                                    success={file => this.props.onUploadFile({ url: file[0].link, name: file[0].name })}
+                                    cancel={() => console.log("cancel")}
+                                    extensions={['.pdf']} >
+                                    <Button positive className="fullsize attaching-button">
+                                        <Icon name='dropbox' /> Dropbox
                                             </Button>
-                                    </DropboxChooser>
-                                </Button.Group>
-                            </Modal.Content>
-                            <Modal.Actions>
-                                <Button color='red' onClick={() => this.setState({ isAttaching: false })}>
-                                    <Icon name='remove' /> Cancel
-                                </Button>
-                            </Modal.Actions>
-                        </Modal>
+                                </DropboxChooser>
+                            </Popup.Content>
+                        </Popup>
                     </Button.Group>
                 </div>
                 <Divider />

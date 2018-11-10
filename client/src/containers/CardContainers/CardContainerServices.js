@@ -153,7 +153,7 @@ export default {
     },
     async updloadLocalFile(cardId, file, dispatch) {
         try {
-            await cardServices.uploadLocalFile(cardId, file)
+            return await cardServices.uploadLocalFile(cardId, file)
         } catch (error) {
             console.log(error)
             return dispatch(failedActionCardRemoveLabel(error))
@@ -161,7 +161,7 @@ export default {
     },
     async updloadFile(cardId, data, dispatch) {
         try {
-            await cardServices.uploadFile(cardId, data)
+            return await cardServices.uploadFile(cardId, data)
         } catch (error) {
             console.log(error)
             return dispatch(failedActionCardRemoveLabel(error))
@@ -169,7 +169,7 @@ export default {
     },
     async deleteAttachment(cardId, attachmentId, dispatch) {
         try {
-            await cardServices.deleteAttachment(cardId, attachmentId)
+            return await cardServices.deleteAttachment(cardId, attachmentId)
         } catch (error) {
             console.log(error)
             return dispatch(failedActionCardRemoveLabel(error))
