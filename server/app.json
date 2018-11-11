@@ -1,7 +1,6 @@
 {
-    "scripts": {
-      "dokku": {
-        "postdeploy": "npm run init:db"
-      }
-    }
+
+  "scripts": {
+    "postdeploy": "npm run init:db"
   }
+}

@@ -1,23 +1,78 @@
 import './LoginForm.css'
 import React, { Component } from 'react'
-import { Grid, Header, Image, Segment, Form, Button, Message } from 'semantic-ui-react'
+import { Grid, Header, Image, Segment, Form, Button, Message, Checkbox, Dropdown } from 'semantic-ui-react'
 import { withRouter } from 'react-router-dom'
+
+const sections = [
+    {
+        key: "IG",
+        value: "IG",
+        text: "IG"
+    },
+    {
+        key: "MEA",
+        value: "MEA",
+        text: "MEA"
+    },
+    {
+        key: "MAT",
+        value: "MAT",
+        text: "MAT"
+    },
+    {
+        key: "MI",
+        value: "MI",
+        text: "MI"
+    },
+    {
+        key: "GBA",
+        value: "GBA",
+        text: "GBA"
+    }
+]
+
+const years = [
+    {
+        key: "3",
+        value: "3",
+        text: "3"
+    },
+    {
+        key: "4",
+        value: "4",
+        text: "4"
+    },
+    {
+        key: "5",
+        value: "5",
+        text: "5"
+    }
+]
 
 class LoginForm extends Component {
 
     constructor(){
         super()
         this.authenticate = this.authenticate.bind(this)
+        this.onCheckPolytech = this.onCheckPolytech.bind(this)
         this.state = {
             email: '',
             password: '',
-            error: ''
+            error: '',
+            polytechChecked: false,
+            section: sections[0].value,
+            year: years[0].value
         }
     }
 
     async authenticate(){
         try {
-            await this.props.authenticate(this.state.email, this.state.password)
+            const ldapOptions = this.state.polytechChecked ? {
+                ldap: "true",
+                section: this.state.section,
+                year: this.state.year
+            } : null
+            await this.props.authenticate(this.state.email, this.state.password, ldapOptions)
             this.props.history.push(this.props.location.redirect || { pathname: '/home' })
         } catch(error) {
         }
@@ -35,13 +90,23 @@ class LoginForm extends Component {
         })
     }
 
+    onCheckPolytech(){
+        this.setState({
+            polytechChecked: !this.state.polytechChecked
+        })
+    }
+
+    changeInfoPolytechUser(value){
+        this.setState(value)
+    }
+
     render(){
         return (
             <div className='login-form'>
                 <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
                     <Grid.Column style={{ maxWidth: 450 }}>
                         <Header as='h2' color='teal' textAlign='center'>
-                        <Image src='/logo.png' /> Log-in to your account
+                        <Image color="teal" src='http://cdn.onlinewebfonts.com/svg/img_311846.png' /> Log-in to your account
                         </Header>
                         {
                             this.props.error ?
@@ -50,16 +115,26 @@ class LoginForm extends Component {
                         }
                         <Form size='large'>
                             <Segment stacked>
-                                <Form.Input fluid icon='user' onChange={(event) => this.changeEmail(event.target.value)} iconPosition='left' placeholder='E-mail address' />
+                                <Form.Group className="polytech-check" widths="equal">
+                                    <Form.Checkbox className="polytech" color='teal' checked={ this.state.polytechChecked } onChange={ this.onCheckPolytech } label="Polytech Account" fluid />
+                                    {
+                                        this.state.polytechChecked ? (
+                                            <Form.Group className="field" widths="equal">
+                                                <Form.Dropdown className="polytech" defaultValue={sections[0].value} onChange={(event, {value}) => this.changeInfoPolytechUser({ section: value })} options={sections} />
+                                                <Form.Dropdown className="polytech" defaultValue={years[0].value} onChange={(event, {value}) => this.changeInfoPolytechUser({ year: value })} options={years} />
+                                            </Form.Group>
+                                            ) : null
+                                    }
+                                </Form.Group>
+                                <Form.Input fluid icon='user' onChange={(event) => this.changeEmail(event.target.value)} iconPosition='left' placeholder={this.state.polytechChecked ? "firstname.lastname" : "E-mail address"} />
                                 <Form.Input
-                                fluid
-                                icon='lock'
-                                iconPosition='left'
-                                placeholder='Password'
-                                type='password'
-                                onChange={(event) => this.changePassword(event.target.value)}
+                                    fluid
+                                    icon='lock'
+                                    iconPosition='left'
+                                    placeholder='Password'
+                                    type='password'
+                                    onChange={(event) => this.changePassword(event.target.value)}
                                 />
-
                                 <Button color='teal' onClick={this.authenticate} fluid size='large'>
                                     Login
                                 </Button>

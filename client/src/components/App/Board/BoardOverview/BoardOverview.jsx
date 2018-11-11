@@ -1,23 +1,36 @@
 import React, {Component} from "react";
-import {Card, Icon, List, Segment} from "semantic-ui-react"
+import {Card, Icon, List, Modal, Rail, Segment, Label} from "semantic-ui-react"
+import "./BoardOverview.css"
+import BoardOverviewModalContainer from "../../../../containers/BoardContainer/BoardOverviewModalContainer";
+import {withRouter} from "react-router-dom"
 
 class BoardOverview extends Component {
 
-    constructor() {
-        super();
-        this.displayBoard = this.displayBoard.bind(this)
-        this.changeStarState = this.changeStarState.bind(this)
-        this.starBoard = this.starBoard.bind(this)
+    constructor(props) {
+        super(props);
+        this.displayBoard = this.displayBoard.bind(this);
+        this.overStar = this.overStar.bind(this);
+        this.unOverStar = this.unOverStar.bind(this);
+        this.starBoard = this.starBoard.bind(this);
+        this.closeBoardUpdateModal = this.closeBoardUpdateModal.bind(this);
+        this.updateBoard = this.updateBoard.bind(this);
         this.state = {
-            isHoverStar: false
+            isHoverStar: false,
+            boardModal: false
         }
     }
 
-    changeStarState() {
+    overStar() {
         this.setState({
-            isHoverStar: !this.state.isHoverStar
+            isHoverStar: true
         })
-    }
+    };
+
+    unOverStar() {
+        this.setState({
+            isHoverStar: false
+        })
+    };
 
     displayBoard() {
         this.props.history.push(`/boards/${this.props.board._id}`)
@@ -32,25 +45,55 @@ class BoardOverview extends Component {
         }
     }
 
+    updateBoard(event) {
+        event.stopPropagation();
+        this.setState({boardModal: true})
+    }
+
+    closeBoardUpdateModal() {
+        this.setState({boardModal: false})
+    }
+
     render() {
         return (
-            <Card onClick={this.displayBoard}>
-                <Card.Content>
-                    <h1>{this.props.board ? this.props.board.name : ""}</h1>
-                    <span onClick={this.starBoard}
-                              onMouseEnter={() => this.changeStarState}
-                              onMouseOut={() => this.changeStarState}>
-                     <Icon disabled={!this.state.isHoverStar}
-                           name={this.props.isStarred ?"star":"star outline"}/>
-                        {this.props.board?this.props.board.boardInformation.nbStars:0}
-                        </span>
-                    <span>
-                        <Icon name="user circle"/>
-                        {this.props.board?this.props.board.boardInformation.nbMembers:1}
-                    </span>
-                </Card.Content>
-            </Card>
+            <div>
+                <Card className="board-item" onClick={this.displayBoard}>
+                    <Card.Content>
+                        <p className="title">{this.props.board ? this.props.board.name : ""}</p>
+                        <div className="board-overview-bottom">
+                            <div>
+                                <Label onClick={this.starBoard}
+                                       onMouseEnter={this.overStar}
+                                       onMouseOut={this.unOverStar}>
+                                    <Icon className="bo-icon"
+                                          onMouseEnter={this.overStar}
+                                          onMouseOut={this.unOverStar}
+                                          color={(!this.props.isStarred && this.state.isHoverStar)
+                                          || (this.props.isStarred && !this.state.isHoverStar) ? "yellow" : "white"}
+                                          name={(!this.props.isStarred && this.state.isHoverStar)
+                                          || (this.props.isStarred && !this.state.isHoverStar) ? "star" : "star outline"}/>
+                                    {this.props.board ? this.props.board.boardInformation.nbStars : 0}
+                                </Label>
+                                <Label>
+                                    <Icon className="bo-icon" name="user circle"/>
+                                    {this.props.board ? this.props.board.boardInformation.nbMembers : 1}
+                                </Label>
+
+                            </div>
+                            <div>
+                                <Label className="bo-labels" onClick={this.updateBoard}>
+                                    <Icon className="bo-pencil-icon" name={"pencil"}/>
+                                </Label>
+                            </div>
+                        </div>
+                    </Card.Content>
+                </Card>
+                <BoardOverviewModalContainer closeBoardUpdateModal={this.closeBoardUpdateModal}
+                                             isOpen={this.state.boardModal}
+                                             key={this.props.boardId} boardId={this.props.boardId}/>
+            </div>
         );
     }
 }
-export default BoardOverview
+
+export default withRouter(BoardOverview)

@@ -5,7 +5,8 @@ const throwError = require('../../../helper/RequestHelper').throwError;
 const types = {
     name: 'UPDATE_LIST_NAME',
     isArchived: 'UPDATE_LIST_ISARCHIVED',
-    boardId: 'UPDATE_LIST_BOARD'
+    boardId: 'UPDATE_LIST_BOARD',
+    pos: 'UPDATE_LIST_POS'
 };
 
 /**
@@ -67,14 +68,14 @@ const types = {
 module.exports = async (req, res) => {
     try {
         const listId = req.params.listId;
-        if(!listId) {
+        if (!listId) {
             throwError(400, "Missing listId parameter")
         }
-        if(!listId.match(/^[0-9a-fA-F]{24}$/)) {
+        if (!listId.match(/^[0-9a-fA-F]{24}$/)) {
             throwError(400, `The listId ${listId} is malformed`)
         }
         const listUpdated = await ListController.updateList(listId, req.body);
-        if(!listUpdated) {
+        if (!listUpdated) {
             throwError(400, `The listId ${listId} does not exist`)
         }
         Object.keys(req.body).forEach(action => {
@@ -86,9 +87,9 @@ module.exports = async (req, res) => {
             }
         });
         return res.status(200).json(listUpdated)
-    } catch(error) {
+    } catch (error) {
         console.log(error)
-        if(error.code){
+        if (error.code) {
             return res.status(error.code).json(error.message)
         } else {
             return res.sendStatus(500);

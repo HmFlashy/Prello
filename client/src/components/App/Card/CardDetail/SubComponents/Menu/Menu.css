@@ -1,3 +1,28 @@
 .buttons{
     width: 100%
 }
+
+.label{
+    padding: 2px;
+    width: fit-content;
+    border-radius: 5px;
+    color: white;
+}
+
+.checklist-add-button {
+    margin-top: 5px !important;
+}
+
+.checklist-div-add-button {
+    text-align:center;
+}
+.attaching-button{
+    margin-bottom: 5px !important
+}
+.label-card{
+    width: 100%;
+    display:flex !important;
+    margin-right: 0px !important;
+    margin-bottom: 5px !important;
+    flex-direction: row !important
+}

@@ -1,8 +1,7 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
 
-mongoose.set('debug', true);
-mongoose.Promise = global.Promise;
+mongoose.Promise = Promise;
 
 module.exports = {
     Card: require('./Card').Card,

@@ -1,1 +1,1 @@
-export { default } from './NewBoard.jsx'
+export { default } from './NewBoard'

@@ -56,17 +56,21 @@ module.exports = async (req, res) => {
     try {
         const name = req.body.name;
         const boardId = req.body.boardId;
-        if(!name) {
+        const pos = req.body.pos;
+        if (!name) {
             throwError(400, "Missing name parameter")
         }
-        if(!boardId) {
+        if (!boardId) {
             throwError(400, "Missing boardId parameter")
         }
-        if(!boardId.match(/^[0-9a-fA-F]{24}$/)) {
+        if (!pos) {
+            throwError(400, "Missing pos parameter")
+        }
+        if (!boardId.match(/^[0-9a-fA-F]{24}$/)) {
             throwError(400, `The boardId ${boardId} is malformed`)
         }
-        const list = await ListController.addList(name, boardId);
-        if(!list) {
+        const list = await ListController.addList(name, boardId, pos);
+        if (!list) {
             throwError(500, "Internal server issue")
         }
         socketIO.broadcast("action", boardId, {
@@ -74,10 +78,10 @@ module.exports = async (req, res) => {
             payload: list
         });
         return res.status(201).json(list)
-    } catch(error) {
+    } catch (error) {
         console.log(error);
-        if(error.code){
-            return res.status(error.code).json({message: error.message})
+        if (error.code) {
+            return res.status(error.code).json({ message: error.message })
         } else {
             return res.sendStatus(500);
         }

@@ -1,6 +1,4 @@
 .cardOverview {
-  width: 97% !important;
-  max-height: 300px;
   text-align: left;
   margin-bottom: 1%;
   position: relative;
@@ -11,8 +9,9 @@
   margin-bottom: 5px; 
 }
 
-.little-label {
-  width: 30px !important;
+.big_label {
+  min-width: 40px;
+  line-height: 0.5px !important;
 }
 
 .information {
@@ -24,4 +23,8 @@
   bottom: 0px;
   left: 0px;
   margin: 5px;
+}
+
+.member-avatar {
+  margin-left: 5px;
 }

@@ -5,16 +5,16 @@ import newList from '../../components/App/List/NewList'
 
 const mapStateToProps = state => {
     return {
-        boardId: state.boards.currentBoard._id
+        board: state.boards.currentBoard
     }
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        async addList(name, boardId) {
+        async addList(name, boardId, pos) {
             try {
-                await listServices.addListApi(name, boardId)
-            } catch(error) {
+                await listServices.addListApi(name, boardId, pos)
+            } catch (error) {
                 console.log(error)
                 dispatch(failedActionAddList(error))
             }

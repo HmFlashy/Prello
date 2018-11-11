@@ -12,6 +12,9 @@ import Activity from './SubComponents/Activity';
 import Description from './SubComponents/Description';
 import Header from './SubComponents/Header';
 import moment from 'moment';
+import ReactMde from "react-mde";
+import Showdown from "showdown";
+import 'react-mde/lib/styles/css/react-mde-all.css';
 
 class CardDetail extends Component {
 
@@ -23,20 +26,55 @@ class CardDetail extends Component {
             descriptionTextArea: "",
             isNameUpdating: false,
             width: 0,
-            height: 0
+            height: 0,
+            mdeState: null,
         }
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+
+        this.onDelete = this.onDelete.bind(this);
         this.createChecklist = this.createChecklist.bind(this);
         this.deleteChecklist = this.deleteChecklist.bind(this);
         this.updateChecklist = this.updateChecklist.bind(this);
         this.onAddItem = this.onAddItem.bind(this);
         this.onDeleteItem = this.onDeleteItem.bind(this);
         this.onUpdateItem = this.onUpdateItem.bind(this);
+
+        this.onAddComment = this.onAddComment.bind(this);
+        this.onUpdateComment = this.onUpdateComment.bind(this);
+        this.onDeleteComment = this.onDeleteComment.bind(this);
+
         this.moveCard = this.moveCard.bind(this);
+        this.addCardLabel = this.addCardLabel.bind(this);
+        this.removeCardLabel = this.removeCardLabel.bind(this);
+
+        this.descToInput = this.descToInput.bind(this)
+        this.inputToDesc = this.inputToDesc.bind(this)
+        this.changeDescription = this.changeDescription.bind(this)
+        this.handleValueChange = this.handleValueChange.bind(this)
+
+        this.converter = new Showdown.Converter({
+            tables: true,
+            simplifiedAutoLink: true
+        });
+
+
+    }
+
+    componentWillMount() {
+        console.log(this.props.card)
+        console.log("JE MONTE")
     }
 
     componentDidMount() {
-        this.props.fetchCard(this.props.match.params.cardId)
+        this.props.fetchCard(this.props.match.params.cardId).then(card => {
+            this.setState({
+                isDescInput: this.props.card.desc === null,
+                mdeState: {
+                    markdown: this.props.card.desc || ""
+                }
+            })
+            return Promise.resolve(card)
+        })
         this.updateWindowDimensions();
         window.addEventListener('resize', this.updateWindowDimensions);
     }
@@ -57,6 +95,31 @@ class CardDetail extends Component {
         })
     }
 
+    changeDescription(mdeState) {
+        console.log(mdeState)
+        this.setState({
+            descriptionTextArea: mdeState.markdown,
+            mdeState: mdeState
+        })
+    }
+
+    descToInput() {
+        this.setState({
+            isDescInput: true
+        })
+    }
+
+    inputToDesc() {
+        this.setState({
+            isDescInput: false
+        })
+    }
+
+    handleValueChange = (mdeState) => {
+        this.setState({ mdeState });
+    }
+
+
     updateCard(oldValue, data) {
         console.log(data)
         this.props.updateCard(this.props.card._id, oldValue, data)
@@ -71,7 +134,7 @@ class CardDetail extends Component {
     }
 
     updateChecklist(checklistId, oldVal, newVal, name) {
-        this.props.updateChecklist(this.props.card._id, checklistId, oldVal, { _id: this.props.card._id, ...newVal }, name)
+        this.props.updateChecklist(this.props.card._id, checklistId, oldVal, { _id: this.props.card._id, ...newVal, cardInformation: this.props.card.cardInformation }, name)
     }
 
     onAddItem(checklistId, data) {
@@ -83,11 +146,39 @@ class CardDetail extends Component {
     }
 
     onUpdateItem(checklistId, itemId, oldVal, newVal, data) {
-        this.props.updateItemToChecklist(this.props.card._id, checklistId, itemId, oldVal, { _id: this.props.card._id, ...newVal }, data)
+        let cardInfo
+        if (data.hasOwnProperty('isChecked')) {
+            cardInfo = data.isChecked ? { ...this.props.card.cardInformation, nbItemsChecked: this.props.card.cardInformation.nbItemsChecked + 1 } : { ...this.props.card.cardInformation, nbItemsChecked: this.props.card.cardInformation.nbItemsChecked - 1 }
+        }
+        this.props.updateItemToChecklist(this.props.card._id, checklistId, itemId, oldVal, { _id: this.props.card._id, ...newVal, cardInformation: cardInfo }, data)
+    }
+
+    addCardLabel(labelId) {
+        this.props.addCardLabel(this.props.card._id, labelId)
+    }
+
+    removeCardLabel(labelId) {
+        this.props.removeCardLabel(this.props.card._id, labelId)
     }
 
     moveCard(data) {
         this.props.moveCard(this.props.card._id, data)
+    }
+
+    onAddComment(content) {
+        this.props.addComment(this.props.card._id, { author: this.props.userId, content })
+    }
+
+    onDeleteComment(commentId) {
+        this.props.deleteComment(this.props.card._id, commentId)
+    }
+
+    onUpdateComment(commentId, oldVal, newVal) {
+        this.props.updateComment(this.props.card._id, commentId, { _id: this.props.card._id, commentId, comment: oldVal }, { _id: this.props.card._id, commentId, comment: { content: newVal, wasModified: true, dateModified: Date.now() } })
+    }
+
+    onDelete() {
+        this.props.deleteCard(this.props.card._id)
     }
 
     render() {
@@ -101,45 +192,59 @@ class CardDetail extends Component {
                 <Divider />
                 <div className={this.state.width > 600 ? "displayRow main" : "main"}>
                     <div className="details main">
-                        {(this.props.card.members && this.props.card.members.length !== 0) || (this.props.card && this.props.card.labels.length !== 0) || this.props.card.dueDate
+                        {(this.props.card.members && this.props.card.members.length !== 0) || (this.props.card.labels && this.props.card.labels.length !== 0) || this.props.card.dueDate
                             ? <div>
                                 <div className="inline">
                                     <Icon name='tags' />
                                     {this.props.card.members && this.props.card.members.length !== 0
-                                        ? <Members className="membersContainer" members={this.props.card.members}></Members>
+                                        ? <Members className="membersContainer" card={this.props.card}></Members>
                                         : ""}
                                     {this.props.card.labels && this.props.card.labels.length !== 0
-                                        ? <Labels className="labelsContainer" labels={this.props.card.labels}></Labels>
+                                        ? <Labels className="labelsContainer" card={this.props.card}></Labels>
                                         : ""}
                                     {this.props.card.dueDate
-                                        ? <DueDate className="duedateContainer" onChange={(isChecked) => this.updateCard({ dueDateCompleted: this.props.card.dueDateCompleted, _id: this.props.card._id }, { dueDateCompleted: isChecked ? moment() : null, _id: this.props.card._id })} date={this.props.card.dueDate} isCompleted={this.props.card.dueDateCompleted}></DueDate>
+                                        ? <DueDate
+                                            className="duedateContainer"
+                                            onChange={(isChecked) => this.updateCard({ dueDateCompleted: this.props.card.dueDateCompleted, _id: this.props.card._id }, { dueDateCompleted: isChecked ? moment() : null, _id: this.props.card._id })} date={this.props.card.dueDate} isCompleted={this.props.card.dueDateCompleted}
+                                            deleteDueDate={() => this.updateCard({ dueDateCompleted: this.props.card.dueDateCompleted, _id: this.props.card._id }, { dueDateCompleted: null, dueDate: null, _id: this.props.card._id })}
+                                        ></DueDate>
                                         : ""}
                                 </div>
                                 <Divider />
                             </div>
                             : ""}
-                        {this.props.card.desc
-                            ? <div>
-                                <Description description={this.props.card.desc}></Description>
-                                <Divider />
-                            </div>
-                            : <div>
-                                <div className={"displayRow"}>
-                                    <Icon name='align left' />
-                                    <Form className="form" onSubmit={() => this.updateCard({ desc: this.props.card.desc, _id: this.props.card._id }, { desc: this.state.descriptionTextArea, _id: this.props.card._id })}>
-                                        <p>Describe me</p>
-                                        <Form.Field>
-                                            <TextArea onChange={(event, data) => this.setState({ descriptionTextArea: data.value })} rows={2} placeholder="Describe me..." />
-                                        </Form.Field>
-                                        <Button type='submit'>Submit</Button>
-                                    </Form>
+                        <div className={"displayRow describe-me"}>
+                            <Icon name='align left' />
+                            <p>Describe me</p>
+                        </div>
+                        {
+                            !this.state.isDescInput ?
+                                <div className="description-html">
+                                    <Description descToInput={this.descToInput} description={<div className="mde-preview "><div className="mde-preview-content" dangerouslySetInnerHTML={{ __html: this.converter.makeHtml(this.props.card.desc) }} /></div>}></Description>
+                                    <Divider />
                                 </div>
-                                <Divider />
-                            </div>}
+                                : <div>
+                                    <div>
+                                        <ReactMde
+                                            onChange={this.changeDescription}
+                                            editorState={this.state.mdeState}
+                                            generateMarkdownPreview={markdown =>
+                                                Promise.resolve(this.converter.makeHtml(markdown))
+                                            }
+                                        />
+                                        <Button className="validate-description" onClick={() => this.inputToDesc() || this.updateCard({ desc: this.props.card.desc, _id: this.props.card._id }, { desc: this.state.descriptionTextArea, _id: this.props.card._id })} >OK</Button>
+                                    </div>
+                                    <Divider />
+                                </div>
+                        }
 
                         {this.props.card.attachments && this.props.card.attachments.length !== 0
                             ? <div>
-                                <Attachments className="attachmentsContainer" attachments={this.props.card.attachments}></Attachments>
+                                <Attachments
+                                    className="attachmentsContainer"
+                                    attachments={this.props.card.attachments}
+                                    onDeleteAttachment={(attachmentId) => this.props.deleteAttachment(this.props.card._id, attachmentId)}
+                                ></Attachments>
                                 <Divider />
                             </div>
                             : ""}
@@ -157,17 +262,34 @@ class CardDetail extends Component {
                                 <Divider />
                             </div>
                             : ""}
-                        <Comment></Comment>
+                        <Comment
+                            onAddComment={content => this.onAddComment(content)}
+                        />
                         <Divider />
-                        <Activity></Activity>
+                        <Activity
+                            userId={this.props.userId}
+                            comments={this.props.card.comments}
+                            onDeleteComment={commentId => this.onDeleteComment(commentId)}
+                            onUpdateComment={(commentId, oldVal, newVal) => this.onUpdateComment(commentId, oldVal, newVal)}
+                        />
                     </div>
                     <Menu
                         card={this.props.card}
+                        board={this.props.board}
                         isArchived={this.props.card.isArchived}
                         onDueDate={(date) => this.updateCard({ dueDate: this.props.card.dueDate, _id: this.props.card._id }, { dueDate: date, _id: this.props.card._id })}
                         onArchive={(value) => this.updateCard({ isArchived: this.props.card.isArchived, _id: this.props.card._id }, { isArchived: value, _id: this.props.card._id })}
                         onChecklist={(value) => this.createChecklist({ name: value, _id: this.props.card._id })}
-                        onMove={(boardId, oldListId, newListId, pos) => this.moveCard({ boardId, oldListId, newListId, pos, _id: this.props.card._id })}
+                        onMove={(boardId, oldListId, newListId, newName, pos) => this.moveCard({ boardId, oldListId, newListId, listName: newName, pos, _id: this.props.card._id })}
+                        onAddLabel={(labelId) => this.addCardLabel(labelId)}
+                        onRemoveLabel={(labelId) => this.removeCardLabel(labelId)}
+                        onDelete={() => {
+                            this.onDelete();
+                            this.props.history.goBack();
+                            this.props.closeCardModal()
+                        }}
+                        onUploadLocalFile={(file) => this.props.uploadLocalFile(this.props.card._id, file)}
+                        onUploadFile={(data) => this.props.uploadFile(this.props.card._id, data)}
                     />
                 </div>
             </div>

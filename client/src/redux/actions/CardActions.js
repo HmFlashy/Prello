@@ -29,7 +29,7 @@ export const actionUpdatingCard = (data) => {
 
 export const actionMoveCard = (data) => {
     return {
-        type: "MOVE_CARD",
+        type: "MOVING_CARD",
         payload: data
     }
 }
@@ -42,8 +42,14 @@ export const failedActionMoveCard = (data) => {
 }
 
 export const failedActionUpdateCard = (error) => {
+    let type
+    Object.keys(error).map(key => {
+        if(key !== "_id"){
+            type = `FAILED_UPDATE_${key.toUpperCase()}`
+        }
+    })
     return {
-        type: 'FAILED_UPDATE_CARD_NAME',
+        type,
         payload: error
     }
 }
@@ -143,5 +149,75 @@ export const actionFailedCardFetched = (error) => {
     return {
         type: 'CARD_FAILED_FETCH',
         payload: error
+    }
+}
+
+export const actionCardAddingLabel = (data) => {
+    return {
+        type: 'CARD_ADDING_LABEL',
+        payload: data
+    }
+}
+
+export const failedActionCardAddLabel = (error) => {
+    return {
+        type: 'FAILED_CARD_ADD_LABEL',
+        payload: error
+    }
+}
+
+export const actionCardRemovingLabel = (data) => {
+    return {
+        type: 'CARD_REMOVING_LABEL',
+        payload: data
+    }
+}
+
+export const failedActionCardRemoveLabel = (error) => {
+    return {
+        type: 'FAILED_CARD_REMOVE_LABEL',
+        payload: error
+    }
+}
+
+export const failedActionUpdateComment = (error) => {
+    return {
+        type: 'FAILED_UPDATE_COMMENT',
+        payload: error
+    }
+}
+
+export const failedActionDeleteComment = (error) => {
+    return {
+        type: 'FAILED_DELETE_COMMENT',
+        payload: error
+    }
+}
+
+export const failedActionAddComment = (error) => {
+    return {
+        type: 'FAILED_ADD_COMMENT',
+        payload: error
+    }
+}
+
+export const actionUpdateComment = (data) => {
+    return {
+        type: 'UPDATING_COMMENT',
+        payload: data
+    }
+}
+
+export const actionDeleteComment = (data) => {
+    return {
+        type: 'DELETING_COMMENT',
+        payload: data
+    }
+}
+
+export const actionAddComment = (data) => {
+    return {
+        type: 'ADDING_COMMENT',
+        payload: data
     }
 }

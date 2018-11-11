@@ -1,9 +1,12 @@
-.header {
+.app-header {
     justify-content: space-between;
-    opacity: 0.8;
+    opacity: 1;
     z-index: 100;
     flex: 0;
     flex-basis: 60px;
+    margin-bottom: 0px !important;
+    background-color: rgba(22, 16, 109, 0.336) !important;
+    
 }
 .inline {
     display: flex;
@@ -11,8 +14,26 @@
 }
 .appname{
     font-size: 15px;
-    opacity: 0.9;
+    opacity: 1;
 }
 .search {
     margin-top: 1%;
+}
+
+.header-left {
+    flex: 4;
+}
+
+.header-center {
+    flex: 1;
+    position: relative;
+}
+
+.header-center-image {
+    height: 38px;
+}
+
+.header-right {
+    flex: 4;
+    text-align: right;
 }

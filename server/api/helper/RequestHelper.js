@@ -4,15 +4,7 @@ const throwError = function(code, errorMessage) {
     throw error
 };
 
-const throwIf = (fn, code, errorType, errorMessage) => result => {
-    if (fn(result)) {
-        throwError(code, errorType, errorMessage)
-    }
-    return result
-};
-
 module.exports = {
-    throwError: throwError,
-    throwIf: throwIf
+    throwError: throwError
 };
 

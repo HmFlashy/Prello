@@ -1,5 +1,27 @@
 const defaultCardModalState = {
-    _id: null
+    name: null,
+    desc: null,
+    dueDate: null,
+    dueDateCompleted: null,
+    isArchived: null,
+    creator: null,
+    labels: [],
+    comments: [],
+    members: [],
+    attachments: [],
+    checklists: [],
+    watchers: [],
+    list: null,
+    board: null,
+    pos: null,
+    activities: [],
+    cardInformation: {
+        nbComments: 0,
+        nbItems: 0,
+        nbItemsChecked: 0,
+        nbAttachments: 0,
+        description: null
+    }
 }
 
 export default (state = defaultCardModalState, action) => {
@@ -101,9 +123,68 @@ export default (state = defaultCardModalState, action) => {
             return (state._id && state._id === action.payload._id) ?
                 ({
                     ...state,
-                    checklists: action.payload.checklists
+                    checklists: action.payload.checklists,
+                    cardInformation: action.payload.cardInformation
                 })
                 : state
+        case 'MOVED_CARD':
+        case 'MOVING_CARD':
+        case 'FAILED_MOVE_CARD':
+            return (state._id && state._id === action.payload._id) ?
+                ({
+                    ...state,
+                    list: { _id: action.payload.newListId, name: action.payload.listName },
+                    board: action.payload.boardId
+                })
+                : state
+        case 'ADDED_COMMENT':
+            return (state._id && state._id === action.payload._id) ?
+                ({
+                    ...state,
+                    comments: [...state.comments, action.payload.comment]
+                })
+                : state
+        case 'DELETED_COMMENT':
+            return (state._id && state._id === action.payload._id) ?
+                ({
+                    ...state,
+                    comments: state.comments.filter(comment => comment._id !== action.payload.commentId)
+                })
+                : state
+        case 'UPDATING_COMMENT':
+        case 'UPDATED_COMMENT':
+        case 'FAILED_UPDATE_COMMENT':
+            return (state._id && state._id === action.payload._id) ?
+                ({
+                    ...state,
+                    comments: state.comments.map(comment => comment._id === action.payload.commentId ? { ...comment, ...action.payload.comment } : comment)
+                })
+                : state
+        case 'FAILED_CARD_ADD_LABEL':
+        case 'CARD_ADDING_LABEL':
+        case 'ADDED_LABEL':
+            return (state._id && state._id === action.payload._id) ?
+                ({
+                    ...state, labels: [...state.labels, action.payload.label]
+                }) : state
+        case 'ADD_CARD_ATTACHMENT':
+            return (state._id && state._id === action.payload._id) ?
+                ({
+                    ...state, attachments: [...state.attachments, action.payload.attachment]
+                }) : state
+        case 'REMOVE_CARD_ATTACHMENT':
+            return (state._id && state._id === action.payload._id) ?
+                ({
+                    ...state, attachments: state.attachments.filter(attachment => attachment._id != action.payload.attachmentId)
+                }) : state
+        case 'FAILED_CARD_REMOVE_LABEL':
+        case 'CARD_REMOVING_LABEL':
+        case 'REMOVED_LABEL':
+            return (state._id && state._id === action.payload._id) ?
+                ({
+                    ...state,
+                    labels: state.labels.filter(label => label._id !== action.payload.labelId)
+                }) : state
         default:
             return state
     }

@@ -4,15 +4,14 @@ import socketService from "../../services/SocketService";
 import userServices from "../../services/UserServices";
 import {actionBoardSubscribe} from "../../redux/actions/BoardActions";
 import {actionStarBoard, actionUnstarBoard} from "../../redux/actions/UserActions";
-import {withRouter} from "react-router"
 
 const mapStateToProps = (state, ownProps) => {
     const user = state.authentification.user;
     const board = state.boards.all.find(board => ownProps.boardId === board._id)
     return {
         board: board,
-        userId: user?user._id:null,
-        isStarred: user?board?board.starred.includes(user._id):null:null
+        userId: user._id,
+        isStarred: board?board.starred.includes(user._id):null
     }
 };
 
@@ -23,17 +22,17 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             dispatch(actionBoardSubscribe())
         },
         async starBoard(userId) {
-            await userServices.starBoard(ownProps.boardId, userId);
+            await userServices.starBoard(ownProps.boardId);
             dispatch(actionStarBoard(ownProps.boardId, userId))
         },
         async unstarBoard(userId) {
-            await userServices.unstarBoard(ownProps.boardId, userId);
+            await userServices.unstarBoard(ownProps.boardId);
             dispatch(actionUnstarBoard(ownProps.boardId, userId))
         }
     }
 };
 
-export default withRouter(connect(
+export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(BoardOverview));
+)(BoardOverview);

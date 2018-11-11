@@ -3,8 +3,17 @@
     margin: 0.3rem !important;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
-    background-color: #dfe3e6 !important;
+    overflow-x: auto;
+    color: white;
+    background-color: #624d757a !important;
+    max-height: 100%;
+}
+
+.myDiv{
+    width: 305px !important;
+    display: flex;
+    flex-direction: column;
+    overflow-x: auto;
     max-height: 100%;
 }
 
@@ -13,4 +22,13 @@
     overflow-y: scroll;
     margin-top: 0px !important;
     text-align: left !important;
+}
+
+.list-header {
+    margin: auto;
+    display: flex;
+}
+
+.list-header .label {
+    margin-left: 20px !important;
 }

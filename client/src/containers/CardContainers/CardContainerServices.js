@@ -13,7 +13,15 @@ import {
     failedActionCardUpdateItemToChecklist,
     actionCardUpdateItemToChecklist,
     actionMoveCard,
-    failedActionMoveCard
+    failedActionMoveCard,
+    failedActionAddComment,
+    failedActionDeleteComment,
+    failedActionUpdateComment,
+    actionAddComment,
+    actionDeleteComment,
+    actionUpdateComment,
+    failedActionCardAddLabel,
+    failedActionCardRemoveLabel
 } from '../../redux/actions/CardActions'
 
 export default {
@@ -45,7 +53,36 @@ export default {
             await cardServices.moveCardApi(cardId, data)
         } catch (error) {
             console.log(error)
-            //return dispatch(failedActionMoveCard(data, error))
+            return dispatch(failedActionMoveCard(data, error))
+        }
+    }, async deleteCard(cardId, dispatch) {
+        try {
+            await cardServices.deleteCardApi(cardId)
+        } catch (error) {
+            console.log(error)
+            return dispatch(failedActionMoveCard(error))
+        }
+    }, async addComment(cardId, data, dispatch) {
+        try {
+            await cardServices.addCommentApi(cardId, data)
+        } catch (error) {
+            console.log(error)
+            return dispatch(failedActionAddComment(data, error))
+        }
+    }, async deleteComment(cardId, commentId, dispatch) {
+        try {
+            await cardServices.deleteCommentApi(cardId, commentId)
+        } catch (error) {
+            console.log(error)
+            return dispatch(failedActionDeleteComment(error))
+        }
+    }, async updateComment(cardId, commentId, oldValue, data, dispatch) {
+        try {
+            dispatch(actionUpdateComment(data))
+            await cardServices.updateCommentApi(cardId, commentId, { content: data.comment.content })
+        } catch (error) {
+            console.log(error)
+            return dispatch(failedActionUpdateComment(oldValue, error))
         }
     },
     async createChecklist(cardId, data, dispatch) {
@@ -97,5 +134,46 @@ export default {
             console.log(error)
             return dispatch(failedActionCardUpdateItemToChecklist(oldVal))
         }
+    },
+    async addCardLabel(cardId, labelId, dispatch) {
+        try {
+            await cardServices.addLabel(cardId, labelId)
+        } catch (error) {
+            console.log(error)
+            return dispatch(failedActionCardAddLabel(error))
+        }
+    },
+    async removeCardLabel(cardId, labelId, dispatch) {
+        try {
+            await cardServices.removeLabel(cardId, labelId)
+        } catch (error) {
+            console.log(error)
+            return dispatch(failedActionCardRemoveLabel(error))
+        }
+    },
+    async updloadLocalFile(cardId, file, dispatch) {
+        try {
+            return await cardServices.uploadLocalFile(cardId, file)
+        } catch (error) {
+            console.log(error)
+            return dispatch(failedActionCardRemoveLabel(error))
+        }
+    },
+    async updloadFile(cardId, data, dispatch) {
+        try {
+            return await cardServices.uploadFile(cardId, data)
+        } catch (error) {
+            console.log(error)
+            return dispatch(failedActionCardRemoveLabel(error))
+        }
+    },
+    async deleteAttachment(cardId, attachmentId, dispatch) {
+        try {
+            return await cardServices.deleteAttachment(cardId, attachmentId)
+        } catch (error) {
+            console.log(error)
+            return dispatch(failedActionCardRemoveLabel(error))
+        }
     }
+
 }

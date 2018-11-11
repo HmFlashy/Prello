@@ -5,23 +5,31 @@ import cardContainerServices from "./CardContainerServices"
 import cardServices from '../../services/CardServices'
 import {
     actionCardFetched,
-    failedActionGetCard
+    failedActionGetCard,
 } from '../../redux/actions/CardActions'
+import {
+    actionCloseCardModal
+} from '../../redux/actions/BoardActions'
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        card: state.cardModal
+        board: state.boards.currentBoard,
+        card: state.cardModal,
+        userId: state.authentification.user._id
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
+        closeCardModal() {
+            dispatch(actionCloseCardModal())
+        },
         async fetchCard(cardId) {
             try {
                 const card = await cardServices.fetchCard(cardId)
                 return dispatch(actionCardFetched(card))
             } catch (error) {
-                return dispatch(failedActionGetCard())
+                return dispatch(failedActionGetCard(error))
             }
         },
         async updateCard(cardId, oldValue, data) {
@@ -29,6 +37,9 @@ const mapDispatchToProps = dispatch => {
         },
         async moveCard(cardId, data) {
             await cardContainerServices.moveCard(cardId, data, dispatch)
+        },
+        async deleteCard(cardId) {
+            await cardContainerServices.deleteCard(cardId)
         },
         async createChecklist(cardId, data) {
             await cardContainerServices.createChecklist(cardId, data, dispatch)
@@ -47,6 +58,30 @@ const mapDispatchToProps = dispatch => {
         },
         async updateItemToChecklist(cardId, checklistId, itemId, oldVal, newVal, data) {
             await cardContainerServices.updateItemToChecklist(cardId, checklistId, itemId, oldVal, newVal, data, dispatch)
+        },
+        async addComment(cardId, data) {
+            await cardContainerServices.addComment(cardId, data, dispatch)
+        },
+        async deleteComment(cardId, commentId) {
+            await cardContainerServices.deleteComment(cardId, commentId, dispatch)
+        },
+        async updateComment(cardId, commentId, oldVal, data) {
+            await cardContainerServices.updateComment(cardId, commentId, oldVal, data, dispatch)
+        },
+        async addCardLabel(cardId, labelId) {
+            await cardContainerServices.addCardLabel(cardId, labelId, dispatch)
+        },
+        async removeCardLabel(cardId, labelId) {
+            await cardContainerServices.removeCardLabel(cardId, labelId, dispatch)
+        },
+        async uploadLocalFile(cardId, file) {
+            return await cardContainerServices.updloadLocalFile(cardId, file, dispatch)
+        },
+        async uploadFile(cardId, data) {
+            return await cardContainerServices.updloadFile(cardId, data, dispatch)
+        },
+        async deleteAttachment(cardId, attachmentId) {
+            await cardContainerServices.deleteAttachment(cardId, attachmentId, dispatch)
         }
     }
 }

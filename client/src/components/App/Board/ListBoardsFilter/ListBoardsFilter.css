@@ -1,0 +1,16 @@
+.lists {
+    
+}
+
+.list-boards {
+    margin-top: 1em !important;
+    flex-wrap: wrap;
+}
+
+.list-boards::-webkit-scrollbar {
+    height: 5px;
+}
+
+.left-icon-list-board-title {
+    margin-right: 15px !important;
+}

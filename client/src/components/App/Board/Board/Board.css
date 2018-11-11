@@ -6,7 +6,7 @@
     height: 100%;
 }
 
-.lists {
+.myLists {
     padding-top: 0px !important;
     margin: 0px !important;
     display: flex;
@@ -14,7 +14,15 @@
     flex-direction: row;
     height: 100%;
     flex-wrap: nowrap;
-    margin-bottom: 8px !important;
+}
+
+.lists {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    overflow-y: auto;
+    height: 100%;
+    
 }
 
 .no-padding-top {
@@ -30,9 +38,21 @@
     height: 100%;
 }
 .board {
+    position: relative;
     flex: 1;
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
     height: 100%;
+}
+
+#bg {
+  position: fixed; 
+  top: 0; 
+  left: 0; 
+  z-index: -10;
+  /* Preserve aspet ratio */
+  min-width: 100%;
+  min-height: 100%;
+  background-color: black;
 }

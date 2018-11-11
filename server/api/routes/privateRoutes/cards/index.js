@@ -1,5 +1,5 @@
 const express = require('express');
-const {cardValidator} = require('../../../validations/privateRoutes');
+const { cardValidator, commentValidator, attachmentValidator } = require('../../../validations/privateRoutes');
 
 const router = express.Router();
 
@@ -20,6 +20,16 @@ router.put('/:cardId/checklists/:checklistId', require('../checklists/updateChec
 router.post('/:cardId/checklists/:checklistId/items', require('../checklists/Item/addItem'));
 router.delete('/:cardId/checklists/:checklistId/items/:itemId', require('../checklists/Item/deleteItem'));
 router.put('/:cardId/checklists/:checklistId/items/:itemId', require('../checklists/Item/updateItem'));
+
+router.post('/:cardId/comments', commentValidator.addCommentValidator, require('../comments/addComment'));
+router.delete('/:cardId/comments/:commentId', commentValidator.deleteCommentValidator, require('../comments/deleteComment'));
+router.put('/:cardId/comments/:commentId', commentValidator.updateCommentValidator, require('../comments/updateComment'));
+
+router.put('/:cardId/labels/:labelId', require('../labels/Card/addLabel'));
+router.delete('/:cardId/labels/:labelId', require('../labels/Card/removeLabel'));
+
+router.post('/:cardId/attachments', attachmentValidator.addAttachmentValidator, require('./addAttachments'));
+router.delete('/:cardId/attachments/:attachmentId', attachmentValidator.deleteAttachmentValidator, require('./deleteAttachments'));
 
 
 module.exports = router;

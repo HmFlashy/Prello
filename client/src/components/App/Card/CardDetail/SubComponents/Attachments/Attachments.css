@@ -6,3 +6,20 @@
 .image{
     margin-right: 3%
 }
+.attachment-name{
+    width: max-content !important
+}
+
+.attachment-title{
+    display :flex;
+    justify-content: space-between
+}
+.segment-attachments{
+    width: 571px !important
+}
+.segment-att{
+    width: 100%
+}
+.fullsize{
+    width: 100%;
+}

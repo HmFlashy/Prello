@@ -1,4 +1,13 @@
 language: node_js
+services:
+  - mongodb
+  - redis-server
 node_js:
-- '8'
-script: npm install && cd ./client && npm install && npm run test
+  - '8'
+env:
+  - FOLDER=client
+  - FOLDER=server
+before_script:
+  - cd server && npm install && npm run init:db
+script: 
+  - cd .. && cd $FOLDER && npm install && npm run test

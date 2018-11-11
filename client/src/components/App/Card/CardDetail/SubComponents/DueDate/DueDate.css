@@ -2,3 +2,22 @@
     display: flex;
     flex-direction: row;
   }
+
+.remove-label {
+  margin-bottom: 14px !important;  
+  height: 30px !important;
+  text-align: center !important;
+  margin-top: 10px !important;
+  margin-left: 5px !important;
+}
+
+.remove-label:hover {
+  cursor: pointer;
+  background-color: brown !important  ;
+}
+
+.remove-label-icon {
+  line-height: 19px !important;  
+  text-align: center !important;
+  margin-right: 0px !important;
+}

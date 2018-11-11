@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import { Segment, Input } from 'semantic-ui-react'
+import React, { Component } from "react";
+import { Button, Icon } from "semantic-ui-react";
+import './NewBoard.css'
 
 class NewBoard extends Component {
-    render(){
+
+    render() {
         return (
-            <Segment>
-                <Input placeholder="Create a new board" onKeyDown={(event) => event.keyCode === 13 ? this.props.addBoard(event.target.value) : null }></Input>
-            </Segment>
+            <Button className="newBoard" onClick={this.props.changeVisibility} icon={"plus"} color="green" inverted circular />
         )
     }
 }

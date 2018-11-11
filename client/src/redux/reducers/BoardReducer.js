@@ -1,18 +1,29 @@
 const defaultBoardReducer = {
     fetching: false,
+    all: [],
     currentBoard: {
-        _id: "",
-        name: "",
-        lists: []
-    },
-    all: [{
-        _id: "board1",
-        name: "tata"
-    }, {
-        _id: "board2",
-        name: "toto"
+        _id: null,
+        name: null,
+        lists: [],
+        owner: null,
+        teams: [],
+        members: [],
+        starred: [],
+        isClosed: null,
+        activities: [],
+        visibility: null,
+        labels: [],
+        searchFilter: "",
+        labelsFilter: [],
+        membersFilter: [],
+        filterMode: "UNION",
+        dueDateMode: "",
+        boardInformation: {
+            nbMembers: 0,
+            nbStars: 0
+        }
+
     }
-    ]
 };
 
 export default (state = defaultBoardReducer, action) => {
@@ -22,8 +33,9 @@ export default (state = defaultBoardReducer, action) => {
             return {
                 ...state,
                 currentBoard: {
+                    ...defaultBoardReducer.currentBoard,
                     ...board,
-                    lists: board.lists.map(list => list._id)
+                    lists: board.lists.map(list => ({_id: list._id, pos: list.pos}))
                 }
             };
         case "FETCHING_BOARD":
@@ -48,7 +60,7 @@ export default (state = defaultBoardReducer, action) => {
         case "GET_BOARD":
             return {
                 ...state,
-                currentBoard: action.payload,
+                currentBoard: {...defaultBoardReducer, ...action.payload},
                 error: null
             };
         case "FAILED_FETCH_BOARD":
@@ -67,7 +79,18 @@ export default (state = defaultBoardReducer, action) => {
                 ...state,
                 currentBoard: {
                     ...state.currentBoard,
-                    lists: [...state.currentBoard.lists, list._id]
+                    lists: [...state.currentBoard.lists, {_id: list._id, pos: list.pos}]
+                }
+            };
+        case "MOVE_LIST":
+            return {
+                ...state,
+                currentBoard: {
+                    ...state.currentBoard,
+                    lists: state.currentBoard.lists.map(list => list._id === action.payload._id ? {
+                        ...list,
+                        pos: action.payload.pos
+                    } : list)
                 }
             };
         case "FAILED_UPDATE_LIST_NAME":
@@ -76,8 +99,18 @@ export default (state = defaultBoardReducer, action) => {
                 error: action.payload
             };
         case "USER_BOARD_STAR":
+            console.log(action.payload);
             return {
                 ...state,
+                currentBoard: {
+                    ...state.currentBoard,
+                    starred:
+                        [...state.currentBoard.starred, action.payload.user],
+                    boardInformation: {
+                        ...state.currentBoard.boardInformation,
+                        nbStars: state.currentBoard.boardInformation.nbStars + 1
+                    }
+                },
                 all: state.all.map(function (board) {
                         if (board._id === action.payload.board) {
                             return {
@@ -94,13 +127,22 @@ export default (state = defaultBoardReducer, action) => {
                 )
             };
         case "USER_BOARD_UNSTAR":
+            console.log(action.payload);
             return {
                 ...state,
+                currentBoard: {
+                    ...state.currentBoard,
+                    starred: state.currentBoard.starred.filter(user => user !== action.payload.user),
+                    boardInformation: {
+                        ...state.currentBoard.boardInformation,
+                        nbStars: state.currentBoard.boardInformation.nbStars - 1
+                    }
+                },
                 all: state.all.map(function (board) {
                         if (board._id === action.payload.board) {
                             return {
                                 ...board,
-                                starred: board.starred.filter(user => user._id === action.payload.user),
+                                starred: board.starred.filter(user => user !== action.payload.user),
                                 boardInformation: {
                                     ...board.boardInformation,
                                     nbStars: board.boardInformation.nbStars - 1
@@ -110,10 +152,138 @@ export default (state = defaultBoardReducer, action) => {
                     }
                 )
             };
-        case 'ADD_BOARd':
+        case "ADD_BOARD":
             return {
                 ...state,
-                all: [...state.all, board]
+                all: [...state.all, action.payload.board]
+            };
+        case "UPDATE_BOARD_NAME":
+            return {
+                ...state,
+                all: state.all.map(board => {
+                    if (board._id === action.payload.boardId) {
+                        return {...board, name: action.payload.name}
+                    } else return board
+                }),
+                currentBoard: state.currentBoard._id === action.payload.boardId ? {
+                    ...board,
+                    name: action.payload.name
+                } : {...state.currentBoard}
+
+            };
+        case "UPDATE_BOARD_VISIBILITY":
+            return {
+                ...state,
+                all: state.all.map(board => {
+                    if (board._id === action.payload.boardId) {
+                        return {...board, visibility: action.payload.visibility}
+                    } else return board
+                }),
+                currentBoard: state.currentBoard._id === action.payload.boardId ? {
+                    ...board,
+                    visibility: action.payload.visibility
+                } : {...state.currentBoard}
+
+            };
+        case "CREATED_LABEL":
+            return (state.currentBoard._id && state.currentBoard._id === action.payload.boardId) ?
+                ({
+                    ...state,
+                    currentBoard: {...state.currentBoard, labels: [...state.currentBoard.labels, action.payload.label]}
+                }) : state;
+        case "UPDATED_LABEL":
+            return (state.currentBoard._id && state.currentBoard._id === action.payload.boardId) ?
+                ({
+                    ...state,
+                    currentBoard: {
+                        ...state.currentBoard,
+                        labels: [...state.currentBoard.labels.filter(label => label._id !== action.payload.labelUpdated._id), action.payload.labelUpdated]
+                    }
+                }) : state;
+        case "DELETED_LABEL":
+            return (state.currentBoard._id && state.currentBoard._id === action.payload.boardId) ?
+                ({
+                    ...state,
+                    currentBoard: {
+                        ...state.currentBoard,
+                        labels: state.currentBoard.labels.filter(label => label._id !== action.payload.label._id)
+                    }
+                }) : state;
+        case "FAILED_BOARD_CREATING_LABEL":
+        case "FAILED_BOARD_DELETING_LABEL":
+        case "FAILED_BOARD_UPDATING_LABEL":
+            return {
+                ...state,
+                error: action.payload
+            };
+        case "ADD_BOARD_FILTER_LABEL":
+            return {
+                ...state,
+                currentBoard: {
+                    ...state.currentBoard,
+                    labelsFilter: [...state.currentBoard.labelsFilter, action.payload.label]
+                }
+            };
+        case "DELETE_BOARD_FILTER_LABEL":
+            console.log(action.payload.label);
+            return {
+                ...state,
+                currentBoard: {
+                    ...state.currentBoard,
+                    labelsFilter: state.currentBoard.labelsFilter.filter(label => label !== action.payload.label)
+                }
+            };
+        case "ADD_BOARD_FILTER_MEMBER":
+            return {
+                ...state,
+                currentBoard: {
+                    ...state.currentBoard,
+                    membersFilter: [...state.currentBoard.membersFilter, action.payload.member]
+                }
+            };
+        case "DELETE_BOARD_FILTER_MEMBER":
+            return {
+                ...state,
+                currentBoard: {
+                    ...state.currentBoard,
+                    membersFilter: state.currentBoard.membersFilter.filter(member => member !== action.payload.member)
+                }
+            };
+        case "UPDATE_SEARCH_FILTER":
+            return {
+                ...state,
+                currentBoard: {
+                    ...state.currentBoard,
+                    searchFilter: action.payload.value
+                }
+            };
+        case "SWITCH_FILTER_MODE":
+            return {
+                ...state,
+                currentBoard: {
+                    ...state.currentBoard,
+                    filterMode: action.payload.mode
+                }
+            };
+        case "SWITCH_DUE_DATE_MODE":
+            return {
+                ...state,
+                currentBoard: {
+                    ...state.currentBoard,
+                    dueDateMode: action.payload.mode
+                }
+            };
+        case "CLEAR_FILTER":
+            return {
+                ...state,
+                currentBoard: {
+                    ...state.currentBoard,
+                    searchFilter: defaultBoardReducer.currentBoard.searchFilter,
+                    labelsFilter: defaultBoardReducer.currentBoard.labelsFilter,
+                    membersFilter: defaultBoardReducer.currentBoard.membersFilter,
+                    filterMode: defaultBoardReducer.currentBoard.filterMode,
+                    dueDateMode: defaultBoardReducer.currentBoard.dueDateMode
+                }
             };
         default:
             return state

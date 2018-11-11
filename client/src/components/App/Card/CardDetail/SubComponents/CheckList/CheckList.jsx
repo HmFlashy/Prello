@@ -8,7 +8,7 @@ export default class CheckList extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            isAddingItem: false,
+            isAddingItem: [],
             newItemName: ""
         };
         this.validateNewChecklistName = this.validateNewChecklistName.bind(this)
@@ -42,6 +42,7 @@ export default class CheckList extends Component {
                                             newVal[index].title = event.target.value
                                         }
                                     }
+                                    checklist.title === "" ? console.log("Please fill the checklist name") :
                                     this.validateNewChecklistName(checklist._id, this.props.checklists, { checklists: newVal }, event.target.value)
                                 }}>
                             </DynamicInput>
@@ -80,21 +81,32 @@ export default class CheckList extends Component {
                                                     }
                                                 }
                                             }
+                                            item.name === "" ? console.log("Please fill the item name") :
                                             this.updateItem(checklist._id, item._id, this.props.checklists, { checklists: newVal }, { name: event.target.value })
                                         }} />
                                 </div>
                                 <Button icon='cancel' size="mini" onClick={() => this.props.onDeleteItem(checklist._id, item._id)} />
                             </div>)}
                         </div>
-                        {this.state.isAddingItem
-                            ? <Input className="addItemTF" value={this.state.newItemName} onKeyPress={(event) => event.charCode === 13 ? this.props.onAddItem(checklist._id, this.state.newItemName) || this.setState({ newItemName: "" }) : ""} onChange={(event, target) => this.setState({ newItemName: target.value })}></Input>
+                        {this.state.isAddingItem[checklist._id]
+                            ? <Input className="addItemTF" value={this.state.newItemName} onKeyPress={(event) => event.charCode === 13 && this.state.newItemName !== "" ? this.props.onAddItem(checklist._id, this.state.newItemName) || this.setState({ newItemName: "" }) : ""} onChange={(event, target) => this.setState({ newItemName: target.value })}></Input>
                             : ""
                         }
-                        <Button className="addItem" onClick={() => this.state.isAddingItem
-                            ? this.props.onAddItem(checklist._id, this.state.newItemName) || this.setState({ newItemName: "" })
-                            : this.setState({ isAddingItem: true })}>Add item</Button>
+                        <Button className="addItem" onClick={() => {
+                            if (this.state.isAddingItem[checklist._id]) {
+                                if (this.state.newItemName === ""){}
+                                else return this.props.onAddItem(checklist._id, this.state.newItemName) || this.setState({ newItemName: "" })
+                            }
+                            else {
+                                let newIsAddingItem = [...this.state.isAddingItem]
+                                newIsAddingItem[checklist._id] = true
+                                return this.setState({ isAddingItem: newIsAddingItem })
+                            }
+                        }
+                        }>Add item</Button>
+
                         {this.state.isAddingItem
-                            ? <Button icon='cancel' onClick={() => this.setState({ isAddingItem: false })} />
+                            ? <Button icon='cancel' onClick={() => this.setState({ isAddingItem: [] })} />
                             : ""
                         }
                     </div>

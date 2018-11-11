@@ -10,7 +10,7 @@ module.exports = (app) => {
     app.use('/static', express.static(path.join(__dirname, '..', 'views', 'public')));
 
     const router = express.Router()
-    router.post('/token', oauth.token())
+    router.post('/token', /*require('../ldap/middlewares/verifyLdap'),*/ oauth.token())
     router.post('/authorize', require('./authorize'), require('./login').LoginError)
     router.get('/authorize', require('./login').Login)
     return router;

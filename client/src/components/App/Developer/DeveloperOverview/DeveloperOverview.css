@@ -1,0 +1,56 @@
+.developer-overview {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.do-applications {
+    flex-basis: 300px;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.arrow-down {
+    width: 0; 
+    height: 0; 
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    margin: auto !important;
+    border-top: 10px solid rgb(104, 250, 255);
+}
+
+.do-information {
+    flex: 1;
+}
+
+.do-applications .do-title {
+    margin-bottom: 0px !important;
+    text-align: center;
+    padding: 10px;
+    background-color: rgb(104, 250, 255);
+}
+
+.do-applications .do-list {
+    flex: 1;
+    background-color: aliceblue;
+
+}
+
+.do-applications .do-list-item:hover {
+    background-color: rgb(205, 232, 255);
+    cursor: pointer;
+}
+
+.do-list {
+    margin-top:  0px !important;
+}
+
+.no-application {
+    flex: 1;
+    display: flex;
+}
+
+.no-application-content {
+    margin: auto !important;
+}

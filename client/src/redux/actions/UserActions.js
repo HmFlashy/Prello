@@ -18,3 +18,58 @@ export const actionGetProfile = (user) => {
         payload: user
     }
 };
+
+export const actionAddBoard = (board, categoryId) => {
+    return {
+        type: "ADD_BOARD",
+        payload: {
+            board: board,
+            categoryId: categoryId
+        }
+    }
+}
+
+export const actionAddCategory = (category) => {
+    return {
+        type: "ADD_CATEGORY",
+        payload: category
+    }
+}
+
+export const actionDeleteCategory = (id) => {
+    return {
+        type: "DELETE_CATEGORY",
+        payload: id
+    }
+}
+
+export const actionUpdateCategoryName = (id, name) => {
+    return {
+        type: "UPDATE_CATEGORY_NAME",
+        payload: {
+            id,
+            name
+        }
+    }
+}
+
+export const actionAddingClientApplication = (name) => {
+    return {
+        type: "ADDING_CLIENT_APPLICATION",
+        payload: name
+    }
+}
+
+export const failedActionAddingClientApplication = (error) => {
+    return {
+        type: "FAILED_ADD_CLIENT_APPLICATION",
+        payload: error
+    }
+}
+
+export const actionClientApplicationAdded = (name) => {
+    return {
+        type: "ADD_CLIENT_APPLICATION",
+        payload: name
+    }
+}

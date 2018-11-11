@@ -19,6 +19,21 @@ export const actionAddList = (list) => {
     }
 }
 
+
+export const failedMoveList = (error) => {
+    return {
+        type: 'FAILED_MOVE_LIST',
+        payload: error
+    }
+}
+
+export const actionMoveList = (data) => {
+    return {
+        type: 'MOVE_LIST',
+        payload: data
+    }
+}
+
 export const failedActionAddList = (error) => {
     return {
         type: 'FAILED_ADD_LIST',

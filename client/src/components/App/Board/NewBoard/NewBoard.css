@@ -1,0 +1,9 @@
+.newBoard{
+    height: 37px !important;
+    margin-left: 20px !important;
+    line-height: 15px;
+}
+
+.newBoard .icon-span .icon {
+    margin-right: 0px !important;
+}

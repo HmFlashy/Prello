@@ -1,5 +1,5 @@
 const socketio = require('socket.io');
-const redisAdapter = require('socket.io-redis')(process.env.URL_REDIS);
+const redisAdapter = require('socket.io-redis')(process.env.REDIS_URL);
 redisAdapter.pubClient.on('error', (error) => console.log(error));
 redisAdapter.pubClient.on('connect', () => console.log("Connected to Redis"));
 let io = null
@@ -12,7 +12,7 @@ module.exports = {
 
 		try {
 			io = socketio(server);
-			io.adapter(redisAdapter)
+			io.adapter(redisAdapter);
 			io.on('connection', (socket) => {
 				socketLog("A client is connected ( id: " + socket.id + " )")
 				//On place nos events ici
@@ -27,7 +27,7 @@ module.exports = {
 				});
 
 				socket.on('unsubscribeBoard', (boardId) => {
-					io.of('/').adapter.remoteLeave(socket.id, boardId, (error) => {
+					io.of('/').adapter.remoteJoin(socket.id, boardId, (error) => {
 						if(error){
 							return socket.log("An error occured: " + error)
 						}

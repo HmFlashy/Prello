@@ -1,34 +1,43 @@
 import axios from 'axios'
 import UrlConfig from '../config/UrlConfig'
-import { basicHeader } from '../helpers/HeaderHelper'
+import { basicHeader, tokenHeader } from '../helpers/HeaderHelper'
 
 export default {
-    async authenticate(email, password){
+    async authenticate(email, password, ldapConfig) {
         try {
             const res = await axios.post(`${UrlConfig.API}/login`, {
                 email: email,
-                password: password
+                password: password,
+                ...ldapConfig
             }, basicHeader())
             return res.data
-        } catch(error) {
+        } catch (error) {
             throw error.response
         }
     },
-    async register(credentials){
+    async register(credentials) {
         try {
             const res = await axios.post(`${UrlConfig.API}/register`, credentials, basicHeader())
             return res.data
-        } catch(error){
+        } catch (error) {
             throw error.response
         }
     },
-    getToken(){
+    getToken() {
         return localStorage.getItem("token-prello")
     },
-    logout(){
+    logout() {
         localStorage.removeItem("token-prello")
     },
-    async authenticateLdap(email, password){
-        
+    async updateProfile(data) {
+        try {
+            const res = await axios.put(`${UrlConfig.API}/me`, data, tokenHeader())
+            return res.data
+        } catch (error) {
+            throw error.response
+        }
+    },
+    async authenticateLdap(email, password) {
+
     }
 }

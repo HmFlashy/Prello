@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './Header.css'
 import { Segment, Dropdown, Button, Search } from 'semantic-ui-react'
 import { withRouter } from 'react-router';
+import Avatar from "../Avatar"
 
 class Header extends Component {
 
@@ -13,11 +14,13 @@ class Header extends Component {
         }
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
         this.goHome = this.goHome.bind(this);
+        this.goProfile = this.goProfile.bind(this);
         this.changeBoard = this.changeBoard.bind(this)
     }
 
     componentDidMount() {
         this.props.fetchBoards()
+        this.props.getProfile()
         this.updateWindowDimensions();
         window.addEventListener('resize', this.updateWindowDimensions);
     }
@@ -34,31 +37,35 @@ class Header extends Component {
         this.setState({ width: window.innerWidth, height: window.innerHeight });
     }
 
-    goHome(){
+    goHome() {
         this.props.fetchBoards()
         this.nextPath('/home')
     }
 
-    changeBoard(nextBoardId){
+    goProfile() {
+        this.nextPath('/me')
+    }
+
+    changeBoard(nextBoardId) {
         this.props.unsubscribe(this.props.boardId)
-        this.props.fetchBoard(nextBoardId) 
+        this.props.fetchBoard(nextBoardId)
         this.nextPath(`/boards/${nextBoardId}`)
         this.props.subscribe(nextBoardId)
     }
 
     render() {
         return (
-            <Segment inverted color='teal' className="inline header" size='mini'>
-                <div className="inline">
+            <Segment inverted className="inline app-header" size='mini'>
+                <div className="inline header-left">
                     <Button icon='home' onClick={this.goHome} />
                     {
-                        this.state.width > 800 ? 
+                        this.state.width > 800 ?
                             <Dropdown text='Boards' icon='flipboard' floating labeled button className='icon'>
                                 <Dropdown.Menu>
                                     <Dropdown.Header icon='tags' content='Boards' />
                                     {this.props.boards.map(board => <Dropdown.Item key={board._id} onClick={() => { this.changeBoard(board._id) }}>{board.name}</Dropdown.Item>)}
                                 </Dropdown.Menu>
-                            </Dropdown> 
+                            </Dropdown>
                             :
                             <Dropdown trigger={<Button icon='flipboard' size='medium' />} icon={null} className='icon'>
                                 <Dropdown.Menu>
@@ -67,13 +74,23 @@ class Header extends Component {
                                 </Dropdown.Menu>
                             </Dropdown>
                     }
-                    <Search results={[{ title: "yo", description: "mdr" }]} size="small" className="search"></Search>
+                    {/*<Search results={[{ title: "yo", description: "mdr" }]} size="small" className="search"></Search>*/}
                 </div>
-                <div>
-                    <p className="appname">Prello</p>
+                <div className="header-center">
+                    <img className="header-center-image" src="http://image.noelshack.com/fichiers/2018/45/3/1541618482-logoprello.png"></img>
                 </div>
-                <div className="inline">
-                    {this.state.width > 800 ? <Dropdown button className='icon' floating labeled icon='plus' text='Create'>
+                <div className="header-right">
+                    <div onClick={this.goProfile}>
+                        <Avatar
+                            _id={this.props.user._id}
+                            fullName={this.props.user.fullName}
+                            bio={this.props.user.bio}
+                            round
+                            size="40"
+                            textSizeRatio={1.4} />
+                    </div>
+                    { /*
+                    {this.state.width > 1000 ? <Dropdown button className='icon' floating labeled icon='plus' text='Create'>
                         <Dropdown.Menu>
                             <Dropdown.Header content='Create' />
                             <Dropdown.Divider />
@@ -89,7 +106,7 @@ class Header extends Component {
                                 <Dropdown.Item>Create a team</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>}
-                    {this.state.width > 800
+                    {this.state.width > 1000
                         ? <Dropdown button className='icon' floating labeled icon='bell outline' text='Notifications' />
                         : <Dropdown trigger={<Button icon='bell outline' size='medium' />} icon={null} className='icon' />
                     }
@@ -119,7 +136,7 @@ class Header extends Component {
                             </Dropdown.Menu>
                         </Dropdown>
                     }
-
+                */}
                 </div>
             </Segment>
         )

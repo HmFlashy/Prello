@@ -1,5 +1,122 @@
 .boardHeader {
-    justify-content: space-between;
     flex: 0;
-    flex-basis: 30px;
+    flex-basis: 20px;
+    background-color: rgba(255, 227, 133, 0.2);
+    padding: 8px 4px 8px 8px !important;
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.3) inset;
+}
+
+.header-row {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+}
+
+.button-header {
+    background-color: #d62222 !important;
+    color: white !important;
+    -webkit-box-shadow: 0px 0px 14px 2px rgba(0, 0, 0, 0.4) !important;
+    -moz-box-shadow: 0px 0px 14px 2px rgba(0,0,0,0.4) !important;
+    box-shadow: 0px 0px 14px 2px rgba(0,0,0,0.4) !important;
+}
+
+.button-header:hover {
+    background-color: #000a61 !important
+}
+
+.header-board-left {
+    flex: 8;
+    display: flex;
+    flex-direction: row;
+}
+
+@media screen and (max-width: 640px) {
+    .header-board-name {
+        flex: 1;
+        font-size: 20px;
+        font-weight: bold;
+        padding-right: 6px;
+        line-height: 36px;
+        border-right: 1px solid #16222c;
+        text-align: center;
+    }
+}
+
+@media screen and (min-width: 641px) {
+    .header-board-name {
+        font-size: 20px;
+        width: 250px;
+        font-weight: bold;
+        padding-right: 6px;
+        line-height: 36px;
+        border-right: 1px solid #16222c;
+        text-align: center;
+    }
+}
+
+.header-board-star {
+    padding-left: 6px;
+    padding-right: 2px;
+    border-right: 1px solid #16222c;
+}
+
+.header-board-member{
+    padding-left: 6px;
+    padding-right: 6px;
+    border-right: 1px solid #16222c;
+    display: flex;
+    flex-direction: row;
+    line-height: 34px;
+}
+
+.header-board-archived {
+    flex-basis: 150px;
+}
+
+.header-board-filter {
+    flex-basis: 90px;
+}
+
+.filter-popup {
+    position: absolute !important;
+    top: 10%;
+    height: 80% !important;
+    width: 350px !important;
+    right: 0 !important;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.filter-list {
+    position: relative;
+    width: 150% !important;
+}
+
+.filter-item {
+    width: 65% !important;
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+.search-bar {
+    width: 100% !important;
+}
+
+.filter-item-icon {
+    flex-basis: 10px;
+}
+
+.filter-name {
+    flex: 2 !important;
+}
+
+.member-avatar {
+    margin-right: 5px !important;
+    margin-left: -5px !important;
+}
+
+.clear-filter {
+    opacity: 0.6;
+    font-size: 90%;
 }

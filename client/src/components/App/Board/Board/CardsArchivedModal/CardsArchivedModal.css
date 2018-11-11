@@ -1,0 +1,4 @@
+.list-card-archived {
+    max-height: 400px !important;
+    overflow-y: auto;
+}
