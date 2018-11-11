@@ -14,7 +14,9 @@ class BoardHeader extends Component {
             openArchived: false,
             openLabels: false,
             isHoverStar: false,
-            isFilterOpen: false
+            isFilterOpen: false,
+            isMemberOpen: false,
+            searchMember: ""
         };
         this.open = this.open.bind(this);
         this.overStar = this.overStar.bind(this);
@@ -27,6 +29,12 @@ class BoardHeader extends Component {
         this.switchFilterMode = this.switchFilterMode.bind(this);
         this.clickDueDate = this.clickDueDate.bind(this);
         this.clearFilter = this.clearFilter.bind(this);
+        this.openMembersPopup = this.openMembersPopup.bind(this);
+        this.handleCloseFilter = this.handleCloseFilter.bind(this);
+        this.handleCloseMember = this.handleCloseFilter.bind(this);
+        this.handleOpenFilter = this.handleOpenFilter.bind(this);
+        this.handleOpenMember = this.handleOpenMember.bind(this);
+        this.handleChangeSearchMember = this.handleChangeSearchMember.bind(this);
     }
 
     overStar() {
@@ -50,15 +58,27 @@ class BoardHeader extends Component {
         }
     }
 
-    handleOpen = () => {
+    handleOpenFilter = () => {
         this.setState({
             isFilterOpen: true
         })
     };
 
-    handleClose = () => {
+    handleCloseFilter = () => {
         this.setState({
             isFilterOpen: false
+        })
+    };
+
+    handleOpenMember = () => {
+        this.setState({
+            isMemberOpen: true
+        })
+    };
+
+    handleCloseMember = () => {
+        this.setState({
+            isMemberOpen: false
         })
     };
 
@@ -85,6 +105,12 @@ class BoardHeader extends Component {
         this.props.updateSearchFilter(value);
     }
 
+    handleChangeSearchMember(e, { value }) {
+        this.setState({
+            searchMember: value
+        })
+    };
+
     switchFilterMode(e) {
         if (e.target.id !== this.props.board.filterMode) {
             this.props.switchFilterMode(e.target.id)
@@ -101,6 +127,12 @@ class BoardHeader extends Component {
 
     clearFilter() {
         this.props.clearFilter();
+    }
+
+    openMembersPopup() {
+        this.setState({
+            isMemberOpen: true
+        })
     }
 
     render() {
@@ -133,6 +165,21 @@ class BoardHeader extends Component {
                                 round
                                 size="25"
                                 textSizeRatio={1.4} /></span>)}
+                            <Popup
+                                className={"add-member-popup"}
+                                trigger={<Icon name={"add user"} />}
+                                on='click'
+                                open={this.state.isMemberOpen}
+                                onClose={() => this.setState({ isMemberOpen: false })}
+                                onOpen={() => this.setState({ isMemberOpen: true })}
+                                position='bottom left'>
+                                <div>
+                                    <Input className={"search-bar"} placeholder={"Search"}
+                                           value={this.state.searchMember}
+                                           onChange={this.handleChangeSearchMember} />
+                                    <Divider />
+                                </div>
+                            </Popup>
                         </div>
                     </div>
                     <div className={"header-board-filter"}>
@@ -141,8 +188,8 @@ class BoardHeader extends Component {
                             trigger={<Button className={"button-header"} content='Filter' />}
                             on='click'
                             open={this.state.isFilterOpen}
-                            onClose={this.handleClose}
-                            onOpen={this.handleOpen}
+                            onClose={() => this.setState({ isFilterOpen: false })}
+                            onOpen={() => this.setState({ isFilterOpen: true })}
                             position='bottom right'>
                             <div className={"filters-list"}>
                                 <Input className={"search-bar"} placeholder={"Search"}
