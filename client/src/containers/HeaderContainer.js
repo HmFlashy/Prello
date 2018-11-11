@@ -13,22 +13,23 @@ import {
     actionBoardSubscribe
 } from '../redux/actions/BoardActions'
 import userServices from "../services/UserServices";
-import {actionGetProfile} from "../redux/actions/UserActions";
+import { actionGetProfile } from "../redux/actions/UserActions";
 
 const mapStateToProps = (state, ownProps) => {
     return {
         boards: state.boards.all,
-        boardId: state.boards.currentBoard._id
+        boardId: state.boards.currentBoard._id,
+        user: state.authentification.user
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        subscribe(boardId){
+        subscribe(boardId) {
             socketService.subscribe(boardId)
             dispatch(actionBoardSubscribe(boardId))
         },
-        unsubscribe(boardId){
+        unsubscribe(boardId) {
             socketService.unsubscribe(boardId)
             //dispatch(actionBoardUnsubscribe(boardId))
         },
@@ -50,11 +51,11 @@ const mapDispatchToProps = dispatch => {
                 return dispatch(actionFailedFetchBoard(error))
             }
         },
-        async getProfile(){
+        async getProfile() {
             try {
                 const user = await userServices.getProfile();
                 dispatch(actionGetProfile(user))
-            } catch(error) {
+            } catch (error) {
             }
         }
     }

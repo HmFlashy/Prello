@@ -5,6 +5,13 @@ export const actionLogin = (email) => {
     }
 }
 
+export const actionUpdateProfile = (user) => {
+    return {
+        type: 'UPDATE_PROFILE',
+        payload: user
+    }
+}
+
 export const actionLoggedIn = (error) => {
     return {
         type: 'LOGGED_IN',

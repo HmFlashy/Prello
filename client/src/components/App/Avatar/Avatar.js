@@ -15,8 +15,8 @@ export default class MyAvatar extends Component {
             trigger={<span><Avatar key={this.props._id}
                 name={this.props.fullName}
                 round
-                size="25"
-                textSizeRatio={1.4} /></span>}
+                size={this.props.size}
+                textSizeRatio={this.props.textSizeRatio} /></span>}
             on='hover'>
             <Popup.Header>{this.props.fullName}</Popup.Header>
             <Popup.Content>{this.props.bio}</Popup.Content>

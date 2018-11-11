@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom'
 
 class RegisterForm extends Component {
 
-    constructor(){
+    constructor() {
         super()
         this.updateField = this.updateField.bind(this)
         this.register = this.register.bind(this)
@@ -22,14 +22,14 @@ class RegisterForm extends Component {
         }
     }
 
-    updateField(field){
+    updateField(field) {
         this.setState(field)
     }
 
-    async register(){
+    async register() {
         const { firstname, lastname, username, email, password, organization } = this.state
         try {
-            if(await this.isFormValid()) {
+            if (await this.isFormValid()) {
                 await this.props.register({
                     firstname,
                     lastname,
@@ -42,14 +42,14 @@ class RegisterForm extends Component {
             } else {
                 console.log("Invalid")
             }
-        } catch(error){
+        } catch (error) {
             console.log(error)
         }
     }
 
-    async isFormValid(){
+    async isFormValid() {
         const setStates = [
-            this.setState({formError: false}),
+            this.setState({ formError: false }),
             this.state.firstname === '' ? this.setState({ formError: true, firstnameError: true }) : this.setState({ firstnameError: false }),
             this.state.lastname === '' ? this.setState({ formError: true, lastnameError: true }) : this.setState({ lastnameError: false }),
             this.state.username === '' ? this.setState({ formError: true, usernameError: true }) : this.setState({ usernameError: false }),
@@ -61,32 +61,31 @@ class RegisterForm extends Component {
         ]
         try {
             await Promise.all(setStates)
-            console.log(this.state)
             return !this.state.formError
-        } catch(error) {
+        } catch (error) {
             console.log(error)
         }
     }
 
 
-    render(){
+    render() {
         return (
             <div className='register-form'>
                 <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
                     <Grid.Column style={{ maxWidth: 450 }}>
                         <Header as='h2' color='teal' textAlign='center'>
-                        <Image src='http://cdn.onlinewebfonts.com/svg/img_411076.png' /> Sign up to Prello
+                            <Image src='http://cdn.onlinewebfonts.com/svg/img_411076.png' /> Sign up to Prello
                         </Header>
                         <Message color='red' hidden={!this.state.formError}>{this.state.messageFormError}</Message>
                         <Form size='large' error={this.state.formError}>
                             <Segment stacked>
                                 <Form.Group widths='equal'>
-                                    <Form.Input fluid label='First name' onChange={(event) => this.updateField({firstname: event.target.value})} placeholder='First name' error={this.state.firstnameError} required/>
-                                    <Form.Input fluid label='Last name' onChange={(event) => this.updateField({lastname: event.target.value})}  placeholder='Last name' error={this.state.lastnameError} required/>
+                                    <Form.Input fluid label='First name' onChange={(event) => this.updateField({ firstname: event.target.value })} placeholder='First name' error={this.state.firstnameError} required />
+                                    <Form.Input fluid label='Last name' onChange={(event) => this.updateField({ lastname: event.target.value })} placeholder='Last name' error={this.state.lastnameError} required />
                                 </Form.Group>
-                                <Form.Input fluid label='Username' onChange={(event) => this.updateField({username: event.target.value})} placeholder='Username' error={this.state.usernameError} required />
-                                <Form.Input fluid label={<label>Date of birth</label>} onChange={(event) => this.updateField({birthDate: event.target.value})} type="date" error={this.state.birthDateError} required />
-                                <Form.Input fluid type='email' icon='user' iconPosition='left' onChange={(event) => this.updateField({email: event.target.value})} placeholder='E-mail address' error={this.state.emailError}  required/>
+                                <Form.Input fluid label='Username' onChange={(event) => this.updateField({ username: event.target.value })} placeholder='Username' error={this.state.usernameError} required />
+                                <Form.Input fluid label={<label>Date of birth</label>} onChange={(event) => this.updateField({ birthDate: event.target.value })} type="date" error={this.state.birthDateError} required />
+                                <Form.Input fluid type='email' icon='user' iconPosition='left' onChange={(event) => this.updateField({ email: event.target.value })} placeholder='E-mail address' error={this.state.emailError} required />
                                 <Form.Group widths="equal">
                                     <Form.Input
                                         fluid
@@ -94,7 +93,7 @@ class RegisterForm extends Component {
                                         iconPosition='left'
                                         placeholder='Password'
                                         type='password'
-                                        onChange={(event) => this.updateField({password: event.target.value})}
+                                        onChange={(event) => this.updateField({ password: event.target.value })}
                                         error={this.state.passwordError}
                                         required
                                     />
@@ -104,7 +103,7 @@ class RegisterForm extends Component {
                                         iconPosition='left'
                                         placeholder='Confirm password'
                                         type='password'
-                                        onChange={(event) => this.updateField({confirmPassword: event.target.value})}
+                                        onChange={(event) => this.updateField({ confirmPassword: event.target.value })}
                                         error={this.state.confirmPasswordError}
                                         required
                                     />
@@ -115,7 +114,7 @@ class RegisterForm extends Component {
                                     iconPosition='left'
                                     placeholder='Organization'
                                     type='text'
-                                    onChange={(event) => this.updateField({organization: event.target.value})}
+                                    onChange={(event) => this.updateField({ organization: event.target.value })}
                                     error={this.state.organizationError}
                                     required
                                 />
@@ -125,7 +124,7 @@ class RegisterForm extends Component {
                             </Segment>
                         </Form>
                         <Message>
-                        Already have an account ? <Button color="green" onClick={() => this.props.history.push('/login')}>Login</Button>
+                            Already have an account ? <Button color="green" onClick={() => this.props.history.push('/login')}>Login</Button>
                         </Message>
                     </Grid.Column>
                 </Grid>

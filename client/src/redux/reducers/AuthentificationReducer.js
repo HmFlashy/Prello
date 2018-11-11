@@ -60,13 +60,18 @@ export default (state = defaultAuthentificationState, action) => {
                 ...state,
                 user: data
             };
+        case "UPDATE_PROFILE":
+            return {
+                ...state,
+                user: action.payload
+            };
         case "ADD_BOARD":
             const category = state.user.categories.find(category => category._id === action.payload.categoryId);
             return {
                 ...state,
                 user: {
                     ...state.user,
-                    boards: [...state.user.boards, {board: action.payload.board._id, category: category, role: "Admin"}]
+                    boards: [...state.user.boards, { board: action.payload.board._id, category: category, role: "Admin" }]
                 }
             };
         case "ADD_CATEGORY":
@@ -104,7 +109,7 @@ export default (state = defaultAuthentificationState, action) => {
                     ...state.user,
                     categories: state.user.categories.map(category => {
                         if (category._id === action.payload.id) {
-                            return {...category, name: action.payload.name}
+                            return { ...category, name: action.payload.name }
                         } else return category
                     }),
                     boards: state.user.boards.map(board => {
@@ -132,10 +137,10 @@ export default (state = defaultAuthentificationState, action) => {
                     ...state.user,
                     boards: state.user.boards.map(board => {
                         if (board.board === action.payload.boardId) {
-                            if(action.payload.category==="No Category") {
-                                return {...board, category: null}
-                            }else {
-                                return {...board, category: action.payload.category}
+                            if (action.payload.category === "No Category") {
+                                return { ...board, category: null }
+                            } else {
+                                return { ...board, category: action.payload.category }
                             }
                         } else return board
                     })

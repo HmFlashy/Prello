@@ -6,7 +6,7 @@ import TeamMembers from '../TeamMembers';
 
 class TeamDetails extends Component {
 
-    constructor(){
+    constructor() {
         super()
         this.state = {
             activeItem: "boards"
@@ -15,22 +15,22 @@ class TeamDetails extends Component {
         this.addUsers = this.addUsers.bind(this)
     }
 
-    handleItemClick(e, { name }){
+    handleItemClick(e, { name }) {
         this.setState({
             activeItem: name
         })
     }
 
-    addUsers(users){
+    addUsers(users) {
         this.props.addUsersToTeam(this.props.team._id, users)
     }
 
-    render(){
+    render() {
         const { activeItem } = this.state
         return (
             <div className="team-layout">
                 <div className="team-header">
-                    <h1 style={{ fontWeight:"bold" }}>{ this.props.team.name}</h1>
+                    <h1 style={{ fontWeight: "bold" }}>{this.props.team.name}</h1>
                 </div>
                 <div className="team-content">
                     <Menu attached='top' color="grey" className="menu-content" tabular>
@@ -47,15 +47,15 @@ class TeamDetails extends Component {
                             onClick={this.handleItemClick}
                         />
                     </Menu>
-    
+
                     <Segment attached='bottom' className="item-content">
                         <Container className="item-info">
-                        {
-                            activeItem === "boards" ? <TeamBoards team={ this.props.team } /> :
-                            activeItem === "members" ? <TeamMembers addUsers={this.addUsers} team={ this.props.team } /> :
-                            activeItem === "settings" ? <div>Settings</div> : <div>Error</div>
+                            {
+                                activeItem === "boards" ? <TeamBoards team={this.props.team} /> :
+                                    activeItem === "members" ? <TeamMembers addUsers={this.addUsers} team={this.props.team} /> :
+                                        activeItem === "settings" ? <div>Settings</div> : <div>Error</div>
 
-                        }   
+                            }
                         </Container>
                     </Segment>
                 </div>

@@ -7,7 +7,7 @@ import HeaderLayout from '../../components/App/Layout/HeaderLayout';
 
 class TeamPage extends Component {
 
-    render(){
+    render() {
         return (
             <SecureLayoutContainer>
                 <HeaderLayout>
