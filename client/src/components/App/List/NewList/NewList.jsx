@@ -13,7 +13,7 @@ class NewList extends Component {
         return (
             <div className="myDiv">
                 <Segment className='myList'>
-                    <Input placeholder="Create a new list" onKeyDown={(event) => event.keyCode === 13 ? this.props.addList(event.target.value, this.props.board._id, this.getPos()) : null}></Input>
+                    <Input placeholder="Create a new list" onKeyDown={(event) => event.keyCode === 13 ? this.props.addList(event.target.value, this.props.board._id, this.getPos(event.target.value = "")) : null}></Input>
                 </Segment>
             </div >
         )
