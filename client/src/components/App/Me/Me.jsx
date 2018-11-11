@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './Me.css'
-import { Message, Grid, Button, TextArea, Form, Segment } from 'semantic-ui-react'
+import { Loader, Dimmer, Grid, Button, TextArea, Form, Segment } from 'semantic-ui-react'
 
 export default class Me extends Component {
 
@@ -15,7 +15,8 @@ export default class Me extends Component {
             newPassword: '',
             newConfirmPassword: '',
             bio: this.props.user.bio,
-            organization: this.props.user.organization
+            organization: this.props.user.organization,
+            loading: false
         }
     }
 
@@ -32,22 +33,22 @@ export default class Me extends Component {
                 const { fullName, email, username, bio, organization, newPassword } = this.state
                 if ((newPassword != '' && newPassword.length > 8)) {
                     this.setState({ formError: false, passwordError: false })
-                    this.props.updateProfile({
+                    return await this.props.updateProfile({
                         fullName, email, username, bio, organization, newPassword
                     })
                 }
                 else if (newPassword == '') {
                     this.setState({ formError: false, passwordError: false })
-                    this.props.updateProfile({
+                    return await this.props.updateProfile({
                         fullName, email, username, bio, organization, newPassword
                     })
                 }
                 else {
-                    this.setState({ formError: true, passwordError: true })
+                    return await this.setState({ formError: true, passwordError: true })
                 }
             }
             else {
-                this.setState({ formError: true, passwordError: true })
+                return await this.setState({ formError: true, passwordError: true })
             }
         }
     }
@@ -72,6 +73,11 @@ export default class Me extends Component {
     render() {
         return (
             <div className='register-form'>
+                {this.state.loading
+                    ? <Dimmer active inverted>
+                        <Loader inverted content='Loading' />
+                    </Dimmer>
+                    : ""}
                 <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
                     <Grid.Column style={{ maxWidth: 450 }}>
                         <Form size='large' error={this.state.formError}>
@@ -119,7 +125,7 @@ export default class Me extends Component {
                                     onChange={(event) => this.updateField({ bio: event.target.value })}
                                     placeholder='Bio'
                                 />
-                                <Button color='teal' onClick={this.updateInfo} fluid size='large'>
+                                <Button color='teal' onClick={async () => { this.setState({ loading: true }); await this.updateInfo(); this.setState({ loading: false }) }} fluid size='large'>
                                     Update info
                                 </Button>
                             </Segment>
