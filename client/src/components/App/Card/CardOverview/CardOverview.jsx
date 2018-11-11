@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './CardOverview.css'
 import { Card, Icon, Ref, Label } from 'semantic-ui-react'
 import DynamicInput from '../../Input/DynamicInput'
-import Avatar from 'react-avatar';
+import Avatar from '../../Avatar';
 import { GetDueDateColor, SmallDate } from '../../../../helpers/DateHelper'
 import { Draggable } from 'react-beautiful-dnd';
 
@@ -24,8 +24,7 @@ class CardOverview extends Component {
     }
 
     validateNewName(event) {
-        if (event.target.value !== "")
-        {
+        if (event.target.value !== "") {
             this.updateCard({ name: this.props.card.name, _id: this.props.card._id }, { name: event.target.value, _id: this.props.card._id })
         }
         else console.log("Please fill the card name field")
@@ -116,7 +115,10 @@ class CardOverview extends Component {
                                 <Card.Content textAlign='right' className="members">
                                     {
                                         this.props.card.members.map(member => {
-                                            return <Avatar key={member._id} className="member-avatar" name={member.fullName} round size="25" textSizeRatio={1.4}></Avatar>
+                                            return <Avatar key={member._id} _id={member._id}
+                                                fullName={member.fullName}
+                                                bio={member.bio}
+                                                className="member-avatar" name={member.fullName} round size="25" textSizeRatio={1.4}></Avatar>
                                         })
                                     }
                                 </Card.Content>

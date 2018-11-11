@@ -26,7 +26,7 @@ const getCardById = async (cardId) => {
                 path: "attachments",
                 populate: {
                     path: "owner",
-                    select: ["_id", "fullName", "initials", "username"]
+                    select: ["_id", "fullName", "initials", "username", "bio"]
                 }
             }]
         )

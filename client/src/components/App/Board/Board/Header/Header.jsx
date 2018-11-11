@@ -3,7 +3,7 @@ import "./Header.css"
 import { Button, Divider, Icon, Input, Label, List, Popup } from "semantic-ui-react"
 import Members from "../../../Card/CardDetail/SubComponents/Members"
 import CardsArchivedModal from "../CardsArchivedModal";
-import Avatar from "react-avatar";
+import Avatar from "../../../Avatar";
 import BoardLabelsModal from "../BoardLabelsModal"
 
 class BoardHeader extends Component {
@@ -126,8 +126,10 @@ class BoardHeader extends Component {
                             </Button>
                         </div>
                         <div className="header-board-member">
-                            {this.props.board.members.map(member => <span><Avatar key={member.member._id}
-                                name={member.member.fullName}
+                            {this.props.board.members.map(member => <span><Avatar
+                                _id={member.member._id}
+                                fullName={member.member.fullName}
+                                bio={member.member.bio}
                                 round
                                 size="25"
                                 textSizeRatio={1.4} /></span>)}
@@ -173,6 +175,8 @@ class BoardHeader extends Component {
                                         <Label className={"filter-item"} id={"No Members"} color={"#008080"}
                                             onClick={this.clickMember}>
                                             <span className={"member-avatar"} id={"No Members"}><Avatar id={"No Members"}
+                                                _id={"No Members"}
+                                                fullName={"No Members"}
                                                 key={"No Members"}
                                                 name={"?"}
                                                 color={"gray"}
@@ -189,6 +193,9 @@ class BoardHeader extends Component {
                                             <Label className={"filter-item"} id={boardMember.member._id}
                                                 onClick={this.clickMember}>
                                                 <span className={"member-avatar"} id={boardMember.member._id}><Avatar id={boardMember.member._id}
+                                                    _id={boardMember.member._id}
+                                                    fullName={boardMember.member.fullName}
+                                                    bio={boardMember.member.bio}
                                                     key={boardMember.member._id}
                                                     name={boardMember.member.fullName}
                                                     round

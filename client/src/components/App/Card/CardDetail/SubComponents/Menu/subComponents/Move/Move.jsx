@@ -1,7 +1,6 @@
 import React from 'react';
 import './Move.css'
 import { Icon, Modal, Header, Button, Dropdown, Popup } from 'semantic-ui-react'
-import Avatar from 'react-avatar';
 
 export default (props) => (
     <Popup
