@@ -181,6 +181,10 @@ class CardDetail extends Component {
         this.props.deleteCard(this.props.card._id)
     }
 
+    validateNewName(event) {
+        console.log(event.target.value)
+    }
+
     render() {
         return this.props.card.name != null ?
             <div className="displayColumn main">
@@ -188,7 +192,11 @@ class CardDetail extends Component {
                     ? <Segment inverted color='orange' textAlign="center" size="medium"><Icon name="archive" size="large"></Icon>This card is archived</Segment>
                     : ""
                 }
-                <Header name={this.props.card.name} list={this.props.card.list} ></Header>
+                <Header
+                    name={this.props.card.name}
+                    list={this.props.card.list}
+                    validateNewName={(event) => this.updateCard({ name: this.props.card.name, _id: this.props.card._id }, { name: event.target.value, _id: this.props.card._id })}
+                ></Header>
                 <Divider />
                 <div className={this.state.width > 600 ? "displayRow main" : "main"}>
                     <div className="details main">

@@ -3,6 +3,7 @@ import CardOverviewContainer from '../../../containers/CardContainers/CardOvervi
 import { Segment, Container, List, Input, Grid, Label } from 'semantic-ui-react'
 import './List.css'
 import { Droppable, Draggable } from 'react-beautiful-dnd';
+import DynamicInput from '../Input/DynamicInput'
 
 class MyList extends Component {
 
@@ -44,9 +45,15 @@ class MyList extends Component {
                                     <Segment className='myList' >
                                         <div className="list-header">
                                             <h3>
-                                                {this.props.list.name}
-                                                <Label color="olive">{this.props.list.cards.filter(card => !card.isArchived).length}</Label>
+                                                <DynamicInput
+                                                    type='text'
+                                                    textToDisplay={this.props.list.name}
+                                                    placeholder={this.props.list.name}
+                                                    onValidate={(event) => this.props.updateListName({ _id: this.props.list._id, name: event.target.value })}
+                                                />
                                             </h3>
+                                            <Label color="olive" className="list-card-nb">{this.props.list.cards.filter(card => !card.isArchived).length}</Label>
+
                                         </div>
                                         <Container className='items'>
                                             <List >
@@ -63,8 +70,9 @@ class MyList extends Component {
                                             placeholder="Create a new card"
                                             onChange={(event) => this.changeCardName(event.target.value)}
                                             onKeyDown={(event) => {
-                                                if (event.target.value !== ""){
-                                                return event.keyCode === 13 ? this.addCard() || (event.target.value = '') : null}
+                                                if (event.target.value !== "") {
+                                                    return event.keyCode === 13 ? this.addCard() || (event.target.value = '') : null
+                                                }
                                                 else console.log("Please fill the card name")
                                             }
                                             } />
