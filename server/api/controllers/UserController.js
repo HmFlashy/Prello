@@ -8,7 +8,7 @@ const ClientApplication = require("../../oauth/server/models").OAuthClients
 
 const getByEmail = async (email) => {
     try {
-        const user = await User.findOne({email: email})
+        const user = await User.findOne({ email: email })
         return user
     } catch (error) {
         throw error
@@ -31,7 +31,7 @@ const getById = async (userId) => {
 
 const addUser = async (firstname, lastname, username, email, password, organization, ldapId) => {
     try {
-        const existingUsers = await User.find({$or: [{username: this.username}, {email: this.email}]});
+        const existingUsers = await User.find({ $or: [{ username: this.username }, { email: this.email }] });
         if (existingUsers.length > 0) {
             if (existingUsers[0].email === this.email) {
                 throwError(400, "Email already taken")
@@ -57,7 +57,7 @@ const addUser = async (firstname, lastname, username, email, password, organizat
 
 const getUserByUsername = async (username) => {
     try {
-        return await User.findOne({username: username})
+        return await User.findOne({ username: username })
     } catch (error) {
         throw error
     }
@@ -66,18 +66,18 @@ const getUserByUsername = async (username) => {
 const unstarBoard = async (userId, boardId) => {
     try {
         const user = await User.findByIdAndUpdate(userId, {
-            $pull: {starred: boardId}
+            $pull: { starred: boardId }
         });
         if (!user) {
             throwError(404, `The user ${userId} was not found`)
         }
-        const board = await Board.findOneAndUpdate({_id: boardId}, {
-            $pull: {starred: user._id}, $inc: {"boardInformation.nbStars": -1}
+        const board = await Board.findOneAndUpdate({ _id: boardId }, {
+            $pull: { starred: user._id }, $inc: { "boardInformation.nbStars": -1 }
         })
         if (!board) {
             throwError(404, `The board ${boardId} was not found`)
         }
-        return {user, board}
+        return { user, board }
     } catch (error) {
         throw error
     }
@@ -86,13 +86,13 @@ const unstarBoard = async (userId, boardId) => {
 const starBoard = async (userId, boardId) => {
     try {
         const user = await User.findByIdAndUpdate(userId, {
-            $push: {starred: boardId}
+            $push: { starred: boardId }
         });
         if (!user) {
             throwError(404, `The user ${userId} was not found`)
         }
-        const board = await Board.findOneAndUpdate({_id: boardId}, {
-            $push: {starred: user._id}, $inc: {"boardInformation.nbStars": 1}
+        const board = await Board.findOneAndUpdate({ _id: boardId }, {
+            $push: { starred: user._id }, $inc: { "boardInformation.nbStars": 1 }
         });
         if (!board) {
             throwError(404, `The board ${boardId} was not found`)
@@ -105,7 +105,7 @@ const starBoard = async (userId, boardId) => {
 
 const getUsersWithQuery = async (query) => {
     try {
-        const users = await User.find({$or: [{username: new RegExp(query)}, {email: new RegExp(query)}]})
+        const users = await User.find({ $or: [{ username: new RegExp(query) }, { email: new RegExp(query) }] })
         console.log(users)
         if (!users) {
             throwError(404, `No users was found`)
@@ -124,7 +124,7 @@ const addCategory = async (userId, name) => {
             name: name
         });
         console.log(category)
-        await User.updateOne({_id: user._id}, {$push: {categories: category}});
+        await User.updateOne({ _id: user._id }, { $push: { categories: category } });
         return category
     } catch (error) {
         throw error
@@ -135,8 +135,8 @@ const deleteCategory = async (userId, categoryId) => {
     let user = null;
     try {
         const category = await Category.findById(categoryId)
-        user = await User.findByIdAndUpdate({_id: userId}, {$pull: {categories: {_id: categoryId}}});
-        await Category.deleteOne({_id: category._id});
+        user = await User.findByIdAndUpdate({ _id: userId }, { $pull: { categories: { _id: categoryId } } });
+        await Category.deleteOne({ _id: category._id });
         const newUserBoards = user.boards.map(board => {
             if (board.category) {
                 if (board.category._id.toString() === categoryId) {
@@ -160,9 +160,9 @@ const updateCategoryName = async (userId, categoryId, name) => {
     let user = null;
     try {
         const category = await Category.findById(categoryId)
-        const newCategory = await Category.findOneAndUpdate({_id: categoryId}, {$set: {name: name}}, {new: true})
-        user = await User.findByIdAndUpdate({_id: userId}, {$pull: {categories: {_id: categoryId}}});
-        user = await User.findByIdAndUpdate({_id: userId}, {$push: {categories: newCategory}});
+        const newCategory = await Category.findOneAndUpdate({ _id: categoryId }, { $set: { name: name } }, { new: true })
+        user = await User.findByIdAndUpdate({ _id: userId }, { $pull: { categories: { _id: categoryId } } });
+        user = await User.findByIdAndUpdate({ _id: userId }, { $push: { categories: newCategory } });
         const newUserBoards = user.boards.map(board => {
             if (board.category) {
                 if (board.category._id.toString() === categoryId) {
@@ -185,7 +185,7 @@ const updateCategoryName = async (userId, categoryId, name) => {
 const updateBoardCategory = async (userId, boardId, categoryId) => {
     try {
         const user = await User.findById(userId)
-        const category = categoryId?await Category.findById(categoryId):null
+        const category = categoryId ? await Category.findById(categoryId) : null
         const newBoards = user.boards.map(board => {
             if (board.board.toString() === boardId) {
                 board.category = category
@@ -208,27 +208,41 @@ const rand_string = (n) => {
     }
     var rs = '';
     try {
-        rs = crypto.randomBytes(Math.ceil(n/2)).toString('hex').slice(0,n);
+        rs = crypto.randomBytes(Math.ceil(n / 2)).toString('hex').slice(0, n);
         /* note: could do this non-blocking, but still might fail */
     }
-    catch(ex) {
+    catch (ex) {
         /* known exception cause: depletion of entropy info for randomBytes */
         console.error('Exception generating random string: ' + ex);
         /* weaker random fallback */
         rs = '';
-        var r = n % 8, q = (n-r)/8, i;
-        for(i = 0; i < q; i++) {
+        var r = n % 8, q = (n - r) / 8, i;
+        for (i = 0; i < q; i++) {
             rs += Math.random().toString(16).slice(2);
         }
-        if(r > 0){
-            rs += Math.random().toString(16).slice(2,i);
+        if (r > 0) {
+            rs += Math.random().toString(16).slice(2, i);
         }
     }
     return rs;
 }
 
+const updateUser = async (userId, fullName, username, email, bio, organization, newPassword) => {
+    try {
+        const hash = newPassword ? await passwordHelper.passwordHelper(newPassword) : undefined
+        if (hash) {
+            return await User.findOneAndUpdate({ _id: userId }, { $set: { fullName, username, email, bio, organization, hash } }, { "new": true })
+        }
+        else {
+            return await User.findOneAndUpdate({ _id: userId }, { $set: { fullName, username, email, bio, organization } }, { "new": true })
+        }
+    } catch (error) {
+        console.log(error)
+    }
+}
 
-const addClientApplication = async (userId, name) => {   let user = null;
+const addClientApplication = async (userId, name) => {
+    let user = null;
     try {
         user = await User.findById(userId);
         const id = rand_string(12)
@@ -241,7 +255,7 @@ const addClientApplication = async (userId, name) => {   let user = null;
             grants: ["authorization_code", "refresh_token"],
             user: user
         });
-        await User.updateOne({_id: user._id}, {$push: {client_applications: clientApplication}});
+        await User.updateOne({ _id: user._id }, { $push: { client_applications: clientApplication } });
         return clientApplication
     } catch (error) {
         throw error
@@ -259,5 +273,6 @@ module.exports = {
     deleteCategory,
     updateCategoryName,
     updateBoardCategory,
-    addClientApplication
+    addClientApplication,
+    updateUser
 }
