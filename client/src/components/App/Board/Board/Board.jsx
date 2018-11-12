@@ -127,7 +127,9 @@ class Board extends Component {
                                 className="myLists">
                                 <List className='lists'>
                                     {this.props.board.lists.sort((a, b) => a.pos - b.pos).map(list => (
-                                        <List.Item key={list._id} className='no-padding-top'><ListContainer key={list._id} listId={list._id} fullLabelDisplay={this.state.fullLabelDisplay} changeFullLabelDisplay={() => this.changeFullLabelDisplay()} /></List.Item>
+                                        console.log(list.isArchived) || !list.isArchived
+                                            ? <List.Item key={list._id} className='no-padding-top'><ListContainer key={list._id} listId={list._id} fullLabelDisplay={this.state.fullLabelDisplay} changeFullLabelDisplay={() => this.changeFullLabelDisplay()} /></List.Item>
+                                            : ""
                                     ))}
                                     <List.Item className='no-padding-top'><NewListContainer /></List.Item>
                                 </List>

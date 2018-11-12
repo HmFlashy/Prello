@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import CardOverviewContainer from '../../../containers/CardContainers/CardOverviewContainer';
-import { Segment, Container, List, Input, Grid, Label } from 'semantic-ui-react'
+import { Segment, Container, List, Input, Button, Icon, Label } from 'semantic-ui-react'
 import './List.css'
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 import DynamicInput from '../Input/DynamicInput'
@@ -49,11 +49,15 @@ class MyList extends Component {
                                                     type='text'
                                                     textToDisplay={this.props.list.name}
                                                     placeholder={this.props.list.name}
-                                                    onValidate={(event) => this.props.updateListName({ _id: this.props.list._id, name: event.target.value })}
+                                                    onValidate={(event) => this.props.updateList(this.props.list._id, { name: event.target.value })}
                                                 />
                                             </h3>
                                             <Label color="olive" className="list-card-nb">{this.props.list.cards.filter(card => !card.isArchived).length}</Label>
-
+                                            <div className="archive_list">
+                                                <Label className="list-card-nb" color="red"
+                                                    onClick={() => this.props.updateList(this.props.list._id, { isArchived: true })}
+                                                ><Icon className="iconArchive" name="archive"></Icon></Label>
+                                            </div>
                                         </div>
                                         <Container className='items'>
                                             <List >

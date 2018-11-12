@@ -39,7 +39,7 @@ export default (state = defaultBoardReducer, action) => {
                 currentBoard: {
                     ...defaultBoardReducer.currentBoard,
                     ...board,
-                    lists: board.lists.map(list => ({ _id: list._id, pos: list.pos }))
+                    lists: board.lists.map(list => ({ _id: list._id, pos: list.pos, isArchived: list.isArchived }))
                 }
             };
         case "FETCHING_BOARD":
@@ -61,6 +61,14 @@ export default (state = defaultBoardReducer, action) => {
             return {
                 ...state
             };
+        case 'UPDATE_LIST_ISARCHIVED':
+            return {
+                ...state,
+                currentBoard: {
+                    ...state.currentBoard,
+                    lists: state.currentBoard.lists.map(list => list._id === action.payload._id ? { ...list, isArchived: action.payload.isArchived } : list)
+                }
+            }
         case "GET_BOARD":
             return {
                 ...state,

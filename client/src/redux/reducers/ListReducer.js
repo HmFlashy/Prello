@@ -80,6 +80,17 @@ export default (state = defaultListReducer, action) => {
                     }
                 })
             }
+        case 'UPDATE_LIST_ISARCHIVED':
+            return {
+                ...state,
+                all: state.all.map(list => {
+                    if (list._id === action.payload._id) {
+                        return { ...list, isArchived: action.payload.isArchived }
+                    } else {
+                        return list
+                    }
+                })
+            }
         case 'ADD_CARD':
             const card = action.payload
             return {

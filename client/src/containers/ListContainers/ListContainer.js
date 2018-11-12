@@ -62,9 +62,9 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, onwProps) => {
     return {
-        async updateListName(list) {
+        async updateList(_id, data) {
             try {
-                await listServices.updateListNameApi(list._id, list.name)
+                await listServices.updateListApi(_id, data)
             } catch (error) {
                 dispatch(failedActionUpdateListName(error))
             }
