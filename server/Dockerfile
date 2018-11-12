@@ -4,5 +4,5 @@ WORKDIR /usr/src/app
 ENV NODE_ENV=production
 COPY . .
 EXPOSE 5000
-RUN npm install --production
+RUN apt update && apt install -y libldap2-dev && npm install --production
 CMD [ "npm", "start" ]
