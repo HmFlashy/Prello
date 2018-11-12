@@ -443,7 +443,10 @@ class BoardHeader extends Component {
                         </Button>
                         <CardsArchivedModal
                             open={this.state.openArchived}
+                            archivedLists={this.props.archivedLists}
                             archivedCards={this.props.archivedCards}
+                            onRestore={(listId) => this.props.restoreList(listId)}
+                            onDelete={(listId) => this.props.deleteList(listId)}
                             onClose={() => this.setState({ openArchived: false })}
                         />
                     </div>

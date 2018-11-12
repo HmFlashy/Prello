@@ -2,3 +2,7 @@
     max-height: 400px !important;
     overflow-y: auto;
 }
+.spacebetween{
+    justify-content: space-between;
+    width: 290px
+}

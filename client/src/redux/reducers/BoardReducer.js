@@ -69,6 +69,14 @@ export default (state = defaultBoardReducer, action) => {
                     lists: state.currentBoard.lists.map(list => list._id === action.payload._id ? { ...list, isArchived: action.payload.isArchived } : list)
                 }
             }
+        case 'DELETE_LIST':
+            return {
+                ...state,
+                currentBoard: {
+                    ...state.currentBoard,
+                    lists: state.currentBoard.lists.filter(list => list._id !== action.payload._id)
+                }
+            }
         case "GET_BOARD":
             return {
                 ...state,

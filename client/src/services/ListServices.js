@@ -33,5 +33,13 @@ export default {
         } catch (error) {
             throw error
         }
+    },
+    async deleteListApi(listId) {
+        try {
+            const res = await axios.delete(`${UrlConfig.API}/lists/${listId}`, tokenHeader());
+            return res.data
+        } catch (error) {
+            throw error
+        }
     }
 }

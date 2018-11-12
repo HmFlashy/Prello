@@ -42,17 +42,13 @@ const deleteList = async (listId) => {
             throwError(404, `The listId ${listId} was not found`)
         }
         if (list.isArchived) {
-            if (list.cards.length === 0) {
-                const board = await Board.findByIdAndUpdate(list.board,
-                    { $pull: { lists: listId } });
-                if (!board) {
-                    throwError(404, "Board not found")
-                }
-                await list.remove();
-                return list;
-            } else {
-                throwError(400, "Can't delete a list not empty")
+            const board = await Board.findByIdAndUpdate(list.board,
+                { $pull: { lists: listId } });
+            if (!board) {
+                throwError(404, "Board not found")
             }
+            await list.remove();
+            return list;
         } else {
             throwError(400, "Can't delete a list not archived")
         }

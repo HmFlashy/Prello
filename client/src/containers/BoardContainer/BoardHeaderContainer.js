@@ -19,14 +19,17 @@ import { actionUpdateSearchFilter, actionAddBoardLabelFilter, actionDeleteBoardL
 import { withRouter } from "react-router"
 import BoardServices from "../../services/BoardServices";
 import TeamServices from "../../services/TeamServices";
+import listServices from '../../services/ListServices'
 
 const mapStateToProps = state => {
     const user = state.authentification.user;
+    const archivedLists = state.lists.all.filter(list => list.isArchived);
     const archivedCards = state.cards.all.filter(card => card.isArchived);
     const membersSearched = state.boards.currentBoard.membersSearched;
     return {
         userId: user._id,
         archivedCards: archivedCards,
+        archivedLists,
         board: state.boards.currentBoard,
         isStarred: state.boards.currentBoard.starred.includes(state.authentification.user._id),
         membersSearched: membersSearched,
@@ -117,6 +120,20 @@ const mapDispatchToProps = (dispatch, ownProps) => {
                 BoardServices.updateName(boardId, newVal)
             } catch (error) {
                 dispatch(failedActionBoardUpdateName({ _id: boardId, name: oldVal }))
+                console.log(error)
+            }
+        },
+        async restoreList(_id) {
+            try {
+                await listServices.updateListApi(_id, { isArchived: false })
+            } catch (error) {
+                console.log(error)
+            }
+        },
+        async deleteList(listId) {
+            try {
+                listServices.deleteListApi(listId)
+            } catch (error) {
                 console.log(error)
             }
         }

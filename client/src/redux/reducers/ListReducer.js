@@ -91,6 +91,11 @@ export default (state = defaultListReducer, action) => {
                     }
                 })
             }
+        case 'DELETE_LIST':
+            return {
+                ...state,
+                all: state.all.filter(list => list._id !== action.payload._id)
+            }
         case 'ADD_CARD':
             const card = action.payload
             return {
