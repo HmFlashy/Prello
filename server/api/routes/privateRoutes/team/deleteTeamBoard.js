@@ -15,8 +15,8 @@ const throwError = require('../../../helper/RequestHelper').throwError;
  *     post:
  *       tags:
  *         - Team
- *       description: Add a board in a team given the id of the team, the id of the board
- *       summary: Add a board to the team in the database
+ *       description: Remove a board in a team given the id of the team, the id of the board
+ *       summary: Remove a board to the team in the database
  *       requestBody:
  *         description: Optional description in *Markdown*
  *         required: true
@@ -37,7 +37,7 @@ const throwError = require('../../../helper/RequestHelper').throwError;
  *               boardId: 5bce3aaf84c77d0a433029a9
  *       responses:
  *         200:
- *           description: The updated team
+ *           description: The updated team boards
  *           content:
  *             application/json:
  *               schema:
@@ -59,9 +59,9 @@ module.exports = async (req, res) => {
         if (!boardId.match(/^[0-9a-fA-F]{24}$/)) {
             throwError(400, `The boardId ${boardId} is malformed`)
         }
-        const team = await TeamsController.addToArray(teamId, 'boards', boardId)
+        const team = await TeamsController.removeToArray(teamId, 'boards', boardId)
         socketIO.broadcast('action', {
-            type: 'ADDED_BOARD_TEAM',
+            type: 'REMOVED_BOARD_TEAM',
             payload: { _id: teamId, boardId }
         })
         return res.status(200).json(team.boards)
