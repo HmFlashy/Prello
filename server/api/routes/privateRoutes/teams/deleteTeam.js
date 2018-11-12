@@ -47,7 +47,7 @@ const throwError = require('../../../helper/RequestHelper').throwError;
  */
 module.exports = async (req, res) => {
     try {
-        const teamId = req.creatorId;
+        const teamId = req.params.teamId;
         if (!teamId.match(/^[0-9a-fA-F]{24}$/)) {
             throwError(400, `The teamId ${teamId} is malformed`)
         }

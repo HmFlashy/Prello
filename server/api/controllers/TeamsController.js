@@ -1,7 +1,8 @@
 const Board = require("../models/index").Board;
 const User = require("../models/index").User;
 const Team = require("../models/index").Team;
-const Category = require("../models/index").Category;
+const BoardsController = require('./BoardsController')
+const UserController = require('./UserController')
 const throwError = require("../helper/RequestHelper").throwError;
 const mongoose = require("mongoose");
 
@@ -12,10 +13,32 @@ const addTeam = async (name, creatorId) => {
             name: name,
             creator: creatorId
         });
-        const savedTeam= await team.save()
+        const savedTeam = await team.save()
         return savedTeam
     } catch (error) {
         throw error
+    }
+}
+
+const deleteTeam = async (teamId) => {
+    let session = null
+    try {
+        session = await mongoose.startSession()
+        session.startTransaction();
+        const team = await Team.findById(teamId)
+        if(!team) {
+            throwError(404, `The team ${teamId} was not found`)
+        }
+        // await BoardsController.removeTeam(teamId); 
+        // await UserController.removeTeam(teamId);       
+        await session.commitTransaction();
+        session.endSession();
+        return await team.remove();
+    } catch (error) {
+        console.log(error)
+        await session.abortTransaction();
+        session.endSession();
+        throw error;
     }
 }
 
@@ -55,6 +78,7 @@ const getTeamById = async (teamId) => {
 };
 module.exports = {
     addTeam,
+    deleteTeam,
     addToArray,
     removeToArray,
     getTeamById

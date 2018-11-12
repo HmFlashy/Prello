@@ -1,4 +1,4 @@
-const teamsController = require('../../../controllers/TeamsController');
+const TeamsController = require('../../../controllers/TeamsController');
 const socketIO = require('../../../../socket/index');
 const throwError = require('../../../helper/RequestHelper').throwError;
 
@@ -52,7 +52,7 @@ const throwError = require('../../../helper/RequestHelper').throwError;
 module.exports = async (req, res) => {
     try {
         const name = req.body.name;
-        const creatorId = req.creatorId;
+        const creatorId = req.body.creatorId;
 
         if (Object.keys(req.body).length === 0) {
             throwError(400, "No data in body")
@@ -61,12 +61,12 @@ module.exports = async (req, res) => {
             throwError(400, "Missing name parameter")
         }
         if(!creatorId) {
-            throwError(400, "Missing creator ID parameter")
+            throwError(400, "Missing creatorId parameter")
         }
         if (!creatorId.match(/^[0-9a-fA-F]{24}$/)) {
             throwError(400, `The creatorId ${creatorId} is malformed`)
         }
-        const team = await teamsController.addTeam(name, creatorId);
+        const team = await TeamsController.addTeam(name, creatorId);
         socketIO.broadcast('action',{
             type: 'CREATED_TEAM',
             payload: { team }
