@@ -1,6 +1,6 @@
-const boardsController = require('../../../controllers/BoardsController');
-const socketIO = require('../../../../socket/index');
-const throwError = require('../../../helper/RequestHelper').throwError;
+const boardsController = require("../../../controllers/BoardsController");
+const socketIO = require("../../../../socket/index");
+const throwError = require("../../../helper/RequestHelper").throwError;
 
 /**
  * @swagger
@@ -57,35 +57,29 @@ const throwError = require('../../../helper/RequestHelper').throwError;
 module.exports = async (req, res) => {
     try {
         const boardId = req.params.boardId;
-        const userId = req.params.userId;
-        if(userId) {
-            if (!userId.match(/^[0-9a-fA-F]{24}$/)) {
-                throwError(400, `The userId ${userId} is malformed`)
-            }
+        const userId = req.body.userId;
+        if (!userId) {
+            throwError(400, `The userId ${userId} is malformed`)
+        } else if (!userId.match(/^[0-9a-fA-F]{24}$/)) {
+            throwError(400, `The userId ${userId} is malformed`)
         }
 
-        if(!boardId) {
+        if (!boardId) {
             throwError(400, "Missing boardId parameter")
-        } else if(!boardId.match(/^[0-9a-fA-F]{24}$/)) {
+        } else if (!boardId.match(/^[0-9a-fA-F]{24}$/)) {
             throwError(400, `The boardId ${boardId} is malformed`)
         }
 
-        if(req.body._id) {
-            if(!req.body._id.match(/^[0-9a-fA-F]{24}$/)) {
-                throwError(400, `The userId ${req.body._id} is malformed`)
-            }
-        }
-
-        const board = await boardsController.addBoardMember(boardId, req.body);
+        const board = await boardsController.addBoardMember(boardId, userId);
         socketIO.broadcast("action", boardId, {
             type: "ADD_BOARD_MEMBER",
             payload: board.members
         });
 
         return res.status(200).json(board)
-    } catch(error) {
+    } catch (error) {
         console.log(error);
-        if(error.code){
+        if (error.code) {
             return res.status(error.code).json(error.message)
         } else {
             return res.sendStatus(500);

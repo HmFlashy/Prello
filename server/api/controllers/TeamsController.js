@@ -5,7 +5,7 @@ const getTeamById = async (teamId) => {
     try {
         const team = await Team.findById(teamId).populate({
             path: "members.member",
-            select: ["fullName", "username", "initials"]
+            select: ["fullName", "username", "initials", "_id", "bio"]
         });
         if(!team){
             throwError(404, "Team not found")

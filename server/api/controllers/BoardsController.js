@@ -192,21 +192,29 @@ const removeLabel = async (boardId, labelId) => {
     }
 }
 
-const addBoardMember = async (boardId, body) => {
+const addBoardMember = async (boardId, userId) => {
     try {
-        const user = await User.findOneAndUpdate(body, {
+        if(await Board.findOne({$and: [{_id: boardId }, {"members.member": {$in: [userId]}}]})){
+            throwError(400, `The user ${userId} is already in the board`)
+        }
+
+        const user = await User.findOneAndUpdate({_id: userId}, {
             $push:
                 { boards: { board: boardId, role: "Member" } }
         }, { new: true });
         if (!user) {
-            throwError(404, `The user ${JSON.stringify(body)} was not found`)
+            throwError(404, `The user ${userId} was not found`)
         }
+
         const board = await Board.findOneAndUpdate({ _id: boardId }, {
             $push: {
                 members:
                     { member: user._id, role: "Member" }
             }
-        }, { new: true });
+        }, { new: true }).populate({
+            path: "members.member",
+            select: ["fullName", "username", "email", "_id", "bio"]
+        });
         if (!board) {
             throwError(404, `The board ${boardId} was not found`)
         }

@@ -155,25 +155,25 @@ class BoardHeader extends Component {
     }
 
     getSearchedMembersOptions() {
-        const members = this.state.searchMember.length>0?this.props.membersSearched:this.props.missingMembers;
+        const members = this.state.searchMember.length > 0 ? this.props.membersSearched : this.props.missingMembers;
         return [...members.map(member => {
             return {
                 key: member._id,
                 value: member.fullName,
                 text: member.fullName,
                 content: <span className={"dropdown-member-item"} id={member._id}><Avatar
-                        id={member._id}
-                        key={member._id}
-                        name={member.fullName}
-                        round
-                        size="25"
-                        textSizeRatio={1.4}/>
+                    _id={member._id}
+                    fullName={member.fullName}
+                    bio={member.bio}
+                    round
+                    size="25"
+                    textSizeRatio={1.4}/>
                     <div id={member._id}> {member.fullName}</div></span>
             }
         }), ...this.state.currentMembers];
     }
 
-    addMembers(){
+    addMembers() {
         this.props.addMembers(this.props.board._id, this.state.currentMembers.map(member => member.key));
         this.setState({
             currentMembers: [],
@@ -204,24 +204,30 @@ class BoardHeader extends Component {
                             </Button>
                         </div>
                         <div className="header-board-member">
-                            {this.props.board.members.map(member => <span><Avatar
-                                _id={member.member._id}
-                                fullName={member.member.fullName}
-                                bio={member.member.bio}
+                            {console.log(this.props.board.members)}
+                            {this.props.board.members.map(boardMember => <span><Avatar
+                                _id={boardMember.member._id}
+                                fullName={boardMember.member.fullName}
+                                bio={boardMember.member.bio}
                                 round
                                 size="25"
-                                textSizeRatio={1.4} /></span>)}
+                                textSizeRatio={1.4}/></span>)}
                             <Popup
-                                className={"add-member-popup"}
+                                flowing={true}
                                 trigger={<Icon name={"add user"}/>}
                                 on='click'
                                 open={this.state.isMemberOpen}
                                 onClose={() => this.setState({isMemberOpen: false})}
                                 onOpen={() => this.openMembersPopup()}
                                 position='bottom left'>
-                                <div>
+                                <div className={"add-member-button"}>
+                                    <Button icon="add" onClick={this.addMembers} positive content={"Add"}/>
+                                </div>
+                                <Divider/>
+                                <div className={"dropdown-add-member"}>
                                     <Dropdown
                                         open
+                                        flowing={true}
                                         options={this.getSearchedMembersOptions()}
                                         placeholder='Search a member'
                                         selection
@@ -234,10 +240,6 @@ class BoardHeader extends Component {
                                         onChange={this.handleChangeMembers}
                                         onSearchChange={this.handleChangeSearchMember}
                                     />
-                                </div>
-                                <Divider/>
-                                <div className={"add-member-button"}>
-                                    <Button onClick={this.addMembers} content={"Add"}/>
                                 </div>
                             </Popup>
                         </div>
@@ -280,8 +282,9 @@ class BoardHeader extends Component {
                                 <List className={"list"}>
                                     <List.Item className={"filter-list"}>
                                         <Label className={"filter-item"} id={"No Members"} color={"#008080"}
-                                            onClick={this.clickMember}>
-                                            <span className={"member-avatar"} id={"No Members"}><Avatar id={"No Members"}
+                                               onClick={this.clickMember}>
+                                            <span className={"member-avatar"} id={"No Members"}><Avatar
+                                                id={"No Members"}
                                                 _id={"No Members"}
                                                 fullName={"No Members"}
                                                 key={"No Members"}
@@ -298,8 +301,9 @@ class BoardHeader extends Component {
                                     {this.props.board.members.map(boardMember =>
                                         <List.Item className={"filter-list"}>
                                             <Label className={"filter-item"} id={boardMember.member._id}
-                                                onClick={this.clickMember}>
-                                                <span className={"member-avatar"} id={boardMember.member._id}><Avatar id={boardMember.member._id}
+                                                   onClick={this.clickMember}>
+                                                <span className={"member-avatar"} id={boardMember.member._id}><Avatar
+                                                    id={boardMember.member._id}
                                                     _id={boardMember.member._id}
                                                     fullName={boardMember.member.fullName}
                                                     bio={boardMember.member.bio}

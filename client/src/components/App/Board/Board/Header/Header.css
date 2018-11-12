@@ -121,8 +121,8 @@
     font-size: 90%;
 }
 
-.add-member-popup {
-    width: 350px !important;
+.dropdown-add-member {
+    width: 200px;
 }
 
 .dropdown-member-item {
@@ -130,5 +130,7 @@
 }
 
 .add-member-button {
-    top: 500px
+    display: flex !important;
+    flex: 3 !important;
+    flex-direction: column;
 }

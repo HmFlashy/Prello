@@ -342,7 +342,10 @@ export default (state = defaultBoardReducer, action) => {
                 ...state,
                 currentBoard: {
                     ...state.currentBoard,
-                    members: action.payload
+                    members: action.payload,
+                    missingMembers: state.currentBoard.missingMembers.filter(member => action.payload.every(boardMember =>
+                        boardMember.member._id !== member._id)
+                    )
                 }
             };
         default:

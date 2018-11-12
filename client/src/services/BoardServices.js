@@ -98,7 +98,7 @@ export default {
     },
     async addMember(boardId, id) {
         try {
-            const res = await axios.put(`${UrlConfig.API}/boards/${boardId}/members`, {_id: id}, tokenHeader());
+            const res = await axios.put(`${UrlConfig.API}/boards/${boardId}/members`, {userId: id}, tokenHeader());
             return res.data;
         } catch (error) {
             throw error

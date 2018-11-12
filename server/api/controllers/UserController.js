@@ -295,6 +295,6 @@ module.exports = {
     updateCategoryName,
     updateBoardCategory,
     addClientApplication,
-    getMembersBySearch
+    getMembersBySearch,
     updateUser
 }
