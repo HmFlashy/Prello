@@ -32,12 +32,18 @@ $ sudo service redis-server start
 
 ## Installation
 
+* First you'll have to install the ldap client module using npm which is a native module.
+```
+$ apt install libldap2-dev # Install ldap libraries
+$ apt install g++ make
+```
+
 ```
 $ git clone https://github.com/HmFlashy/Prello
 $ cd Prello
 $ npm install install:all:dev
 ```
-* Create a .env file following the .modelenv model and fill it. (This is an example)
+* Create .env files in both client and server directories following the .modelenv models. (This is an example)
 ```
 NODE_ENV=development
 URL_MONGODB=http://localhost:27017/Prello
