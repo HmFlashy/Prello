@@ -2,10 +2,7 @@ const LabelsController = require('../../../../controllers/LabelsController')
 const socketIO = require('../../../../../socket')
 const throwError = require('../../../../helper/RequestHelper').throwError;
 
-// const types = {
-//     name: 'UPDATE_LABEL_NAME',
-//     color: 'UPDATE_LABEL_COLOR'
-// }
+
 /**
   * @swagger
   * definition:

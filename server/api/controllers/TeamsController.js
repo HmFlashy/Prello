@@ -54,10 +54,20 @@ const addToArray = async (teamId, key, data) => {
 
 const removeToArray = async (teamId, key, data) => {
     try {
-        console.log(data)
         return await Team.findOneAndUpdate({ _id: teamId },
             { $pull: { [key]: data } }, { "new": true })
     } catch (error) {
+        throw error
+    }
+}
+
+const updateTeamMember = async (teamId, memberId, role) => {
+    try {
+        const team = await Team.findById({_id: teamId})
+        let teamUpdated = await team.members.map(mem => mem.member.toString() === memberId? {member: mem.member, role} : {member: mem.member, role: mem.role})
+        return await Team.findOneAndUpdate({_id: teamId}, { $set: { members: teamUpdated } }, { "new": true })
+    } catch (error) {
+        console.log(error)
         throw error
     }
 }
@@ -81,5 +91,6 @@ module.exports = {
     deleteTeam,
     addToArray,
     removeToArray,
+    updateTeamMember,
     getTeamById
 };
