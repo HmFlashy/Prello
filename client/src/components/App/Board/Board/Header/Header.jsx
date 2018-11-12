@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import "./Header.css"
-import { Button, Divider, Icon, Input, Label, List, Popup } from "semantic-ui-react"
+import {Button, Divider, Dropdown, Icon, Input, Label, List, Popup} from "semantic-ui-react"
 import Members from "../../../Card/CardDetail/SubComponents/Members"
 import CardsArchivedModal from "../CardsArchivedModal";
 import Avatar from "../../../Avatar";
@@ -16,7 +16,9 @@ class BoardHeader extends Component {
             isHoverStar: false,
             isFilterOpen: false,
             isMemberOpen: false,
-            searchMember: ""
+            searchMember: "",
+            currentMembersValues: [],
+            currentMembers: []
         };
         this.open = this.open.bind(this);
         this.overStar = this.overStar.bind(this);
@@ -35,6 +37,9 @@ class BoardHeader extends Component {
         this.handleOpenFilter = this.handleOpenFilter.bind(this);
         this.handleOpenMember = this.handleOpenMember.bind(this);
         this.handleChangeSearchMember = this.handleChangeSearchMember.bind(this);
+        this.getSearchedMembersOptions = this.getSearchedMembersOptions.bind(this);
+        this.handleChangeMembers = this.handleChangeMembers.bind(this);
+        this.addMembers = this.addMembers.bind(this);
     }
 
     overStar() {
@@ -98,18 +103,31 @@ class BoardHeader extends Component {
         }
     }
 
-    open = () => this.setState({ open: true });
-    close = () => this.setState({ open: false });
+    open = () => this.setState({open: true});
+    close = () => this.setState({open: false});
 
-    handleChangeSearchFilter(e, { value }) {
+    handleChangeSearchFilter(e, {value}) {
         this.props.updateSearchFilter(value);
     }
 
-    handleChangeSearchMember(e, { value }) {
+    handleChangeSearchMember(e) {
         this.setState({
-            searchMember: value
-        })
+            searchMember: e.target.value
+        });
+        this.props.fetchMembers(this.props.board._id, e.target.value);
     };
+
+    handleChangeMembers(e, {value}) {
+        let currentMembers = [];
+        value.forEach(selectedValue => {
+            const valueFound = this.getSearchedMembersOptions().find(s => s.value === selectedValue);
+            currentMembers.push(valueFound);
+        });
+        this.setState({
+            currentMembersValues: value,
+            currentMembers: currentMembers
+        })
+    }
 
     switchFilterMode(e) {
         if (e.target.id !== this.props.board.filterMode) {
@@ -132,6 +150,34 @@ class BoardHeader extends Component {
     openMembersPopup() {
         this.setState({
             isMemberOpen: true
+        });
+        this.props.fetchingMissingMembers();
+    }
+
+    getSearchedMembersOptions() {
+        const members = this.state.searchMember.length>0?this.props.membersSearched:this.props.missingMembers;
+        return [...members.map(member => {
+            return {
+                key: member._id,
+                value: member.fullName,
+                text: member.fullName,
+                content: <span className={"dropdown-member-item"} id={member._id}><Avatar
+                        id={member._id}
+                        key={member._id}
+                        name={member.fullName}
+                        round
+                        size="25"
+                        textSizeRatio={1.4}/>
+                    <div id={member._id}> {member.fullName}</div></span>
+            }
+        }), ...this.state.currentMembers];
+    }
+
+    addMembers(){
+        this.props.addMembers(this.props.board._id, this.state.currentMembers.map(member => member.key));
+        this.setState({
+            currentMembers: [],
+            currentMembersValues: []
         })
     }
 
@@ -145,16 +191,16 @@ class BoardHeader extends Component {
                         </div>
                         <div className="header-board-star">
                             <Button icon className="button-header"
-                                onClick={this.starBoard}
-                                onMouseEnter={this.overStar}
-                                onMouseOut={this.unOverStar}>
-                                <Icon className="bo-icon"
+                                    onClick={this.starBoard}
                                     onMouseEnter={this.overStar}
-                                    onMouseOut={this.unOverStar}
-                                    color={(!this.props.isStarred && this.state.isHoverStar)
-                                        || (this.props.isStarred && !this.state.isHoverStar) ? "yellow" : "white"}
-                                    name={(!this.props.isStarred && this.state.isHoverStar)
-                                        || (this.props.isStarred && !this.state.isHoverStar) ? "star" : "star outline"} />
+                                    onMouseOut={this.unOverStar}>
+                                <Icon className="bo-icon"
+                                      onMouseEnter={this.overStar}
+                                      onMouseOut={this.unOverStar}
+                                      color={(!this.props.isStarred && this.state.isHoverStar)
+                                      || (this.props.isStarred && !this.state.isHoverStar) ? "yellow" : "white"}
+                                      name={(!this.props.isStarred && this.state.isHoverStar)
+                                      || (this.props.isStarred && !this.state.isHoverStar) ? "star" : "star outline"}/>
                             </Button>
                         </div>
                         <div className="header-board-member">
@@ -167,17 +213,31 @@ class BoardHeader extends Component {
                                 textSizeRatio={1.4} /></span>)}
                             <Popup
                                 className={"add-member-popup"}
-                                trigger={<Icon name={"add user"} />}
+                                trigger={<Icon name={"add user"}/>}
                                 on='click'
                                 open={this.state.isMemberOpen}
-                                onClose={() => this.setState({ isMemberOpen: false })}
-                                onOpen={() => this.setState({ isMemberOpen: true })}
+                                onClose={() => this.setState({isMemberOpen: false})}
+                                onOpen={() => this.openMembersPopup()}
                                 position='bottom left'>
                                 <div>
-                                    <Input className={"search-bar"} placeholder={"Search"}
-                                           value={this.state.searchMember}
-                                           onChange={this.handleChangeSearchMember} />
-                                    <Divider />
+                                    <Dropdown
+                                        open
+                                        options={this.getSearchedMembersOptions()}
+                                        placeholder='Search a member'
+                                        selection
+                                        search
+                                        clearable
+                                        fluid
+                                        minCharacters={3}
+                                        multiple
+                                        value={this.state.currentMembersValues}
+                                        onChange={this.handleChangeMembers}
+                                        onSearchChange={this.handleChangeSearchMember}
+                                    />
+                                </div>
+                                <Divider/>
+                                <div className={"add-member-button"}>
+                                    <Button onClick={this.addMembers} content={"Add"}/>
                                 </div>
                             </Popup>
                         </div>
@@ -185,38 +245,38 @@ class BoardHeader extends Component {
                     <div className={"header-board-filter"}>
                         <Popup
                             className={"filter-popup"}
-                            trigger={<Button className={"button-header"} content='Filter' />}
+                            trigger={<Button className={"button-header"} content='Filter'/>}
                             on='click'
                             open={this.state.isFilterOpen}
-                            onClose={() => this.setState({ isFilterOpen: false })}
-                            onOpen={() => this.setState({ isFilterOpen: true })}
+                            onClose={() => this.setState({isFilterOpen: false})}
+                            onOpen={() => this.setState({isFilterOpen: true})}
                             position='bottom right'>
                             <div className={"filters-list"}>
                                 <Input className={"search-bar"} placeholder={"Search"}
-                                    value={this.props.board.searchFilter}
-                                    onChange={this.handleChangeSearchFilter} />
-                                <Divider />
+                                       value={this.props.board.searchFilter}
+                                       onChange={this.handleChangeSearchFilter}/>
+                                <Divider/>
                                 <List className={"list"}>
                                     <List.Item className={"filter-list"}>
                                         <Label className={"filter-item"} id={"No Labels"} color={"#008080"}
-                                            onClick={this.clickLabel}>
+                                               onClick={this.clickLabel}>
                                             <div id={"No Labels"} className={"filter-name"}>No Labels</div>
                                             <Icon className={"filter-item-icon"} id={"No Labels"}
-                                                name={this.props.board.labelsFilter.includes("No Labels") ? "check" : ""} />
+                                                  name={this.props.board.labelsFilter.includes("No Labels") ? "check" : ""}/>
                                         </Label>
                                     </List.Item>
                                     {this.props.board.labels.map(label =>
                                         <List.Item className={"filter-list"}>
                                             <Label className={"filter-item"} id={label._id} color={label.color}
-                                                onClick={this.clickLabel}>
+                                                   onClick={this.clickLabel}>
                                                 <div id={label._id} className={"filter-name"}>{label.name}</div>
                                                 <Icon className={"filter-item-icon"} id={label._id}
-                                                    name={this.props.board.labelsFilter.includes(label._id) ? "check" : ""} />
+                                                      name={this.props.board.labelsFilter.includes(label._id) ? "check" : ""}/>
                                             </Label>
                                         </List.Item>
                                     )}
                                 </List>
-                                <Divider />
+                                <Divider/>
                                 <List className={"list"}>
                                     <List.Item className={"filter-list"}>
                                         <Label className={"filter-item"} id={"No Members"} color={"#008080"}
@@ -229,10 +289,10 @@ class BoardHeader extends Component {
                                                 color={"gray"}
                                                 round
                                                 size="25"
-                                                textSizeRatio={1.8} /></span>
+                                                textSizeRatio={1.8}/></span>
                                             <div className={"filter-name"} id={"No Members"}> No Members</div>
                                             <Icon id={"No Members"} className={"filter-item-icon"}
-                                                name={this.props.board.membersFilter.includes("No Members") ? "check" : ""} />
+                                                  name={this.props.board.membersFilter.includes("No Members") ? "check" : ""}/>
                                         </Label>
                                     </List.Item>
                                     {this.props.board.members.map(boardMember =>
@@ -247,97 +307,113 @@ class BoardHeader extends Component {
                                                     name={boardMember.member.fullName}
                                                     round
                                                     size="25"
-                                                    textSizeRatio={1.4} /></span>
-                                                <div id={boardMember.member._id} className={"filter-name"}> {`${boardMember.member.fullName} (${boardMember.member.username})`}</div>
+                                                    textSizeRatio={1.4}/></span>
+                                                <div id={boardMember.member._id}
+                                                     className={"filter-name"}> {`${boardMember.member.fullName} (${boardMember.member.username})`}</div>
                                                 <Icon id={boardMember.member._id} className={"filter-item-icon"}
-                                                    name={this.props.board.membersFilter.includes(boardMember.member._id) ? "check" : ""} />
+                                                      name={this.props.board.membersFilter.includes(boardMember.member._id) ? "check" : ""}/>
                                             </Label>
                                         </List.Item>
                                     )}
                                 </List>
-                                <Divider />
+                                <Divider/>
                                 <List className={"filter-list"}>
                                     <List.Item>
-                                        <Label className={"filter-item"} id={"DUE_THIS_DAY"} onClick={this.clickDueDate}>
+                                        <Label className={"filter-item"} id={"DUE_THIS_DAY"}
+                                               onClick={this.clickDueDate}>
                                             <div id={"DUE_THIS_DAY"} className={"filter-name"}>Due this day</div>
                                             <Icon id={"DUE_THIS_DAY"} className={"filter-item-icon"}
-                                                name={this.props.board.dueDateMode === "DUE_THIS_DAY" ? "check" : ""} />
+                                                  name={this.props.board.dueDateMode === "DUE_THIS_DAY" ? "check" : ""}/>
                                         </Label>
                                     </List.Item>
                                     <List.Item>
-                                        <Label className={"filter-item"} id={"DUE_NEXT_DAY"} onClick={this.clickDueDate}>
+                                        <Label className={"filter-item"} id={"DUE_NEXT_DAY"}
+                                               onClick={this.clickDueDate}>
                                             <div id={"DUE_NEXT_DAY"} className={"filter-name"}>Due next day</div>
                                             <Icon id={"DUE_NEXT_DAY"} className={"filter-item-icon"}
-                                                name={this.props.board.dueDateMode === "DUE_NEXT_DAY" ? "check" : ""} />
+                                                  name={this.props.board.dueDateMode === "DUE_NEXT_DAY" ? "check" : ""}/>
                                         </Label>
                                     </List.Item>
                                     <List.Item>
-                                        <Label className={"filter-item"} id={"DUE_NEXT_WEEK"} onClick={this.clickDueDate}>
+                                        <Label className={"filter-item"} id={"DUE_NEXT_WEEK"}
+                                               onClick={this.clickDueDate}>
                                             <div id={"DUE_NEXT_WEEK"} className={"filter-name"}>Due next week</div>
                                             <Icon id={"DUE_NEXT_WEEK"} className={"filter-item-icon"}
-                                                name={this.props.board.dueDateMode === "DUE_NEXT_WEEK" ? "check" : ""} />
+                                                  name={this.props.board.dueDateMode === "DUE_NEXT_WEEK" ? "check" : ""}/>
                                         </Label>
                                     </List.Item>
                                     <List.Item>
-                                        <Label className={"filter-item"} id={"DUE_NEXT_MONTH"} onClick={this.clickDueDate}>
+                                        <Label className={"filter-item"} id={"DUE_NEXT_MONTH"}
+                                               onClick={this.clickDueDate}>
                                             <div id={"DUE_NEXT_MONTH"} className={"filter-name"}>Due next month</div>
                                             <Icon id={"DUE_NEXT_MONTH"} className={"filter-item-icon"}
-                                                name={this.props.board.dueDateMode === "DUE_NEXT_MONTH" ? "check" : ""} />
+                                                  name={this.props.board.dueDateMode === "DUE_NEXT_MONTH" ? "check" : ""}/>
                                         </Label>
                                     </List.Item>
                                     <List.Item>
                                         <Label className={"filter-item"} id={"NO_DUE_DATE"} onClick={this.clickDueDate}>
                                             <div id={"NO_DUE_DATE"} className={"filter-name"}>No due date</div>
                                             <Icon id={"NO_DUE_DATE"} className={"filter-item-icon"}
-                                                name={this.props.board.dueDateMode === "NO_DUE_DATE" ? "check" : ""} />
+                                                  name={this.props.board.dueDateMode === "NO_DUE_DATE" ? "check" : ""}/>
                                         </Label>
                                     </List.Item>
                                     <List.Item>
-                                        <Label className={"filter-item"} id={"DUE_DATE_MARKED_COMPLETED"} onClick={this.clickDueDate}>
-                                            <div id={"DUE_DATE_MARKED_COMPLETED"} className={"filter-name"}>Due date marked as completed</div>
+                                        <Label className={"filter-item"} id={"DUE_DATE_MARKED_COMPLETED"}
+                                               onClick={this.clickDueDate}>
+                                            <div id={"DUE_DATE_MARKED_COMPLETED"} className={"filter-name"}>Due date
+                                                marked as completed
+                                            </div>
                                             <Icon id={"DUE_DATE_MARKED_COMPLETED"} className={"filter-item-icon"}
-                                                name={this.props.board.dueDateMode === "DUE_DATE_MARKED_COMPLETED" ? "check" : ""} />
+                                                  name={this.props.board.dueDateMode === "DUE_DATE_MARKED_COMPLETED" ? "check" : ""}/>
                                         </Label>
                                     </List.Item>
                                     <List.Item>
-                                        <Label className={"filter-item"} id={"DUE_DATE_NOT_MARKED_COMPLETED"} onClick={this.clickDueDate}>
-                                            <div id={"DUE_DATE_NOT_MARKED_COMPLETED"} className={"filter-name"}>Due date not marked as completed</div>
+                                        <Label className={"filter-item"} id={"DUE_DATE_NOT_MARKED_COMPLETED"}
+                                               onClick={this.clickDueDate}>
+                                            <div id={"DUE_DATE_NOT_MARKED_COMPLETED"} className={"filter-name"}>Due date
+                                                not marked as completed
+                                            </div>
                                             <Icon id={"DUE_DATE_NOT_MARKED_COMPLETED"} className={"filter-item-icon"}
-                                                name={this.props.board.dueDateMode === "DUE_DATE_NOT_MARKED_COMPLETED" ? "check" : ""} />
+                                                  name={this.props.board.dueDateMode === "DUE_DATE_NOT_MARKED_COMPLETED" ? "check" : ""}/>
                                         </Label>
                                     </List.Item>
                                     <List.Item>
                                         <Label className={"filter-item"} id={"OVERDUE"} onClick={this.clickDueDate}>
                                             <div id={"OVERDUE"} className={"filter-name"}>Overdue</div>
                                             <Icon id={"OVERDUE"} className={"filter-item-icon"}
-                                                name={this.props.board.dueDateMode === "OVERDUE" ? "check" : ""} />
+                                                  name={this.props.board.dueDateMode === "OVERDUE" ? "check" : ""}/>
                                         </Label>
                                     </List.Item>
                                 </List>
-                                <Divider />
+                                <Divider/>
                                 <List>
                                     <List.Item className={"filter-list"}>
                                         <Label className={"filter-item"} id={"UNION"} onClick={this.switchFilterMode}>
-                                            <div id={"UNION"} className={"filter-name"}>Matches any label and any member</div>
+                                            <div id={"UNION"} className={"filter-name"}>Matches any label and any
+                                                member
+                                            </div>
                                             <Icon id={"UNION"} className={"filter-item-icon"}
-                                                name={this.props.board.filterMode === "UNION" ? "check" : ""} />
+                                                  name={this.props.board.filterMode === "UNION" ? "check" : ""}/>
                                         </Label>
                                     </List.Item>
                                     <List.Item className={"filter-list"}>
-                                        <Label className={"filter-item"} id={"INTERSECTION"} onClick={this.switchFilterMode}>
-                                            <div id={"INTERSECTION"} className={"filter-name"}>Matches any label and any member</div>
+                                        <Label className={"filter-item"} id={"INTERSECTION"}
+                                               onClick={this.switchFilterMode}>
+                                            <div id={"INTERSECTION"} className={"filter-name"}>Matches any label and any
+                                                member
+                                            </div>
                                             <Icon id={"INTERSECTION"} className={"filter-item-icon"}
-                                                name={this.props.board.filterMode === "INTERSECTION" ? "check" : ""} />
+                                                  name={this.props.board.filterMode === "INTERSECTION" ? "check" : ""}/>
                                         </Label>
                                     </List.Item>
                                 </List>
-                                <Divider />
+                                <Divider/>
                                 <div className={"clear-filter"} onClick={this.clearFilter}>Clear Filter</div>
                             </div>
                         </Popup>
                     </div>
                     <div className="header-board-labels">
-                        <Button className="button-header" onClick={() => this.setState({ openLabels: true })}>
+                        <Button className="button-header" onClick={() => this.setState({openLabels: true})}>
                             Labels
                         </Button>
                         <BoardLabelsModal
@@ -346,19 +422,19 @@ class BoardHeader extends Component {
                             onNewLabel={(newLabelName, newLabelColor) => this.props.newLabel(newLabelName, newLabelColor)}
                             onUpdateLabel={(updatedLabelId, updatedLabelName, updatedLabelColor) => this.props.updateLabel(updatedLabelId, updatedLabelName, updatedLabelColor)}
                             onDeleteLabel={(labelId) => this.props.deleteLabel(labelId)}
-                            onClose={() => this.setState({ openLabels: false })}
+                            onClose={() => this.setState({openLabels: false})}
                         />
                     </div>
                     <div className="header-board-archived">
                         <div className="header-board-members">
                         </div>
-                        <Button className="button-header" onClick={() => this.setState({ openArchived: true })}>
+                        <Button className="button-header" onClick={() => this.setState({openArchived: true})}>
                             Cards archived
                         </Button>
                         <CardsArchivedModal
                             open={this.state.openArchived}
                             archivedCards={this.props.archivedCards}
-                            onClose={() => this.setState({ openArchived: false })}
+                            onClose={() => this.setState({openArchived: false})}
                         />
                     </div>
                 </div>

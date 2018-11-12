@@ -119,6 +119,7 @@ class ListBoards extends Component {
                     placeholder='Choose Categories'
                     search
                     selection
+                    clearable
                     fluid
                     multiple
                     allowAdditions

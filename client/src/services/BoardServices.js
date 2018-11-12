@@ -87,5 +87,21 @@ export default {
         } catch (error) {
             throw error
         }
+    },
+    async getMembers(boardId, value) {
+        try {
+            const res = await axios.get(`${UrlConfig.API}/boards/${boardId}/members/${value}`, tokenHeader());
+            return res.data;
+        } catch (error) {
+            throw error
+        }
+    },
+    async addMember(boardId, id) {
+        try {
+            const res = await axios.put(`${UrlConfig.API}/boards/${boardId}/members`, {_id: id}, tokenHeader());
+            return res.data;
+        } catch (error) {
+            throw error
+        }
     }
 }

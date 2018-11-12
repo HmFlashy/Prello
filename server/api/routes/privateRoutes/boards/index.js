@@ -26,6 +26,7 @@ router.post('/:boardId/labels', require('../labels/Board/createLabel'));
 router.delete('/:boardId/labels/:labelId', require('../labels/Board/deleteLabel'));
 router.put('/:boardId/labels/:labelId', require('../labels/Board/updateLabel'));
 router.get('/:boardId/labels/:labelId', require('../labels/Board/getLabelById'));
+router.get('/:boardId/members/:query', require('./getMembersSearched'))
 
 
 

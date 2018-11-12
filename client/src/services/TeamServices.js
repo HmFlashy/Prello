@@ -12,5 +12,13 @@ export default {
         } catch(error) {
             throw error
         }
+    },
+    async getTeam(teamId) {
+        try {
+            const res = await axios.get(`${UrlConfig.API}/teams/${teamId}`, tokenHeader());
+            return res.data
+        } catch (error) {
+            throw error
+        }
     }
 }

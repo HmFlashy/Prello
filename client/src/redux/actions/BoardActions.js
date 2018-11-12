@@ -208,6 +208,40 @@ export const actionSwitchDueDateMode = (mode) => {
 export const actionClearFilter = () => {
     return {
         type: 'CLEAR_FILTER',
-        payload: {}
+        payload: null
+    }
+};
+
+export const actionFetchingMembers = () => {
+    return {
+        type: 'FETCHING_MEMBERS',
+        payload: null
+    }
+};
+
+export const actionFetchedMembers = (members) => {
+    return {
+        type: 'FETCHED_MEMBERS',
+        payload: {
+            members
+        }
+    }
+};
+
+export const actionFailedFetchedMembers = (error) => {
+    return {
+        type: 'FAILED_FETCHED_MEMBERS',
+        payload: {
+            error
+        }
+    }
+};
+
+export const actionFetchedMissingMembers = (members) => {
+    return {
+        type: 'FETCHED_MISSING_MEMBERS',
+        payload : {
+            members
+        }
     }
 };

@@ -120,3 +120,15 @@
     opacity: 0.6;
     font-size: 90%;
 }
+
+.add-member-popup {
+    width: 350px !important;
+}
+
+.dropdown-member-item {
+    display: inline-block;
+}
+
+.add-member-button {
+    top: 500px
+}

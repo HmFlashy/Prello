@@ -201,19 +201,18 @@ const updateBoardCategory = async (userId, boardId, categoryId) => {
     }
 }
 
-
 const rand_string = (n) => {
     if (n <= 0) {
-        return '';
+        return "";
     }
-    var rs = '';
+    var rs = "";
     try {
         rs = crypto.randomBytes(Math.ceil(n / 2)).toString('hex').slice(0, n);
         /* note: could do this non-blocking, but still might fail */
     }
     catch (ex) {
         /* known exception cause: depletion of entropy info for randomBytes */
-        console.error('Exception generating random string: ' + ex);
+        console.error("Exception generating random string: " + ex);
         /* weaker random fallback */
         rs = '';
         var r = n % 8, q = (n - r) / 8, i;
@@ -262,6 +261,28 @@ const addClientApplication = async (userId, name) => {
     }
 }
 
+const getMembersBySearch = async (boardId, query) => {
+    try {
+        const board = await Board.findById(boardId);
+        if (!board) {
+            throwError(404, "Board not found")
+        }
+        const members = await User.find({
+            $and: [
+                {
+                    "_id": {$nin: board.members.map(boardMember => boardMember.member)}
+                }, {
+                    $or: [{"fullName": {$regex: `.*${query}*.`, $options: "i"}},
+                        {"email": {$regex: `.*${query}*.`, $options: "i"}}]
+                }
+            ]
+        }).sort({"fullName": 1}).limit(10);
+        return members
+    } catch (error) {
+        throw error
+    }
+}
+
 module.exports = {
     getByEmail,
     addUser,
@@ -274,5 +295,6 @@ module.exports = {
     updateCategoryName,
     updateBoardCategory,
     addClientApplication,
+    getMembersBySearch
     updateUser
 }

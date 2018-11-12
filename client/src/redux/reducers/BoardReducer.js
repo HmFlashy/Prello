@@ -21,8 +21,12 @@ const defaultBoardReducer = {
         boardInformation: {
             nbMembers: 0,
             nbStars: 0
-        }
-
+        },
+        teamsMembersSearched: [],
+        membersSearched: [],
+        missingMembers: [],
+        errorTeamsMembersSearched: null,
+        errorMembersSearched: null
     }
 };
 
@@ -283,6 +287,62 @@ export default (state = defaultBoardReducer, action) => {
                     membersFilter: defaultBoardReducer.currentBoard.membersFilter,
                     filterMode: defaultBoardReducer.currentBoard.filterMode,
                     dueDateMode: defaultBoardReducer.currentBoard.dueDateMode
+                }
+            };
+        case "FETCHING_TEAMS_MEMBERS":
+            return {
+                ...state,
+                currentBoard: {
+                    ...state.currentBoard,
+                    isFetchingTeamsMembers: true
+                }
+            };
+        case "FETCHED_TEAMS_MEMBERS":
+            return {
+                ...state,
+                currentBoard: {
+                    ...state.currentBoard,
+                    teamsMembersSearched: action.payload.members
+                }
+            };
+        case "FAILED_FETCHED_TEAMS_MEMBERS":
+            return {
+                ...state,
+                currentBoard: {
+                    ...state.currentBoard,
+                    error: action.payload.error
+                }
+            };
+        case "FETCHING_MEMBERS":
+            return {
+                ...state,
+                currentBoard: {
+                    ...state.currentBoard,
+                    isFetchingMembers: true
+                }
+            };
+        case "FETCHED_MEMBERS":
+            return {
+                ...state,
+                currentBoard: {
+                    ...state.currentBoard,
+                    membersSearched: action.payload.members
+                }
+            };
+        case "FETCHED_MISSING_MEMBERS":
+            return {
+                ...state,
+                currentBoard: {
+                    ...state.currentBoard,
+                    missingMembers: action.payload.members
+                }
+            };
+        case "ADD_BOARD_MEMBER":
+            return {
+                ...state,
+                currentBoard: {
+                    ...state.currentBoard,
+                    members: action.payload
                 }
             };
         default:
