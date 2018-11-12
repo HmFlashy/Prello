@@ -8,6 +8,6 @@ env:
   - FOLDER=client
   - FOLDER=server
 before_script:
-  - cd server && apt install libldap2-de && npm install && npm run init:db
+  - cd server && sudo apt-get install libldap2-de && npm install && npm run init:db
 script: 
   - cd .. && cd $FOLDER && npm install && npm run test
