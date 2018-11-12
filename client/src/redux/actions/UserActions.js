@@ -100,3 +100,30 @@ export const failedActionAddURI = (error) => {
         payload: error
     }
 }
+
+export const actionRemovingURI = (clientId, uri) => {
+    return {
+        type: "REMOVE_URI",
+        payload: {
+            clientId,
+            uri
+        }
+    }
+}
+
+export const actionRemoveURI = (clientId, uri) => {
+    return {
+        type: "REMOVE_URI",
+        payload: {
+            clientId,
+            uri
+        }
+    }
+}
+
+export const failedActionRemoveURI = (error) => {
+    return {
+        type: "FAILED_REMOVE_URI",
+        payload: error
+    }
+}

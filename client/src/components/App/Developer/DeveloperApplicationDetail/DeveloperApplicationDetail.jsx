@@ -12,6 +12,7 @@ class DeveloperApplicationDetail extends Component {
         }
         this.updateURI = this.updateURI.bind(this)
         this.addURI = this.addURI.bind(this)
+        this.removeURI = this.removeURI.bind(this)
     }
 
     updateURI(event){
@@ -41,6 +42,20 @@ class DeveloperApplicationDetail extends Component {
         }
     }
 
+    async removeURI(uri){
+        try {
+            await this.props.removeURI(this.props.application._id, uri)
+            this.setState({
+                uri: '',
+                error: false
+            })
+            this.uriInput.value = ''
+        } catch(error){
+
+        }
+
+    }
+
     render(){
         return (
             <div className="di-application-detail">
@@ -67,12 +82,12 @@ class DeveloperApplicationDetail extends Component {
                                     this.props.application.redirectUris.map(redirectUri => 
                                         <List.Item className="di-redirect-uri">
                                             { redirectUri }
-                                            <Button className="di-button" color="red">Remove</Button>
+                                            <Button onClick={() => this.removeURI(redirectUri)} className="di-button" color="red">Remove</Button>
                                         </List.Item>
                                     )
                                 }
                                 <List.Item className="text-align-left add-uri-item">
-                                    <Ref innerRef={(node) => this.uriInput = node.children[0]}><Input onChange={(event) => this.updateURI(event)} className="di-ru-input" size="" placeholder="Enter a redirect URI" type="text"/></Ref>
+                                    <Ref innerRef={(node) => this.uriInput = node.children[0]}><Input error={this.state.error} onChange={(event) => this.updateURI(event)} className="di-ru-input" size="" placeholder="Enter a redirect URI" type="text"/></Ref>
                                     <div className="add-uri-button">
                                         <Button onClick={this.addURI}  color="green">
                                             Add URI

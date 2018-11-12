@@ -1,5 +1,6 @@
 import './DeveloperOverview.css'
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
 import { List } from 'semantic-ui-react';
 import DeveloperApplication from '../DeveloperApplication';
 import NewDeveloperApplication from '../NewDeveloperApplication';
@@ -22,6 +23,7 @@ class DeveloperOverview extends Component {
         this.setState({
             currentApplication: this.props.applications.find(app => app.name === name)
         })
+        this.props.history.push(`/developer/app/${name}`)
     }
 
     addApplication(event){
@@ -51,7 +53,7 @@ class DeveloperOverview extends Component {
                 </div>
                 {
                     this.state.currentApplication ? 
-                        <DeveloperApplicationDetail addURI={this.props.addURI} application={this.state.currentApplication} /> :
+                        <DeveloperApplicationDetail addURI={this.props.addURI} removeURI={this.props.removeURI} application={this.props.applications.find(app => app._id === this.state.currentApplication._id)} /> :
                         <div className="no-application">
                             <h1 className="no-application-content">Choose an application</h1>
                         </div>
@@ -61,4 +63,4 @@ class DeveloperOverview extends Component {
     }
 }
 
-export default DeveloperOverview
+export default withRouter(DeveloperOverview)

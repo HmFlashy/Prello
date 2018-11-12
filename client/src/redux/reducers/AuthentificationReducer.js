@@ -156,18 +156,27 @@ export default (state = defaultAuthentificationState, action) => {
                 }
             }
         case "ADD_URI":
-            const { clientId, uri } = action.payload
-            const client_applications = 
-                state.user.client_applications.map(
-                    application => application._id === clientId ? 
-                        { ...application, redirect_uris: [...application.redirect_uris, uri] } :
-                        application
-                )
             return {
                 ...state,
                 user: {
                     ...state.user,
-                    client_applications
+                    client_applications: state.user.client_applications.map(
+                        application => application._id === action.payload.clientId ? 
+                            { ...application, redirectUris: [...application.redirectUris, action.payload.uri] } :
+                            application
+                    )
+                }
+            }
+        case "REMOVE_URI":
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    client_applications: state.user.client_applications.map(
+                        application => application._id === action.payload.clientId ? 
+                            { ...application, redirectUris: application.redirectUris.filter(uri => uri !== action.payload.uri) } :
+                            application
+                    )
                 }
             }
         default:

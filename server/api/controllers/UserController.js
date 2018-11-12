@@ -261,6 +261,24 @@ const addClientApplication = async (userId, name) => {
     }
 }
 
+const addRedirectUri = async (clientId, uri) => {
+    try {
+        const clientApplication = await ClientApplication.updateOne({ _id: clientId }, { $push: { redirectUris: uri } }, { new: true });
+        return clientApplication
+    } catch (error) {
+        throw error
+    }
+}
+
+const removeRedirectUri = async (clientId, uri) => {
+    try {
+        const clientApplication = await ClientApplication.updateOne({ _id: clientId }, { $pull: { redirectUris: uri } }, { new: true });
+        return clientApplication
+    } catch (error) {
+        throw error
+    }
+}
+
 const getMembersBySearch = async (boardId, query) => {
     try {
         const board = await Board.findById(boardId);
@@ -295,6 +313,8 @@ module.exports = {
     updateCategoryName,
     updateBoardCategory,
     addClientApplication,
+    addRedirectUri,
+    removeRedirectUri,
     getMembersBySearch,
     updateUser
 }

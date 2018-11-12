@@ -7,7 +7,10 @@ import {
     failedActionAddingClientApplication,
     actionAddingURI,
     actionAddURI,
-    failedActionAddURI
+    failedActionAddURI,
+    actionRemoveURI,
+    actionRemovingURI,
+    failedActionRemoveURI
 } from '../../redux/actions/UserActions'
 
 const mapStateToProps = state => {
@@ -31,12 +34,22 @@ const mapDispatchToProps = (dispatch) => {
         },
         async addURI(clientId, uri){
             try {
-                dispatch(actionAddingURI(uri))
-                const uri = await UserServices.addURI(clientId, uri)
-                dispatch(actionAddURI(uri))
+                dispatch(actionAddingURI(clientId, uri))
+                await UserServices.addURI(clientId, uri)
+                dispatch(actionAddURI(clientId, uri))
                 return uri
             } catch(error) {
                 dispatch(failedActionAddURI(error))
+            }
+        },
+        async removeURI(clientId, uri){
+            try {
+                dispatch(actionRemovingURI(clientId, uri))
+                await UserServices.removeURI(clientId, uri)
+                dispatch(actionRemoveURI(clientId, uri))
+                return uri
+            } catch(error) {
+                dispatch(failedActionRemoveURI(error))
             }
         }
     }
