@@ -439,7 +439,7 @@ class BoardHeader extends Component {
                         <div className="header-board-members">
                         </div>
                         <Button className="button-header" onClick={() => this.setState({ openArchived: true })}>
-                            Cards archived
+                            Archived
                         </Button>
                         <CardsArchivedModal
                             open={this.state.openArchived}
