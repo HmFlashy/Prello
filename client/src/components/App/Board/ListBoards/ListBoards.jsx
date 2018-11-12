@@ -137,16 +137,16 @@ class ListBoards extends Component {
                     >
                     </Dropdown>
                     <div className={"listBoards"}>
-                        <ListBoardsFilterContainer key={1} categories={currentValues} onlyStars={true} noTeam={false}
+                        <ListBoardsFilterContainer key={1} addBoard={false} categories={currentValues} onlyStars={true} noTeam={false}
                             title={"Your starred boards"} />
                     </div>
                     <div className={"listBoards"}>
-                        <ListBoardsFilterContainer key={2} categories={currentValues} onlyStars={false} noTeam={true}
+                        <ListBoardsFilterContainer key={2} addBoard={true} categories={currentValues} onlyStars={false} noTeam={true}
                             title={"Your personal boards"} />
                     </div>
                     <div className={"listBoards"}>
                         {this.props.teams.map(team => (
-                            <ListBoardsFilterContainer key={team.team._id} teams={[team.team._id]} title={team.team.name}
+                            <ListBoardsFilterContainer addBoard={true} key={team.team._id} teams={[team.team._id]} title={team.team.name}
                                 categories={currentValues} onlyStars={false} noTeam={false} />
                         ))}
                     </div>

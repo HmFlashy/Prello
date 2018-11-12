@@ -9,7 +9,6 @@ class ListBoardsFilter extends Component {
 
     constructor(props) {
         super(props);
-        console.log(props)
     }
 
     render() {
@@ -23,7 +22,10 @@ class ListBoardsFilter extends Component {
                                     "group"
                         } />
                         {this.props.title}
-                        <NewBoardModalContainer teamId={this.props.teams ? this.props.teams[0] : null} />
+                        {this.props.addBoard
+                            ? <NewBoardModalContainer teamId={this.props.teams ? this.props.teams[0] : null} />
+                            : ""
+                        }
                     </div>
                 </Divider>
                 <List className="lists list-boards">
