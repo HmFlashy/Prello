@@ -10,7 +10,9 @@ import {
     actionFetchedTeamsMembers,
     actionFetchingMembers, actionFetchingTeamsMembers,
     actionSwitchDueDateMode,
-    actionSwitchFilterMode
+    actionSwitchFilterMode,
+    actionBoardUpdateName,
+    failedActionBoardUpdateName
 } from "../../redux/actions/BoardActions";
 import { actionStarBoard, actionUnstarBoard } from "../../redux/actions/UserActions";
 import { actionUpdateSearchFilter, actionAddBoardLabelFilter, actionDeleteBoardLabelFilter, actionAddBoardMemberFilter, actionDeleteBoardMemberFilter } from "../../redux/actions/BoardActions";
@@ -21,7 +23,7 @@ import TeamServices from "../../services/TeamServices";
 const mapStateToProps = state => {
     const user = state.authentification.user;
     const archivedCards = state.cards.all.filter(card => card.isArchived);
-    const membersSearched =  state.boards.currentBoard.membersSearched;
+    const membersSearched = state.boards.currentBoard.membersSearched;
     return {
         userId: user._id,
         archivedCards: archivedCards,
@@ -74,10 +76,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         clearFilter() {
             dispatch(actionClearFilter())
         },
-        async fetchMembers(boardId, value){
+        async fetchMembers(boardId, value) {
             try {
                 let members = [];
-                if(value.length>=3){
+                if (value.length >= 3) {
                     dispatch(actionFetchingMembers());
                     members = await BoardServices.getMembers(boardId, value);
                 }
@@ -107,6 +109,15 @@ const mapDispatchToProps = (dispatch, ownProps) => {
                 })
             } catch (error) {
                 throw error
+            }
+        },
+        async updateName(boardId, oldVal, newVal) {
+            try {
+                dispatch(actionBoardUpdateName({ _id: boardId, name: newVal }))
+                BoardServices.updateName(boardId, newVal)
+            } catch (error) {
+                dispatch(failedActionBoardUpdateName({ _id: boardId, name: oldVal }))
+                console.log(error)
             }
         }
     }

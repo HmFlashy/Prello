@@ -5,6 +5,20 @@ export const actionBoardSubscribe = (socket) => {
     }
 };
 
+export const actionBoardUpdateName = (data) => {
+    return {
+        type: 'UPDATE_BOARD_NAME',
+        payload: data
+    }
+};
+
+export const failedActionBoardUpdateName = (data) => {
+    return {
+        type: 'FAILED_UPDATE_BOARD_NAME',
+        payload: data
+    }
+};
+
 export const actionFetchingBoard = (id) => {
     return {
         type: 'FETCHING_BOARD',
@@ -240,7 +254,7 @@ export const actionFailedFetchedMembers = (error) => {
 export const actionFetchedMissingMembers = (members) => {
     return {
         type: 'FETCHED_MISSING_MEMBERS',
-        payload : {
+        payload: {
             members
         }
     }
