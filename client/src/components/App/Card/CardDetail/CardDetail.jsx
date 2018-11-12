@@ -25,6 +25,7 @@ class CardDetail extends Component {
         this.state = {
             descriptionTextArea: "",
             isNameUpdating: false,
+            isDescInput: false,
             width: 0,
             height: 0,
             mdeState: null,
@@ -62,13 +63,11 @@ class CardDetail extends Component {
 
     componentWillMount() {
         console.log(this.props.card)
-        console.log("JE MONTE")
     }
 
     componentDidMount() {
         this.props.fetchCard(this.props.match.params.cardId).then(card => {
             this.setState({
-                isDescInput: this.props.card.desc === null,
                 mdeState: {
                     markdown: this.props.card.desc || ""
                 }
@@ -228,7 +227,7 @@ class CardDetail extends Component {
                         {
                             !this.state.isDescInput ?
                                 <div className="description-html">
-                                    <Description descToInput={this.descToInput} description={<div className="mde-preview "><div className="mde-preview-content" dangerouslySetInnerHTML={{ __html: this.converter.makeHtml(this.props.card.desc) }} /></div>}></Description>
+                                    <Description descToInput={this.descToInput} description={<div className="mde-preview "><div className="mde-preview-content" dangerouslySetInnerHTML={{ __html: this.converter.makeHtml(this.props.card.desc || "No description") }} /></div>}></Description>
                                     <Divider />
                                 </div>
                                 : <div>
