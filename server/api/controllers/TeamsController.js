@@ -44,8 +44,8 @@ const getTeamById = async (teamId) => {
         const team = await Team.findById(teamId).populate({
             path: "members.member",
             select: ["fullName", "username", "initials", "_id", "bio"]
+        })
         if(!team){
-        });
             throwError(404, "Team not found")
         }
         return team;
@@ -56,6 +56,6 @@ const getTeamById = async (teamId) => {
 module.exports = {
     addTeam,
     addToArray,
-    removeToArray
+    removeToArray,
     getTeamById
 };
