@@ -13,7 +13,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         async fetchTeam(teamId) {
             try {
-            } catch(error) {
+            } catch (error) {
                 console.log(error)
             }
         },
@@ -21,7 +21,7 @@ const mapDispatchToProps = (dispatch) => {
             try {
                 const data = await TeamServices.addUsersToTeam(teamId, users)
                 return data
-            } catch(error) {
+            } catch (error) {
                 throw error
             }
         }

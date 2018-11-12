@@ -1,7 +1,8 @@
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import userServices from "../../services/UserServices"
 import listBoards from "../../components/App/Board/ListBoards/ListBoards"
-import {actionAddCategory, actionDeleteCategory, actionUpdateCategoryName} from "../../redux/actions/UserActions";
+import { actionAddCategory, actionDeleteCategory, actionUpdateCategoryName } from "../../redux/actions/UserActions";
+import { withRouter } from 'react-router-dom'
 
 const mapStateToProps = state => {
     const user = state.authentification.user;
@@ -17,7 +18,7 @@ const mapDispatchToProps = (dispatch) => {
             try {
                 const category = await userServices.addCategory(name);
                 dispatch(actionAddCategory(category))
-            } catch(error) {
+            } catch (error) {
                 console.log(error)
             }
         },
@@ -25,7 +26,7 @@ const mapDispatchToProps = (dispatch) => {
             try {
                 await userServices.deleteCategory(id);
                 dispatch(actionDeleteCategory(id))
-            } catch(error) {
+            } catch (error) {
                 console.log(error)
             }
         },
@@ -33,14 +34,14 @@ const mapDispatchToProps = (dispatch) => {
             try {
                 await userServices.updateCategoryName(id, name);
                 dispatch(actionUpdateCategoryName(id, name))
-            } catch(error) {
+            } catch (error) {
                 console.log(error)
             }
         }
     }
 };
 
-export default connect(
+export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps
-)(listBoards);
+)(listBoards));
