@@ -69,5 +69,13 @@ export default {
         } catch(error) {
             throw error
         }
+    },
+    async addURI(cliendId, uri){
+        try {
+            const res = await axios.post(`${UrlConfig.API}/me/client_applications/${cliendId}/uris`, { uri }, tokenHeader())
+            return res.data
+        } catch(error){
+            throw error
+        }
     }
 }

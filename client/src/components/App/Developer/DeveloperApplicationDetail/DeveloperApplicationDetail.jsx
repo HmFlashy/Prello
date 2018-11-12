@@ -1,9 +1,45 @@
 import React, { Component } from 'react'
 import './DeveloperApplicationDetail.css'
 import PropTypes from 'prop-types';
-import { Grid, Segment, List, Input, Button } from 'semantic-ui-react';
+import { Grid, Segment, List, Input, Button, Ref } from 'semantic-ui-react';
 
 class DeveloperApplicationDetail extends Component {
+
+    constructor(props){
+        super(props)
+        this.state = {
+            uri: ''
+        }
+        this.updateURI = this.updateURI.bind(this)
+        this.addURI = this.addURI.bind(this)
+    }
+
+    updateURI(event){
+        this.setState({
+            uri: event.target.value,
+            error: false
+        })
+    }
+
+    async addURI(){
+        if(this.state.uri !== '') {
+            try {
+                await this.props.addURI(this.props.application._id, this.state.uri)
+                this.setState({
+                    uri: '',
+                    error: false
+                })
+                this.uriInput.value = ''
+            } catch(error){
+
+            }
+
+        } else {
+            this.setState({
+                error: true
+            })
+        }
+    }
 
     render(){
         return (
@@ -35,7 +71,14 @@ class DeveloperApplicationDetail extends Component {
                                         </List.Item>
                                     )
                                 }
-                                <List.Item className="text-align-left"><Input className="di-ru-input" size="" placeholder="Enter a redirect URI" type="text"/></List.Item>
+                                <List.Item className="text-align-left add-uri-item">
+                                    <Ref innerRef={(node) => this.uriInput = node.children[0]}><Input onChange={(event) => this.updateURI(event)} className="di-ru-input" size="" placeholder="Enter a redirect URI" type="text"/></Ref>
+                                    <div className="add-uri-button">
+                                        <Button onClick={this.addURI}  color="green">
+                                            Add URI
+                                        </Button>
+                                    </div>
+                                </List.Item>
                             </List>
                         </Segment>
                     </div>

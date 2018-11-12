@@ -73,3 +73,30 @@ export const actionClientApplicationAdded = (name) => {
         payload: name
     }
 }
+
+export const actionAddingURI = (clientId, uri) => {
+    return {
+        type: "ADDING_URI",
+        payload: {
+            clientId,
+            uri
+        }
+    }
+}
+
+export const actionAddURI = (clientId, uri) => {
+    return {
+        type: "ADD_URI",
+        payload: {
+            clientId,
+            uri
+        }
+    }
+}
+
+export const failedActionAddURI = (error) => {
+    return {
+        type: "FAILED_ADD_URI",
+        payload: error
+    }
+}

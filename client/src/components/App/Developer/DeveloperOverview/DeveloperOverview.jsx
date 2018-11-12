@@ -51,7 +51,7 @@ class DeveloperOverview extends Component {
                 </div>
                 {
                     this.state.currentApplication ? 
-                        <DeveloperApplicationDetail application={this.state.currentApplication} /> :
+                        <DeveloperApplicationDetail addURI={this.props.addURI} application={this.state.currentApplication} /> :
                         <div className="no-application">
                             <h1 className="no-application-content">Choose an application</h1>
                         </div>
