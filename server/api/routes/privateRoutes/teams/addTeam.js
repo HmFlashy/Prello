@@ -52,7 +52,7 @@ const throwError = require('../../../helper/RequestHelper').throwError;
 module.exports = async (req, res) => {
     try {
         const name = req.body.name;
-        const creatorId = req.body.creatorId;
+        const creatorId = req.body.creator;
 
         if (Object.keys(req.body).length === 0) {
             throwError(400, "No data in body")

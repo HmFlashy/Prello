@@ -20,5 +20,25 @@ export default {
         } catch (error) {
             throw error
         }
+    },
+    async addTeam(name, creatorId) {
+        try {
+            const res = await axios.post(`${UrlConfig.API}/teams/`, {
+                name: name,
+                creator: creatorId
+            },
+                tokenHeader());
+            return res.data
+        } catch (error) {
+            throw error
+        }
+    },
+    async deleteTeam(teamId) {
+        try {
+            const res = await axios.delete(`${UrlConfig.API}/teams/${teamId}`, tokenHeader());
+            return res.data
+        } catch (error) {
+            throw error
+        }
     }
 }

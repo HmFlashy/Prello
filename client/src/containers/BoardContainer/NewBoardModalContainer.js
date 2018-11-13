@@ -35,6 +35,7 @@ const mapDispatchToProps = (dispatch) => {
                 console.log(error)
             }
         }
+        
     }
 };
 

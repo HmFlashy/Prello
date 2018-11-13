@@ -127,3 +127,17 @@ export const failedActionRemoveURI = (error) => {
         payload: error
     }
 }
+
+export const actionAddTeam = (team) => {
+    return {
+        type: "ADD_TEAM",
+        payload: team
+    }
+}
+
+export const actionDeleteTeam = (team) => {
+    return {
+        type: "DELETE_TEAM",
+        payload: team
+    }
+}

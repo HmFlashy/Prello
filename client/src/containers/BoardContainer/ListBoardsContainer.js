@@ -1,14 +1,16 @@
 import { connect } from "react-redux";
 import userServices from "../../services/UserServices"
+import teamServices from "../../services/TeamServices"
 import listBoards from "../../components/App/Board/ListBoards/ListBoards"
-import { actionAddCategory, actionDeleteCategory, actionUpdateCategoryName } from "../../redux/actions/UserActions";
+import { actionAddCategory, actionDeleteCategory, actionUpdateCategoryName, actionAddTeam, actionDeleteTeam } from "../../redux/actions/UserActions";
 import { withRouter } from 'react-router-dom'
 
 const mapStateToProps = state => {
     const user = state.authentification.user;
     return {
         teams: user.teams,
-        categories: user.categories
+        categories: user.categories,
+        userId: user._id
     }
 };
 
@@ -34,6 +36,24 @@ const mapDispatchToProps = (dispatch) => {
             try {
                 await userServices.updateCategoryName(id, name);
                 dispatch(actionUpdateCategoryName(id, name))
+            } catch (error) {
+                console.log(error)
+            }
+        },
+        async addTeam(name, creatorId) {
+            try {
+                const team = await teamServices.addTeam(name, creatorId);
+                dispatch(actionAddTeam(team))
+                return team;
+            } catch (error) {
+                console.log(error)
+            }
+        },
+        async onDeleteTeam(teamId){
+            try {
+                const team = await teamServices.deleteTeam(teamId);
+                dispatch(actionDeleteTeam(team))
+                return team;
             } catch (error) {
                 console.log(error)
             }

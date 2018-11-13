@@ -11,10 +11,12 @@ const addTeam = async (name, creatorId) => {
     try {
         const team = new Team({
             name: name,
-            creator: creatorId
+            creator: creatorId,
         });
         const savedTeam = await team.save()
-        return savedTeam
+        const updatedTeam = await addMember(savedTeam._id, creatorId)
+        const finalTeam = await updateTeamMember(updatedTeam._id, creatorId, 'Admin')
+        return finalTeam
     } catch (error) {
         throw error
     }
@@ -29,8 +31,10 @@ const deleteTeam = async (teamId) => {
         if(!team) {
             throwError(404, `The team ${teamId} was not found`)
         }
-        await team.boards.forEach(board => BoardsController.deleteBoardTeam(board._id, teamId)); 
-        // await UserController.removeTeam(teamId);       
+        const updatedBoards= await team.boards.forEach(board => Board.findOneAndUpdate({ _id: board._id },
+            { $pull: { teams: {team:teamId} } }, { "new": true })); 
+        const updatedMembers = await team.members.forEach(member => console.log(teamId + "    " + member.member) || User.findOneAndUpdate({ _id: member.member },
+            { $pull: { teams: {team:teamId} } }, { "new": true }));       
         await session.commitTransaction();
         session.endSession();
         return await team.remove();
@@ -94,8 +98,12 @@ const deleteBoard = async (teamId, boardId) => {
 const updateTeamMember = async (teamId, memberId, role) => {
     try {
         const team = await Team.findById({_id: teamId})
-        let teamUpdated = await team.members.map(mem => mem.member.toString() === memberId? {member: mem.member, role} : {member: mem.member, role: mem.role})
-        return await Team.findOneAndUpdate({_id: teamId}, { $set: { members: teamUpdated } }, { "new": true })
+        let memberUpdated = await team.members.map(mem => mem.member.toString() === memberId? {member: mem.member, role} : {member: mem.member, role: mem.role})
+        const finalTeam = await Team.findOneAndUpdate({_id: teamId}, { $set: { members: memberUpdated } }, { "new": true })
+        const member = await User.findById({_id: memberId})
+        let teamUpdated = await member.teams.map(tea => tea.team.toString() === teamId.toString()? {team: tea.team, role} : {team: tea.team, role: tea.role})
+        const finalMember = await User.findOneAndUpdate({_id: memberId}, { $set: { teams: teamUpdated } }, { "new": true })
+        return finalTeam
     } catch (error) {
         console.log(error)
         throw error

@@ -10,12 +10,12 @@ class NewBoardModal extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.addBoard = this.addBoard.bind(this);
         this.changeVisibility = this.changeVisibility.bind(this);
+        this.changeVisibilityTeam = this.changeVisibilityTeam.bind(this);
         this.state = {
             currentNameBoard: "",
             currentCategory: null,
             currentVisibility: null,
-            currentTeam: null
-        }
+            currentTeam: null        }
     }
 
     componentWillMount() {
@@ -41,12 +41,24 @@ class NewBoardModal extends Component {
     changeVisibility() {
         this.setState({modalOpen: !this.state.modalOpen})
     }
+    changeVisibilityTeam() {
+        this.setState({modalOpenTeam: !this.state.modalOpenTeam})
+    }
 
     async addBoard() {
         if (this.state.currentNameBoard) {
             const newBoard = await this.props.addBoard(this.state.currentNameBoard, this.state.currentCategory, this.state.currentVisibility, this.state.currentTeam);
             this.changeVisibility();
             this.props.history.push(`/boards/${newBoard._id}`)
+        } else {
+            console.log("name required")
+        }
+    }
+    async addTeam() {
+        if (this.state.currentNameTeam) {
+            const newTeam = await this.props.addTeam(this.state.currentNameTeam);
+            this.changeVisibilityTeam();
+            this.props.history.push(`/teams/${newTeam._id}`)
         } else {
             console.log("name required")
         }
