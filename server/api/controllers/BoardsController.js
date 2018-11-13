@@ -224,14 +224,14 @@ const addBoardMember = async (boardId, userId) => {
     }
 };
 
-const addBoardTeam = async (boardId, body) => {
+const addBoardTeam = async (boardId, teamId) => {
     try {
-        const team = await Team.findOneAndUpdate(body, {
+        const team = await Team.findOneAndUpdate({_id: teamId}, {
             $push:
                 { boards: boardId }
         }, { new: true });
         if (!team) {
-            throwError(404, `The team ${JSON.stringify(body)} was not found`)
+            throwError(404, `The team ${teamId} was not found`)
         }
         const board = await Board.findOneAndUpdate({ _id: boardId }, {
             $push: {
