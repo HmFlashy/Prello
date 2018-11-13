@@ -2,26 +2,18 @@
   "name": "prello",
   "version": "1.0.0",
   "description": "Project manager based on boards, list and cards",
-  "main": "server.js",
-  "dependencies": {
-    "ldapjs": "^1.0.2",
-    "mongoose": "^5.3.3",
-    "request-promise": "^4.2.2"
-  },
   "devDependencies": {
     "concurrently": "^4.0.1"
   },
   "scripts": {
     "test": "npm run init:db && cd server && npm test && cd ../client && npm test",
-    "start": "node server.js",
     "client": "cd client && npm run dev",
     "server": "cd server && nodemon server.js",
     "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
     "init:db": "cd server && npm run init:db",
     "install:all:prod": "concurrently --kill-others-on-fail \"cd server && npm install --production\" \" cd client && npm install --production\"",
     "install:all:dev": "cd server && npm install && cd ../client && npm install",
-    "client:build": "cd client && npm run build:production",
-    "deploy": "sh ./deploy.sh"
+    "client:build": "cd client && npm run build:production"
   },
   "repository": {
     "type": "git",
