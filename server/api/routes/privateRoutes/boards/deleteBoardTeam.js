@@ -70,9 +70,9 @@ module.exports = async (req, res) => {
             }
         }
 
-        const board = await boardsController.addBoardTeam(boardId, teamId);
+        const board = await boardsController.deleteBoardTeam(boardId, teamId);
         socketIO.broadcast("action", boardId, {
-            type: "ADDED_BOARD_TEAM",
+            type: "DELETED_BOARD_TEAM",
             payload: board.teams
         });
         return res.status(200).json(board)

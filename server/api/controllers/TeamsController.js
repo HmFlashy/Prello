@@ -29,7 +29,7 @@ const deleteTeam = async (teamId) => {
         if(!team) {
             throwError(404, `The team ${teamId} was not found`)
         }
-        // await BoardsController.removeTeam(teamId); 
+        await team.boards.forEach(board => BoardsController.deleteBoardTeam(board._id, teamId)); 
         // await UserController.removeTeam(teamId);       
         await session.commitTransaction();
         session.endSession();

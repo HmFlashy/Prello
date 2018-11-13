@@ -247,6 +247,29 @@ const addBoardTeam = async (boardId, teamId) => {
     }
 };
 
+const deleteBoardTeam = async (boardId, teamId) => {
+    try {
+        const team = await Team.findOneAndUpdate({_id: teamId}, {
+            $pull:
+                { boards: boardId }
+        }, { new: true });
+        if (!team) {
+            throwError(404, `The team ${teamId} was not found`)
+        }
+        const board = await Board.findOneAndUpdate({ _id: boardId }, {
+            $pull: {
+                teams: team._id
+            }
+        }, { new: true });
+        if (!board) {
+            throwError(404, `The board ${boardId} was not found`)
+        }
+        return board;
+    } catch (error) {
+        throw error
+    }
+};
+
 const deleteBord = async (boardId) => {
     try {
         const board = await Board.findById(boardId);
@@ -271,6 +294,7 @@ module.exports = {
     addLabel,
     removeLabel,
     addBoardTeam,
+    deleteBoardTeam,
     addBoardMember,
     deleteBord,
     updateBoard,

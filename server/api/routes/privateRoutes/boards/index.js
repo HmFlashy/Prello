@@ -20,6 +20,7 @@ router.get("/", require('./getBoards'));
 router.post("/", require('./addBoard'));
 router.put("/:boardId/members", require('./addBoardMember'));
 router.put("/:boardId/teams", require('./addBoardTeam'));
+router.delete("/:boardId/teams", require('./deleteBoardTeam'));
 router.put("/:boardId", require('./updateBoard'));
 router.delete('/:boardId', require('./deleteBoard'));
 router.post('/:boardId/labels', require('../labels/Board/createLabel'));
