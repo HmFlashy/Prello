@@ -116,6 +116,15 @@ const getTeamById = async (teamId) => {
         throw error
     }
 };
+
+const updateTeam = async (teamId, data) => {
+    try {
+        return await Team.findOneAndUpdate({ _id: teamId }, { $set: data }, { "new": true })
+    } catch (error) {
+        throw error
+    }
+
+}
 module.exports = {
     addTeam,
     deleteTeam,
@@ -124,5 +133,6 @@ module.exports = {
     addBoard,
     deleteBoard,
     updateTeamMember,
-    getTeamById
+    getTeamById,
+    updateTeam
 };
