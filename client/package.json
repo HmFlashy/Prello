@@ -19,7 +19,6 @@
     "react-datepicker": "^1.7.0",
     "react-dom": "^16.5.2",
     "react-dropbox-chooser": "0.0.5",
-    "react-file-picker": "0.0.5",
     "react-mde": "^5.8.0",
     "react-redux": "^5.0.7",
     "react-router": "^4.3.1",

@@ -8,7 +8,7 @@ import { history } from '../history'
 export default function configureStore(initialState={}) {
     const store = createStore(
         connectRouter(history)(rootReducer), 
-        window.__REDUX_DEVTOOLS_EXTENSION__ ? 
+        process.env.NODE_ENV !== "production" && window.__REDUX_DEVTOOLS_EXTENSION__ ? 
             compose(
                 applyMiddleware(routerMiddleware(history), thunk), window.__REDUX_DEVTOOLS_EXTENSION__()
             ) : 
