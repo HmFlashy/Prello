@@ -25,8 +25,11 @@ const defaultBoardReducer = {
         teamsMembersSearched: [],
         membersSearched: [],
         missingMembers: [],
+        teamsSearched: [],
         errorTeamsMembersSearched: null,
-        errorMembersSearched: null
+        errorMembersSearched: null,
+        isFetchingMembers: false,
+        isFetchingTeams: false
     }
 };
 
@@ -328,7 +331,7 @@ export default (state = defaultBoardReducer, action) => {
                     teamsMembersSearched: action.payload.members
                 }
             };
-        case "FAILED_FETCHED_TEAMS_MEMBERS":
+        case "FAILED_FETCHING_TEAMS_MEMBERS":
             return {
                 ...state,
                 currentBoard: {
@@ -336,7 +339,7 @@ export default (state = defaultBoardReducer, action) => {
                     error: action.payload.error
                 }
             };
-        case "FETCHING_MEMBERS":
+        case "FETCHING_SEARCHED_MEMBERS":
             return {
                 ...state,
                 currentBoard: {
@@ -344,12 +347,30 @@ export default (state = defaultBoardReducer, action) => {
                     isFetchingMembers: true
                 }
             };
-        case "FETCHED_MEMBERS":
+        case "FETCHED_SEARCHED_MEMBERS":
             return {
                 ...state,
                 currentBoard: {
                     ...state.currentBoard,
-                    membersSearched: action.payload.members
+                    membersSearched: action.payload.members,
+                    isFetchingMembers: false
+                }
+            };
+        case "FAILED_FETCHING_SEARCHED_MEMBERS":
+            return {
+                ...state,
+                currentBoard: {
+                    ...state.currentBoard,
+                    error: action.payload.error,
+                    isFetchingMembers: false
+                }
+            };
+        case "FETCHING_MISSING_MEMBERS":
+            return {
+                ...state,
+                currentBoard: {
+                    ...state.currentBoard,
+                    isFetchingMembers: true
                 }
             };
         case "FETCHED_MISSING_MEMBERS":
@@ -357,7 +378,17 @@ export default (state = defaultBoardReducer, action) => {
                 ...state,
                 currentBoard: {
                     ...state.currentBoard,
-                    missingMembers: action.payload.members
+                    missingMembers: action.payload.members,
+                    isFetchingMembers: false
+                }
+            };
+        case "FAILED_FETCHING_MISSING_MEMBERS":
+            return {
+                ...state,
+                currentBoard: {
+                    ...state.currentBoard,
+                    isFetchingMembers: false,
+                    error: action.payload.error
                 }
             };
         case "ADD_BOARD_MEMBER":
@@ -371,6 +402,40 @@ export default (state = defaultBoardReducer, action) => {
                     )
                 }
             };
+        case "FETCHING_SEARCHED_TEAMS":
+            return {
+                ...state,
+                currentBoard: {
+                    ...state.currentBoard,
+                    isFetchingTeams: true
+                }
+            };
+        case "FETCHED_SEARCHED_TEAMS":
+            return {
+                ...state,
+                currentBoard: {
+                    ...state.currentBoard,
+                    teamsSearched: action.payload.teams,
+                    isFetchingTeams: false
+                }
+            };
+        case "FAILED_FETCHING_SEARCHED_TEAMS":
+            return {
+                ...state,
+                currentBoard: {
+                    ...state.currentBoard,
+                    error: action.payload.error,
+                    isFetchingTeams: false
+                }
+            };
+        case "ADD_BOARD_TEAM":
+            return {
+                ...state,
+                currentBoard: {
+                    ...state.currentBoard,
+                    teams: action.payload
+                }
+            }
         default:
             return state
     }

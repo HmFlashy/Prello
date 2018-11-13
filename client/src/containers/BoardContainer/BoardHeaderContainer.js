@@ -5,14 +5,17 @@ import userServices from "../../services/UserServices";
 import {
     actionBoardSubscribe,
     actionClearFilter,
-    actionFailedFetchedMembers, actionFailedFetchedteamsMembers,
-    actionFetchedMembers, actionFetchedMissingMembers,
-    actionFetchedTeamsMembers,
-    actionFetchingMembers, actionFetchingTeamsMembers,
+    actionFailedFetchingSearchedMembers,
+    actionFetchedSearchedMembers,
+    actionFetchedMissingMembers,
     actionSwitchDueDateMode,
-    actionSwitchFilterMode,
     actionBoardUpdateName,
     failedActionBoardUpdateName
+    actionSwitchFilterMode,
+    actionFetchingSearchedTeams,
+    actionFetchedSearchedTeams,
+    actionFailedFetchingSearchedTeams,
+    actionFetchingSearchedMembers, actionFetchingMissingMembers, actionFailedFetchingMissingMembers
 } from "../../redux/actions/BoardActions";
 import { actionStarBoard, actionUnstarBoard } from "../../redux/actions/UserActions";
 import { actionUpdateSearchFilter, actionAddBoardLabelFilter, actionDeleteBoardLabelFilter, actionAddBoardMemberFilter, actionDeleteBoardMemberFilter } from "../../redux/actions/BoardActions";
@@ -25,15 +28,17 @@ const mapStateToProps = state => {
     const user = state.authentification.user;
     const archivedLists = state.lists.all.filter(list => list.isArchived);
     const archivedCards = state.cards.all.filter(card => card.isArchived);
-    const membersSearched = state.boards.currentBoard.membersSearched;
     return {
         userId: user._id,
         archivedCards: archivedCards,
         archivedLists,
         board: state.boards.currentBoard,
         isStarred: state.boards.currentBoard.starred.includes(state.authentification.user._id),
-        membersSearched: membersSearched,
-        missingMembers: state.boards.currentBoard.missingMembers
+        membersSearched: state.boards.currentBoard.membersSearched,
+        missingMembers: state.boards.currentBoard.missingMembers,
+        teamsSearched: state.boards.currentBoard.teamsSearched,
+        isFetchingMembers: state.boards.currentBoard.isFetchingMembers,
+        isFetchingTeams: state.boards.currentBoard.isFetchingTeams
     }
 };
 
@@ -79,20 +84,21 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         clearFilter() {
             dispatch(actionClearFilter())
         },
-        async fetchMembers(boardId, value) {
+        async fetchMembers(boardId, query){
             try {
                 let members = [];
-                if (value.length >= 3) {
-                    dispatch(actionFetchingMembers());
-                    members = await BoardServices.getMembers(boardId, value);
+                if(query.length>=3){
+                    dispatch(actionFetchingSearchedMembers());
+                    members = await BoardServices.getMembers(boardId, query);
                 }
-                dispatch(actionFetchedMembers(members));
+                dispatch(actionFetchedSearchedMembers(members));
             } catch (error) {
-                dispatch(actionFailedFetchedMembers(error));
+                dispatch(actionFailedFetchingSearchedMembers(error));
             }
         },
         async fetchingMissingMembers() {
             let array = [];
+            dispatch(actionFetchingMissingMembers())
             await ownProps.board.teams.forEach(team => {
                 array.push(TeamServices.getTeam(team._id));
             });
@@ -103,6 +109,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
                 const missingMembers = members.filter(member =>
                     !currentMembersIds.includes(member._id));
                 dispatch(actionFetchedMissingMembers(missingMembers));
+            }).catch((error) => {
+                dispatch(actionFailedFetchingMissingMembers(error))
             })
         },
         async addMembers(boardId, ids) {
@@ -135,6 +143,27 @@ const mapDispatchToProps = (dispatch, ownProps) => {
                 listServices.deleteListApi(listId)
             } catch (error) {
                 console.log(error)
+            }
+        },
+        async fetchTeams(boardId, query){
+            try {
+                let teams = [];
+                if(query.length>=3){
+                    dispatch(actionFetchingSearchedTeams());
+                    teams = await BoardServices.getTeams(boardId, query);
+                }
+                dispatch(actionFetchedSearchedTeams(teams));
+            } catch (error) {
+                dispatch(actionFailedFetchingSearchedTeams(error));
+            }
+        },
+        async addTeams(boardId, ids) {
+            try {
+                ids.map(async id => {
+                    await BoardServices.addTeam(boardId, id);
+                })
+            } catch (error) {
+                throw error
             }
         }
     }

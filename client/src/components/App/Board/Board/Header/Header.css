@@ -131,6 +131,14 @@
 
 .add-member-button {
     display: flex !important;
-    flex: 3 !important;
+    flex-direction: column;
+}
+
+.dropdown-add-team {
+    width: 200px;
+}
+
+.add-team-button {
+    display: flex !important;
     flex-direction: column;
 }

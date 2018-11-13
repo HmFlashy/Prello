@@ -123,6 +123,27 @@ const getTeamById = async (teamId) => {
         throw error
     }
 };
+const getTeamsBySearch = async (boardId, query) => {
+    try {
+        const board = await Board.findById(boardId);
+        if (!board) {
+            throwError(404, "Board not found")
+        }
+        const teams = await Team.find({
+            $and: [
+                {
+                    "_id": {$nin: board.teams.map(boardTeam => boardTeam._id)}
+                }, {"name": {$regex: `.*${query}*.`, $options: "i"}}
+
+            ]
+        }).sort({"name": 1}).limit(10);
+        return teams
+    } catch (error) {
+        throw error
+    }
+}
+
+
 
 const updateTeam = async (teamId, data) => {
     try {
@@ -141,5 +162,8 @@ module.exports = {
     deleteBoard,
     updateTeamMember,
     getTeamById,
-    updateTeam
+    updateTeam,
+    addToArray,
+    removeToArray,
+    getTeamsBySearch
 };

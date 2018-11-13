@@ -20,9 +20,12 @@ class BoardHeader extends Component {
             isHoverStar: false,
             isFilterOpen: false,
             isMemberOpen: false,
+            isTeamOpen: false,
             searchMember: "",
             currentMembersValues: [],
-            currentMembers: []
+            currentMembers: [],
+            currentTeamsValues: [],
+            currentTeams: []
         };
         this.open = this.open.bind(this);
         this.overStar = this.overStar.bind(this);
@@ -37,13 +40,16 @@ class BoardHeader extends Component {
         this.clearFilter = this.clearFilter.bind(this);
         this.openMembersPopup = this.openMembersPopup.bind(this);
         this.handleCloseFilter = this.handleCloseFilter.bind(this);
-        this.handleCloseMember = this.handleCloseFilter.bind(this);
         this.handleOpenFilter = this.handleOpenFilter.bind(this);
-        this.handleOpenMember = this.handleOpenMember.bind(this);
         this.handleChangeSearchMember = this.handleChangeSearchMember.bind(this);
         this.getSearchedMembersOptions = this.getSearchedMembersOptions.bind(this);
         this.handleChangeMembers = this.handleChangeMembers.bind(this);
         this.addMembers = this.addMembers.bind(this);
+        this.addTeams = this.addTeams.bind(this);
+        this.openTeamsPopup = this.openTeamsPopup.bind(this);
+        this.getSearchedTeamsOptions = this.getSearchedTeamsOptions.bind(this);
+        this.handleChangeSearchTeam = this.handleChangeSearchTeam.bind(this);
+        this.handleChangeTeams = this.handleChangeTeams.bind(this);
     }
 
     overStar() {
@@ -66,30 +72,6 @@ class BoardHeader extends Component {
             this.props.starBoard(this.props.board._id, this.props.userId)
         }
     }
-
-    handleOpenFilter = () => {
-        this.setState({
-            isFilterOpen: true
-        })
-    };
-
-    handleCloseFilter = () => {
-        this.setState({
-            isFilterOpen: false
-        })
-    };
-
-    handleOpenMember = () => {
-        this.setState({
-            isMemberOpen: true
-        })
-    };
-
-    handleCloseMember = () => {
-        this.setState({
-            isMemberOpen: false
-        })
-    };
 
     clickLabel(event) {
         if (this.props.board.labelsFilter.includes(event.target.id)) {
@@ -114,6 +96,28 @@ class BoardHeader extends Component {
         this.props.updateSearchFilter(value);
     }
 
+    handleOpenFilter = () => {
+        this.setState({
+            isFilterOpen: true
+        })
+    };
+
+    handleCloseFilter = () => {
+        this.setState({
+            isFilterOpen: false
+        })
+    };
+
+    switchFilterMode(e) {
+        if (e.target.id !== this.props.board.filterMode) {
+            this.props.switchFilterMode(e.target.id)
+        }
+    }
+
+    clearFilter() {
+        this.props.clearFilter();
+    }
+
     handleChangeSearchMember(e) {
         this.setState({
             searchMember: e.target.value
@@ -133,12 +137,6 @@ class BoardHeader extends Component {
         })
     }
 
-    switchFilterMode(e) {
-        if (e.target.id !== this.props.board.filterMode) {
-            this.props.switchFilterMode(e.target.id)
-        }
-    }
-
     clickDueDate(e) {
         if (e.target.id !== this.props.board.dueDateMode) {
             this.props.switchDueDateMode(e.target.id)
@@ -147,13 +145,10 @@ class BoardHeader extends Component {
         }
     }
 
-    clearFilter() {
-        this.props.clearFilter();
-    }
-
     openMembersPopup() {
         this.setState({
-            isMemberOpen: true
+            isMemberOpen: true,
+            isTeamOpen: false
         });
         this.props.fetchingMissingMembers();
     }
@@ -185,6 +180,57 @@ class BoardHeader extends Component {
         })
     }
 
+    openTeamsPopup() {
+            this.setState({
+            isMemberOpen: false,
+            isTeamOpen: true
+        });
+    }
+
+    addTeams() {
+        this.props.addTeams(this.props.board._id, this.state.currentTeams.map(team => team.key));
+        this.setState({
+            currentTeams: [],
+            currentTeamsValues: []
+        })
+    }
+
+    getSearchedTeamsOptions() {
+        return [...this.props.teamsSearched.map(team => {
+            return {
+                key: team._id,
+                value: team.name,
+                text: team.name,
+                content: <span className={"dropdown-member-item"} id={team._id}><Avatar
+                    _id={team._id}
+                    fullName={team.name}
+                    round
+                    size="25"
+                    textSizeRatio={1.4}/>
+                    <div id={team._id}> {team.name}</div></span>
+            }
+        }), ...this.state.currentTeams];
+    }
+
+    handleChangeTeams(e, {value}) {
+        let currentTeams = [];
+        value.forEach(selectedValue => {
+            const valueFound = this.getSearchedTeamsOptions().find(s => s.value === selectedValue);
+            currentTeams.push(valueFound);
+        });
+        this.setState({
+            currentTeamsValues: value,
+            currentTeams: currentTeams
+        })
+    }
+
+    handleChangeSearchTeam(e) {
+        this.setState({
+            searchTeam: e.target.value
+        });
+        this.props.fetchTeams(this.props.board._id, e.target.value);
+    };
+
     render() {
         return (
             <div className="boardHeader">
@@ -213,6 +259,44 @@ class BoardHeader extends Component {
                             </Button>
                         </div>
                         <div className="header-board-member">
+                            {this.props.board.teams.map(team => <span><Avatar
+                                _id={team._id}
+                                fullName={team.name}
+                                round
+                                size="25"
+                                textSizeRatio={1.8}/></span>)}
+                            <Popup
+                                flowing={true}
+                                trigger={<Icon name={"add team"}/>}
+                                on='click'
+                                open={this.state.isTeamOpen}
+                                onClose={() => this.setState({isTeamOpen: false})}
+                                onOpen={() => this.openTeamsPopup()}
+                                position='bottom left'>
+                                <div className={"add-team-button"}>
+                                    <Button icon="add" onClick={this.addTeams} positive content={"Add"}/>
+                                </div>
+                                <Divider/>
+                                <div className={"dropdown-add-team"}>
+                                    <Dropdown
+                                        loading={this.props.isFetchingTeams}
+                                        open
+                                        flowing={true}
+                                        options={this.getSearchedTeamsOptions()}
+                                        placeholder='Search a team'
+                                        selection
+                                        search
+                                        clearable
+                                        fluid
+                                        multiple
+                                        value={this.state.currentTeamsValues}
+                                        onChange={this.handleChangeTeams}
+                                        onSearchChange={this.handleChangeSearchTeam}
+                                    />
+                                </div>
+                            </Popup>
+                        </div>
+                        <div className="header-board-member">
                             {console.log(this.props.board.members)}
                             {this.props.board.members.map(boardMember => <span><Avatar
                                 _id={boardMember.member._id}
@@ -236,6 +320,7 @@ class BoardHeader extends Component {
                                 <div className={"dropdown-add-member"}>
                                     <Dropdown
                                         open
+                                        loading={this.props.isFetchingMembers}
                                         flowing={true}
                                         options={this.getSearchedMembersOptions()}
                                         placeholder='Search a member'
@@ -243,7 +328,6 @@ class BoardHeader extends Component {
                                         search
                                         clearable
                                         fluid
-                                        minCharacters={3}
                                         multiple
                                         value={this.state.currentMembersValues}
                                         onChange={this.handleChangeMembers}

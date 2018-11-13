@@ -226,28 +226,35 @@ export const actionClearFilter = () => {
     }
 };
 
-export const actionFetchingMembers = () => {
+export const actionFetchingSearchedMembers = () => {
     return {
-        type: 'FETCHING_MEMBERS',
+        type: 'FETCHING_SEARCHED_MEMBERS',
         payload: null
     }
 };
 
-export const actionFetchedMembers = (members) => {
+export const actionFetchedSearchedMembers = (members) => {
     return {
-        type: 'FETCHED_MEMBERS',
+        type: 'FETCHED_SEARCHED_MEMBERS',
         payload: {
             members
         }
     }
 };
 
-export const actionFailedFetchedMembers = (error) => {
+export const actionFailedFetchingSearchedMembers = (error) => {
     return {
-        type: 'FAILED_FETCHED_MEMBERS',
+        type: 'FAILED_FETCHING_SEARCHED_MEMBERS',
         payload: {
             error
         }
+    }
+};
+
+export const actionFetchingMissingMembers = () => {
+    return {
+        type: 'FETCHING_MISSING_MEMBERS',
+        payload : null
     }
 };
 
@@ -256,6 +263,40 @@ export const actionFetchedMissingMembers = (members) => {
         type: 'FETCHED_MISSING_MEMBERS',
         payload: {
             members
+        }
+    }
+};
+
+export const actionFailedFetchingMissingMembers = (error) => {
+    return {
+        type: 'FAILED_FETCHING_MISSING_MEMBERS',
+        payload : {
+            error
+        }
+    }
+};
+
+export const actionFetchingSearchedTeams = () => {
+    return {
+        type: 'FETCHING_SEARCHED_TEAMS',
+        payload: null
+    }
+};
+
+export const actionFetchedSearchedTeams = (teams) => {
+    return {
+        type: 'FETCHED_SEARCHED_TEAMS',
+        payload: {
+            teams
+        }
+    }
+};
+
+export const actionFailedFetchingSearchedTeams = (error) => {
+    return {
+        type: 'FAILED_FETCHING_SEARCHED_TEAMS',
+        payload: {
+            error
         }
     }
 };

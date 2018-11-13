@@ -29,7 +29,6 @@ router.delete('/:boardId/labels/:labelId', checkRightsFromBoard(["in:Board"]), r
 router.put('/:boardId/labels/:labelId', checkRightsFromBoard(["in:Board"]), require('../labels/Board/updateLabel'));
 router.get('/:boardId/labels/:labelId', checkRightsFromBoard(["in:Board"]), require('../labels/Board/getLabelById'));
 router.get('/:boardId/members/:query', checkRightsFromBoard(["in:Board"]), require('./getMembersSearched'))
-
-
+router.get('/:boardId/teams/:query', require('./getTeamsSearched'));
 
 module.exports = router;

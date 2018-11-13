@@ -1,5 +1,5 @@
 require('dotenv').config()
-const LDAP = require('ldap-client')
+/*const LDAP = require('ldap-client')
 
 const base = process.env.LDAP_BASE
 
@@ -41,6 +41,6 @@ const search = async (name, password, section, year) => {
             }
         })
     })
-}
+}*/
 
-module.exports.search = search
+//module.exports.search = search

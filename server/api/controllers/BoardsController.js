@@ -291,7 +291,10 @@ const addBoardTeam = async (boardId, teamId) => {
             $push: {
                 teams: team._id
             }
-        }, { new: true });
+        }, { new: true }).populate({
+            path: "teams",
+            select: ["_id", "name"]
+        });
         if (!board) {
             throwError(404, `The board ${boardId} was not found`)
         }

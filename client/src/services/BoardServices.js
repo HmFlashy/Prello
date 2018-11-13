@@ -88,9 +88,9 @@ export default {
             throw error
         }
     },
-    async getMembers(boardId, value) {
+    async getMembers(boardId, query) {
         try {
-            const res = await axios.get(`${UrlConfig.API}/boards/${boardId}/members/${value}`, tokenHeader());
+            const res = await axios.get(`${UrlConfig.API}/boards/${boardId}/members/${query}`, tokenHeader());
             return res.data;
         } catch (error) {
             throw error
@@ -107,6 +107,22 @@ export default {
     async updateName(boardId, name) {
         try {
             const res = await axios.put(`${UrlConfig.API}/boards/${boardId}`, { name }, tokenHeader());
+            return res.data;
+        } catch (error) {
+            throw error
+        }
+    },
+    async getTeams(boardId, query) {
+        try {
+            const res = await axios.get(`${UrlConfig.API}/boards/${boardId}/teams/${query}`, tokenHeader());
+            return res.data;
+        } catch (error) {
+            throw error
+        }
+    },
+    async addTeam(boardId, id) {
+        try {
+            const res = await axios.put(`${UrlConfig.API}/boards/${boardId}/teams`, {teamId: id}, tokenHeader());
             return res.data;
         } catch (error) {
             throw error
