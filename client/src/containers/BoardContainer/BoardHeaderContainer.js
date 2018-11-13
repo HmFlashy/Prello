@@ -10,7 +10,7 @@ import {
     actionFetchedMissingMembers,
     actionSwitchDueDateMode,
     actionBoardUpdateName,
-    failedActionBoardUpdateName
+    failedActionBoardUpdateName,
     actionSwitchFilterMode,
     actionFetchingSearchedTeams,
     actionFetchedSearchedTeams,
