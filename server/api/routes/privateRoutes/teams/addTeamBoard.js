@@ -59,7 +59,7 @@ module.exports = async (req, res) => {
         if (!boardId.match(/^[0-9a-fA-F]{24}$/)) {
             throwError(400, `The boardId ${boardId} is malformed`)
         }
-        const team = await TeamsController.addToArray(teamId, 'boards', boardId)
+        const team = await TeamsController.addBoard(teamId, boardId)
         socketIO.broadcast('action', {
             type: 'ADDED_BOARD_TEAM',
             payload: { _id: teamId, boardId }

@@ -59,10 +59,9 @@ module.exports = async (req, res) => {
         if (!memberId.match(/^[0-9a-fA-F]{24}$/)) {
             throwError(400, `The memberId ${memberId} is malformed`)
         }
-        const data = {member:memberId}
-        const team = await TeamsController.removeToArray(teamId, 'members', data)
+        const team = await TeamsController.deleteMember(teamId, memberId)
         socketIO.broadcast('action', {
-            type: 'REMOVED_MEMBER_TEAM',
+            type: 'DELETED_MEMBER_TEAM',
             payload: { _id: teamId, memberId }
         })
         return res.status(200).json(team.members)

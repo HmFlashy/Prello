@@ -43,19 +43,49 @@ const deleteTeam = async (teamId) => {
 }
 
 
-const addToArray = async (teamId, key, data) => {
+const addMember = async (teamId, memberId) => {
     try {
-        return await Team.findOneAndUpdate({ _id: teamId },
-            { $push: { [key]: data } }, { "new": true })
+        const team = await Team.findOneAndUpdate({ _id: teamId },
+            { $push: { members: {member: memberId} } }, { "new": true })
+        const member = await User.findOneAndUpdate({ _id: memberId },
+            { $push: { teams: {team:teamId} } }, { "new": true })
+        return team
     } catch (error) {
         throw error
     }
 }
 
-const removeToArray = async (teamId, key, data) => {
+const deleteMember = async (teamId, memberId) => {
     try {
-        return await Team.findOneAndUpdate({ _id: teamId },
-            { $pull: { [key]: data } }, { "new": true })
+        const team = await Team.findOneAndUpdate({ _id: teamId },
+            { $pull: { members: {member: memberId} } }, { "new": true })
+        const member = await User.findOneAndUpdate({ _id: memberId },
+            { $pull: { teams: {team:teamId} } }, { "new": true })
+        return team
+    } catch (error) {
+        throw error
+    }
+}
+
+const addBoard = async (teamId, boardId) => {
+    try {
+        const team = await Team.findOneAndUpdate({ _id: teamId },
+            { $push: { boards: boardId} }, { "new": true })
+        const board = await Board.findOneAndUpdate({ _id: boardId },
+            { $push: { teams: teamId } }, { "new": true })
+        return team
+    } catch (error) {
+        throw error
+    }
+}
+
+const deleteBoard = async (teamId, boardId) => {
+    try {
+        const team = await Team.findOneAndUpdate({ _id: teamId },
+            { $pull: { boards: boardId} }, { "new": true })
+        const board = await Board.findOneAndUpdate({ _id: boardId },
+            { $pull: { teams: teamId } }, { "new": true })
+        return team
     } catch (error) {
         throw error
     }
@@ -89,8 +119,10 @@ const getTeamById = async (teamId) => {
 module.exports = {
     addTeam,
     deleteTeam,
-    addToArray,
-    removeToArray,
+    addMember,
+    deleteMember,
+    addBoard,
+    deleteBoard,
     updateTeamMember,
     getTeamById
 };
