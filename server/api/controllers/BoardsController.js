@@ -62,6 +62,60 @@ const getBoardById = async (boardId) => {
     }
 };
 
+
+const getBoardForExport = async (boardId) => {
+    try {
+        const board = await Board.findById(boardId).populate(
+            [{
+                path: "lists",
+                select: ["_id", "name", "isArchived", "pos", 'board'],
+                populate: {
+                    path: "cards",
+                    select: ["_id", "desc", "attachments", "checklists", "comments", "name", "dueDate",
+                        "dueDateCompleted",
+                        "isArchived", "members", "list"],
+                    populate: {
+                        path: "labels",
+                        select: ["_id", "name", "color"]
+                    }
+                }
+            },
+            {
+                path: "members.member",
+                select: ["_id", "name", "email", "fullName", "initials", "username",
+                    "organization", "teams", , "bio"],
+                populate: {
+                    path: "teams.team",
+                    select: ["_id", "name"]
+                }
+            },
+            {
+                path: "teams",
+                select: ["_id", "name", "members"],
+                populate: {
+                    path: "members.member",
+                    select: ["_id", "role", "name", "email", "fullName", "initials", "username",
+                        "organization", "teams", "bio"],
+                }
+            }, {
+                path: "owner",
+                select: ["_id"]
+            }, {
+                path: "activities"
+            },
+            {
+                path: "labels"
+            }
+            ]);
+        if (!board) {
+            throwError(404, `The board ${boardId} was not found`)
+        }
+        return board
+    } catch (error) {
+        throw error
+    }
+};
+
 const getBoards = async (user) => {
     try {
         const boards = await Board.find({ "members.member": { $in: [user._id] } }).select({
@@ -194,11 +248,11 @@ const removeLabel = async (boardId, labelId) => {
 
 const addBoardMember = async (boardId, userId) => {
     try {
-        if(await Board.findOne({$and: [{_id: boardId }, {"members.member": {$in: [userId]}}]})){
+        if (await Board.findOne({ $and: [{ _id: boardId }, { "members.member": { $in: [userId] } }] })) {
             throwError(400, `The user ${userId} is already in the board`)
         }
 
-        const user = await User.findOneAndUpdate({_id: userId}, {
+        const user = await User.findOneAndUpdate({ _id: userId }, {
             $push:
                 { boards: { board: boardId, role: "Member" } }
         }, { new: true });
@@ -226,7 +280,7 @@ const addBoardMember = async (boardId, userId) => {
 
 const addBoardTeam = async (boardId, teamId) => {
     try {
-        const team = await Team.findOneAndUpdate({_id: teamId}, {
+        const team = await Team.findOneAndUpdate({ _id: teamId }, {
             $push:
                 { boards: boardId }
         }, { new: true });
@@ -249,7 +303,7 @@ const addBoardTeam = async (boardId, teamId) => {
 
 const deleteBoardTeam = async (boardId, teamId) => {
     try {
-        const team = await Team.findOneAndUpdate({_id: teamId}, {
+        const team = await Team.findOneAndUpdate({ _id: teamId }, {
             $pull:
                 { boards: boardId }
         }, { new: true });
@@ -298,5 +352,6 @@ module.exports = {
     addBoardMember,
     deleteBord,
     updateBoard,
-    getBoardsInfo
+    getBoardsInfo,
+    getBoardForExport
 };

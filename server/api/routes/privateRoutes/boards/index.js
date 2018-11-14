@@ -14,6 +14,7 @@ const router = express.Router();
   *             type: string
   */
 
+router.get("/:boardId/export", require('./getBoardForExport'));
 router.get("/:boardId/info", require('./getBoardsInfo'));
 router.get("/:boardId", require('./getBoardById'));
 router.get("/", require('./getBoards'));

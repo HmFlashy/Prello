@@ -6,6 +6,9 @@ import CardsArchivedModal from "../CardsArchivedModal";
 import Avatar from "../../../Avatar";
 import BoardLabelsModal from "../BoardLabelsModal"
 import DynamicInput from "../../../Input/DynamicInput"
+import axios from 'axios'
+import UrlConfig from '../../../../../config/UrlConfig'
+import { tokenHeader } from '../../../../../helpers/HeaderHelper'
 
 class BoardHeader extends Component {
 
@@ -451,17 +454,22 @@ class BoardHeader extends Component {
                             onClose={() => this.setState({ openArchived: false })}
                         />
                     </div>
-                    <Button className="button-header" onClick={() => {
-                        let download = (filename, text) => {
-                            let element = document.createElement('a');
-                            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-                            element.setAttribute('download', filename);
-                            element.style.display = 'none';
-                            document.body.appendChild(element);
-                            element.click();
-                            document.body.removeChild(element);
+                    <Button className="button-header" onClick={async () => {
+                        try {
+                            let download = (filename, text) => {
+                                let element = document.createElement('a');
+                                element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+                                element.setAttribute('download', filename);
+                                element.style.display = 'none';
+                                document.body.appendChild(element);
+                                element.click();
+                                document.body.removeChild(element);
+                            }
+                            download(`${this.props.board.name}.json`, JSON.stringify(await axios.get(`${UrlConfig.API}/boards/${this.props.board._id}/export`, tokenHeader())));
+                        } catch (e) {
+                            throw e
                         }
-                        download(`${this.props.board.name}.json`, JSON.stringify(this.props.board));
+
                     }}>
                         Export
                         </Button>
