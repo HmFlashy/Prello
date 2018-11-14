@@ -429,11 +429,13 @@ export default (state = defaultBoardReducer, action) => {
                 }
             };
         case "ADD_BOARD_TEAM":
+            console.log(JSON.stringify(action.payload))
             return {
                 ...state,
                 currentBoard: {
                     ...state.currentBoard,
-                    teams: action.payload
+                    teams: action.payload.teams,
+                    members: action.payload.members
                 }
             }
         default:

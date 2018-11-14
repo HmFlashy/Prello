@@ -57,7 +57,6 @@ module.exports = async (req, res) => {
     try {
         const boardId = req.params.boardId;
         const teamId = req.body.teamId;
-        console.log(teamId)
 
         if(!boardId) {
             throwError(400, "Missing boardId parameter")
@@ -73,8 +72,11 @@ module.exports = async (req, res) => {
 
         const board = await boardsController.addBoardTeam(boardId, teamId);
         socketIO.broadcast("action", boardId, {
-            type: "ADDED_BOARD_TEAM",
-            payload: board.teams
+            type: "ADD_BOARD_TEAM",
+            payload: {
+                teams : board.teams,
+                members: board.members
+            }
         });
         return res.status(200).json(board)
     } catch(error) {

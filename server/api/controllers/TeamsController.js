@@ -163,7 +163,5 @@ module.exports = {
     updateTeamMember,
     getTeamById,
     updateTeam,
-    addToArray,
-    removeToArray,
     getTeamsBySearch
 };
