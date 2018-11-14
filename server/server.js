@@ -19,6 +19,7 @@ app.use(bodyParser.json());
 app.use('/oauth', require('./oauth/routes')(app))
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerJSDoc));
+
 app.use('/api', require("./api"));
 
 const server = app.listen(port, () => console.log(`Listening on port ${port}`));
