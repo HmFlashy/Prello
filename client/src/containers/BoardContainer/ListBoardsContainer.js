@@ -49,7 +49,7 @@ const mapDispatchToProps = (dispatch) => {
                 console.log(error)
             }
         },
-        async onDeleteTeam(teamId){
+        async deleteTeam(teamId){
             try {
                 const team = await teamServices.deleteTeam(teamId);
                 dispatch(actionDeleteTeam(team))

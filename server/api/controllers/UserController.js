@@ -301,6 +301,21 @@ const getMembersBySearch = async (boardId, query) => {
     }
 }
 
+const deleteTeam = async (userId, teamId) => {
+    try {
+        const user = await User.findOneAndUpdate({_id: userId}, {
+            $pull:
+                { teams: {team:teamId }}
+        }, { new: true });
+        if (!user) {
+            throwError(404, `The user ${userId} was not found`)
+        }
+        return user;
+    } catch (error) {
+        throw error
+    }
+};
+
 module.exports = {
     getByEmail,
     addUser,
@@ -316,5 +331,6 @@ module.exports = {
     addRedirectUri,
     removeRedirectUri,
     getMembersBySearch,
-    updateUser
+    updateUser,
+    deleteTeam
 }

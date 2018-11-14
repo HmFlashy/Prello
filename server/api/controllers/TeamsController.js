@@ -31,10 +31,9 @@ const deleteTeam = async (teamId) => {
         if(!team) {
             throwError(404, `The team ${teamId} was not found`)
         }
-        const updatedBoards= await team.boards.forEach(board => Board.findOneAndUpdate({ _id: board._id },
-            { $pull: { teams: {team:teamId} } }, { "new": true })); 
-        const updatedMembers = await team.members.forEach(member => console.log(teamId + "    " + member.member) || User.findOneAndUpdate({ _id: member.member },
-            { $pull: { teams: {team:teamId} } }, { "new": true }));       
+        await team.boards.forEach(board => Board.findOneAndUpdate({ _id: board._id },
+            { $pull: { teams: {team:teamId} } }, { "new": true }));   
+        await team.members.forEach(member => UserController.deleteTeam(member.member, teamId))
         await session.commitTransaction();
         session.endSession();
         return await team.remove();
