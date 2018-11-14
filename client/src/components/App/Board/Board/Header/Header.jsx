@@ -437,6 +437,7 @@ class BoardHeader extends Component {
                     </div>
                     <div className="header-board-archived">
                         <div className="header-board-members">
+
                         </div>
                         <Button className="button-header" onClick={() => this.setState({ openArchived: true })}>
                             Archived
@@ -450,6 +451,20 @@ class BoardHeader extends Component {
                             onClose={() => this.setState({ openArchived: false })}
                         />
                     </div>
+                    <Button className="button-header" onClick={() => {
+                        let download = (filename, text) => {
+                            let element = document.createElement('a');
+                            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+                            element.setAttribute('download', filename);
+                            element.style.display = 'none';
+                            document.body.appendChild(element);
+                            element.click();
+                            document.body.removeChild(element);
+                        }
+                        download(`${this.props.board.name}.json`, JSON.stringify(this.props.board));
+                    }}>
+                        Export
+                        </Button>
                 </div>
             </div>
         )
