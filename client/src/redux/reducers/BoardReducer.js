@@ -11,6 +11,7 @@ const defaultBoardReducer = {
         starred: [],
         isClosed: null,
         activities: [],
+        polls: [],
         visibility: null,
         labels: [],
         searchFilter: "",
@@ -78,6 +79,102 @@ export default (state = defaultBoardReducer, action) => {
                 currentBoard: {
                     ...state.currentBoard,
                     lists: state.currentBoard.lists.filter(list => list._id !== action.payload._id)
+                }
+            }
+        /*payload : {
+            _id : pollId
+            optionId
+            vote : {
+                voter: {
+                    _id
+                    fullname
+                }
+                vote: true||false
+            }
+        }*/
+        case 'VOTE':
+            return {
+                ...state,
+                currentBoard: {
+                    ...state.currentBoard,
+                    polls: state.currentBoard.polls.map(poll => poll._id !== action.payload._id ? { ...poll, options: poll.options.map(option => option._id === action.payload.optionId ? { ...option, voters: action.payload.vote.vote ? [...option.voters, action.payload.vote.voter] : option.voters.filter(voter => voter._id !== action.payload.vote.voter._id) } : option) } : poll)
+                }
+            }
+        /*payload : {
+            _id : pollId
+            option: {
+
+            }
+        }*/
+        case 'ADD_OPTION_POLL':
+            return {
+                ...state,
+                currentBoard: {
+                    ...state.currentBoard,
+                    polls: state.currentBoard.polls.map(poll => poll._id !== action.payload._id ? { ...poll, options: [...poll.options, action.payload.option] } : poll)
+                }
+            }
+        /*payload : {
+            _id : pollId
+            title
+            card: {
+                name
+                _id
+            }
+        }*/
+        case 'UPDATE_POLL':
+            return {
+                ...state,
+                currentBoard: {
+                    ...state.currentBoard,
+                    polls: state.currentBoard.polls.map(poll => poll._id !== action.payload._id ? { ...poll, title: action.payload.title, card: action.payload.card } : poll)
+                }
+            }
+        /*payload : {
+            poll
+        }*/
+        case 'ADD_POLL':
+            return {
+                ...state,
+                currentBoard: {
+                    ...state.currentBoard,
+                    polls: [...state.currentBoard.polls, action.payload.poll]
+                }
+            }
+        /*payload : {
+            _id: pollId
+        }*/
+        case 'DELETE_POLL':
+            return {
+                ...state,
+                currentBoard: {
+                    ...state.currentBoard,
+                    polls: state.currentBoard.polls.filter(poll => poll._id !== action.payload._id)
+                }
+            }
+        /*payload : {
+           _id : pollId
+           optionId
+       }*/
+        case 'DELETE_OPTION_POLL':
+            return {
+                ...state,
+                currentBoard: {
+                    ...state.currentBoard,
+                    polls: state.currentBoard.polls.map(poll => poll._id !== action.payload._id ? { ...poll, options: poll.options.filter(option => option._id !== action.payload.optionId) } : poll)
+                }
+            }
+        /*payload : {
+           _id : pollId
+           optionId
+           title
+       }*/
+        case 'UPDATE_OPTION_POLL':
+            return {
+                ...state,
+                currentBoard: {
+                    ...state.currentBoard,
+                    polls: state.currentBoard.polls.map(poll => poll._id !== action.payload._id ? { ...poll, options: poll.options.map(option => option._id === action.payload.optionId ? { ...option, title: action.payload.title } : option) } : poll)
                 }
             }
         case "GET_BOARD":

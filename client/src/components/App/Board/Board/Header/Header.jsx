@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import "./Header.css"
 import { Button, Divider, Dropdown, Icon, Input, Label, List, Popup } from "semantic-ui-react"
-import Members from "../../../Card/CardDetail/SubComponents/Members"
 import CardsArchivedModal from "../CardsArchivedModal";
+import PollContainer from "../../../../../containers/BoardContainer/PollContainer";
 import Avatar from "../../../Avatar";
 import BoardLabelsModal from "../BoardLabelsModal"
 import DynamicInput from "../../../Input/DynamicInput"
@@ -181,7 +181,7 @@ class BoardHeader extends Component {
     }
 
     openTeamsPopup() {
-            this.setState({
+        this.setState({
             isMemberOpen: false,
             isTeamOpen: true
         });
@@ -206,13 +206,13 @@ class BoardHeader extends Component {
                     fullName={team.name}
                     round
                     size="25"
-                    textSizeRatio={1.4}/>
+                    textSizeRatio={1.4} />
                     <div id={team._id}> {team.name}</div></span>
             }
         }), ...this.state.currentTeams];
     }
 
-    handleChangeTeams(e, {value}) {
+    handleChangeTeams(e, { value }) {
         let currentTeams = [];
         value.forEach(selectedValue => {
             const valueFound = this.getSearchedTeamsOptions().find(s => s.value === selectedValue);
@@ -264,19 +264,19 @@ class BoardHeader extends Component {
                                 fullName={team.name}
                                 round
                                 size="25"
-                                textSizeRatio={1.8}/></span>)}
+                                textSizeRatio={1.8} /></span>)}
                             <Popup
                                 flowing={true}
-                                trigger={<Icon name={"add team"}/>}
+                                trigger={<Icon name={"add team"} />}
                                 on='click'
                                 open={this.state.isTeamOpen}
-                                onClose={() => this.setState({isTeamOpen: false})}
+                                onClose={() => this.setState({ isTeamOpen: false })}
                                 onOpen={() => this.openTeamsPopup()}
                                 position='bottom left'>
                                 <div className={"add-team-button"}>
-                                    <Button icon="add" onClick={this.addTeams} positive content={"Add"}/>
+                                    <Button icon="add" onClick={this.addTeams} positive content={"Add"} />
                                 </div>
-                                <Divider/>
+                                <Divider />
                                 <div className={"dropdown-add-team"}>
                                     <Dropdown
                                         loading={this.props.isFetchingTeams}
@@ -337,6 +337,7 @@ class BoardHeader extends Component {
                             </Popup>
                         </div>
                     </div>
+                    <PollContainer></PollContainer>
                     <div className={"header-board-filter"}>
                         <Popup
                             className={"filter-popup"}
@@ -556,7 +557,7 @@ class BoardHeader extends Component {
 
                     }}>
                         Export
-                        </Button>
+                    </Button>
                 </div>
             </div>
         )
