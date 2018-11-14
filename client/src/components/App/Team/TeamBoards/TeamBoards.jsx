@@ -8,7 +8,7 @@ class TeamBoards extends Component {
 
 
     render(){
-        console.log("Boards: " + this.props.teamBoards)
+        console.log("Boards: " + this.props.team.boards)
         return (
             <div>
                 {

@@ -6,8 +6,11 @@ import TeamMembers from '../TeamMembers';
 
 class TeamDetails extends Component {
 
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
+        console.log("-------------")
+        console.log(this.props.team)        
+        console.log("-------------")
         this.state = {
             activeItem: "boards"
         }

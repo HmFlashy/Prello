@@ -3,9 +3,9 @@ import TeamDetails from '../../components/App/Team/TeamDetails'
 import TeamServices from '../../services/TeamServices';
 
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
     return {
-        team: state.teams.currentTeam
+        team: state.authentification.user.teams.find(team=>team.team._id === ownProps.teamId).team
     }
 };
 
@@ -13,6 +13,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
         async fetchTeam(teamId) {
             try {
+                const data = await TeamServices.getTeam(teamId)
+                return data
             } catch (error) {
                 console.log(error)
             }

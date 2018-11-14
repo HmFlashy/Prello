@@ -67,7 +67,7 @@ module.exports = async (req, res) => {
             throwError(400, `The creatorId ${creatorId} is malformed`)
         }
         const team = await TeamsController.addTeam(name, creatorId);
-        socketIO.broadcast('action',{
+        socketIO.broadcast('action', creatorId,{
             type: 'CREATED_TEAM',
             payload: { team }
         })

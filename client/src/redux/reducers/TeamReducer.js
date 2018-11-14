@@ -40,6 +40,7 @@ export default (state = defaultTeamState, action) => {
                 ...state,
                 all: state.all.map(team => team._id === action.payload.teamId ? { ...team, members: team.members.filter(member => !userIds.includes(member._id)) } : team)
             }
+        case 'ADD_TEAM':
         case 'CREATED_TEAM':
         return {
             ...state,
