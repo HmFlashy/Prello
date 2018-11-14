@@ -8,16 +8,16 @@ class TeamBoards extends Component {
 
 
     render(){
-        console.log("Boards: " + this.props.team.boards)
+        console.log("Boards: ")
+        console.log(this.props.team)
         return (
-            <div>
+            <div className="team-boards-overview">
                 {
                     this.props.team.boards.map(board => {
                         return (<BoardOverviewContainer boardId={ board._id } />)
                     })
                     
                 }
-                <NewBoardModalContainer teamId={this.props.team._id} />
             </div>
         )
     }

@@ -19,8 +19,11 @@ const getById = async (userId) => {
     try {
         const user = await User.findById(userId).populate([{
             path: "teams.team",
-            select: ["name","boards", "members"]
-        },{
+            select: ["name","boards", "members"],
+            populate: ["boards", {
+                path:"members.member"}]
+        },
+        {
             path: "client_applications"
         }]);
         return user

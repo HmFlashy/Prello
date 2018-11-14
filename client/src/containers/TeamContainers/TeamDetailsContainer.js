@@ -26,6 +26,22 @@ const mapDispatchToProps = (dispatch) => {
             } catch (error) {
                 throw error
             }
+        },
+        async deleteMember(teamId, memberId){
+            try {
+                const data = await TeamServices.deleteMember(teamId, memberId)
+                return data
+            } catch (error) {
+                throw error
+            }
+        },
+        async changeRole(teamId, memberId, role) {
+            try {
+                const data = await TeamServices.updateMember(teamId, memberId, role)
+                return data
+            } catch (error) {
+                throw error
+            }
         }
     }
 };

@@ -11,9 +11,8 @@ const mapStateToProps = (state, ownProps) => {
     return {
         board: board,
         userId: user._id,
-        isStarred: board?board.starred.includes(user._id):null,
-        team: user.teams.find(team=>team.team._id === ownProps.teamId)
-    }
+        isStarred: board?board.starred.includes(user._id):null
+        }
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {

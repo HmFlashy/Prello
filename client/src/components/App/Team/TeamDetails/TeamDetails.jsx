@@ -8,14 +8,15 @@ class TeamDetails extends Component {
 
     constructor(props) {
         super(props)
-        console.log("-------------")
-        console.log(this.props.team)        
-        console.log("-------------")
         this.state = {
             activeItem: "boards"
         }
         this.handleItemClick = this.handleItemClick.bind(this)
         this.addUsers = this.addUsers.bind(this)
+        this.deleteMember = this.deleteMember.bind(this)
+        this.changeRole = this.changeRole.bind(this)
+
+
     }
 
     handleItemClick(e, { name }) {
@@ -27,6 +28,13 @@ class TeamDetails extends Component {
     addUsers(users) {
         this.props.addUsersToTeam(this.props.team._id, users)
     }
+    deleteMember(memberId) {
+        this.props.deleteMember(this.props.team._id, memberId)
+    }
+    changeRole(userId, role) {
+        this.props.changeRole(this.props.team._id, userId, role)
+    }
+
 
     render() {
         const { activeItem } = this.state
@@ -55,7 +63,7 @@ class TeamDetails extends Component {
                         <Container className="item-info">
                             {
                                 activeItem === "boards" ? <TeamBoards team={this.props.team} /> :
-                                    activeItem === "members" ? <TeamMembers addUsers={this.addUsers} team={this.props.team} /> :
+                                    activeItem === "members" ? <TeamMembers changeRole={this.changeRole} deleteMember={this.deleteMember} addUsers={this.addUsers} team={this.props.team} /> :
                                         activeItem === "settings" ? <div>Settings</div> : <div>Error</div>
 
                             }

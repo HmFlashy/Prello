@@ -6,13 +6,13 @@ import AddMemberModal from '../../Modal/AddMemberModal';
 const rightOptions = [
     {
         key: "admin",
-        value: "admin",
+        value: "Admin",
         text: "Admin"
     },
     {
-        key: "normal",
-        value: "normal",
-        text: "Normal"
+        key: "member",
+        value: "Member",
+        text: "Member"
     }
 ]
 class TeamMembers extends Component {
@@ -20,10 +20,20 @@ class TeamMembers extends Component {
     constructor(){
         super()
         this.addUsers = this.addUsers.bind(this)
+        this.handleChange = this.handleChange.bind(this);
+        this.state = {
+            currentRole: "",
+            currentUserId: ""      
+         }
     }
 
     addUsers(users){
         this.props.addUsers(users)
+    }
+    handleChange(e, {value, id}) {
+        this.setState({currentRole: value, currentUserId: id});
+        console.log(this.state.currentUserId)
+        this.props.changeRole(this.state.currentUserId, value)
     }
 
     render(){
@@ -39,20 +49,24 @@ class TeamMembers extends Component {
                                 <Table singleLine>  
                                     <Table.Body>
                                         {
-                                             this.props.team.members.map(member => {
+                                             this.props.team.members.map(member => {console.log(this.props.team)
+
                                                 return (
                                                     <Table.Row>
                                                         <Table.Cell className="member-cell">
                                                             <div className="member-fullname">
-                                                                <span className="span-fullname">{ member.fullname }</span>
+                                                                <span className="span-fullname">{ member.member.fullName }</span>
                                                             </div>
                                                             <div className="member-right-dropdown">
                                                                 <Dropdown
-                                                                    defaultValue={rightOptions[0].value}
+                                                                    defaultValue={member.role}
+                                                                    id={member.member._id}
                                                                     options={rightOptions}
+                                                                    onChange={this.handleChange}
+                                                                    // value={this.state.currentRole}
                                                                 />
                                                             </div>
-                                                            <Button className="remove-member-button" color="red">Remove</Button>
+                                                            <Button className="remove-member-button" color="red" onClick={()=>this.props.deleteMember(member.member._id)}>Remove</Button>
                                                         </Table.Cell>
                                                     </Table.Row>
                                                 )

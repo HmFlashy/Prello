@@ -12,7 +12,7 @@ class TeamPage extends Component {
             <SecureLayoutContainer>
                 <HeaderLayout>
                     <TeamDetailsContainer 
-                    teamId={this.props.match.params.teamId} 
+                    teamId={this.props.match.params.teamId}
                     />
                 </HeaderLayout>
             </SecureLayoutContainer>
