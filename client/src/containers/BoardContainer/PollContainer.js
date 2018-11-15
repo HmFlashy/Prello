@@ -32,7 +32,34 @@ const mapStateToProps = state => {
                     _id: "5bec522276647829627e7b",
                     title: "Tro b1",
                     voters: []
-                }]
+                },
+                ]
+            },
+            {
+                _id: "5bec522276647829627e7b64",
+                title: "Super poll !",
+                owner: "5bec522276647829627e7b61",
+                card: { _id: "5bec522276647829627e7b68", name: "Add comment to a card" },
+                options: [{
+                    _id: "5bec522276647829627e7b",
+                    title: "C'est nul",
+                    voters: [{ _id: "5bec522276647829627e7b61", fullName: "Kevin Giordani" },
+                    { _id: "5bec522276647829627e7b61", fullName: "Kevin Giordani" },
+                    { _id: "5bec522276647829627e7b61", fullName: "Kevin Giordani" },
+                    { _id: "5bec522276647829627e7b61", fullName: "Kevin Giordani" },
+                    { _id: "5bec522276647829627e7b61", fullName: "Kevin Giordani" },
+                    { _id: "5bec522276647829627e7b61", fullName: "Kevin Giordani" },
+                    { _id: "5bec522276647829627e7b61", fullName: "Kevin Giordani" },
+                    { _id: "5bec522276647829627e7b61", fullName: "Kevin Giordani" },
+                    { _id: "5bec522276647829627e7b61", fullName: "Kevin Giordani" },
+                    { _id: "5bec522276647829627e7b61", fullName: "Kevin Giordani" },
+                    { _id: "5bec522276647829627e7b61", fullName: "Kevin Giordani" },]
+                }, {
+                    _id: "5bec522276647829627e7b",
+                    title: "Tro b1",
+                    voters: []
+                },
+                ]
             }
         ]
     }

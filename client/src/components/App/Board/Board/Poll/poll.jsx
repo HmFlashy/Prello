@@ -56,6 +56,7 @@ class Poll extends Component {
                 <Popup
                     trigger={<Button className="button-header">Polls</Button>}
                     on='click'
+                    className={"filter-popup"}
                     open={this.state.isOpened}
                     onClose={() => this.setState({ isOpened: false })}
                     onOpen={() => this.setState({ isOpened: true })}
