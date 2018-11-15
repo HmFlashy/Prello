@@ -1,6 +1,7 @@
 const express = require('express');
 const checkRightsFromBoard = require('../../../middlewares/checkRights').checkRightsFromBoard
 const router = express.Router();
+const { pollValidator } = require('../../../validations/privateRoutes');
 
 /**
   *   @swagger
@@ -30,5 +31,13 @@ router.put('/:boardId/labels/:labelId', checkRightsFromBoard(["in:Board"]), requ
 router.get('/:boardId/labels/:labelId', checkRightsFromBoard(["in:Board"]), require('../labels/Board/getLabelById'));
 router.get('/:boardId/members/:query', checkRightsFromBoard(["in:Board"]), require('./getMembersSearched'))
 router.get('/:boardId/teams/:query', require('./getTeamsSearched'));
+
+router.put('/:boardId/polls/:pollId/vote/:optionId', pollValidator.voteValidator, checkRightsFromBoard(["in:Board"]), require('../polls/vote'))
+router.post('/:boardId/polls/:pollId', pollValidator.addOptionValidator, checkRightsFromBoard(["in:Board"]), require('../polls/addOption'))
+router.put('/:boardId/polls/:pollId', pollValidator.updatePollValidator, checkRightsFromBoard(["in:Board"]), require('../polls/updatePoll'))
+router.post('/:boardId/polls', pollValidator.addPollValidator, checkRightsFromBoard(["in:Board"]), require('../polls/addPoll'))
+router.delete('/:boardId/polls/:pollId', pollValidator.deletePollValidator, checkRightsFromBoard(["in:Board"]), require('../polls/deletePoll'))
+router.delete('/:boardId/polls/:pollId/options/:optionId', pollValidator.deletePollOptionValidator, checkRightsFromBoard(["in:Board"]), require('../polls/deletePollOption'))
+router.put('/:boardId/polls/:pollId/options/:optionId', pollValidator.updatePollOptionValidator, checkRightsFromBoard(["in:Board"]), require('../polls/updatePollOption'))
 
 module.exports = router;

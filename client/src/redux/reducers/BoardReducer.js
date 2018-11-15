@@ -97,7 +97,7 @@ export default (state = defaultBoardReducer, action) => {
                 ...state,
                 currentBoard: {
                     ...state.currentBoard,
-                    polls: state.currentBoard.polls.map(poll => poll._id !== action.payload._id ? { ...poll, options: poll.options.map(option => option._id === action.payload.optionId ? { ...option, voters: action.payload.vote.vote ? [...option.voters, action.payload.vote.voter] : option.voters.filter(voter => voter._id !== action.payload.vote.voter._id) } : option) } : poll)
+                    polls: state.currentBoard.polls.map(poll => poll._id === action.payload._id ? { ...poll, options: poll.options.map(option => option._id === action.payload.optionId ? { ...option, voters: action.payload.vote.vote ? [...option.voters, action.payload.vote.voter] : option.voters.filter(voter => voter._id !== action.payload.vote.voter._id) } : option) } : poll)
                 }
             }
         /*payload : {
@@ -111,7 +111,7 @@ export default (state = defaultBoardReducer, action) => {
                 ...state,
                 currentBoard: {
                     ...state.currentBoard,
-                    polls: state.currentBoard.polls.map(poll => poll._id !== action.payload._id ? { ...poll, options: [...poll.options, action.payload.option] } : poll)
+                    polls: state.currentBoard.polls.map(poll => poll._id === action.payload._id ? { ...poll, options: [...poll.options, action.payload.option] } : poll)
                 }
             }
         /*payload : {
@@ -127,7 +127,7 @@ export default (state = defaultBoardReducer, action) => {
                 ...state,
                 currentBoard: {
                     ...state.currentBoard,
-                    polls: state.currentBoard.polls.map(poll => poll._id !== action.payload._id ? { ...poll, title: action.payload.title, card: action.payload.card } : poll)
+                    polls: state.currentBoard.polls.map(poll => poll._id === action.payload._id ? { ...poll, title: action.payload.title, card: action.payload.card } : poll)
                 }
             }
         /*payload : {
@@ -161,7 +161,7 @@ export default (state = defaultBoardReducer, action) => {
                 ...state,
                 currentBoard: {
                     ...state.currentBoard,
-                    polls: state.currentBoard.polls.map(poll => poll._id !== action.payload._id ? { ...poll, options: poll.options.filter(option => option._id !== action.payload.optionId) } : poll)
+                    polls: state.currentBoard.polls.map(poll => poll._id === action.payload._id ? { ...poll, options: poll.options.filter(option => option._id !== action.payload.optionId) } : poll)
                 }
             }
         /*payload : {
@@ -174,7 +174,7 @@ export default (state = defaultBoardReducer, action) => {
                 ...state,
                 currentBoard: {
                     ...state.currentBoard,
-                    polls: state.currentBoard.polls.map(poll => poll._id !== action.payload._id ? { ...poll, options: poll.options.map(option => option._id === action.payload.optionId ? { ...option, title: action.payload.title } : option) } : poll)
+                    polls: state.currentBoard.polls.map(poll => poll._id === action.payload._id ? { ...poll, options: poll.options.map(option => option._id === action.payload.optionId ? { ...option, title: action.payload.title } : option) } : poll)
                 }
             }
         case "GET_BOARD":

@@ -92,7 +92,7 @@ class Poll extends Component {
                                                 <Form.Field
                                                     control={Checkbox}
                                                     checked={option.voters.some(voter => voter._id === this.props.userId)}
-                                                    onChange={(event) => this.vote({ pollId: poll._id, option: option.title, isVoting: !option.voters.some(voter => voter._id === this.props.userId), boardId: this.props.boardId })}
+                                                    onChange={(event) => this.vote({ pollId: poll._id, optionId: option._id, isVoting: !option.voters.some(voter => voter._id === this.props.userId), boardId: this.props.boardId })}
                                                 ></Form.Field>
                                                 <DynamicInput
                                                     type='text'

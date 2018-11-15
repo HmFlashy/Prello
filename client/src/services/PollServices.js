@@ -5,7 +5,7 @@ import { tokenHeader } from '../helpers/HeaderHelper'
 export default {
     async vote(data) {
         try {
-            const res = await axios.put(`${UrlConfig.API}/boards/${data.boardId}/polls/${data._id}/vote`, data, tokenHeader());
+            const res = await axios.put(`${UrlConfig.API}/boards/${data.boardId}/polls/${data.pollId}/vote/${data.optionId}`, data, tokenHeader());
             return res.data
         } catch (err) {
             console.log(err);
@@ -14,7 +14,7 @@ export default {
     },
     async addOption(data) {
         try {
-            const res = await axios.post(`${UrlConfig.API}/boards/${data.boardId}/polls/${data._id}`, data, tokenHeader());
+            const res = await axios.post(`${UrlConfig.API}/boards/${data.boardId}/polls/${data.pollId}`, data, tokenHeader());
             return res.data
         } catch (err) {
             console.log(err);
@@ -59,7 +59,7 @@ export default {
     },
     async updatePollOption(data) {
         try {
-            const res = await axios.put(`${UrlConfig.API}/boards/${data.boardId}/polls/${data._id}/options/${data.optionId}`, data, tokenHeader());
+            const res = await axios.put(`${UrlConfig.API}/boards/${data.boardId}/polls/${data.pollId}/options/${data.optionId}`, data, tokenHeader());
             return res.data
         } catch (err) {
             console.log(err);

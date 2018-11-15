@@ -29,27 +29,27 @@ const funcs = {
 
 checkRightsFromBoard = (toCheck, idIsInBody = false) => async (req, res, next) => {
     boardId = idIsInBody ? req.body.boardId : req.params.boardId
-    const board = await BoardController.getBoardById(boardId).catch(err => res.status(400).send("Board not found"))
+    const board = await BoardController.getBoardById(boardId).catch(err => res.status(404).send("Board not found"))
     checkRights(toCheck, req.user._id, board) ? next() : res.status(401).send("Unauthorized")
 }
 
 checkRightsFromCard = (toCheck, idIsInBody = false) => async (req, res, next) => {
     cardId = idIsInBody ? req.body.cardId : req.params.cardId
-    const card = await CardsController.getCardById(cardId).catch(err => res.status(400).send("Card not found"))
-    const board = await BoardController.getBoardById(card.board).catch(err => res.status(400).send("Board not found"))
+    const card = await CardsController.getCardById(cardId).catch(err => res.status(404).send("Card not found"))
+    const board = await BoardController.getBoardById(card.board).catch(err => res.status(404).send("Board not found"))
     checkRights(toCheck, req.user._id, board) ? next() : res.status(401).send("Unauthorized")
 }
 
 checkRightsFromList = (toCheck, idIsInBody = false) => async (req, res, next) => {
     listId = idIsInBody ? req.body.listId : req.params.listId
-    const list = await ListsController.getById(listId).catch(err => res.status(400).send("List not found"))
-    const board = await BoardController.getBoardById(list.board).catch(err => res.status(400).send("Board not found"))
+    const list = await ListsController.getById(listId).catch(err => res.status(404).send("List not found"))
+    const board = await BoardController.getBoardById(list.board).catch(err => res.status(404).send("Board not found"))
     checkRights(toCheck, req.user._id, board) ? next() : res.status(401).send("Unauthorized")
 }
 
 checkRightsFromTeam = (toCheck, idIsInBody = false) => async (req, res, next) => {
     teamId = idIsInBody ? req.body.teamId : req.params.teamId
-    const team = await TeamsController.getTeamById(teamId).catch(err => res.status(400).send("Team not found"))
+    const team = await TeamsController.getTeamById(teamId).catch(err => res.status(404).send("Team not found"))
     checkRights(toCheck, req.user._id, null, team) ? next() : res.status(401).send("Unauthorized")
 }
 
