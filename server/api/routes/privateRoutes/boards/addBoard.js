@@ -1,4 +1,4 @@
-const pollController = require('../../../controllers/PollController');
+const boardsController = require('../../../controllers/BoardsController');
 const socketIO = require('../../../../socket/index');
 const throwError = require('../../../helper/RequestHelper').throwError;
 
@@ -57,5 +57,32 @@ const throwError = require('../../../helper/RequestHelper').throwError;
  *           description: Internal error
  */
 module.exports = async (req, res) => {
+    try {
+        const name = req.body.name;
+        const visibility = req.body.visibility;
+        const teamId = req.body.teamId;
+        const userId = req.user._id.toString();
+        const categoryId = req.body.categoryId;
+        if (!name) {
+            throwError(400, "Missing name parameter")
+        }
+        if (!visibility) {
+            throwError(400, "Missing visibility parameter")
+        }
+        if (teamId) {
+            if (!teamId.match(/^[0-9a-fA-F]{24}$/)) {
+                throwError(400, `The teamId ${teamId} is malformed`)
+            }
+        }
 
+        const board = await boardsController.addBoard(name, visibility, teamId, userId, categoryId);
+        return res.status(201).json(board)
+    } catch (error) {
+        console.log(error);
+        if (error.code) {
+            return res.status(error.code).json(error.message)
+        } else {
+            return res.sendStatus(500);
+        }
+    }
 };
