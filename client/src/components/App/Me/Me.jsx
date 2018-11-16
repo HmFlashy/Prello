@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './Me.css'
-import { Loader, Dimmer, Grid, Button, TextArea, Form, Segment } from 'semantic-ui-react'
+import { Loader, Dimmer, Grid, Button, TextArea, Form, Segment, Header, Image } from 'semantic-ui-react'
 
 export default class Me extends Component {
 
@@ -80,6 +80,9 @@ export default class Me extends Component {
                     : ""}
                 <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
                     <Grid.Column style={{ maxWidth: 450 }}>
+                    <Header as='h2' color='teal' textAlign='center'>
+                        <Image color="teal" src='http://cdn.onlinewebfonts.com/svg/img_311846.png' /> My profile
+                        </Header>
                         <Form size='large' error={this.state.formError}>
                             <Segment stacked>
                                 <Form.Input fluid label='First name' value={this.state.fullName} onChange={(event) => this.updateField({ fullName: event.target.value })} placeholder='Full name' error={this.state.fullNameError} required />
