@@ -40,6 +40,11 @@ export default (state = defaultAuthentificationState, action) => {
                 ...state,
                 error: null
             };
+        case "LOGOUT":
+            return {
+                ...state,
+                token: null
+            }
         case "USER_BOARD_STAR":
             return {
                 ...state,
