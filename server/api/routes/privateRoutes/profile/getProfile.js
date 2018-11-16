@@ -33,7 +33,7 @@ const throwError = require('../../../helper/RequestHelper').throwError;
 module.exports = async (req, res) => {
     try {
         const user = await UserController.getById(req.user._id)
-        return res.status(201).json(user)
+        return res.status(200).json(user)
     } catch(error) {
         console.log(error);
         if(error.code){
