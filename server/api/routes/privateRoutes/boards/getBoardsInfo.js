@@ -29,11 +29,6 @@ const throwError = require("../../../helper/RequestHelper").throwError;
 module.exports = async (req, res) => {
     try {
         const boardId = req.params.boardId;
-        if (!boardId) {
-            throwError(400, "Missing boardId parameter")
-        } else if (!boardId.match(/^[0-9a-fA-F]{24}$/)) {
-            throwError(400, `The boardId ${boardId} is malformed`)
-        }
         const boards = await boardsController.getBoardsInfo(boardId);
         return res.status(200).json(boards)
     } catch (error) {

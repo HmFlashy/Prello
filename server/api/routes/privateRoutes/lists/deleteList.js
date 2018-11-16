@@ -35,12 +35,6 @@ const throwError = require('../../../helper/RequestHelper').throwError;
 module.exports = async (req, res) => {
     try {
         const listId = req.params.listId;
-        if (!listId) {
-            throwError(400, "Missing listId parameter")
-        }
-        if (!listId.match(/^[0-9a-fA-F]{24}$/)) {
-            throwError(400, `The listId ${listId} is malformed`)
-        }
         const list = await ListController.deleteList(listId);
         if (!list) {
             throwError(400, `The list ${listId} does not exist`)

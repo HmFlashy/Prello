@@ -32,13 +32,7 @@ const throwError = require('../../../../helper/RequestHelper').throwError;
 module.exports = async (req, res) => {
     try {
         const labelId = req.params.labelId;
-        if (!labelId.match(/^[0-9a-fA-F]{24}$/)) {
-            throwError(400, `The labelId ${labelId} is malformed`)
-        }
         const boardId = req.params.boardId;
-        if (!boardId.match(/^[0-9a-fA-F]{24}$/)) {
-            throwError(400, `The boardId ${boardId} is malformed`)
-        }
         const label = await LabelsController.deleteLabel(boardId, labelId)
         socketIO.broadcast('action', boardId, {
             type: 'DELETED_LABEL',

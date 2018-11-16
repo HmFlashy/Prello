@@ -68,12 +68,6 @@ const types = {
 module.exports = async (req, res) => {
     try {
         const cardId = req.params.cardId
-        if (!cardId.match(/^[0-9a-fA-F]{24}$/)) {
-            throwError(400, "Bad Request IdCard malformed")
-        }
-        if (Object.keys(req.body).length === 0) {
-            throwError(400, "No data in body")
-        }
         if (cardUpdated = await CardController.updateCard(cardId, req.body)) {
             Object.keys(req.body).forEach(action => {
                 if (types[action]) {

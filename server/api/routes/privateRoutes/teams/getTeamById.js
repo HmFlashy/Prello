@@ -32,14 +32,11 @@ const throwError = require('../../../helper/RequestHelper').throwError;
 module.exports = async (req, res) => {
     try {
         const teamId = req.params.teamId;
-        if(!teamId) {
-            throwError(400, 'Missing teamId parameter')
-        }
         const team = await TeamsController.getTeamById(teamId);
         return res.status(200).json(team);
-    } catch(error) {
+    } catch (error) {
         console.log(error)
-        if(error.code){
+        if (error.code) {
             return res.status(error.code).json(error.message)
         } else {
             return res.sendStatus(500);

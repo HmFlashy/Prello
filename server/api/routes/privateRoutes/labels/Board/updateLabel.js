@@ -30,24 +30,15 @@ const throwError = require('../../../../helper/RequestHelper').throwError;
   *         500:
   *           description: Internal error
   */
- module.exports = async (req, res) => {
+module.exports = async (req, res) => {
     try {
         const labelId = req.params.labelId
-        if (!labelId.match(/^[0-9a-fA-F]{24}$/)) {
-            throwError(400, "Bad Request IdLabel malformed")
-        }
-        if (Object.keys(req.body).length === 0) {
-            throwError(400, "No data in body")
-        }
         const boardId = req.params.boardId;
-        if (!boardId.match(/^[0-9a-fA-F]{24}$/)) {
-            throwError(400, `The boardId ${boardId} is malformed`)
-        }
         if (labelUpdated = await LabelsController.updateLabel(labelId, req.body)) {
             socketIO.broadcast('action', boardId, {
                 type: 'UPDATED_LABEL',
                 payload: { boardId: boardId, labelUpdated }
-                   
+
             })
             return res.status(200).json({
                 type: "Success",

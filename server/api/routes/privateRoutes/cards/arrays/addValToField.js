@@ -66,9 +66,6 @@ const fields = {
 module.exports = async (req, res) => {
     try {
         const idCard = req.params.cardId
-        if (!idCard.match(/^[0-9a-fA-F]{24}$/)) {
-            throwError(400, "Bad Request IdCard malformed")
-        }
         if (fields[req.params.field]) {
             const card = await CardController.addToArray(req.params.idCard, req.params.field, req.body.payload)
             socketIO.broadcast('action', card.board, {

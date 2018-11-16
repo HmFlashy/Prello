@@ -52,20 +52,8 @@ const types = {
 module.exports = async (req, res) => {
     try {
         const cardId = req.params.cardId;
-        if (!cardId.match(/^[0-9a-fA-F]{24}$/)) {
-            throwError(400, `The cardId ${cardId} is malformed`)
-        }
         const checklistId = req.params.checklistId
-        if (!checklistId.match(/^[0-9a-fA-F]{24}$/)) {
-            throwError(400, `The checklistId ${checklistId} is malformed`)
-        }
         const itemId = req.params.itemId
-        if (!itemId.match(/^[0-9a-fA-F]{24}$/)) {
-            throwError(400, `The itemId ${itemId} is malformed`)
-        }
-        if (Object.keys(req.body).length === 0) {
-            throwError(400, "No data in body")
-        }
         const card = await ChecklistController.updateItem(cardId, checklistId, itemId, req.body)
         const checklists = card.checklists
         Object.keys(req.body).forEach(action => {

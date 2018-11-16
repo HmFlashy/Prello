@@ -50,20 +50,8 @@ module.exports = async (req, res) => {
         const name = req.body.name;
         const color = req.body.color;
         const boardId = req.params.boardId;
-        if (!boardId.match(/^[0-9a-fA-F]{24}$/)) {
-            throwError(400, `The boardId ${boardId} is malformed`)
-        }
-        if (Object.keys(req.body).length === 0) {
-            throwError(400, "No data in body")
-        }
-        if (!name) {
-            throwError(400, "Missing name parameter")
-        }
-        if (!color) {
-            throwError(400, "Missing color parameter")
-        }
         const label = await LabelsController.createLabel(name, color, boardId)
-        socketIO.broadcast('action', boardId,{
+        socketIO.broadcast('action', boardId, {
             type: 'CREATED_LABEL',
             payload: { boardId: boardId, label }
         })

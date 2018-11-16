@@ -58,18 +58,6 @@ module.exports = async (req, res) => {
     try {
         const boardId = req.params.boardId;
         const userId = req.body.userId;
-        if (!userId) {
-            throwError(400, `Missing userId parameter`)
-        } else if (!userId.match(/^[0-9a-fA-F]{24}$/)) {
-            throwError(400, `The userId ${userId} is malformed`)
-        }
-
-        if (!boardId) {
-            throwError(400, "Missing boardId parameter")
-        } else if (!boardId.match(/^[0-9a-fA-F]{24}$/)) {
-            throwError(400, `The boardId ${boardId} is malformed`)
-        }
-
         const board = await boardsController.addBoardMember(boardId, userId);
         socketIO.broadcast("action", boardId, {
             type: "ADD_BOARD_MEMBER",

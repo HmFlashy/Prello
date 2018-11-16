@@ -26,19 +26,11 @@ module.exports = async (req, res) => {
     try {
         const userId = req.user._id.toString();
         const name = req.body.name;
-        if(!userId) {
-            throwError(400, 'Missing userId parameter')
-        } else if(!userId.match(/^[0-9a-fA-F]{24}$/)) {
-            throwError(400, `The userId ${userId} is malformed`)
-        }
-        if(!name) {
-            throwError(400, 'Missing name parameter')
-        }
         const category = await UserController.addCategory(userId, name);
         res.status(201).json(category)
-    } catch(error) {
+    } catch (error) {
         console.log(error)
-        if(error.code) {
+        if (error.code) {
             res.status(error.code).json(error.message)
         } else {
             return res.sendStatus(500);

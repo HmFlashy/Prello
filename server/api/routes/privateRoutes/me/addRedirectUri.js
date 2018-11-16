@@ -21,17 +21,11 @@ module.exports = async (req, res) => {
     try {
         const uri = req.body.uri;
         const clientId = req.body.clientId;
-        if(!uri) {
-            throwError(400, 'Missing uri parameter')
-        }
-        if(!clientId) {
-            throwError(400, 'Missing client parameter')
-        }
         const clientApplication = await UserController.addRedirectUri(clientId, uri);
         res.status(201).json(clientApplication)
-    } catch(error) {
+    } catch (error) {
         console.log(error)
-        if(error.code) {
+        if (error.code) {
             res.status(error.code).json(error.message)
         } else {
             return res.sendStatus(500);

@@ -39,20 +39,15 @@ const socketIO = require('../../../../socket/index');
 module.exports = async (req, res) => {
     try {
         const cardId = req.params.cardId;
-        if(!cardId) {
-            throwError(400, 'Missing cardId parameter')
-        } else if(!cardId.match(/^[0-9a-fA-F]{24}$/)) {
-            throwError(400, `The cardId ${cardId} is malformed`)
-        }
         const card = await CardController.getCardById(cardId)
         if (!card) {
             throwError(404, `The card ${cardId} was not found`)
         } else {
             return res.status(200).json(card)
         }
-    } catch(error) {
+    } catch (error) {
         console.log(error)
-        if(error.code){
+        if (error.code) {
             return res.status(error.code).json(error.message)
         } else {
             return res.sendStatus(500);

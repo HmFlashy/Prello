@@ -32,10 +32,6 @@ const { validationResult } = require('express-validator/check');
  */
 module.exports = async (req, res) => {
     try {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
-        }
         const cardId = req.params.cardId;
         const commentId = req.params.commentId;
         const card = await CardController.deleteComment(cardId, commentId);

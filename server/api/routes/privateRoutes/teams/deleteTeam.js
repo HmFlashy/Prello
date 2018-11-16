@@ -48,18 +48,15 @@ const throwError = require('../../../helper/RequestHelper').throwError;
 module.exports = async (req, res) => {
     try {
         const teamId = req.params.teamId;
-        if (!teamId.match(/^[0-9a-fA-F]{24}$/)) {
-            throwError(400, `The teamId ${teamId} is malformed`)
-        }
         const team = await teamsController.deleteTeam(teamId);
-        socketIO.broadcast('action',{
+        socketIO.broadcast('action', {
             type: 'DELETED_TEAM',
             payload: { _id: teamId, team }
         })
         return res.status(201).json(team)
-    } catch(error) {
+    } catch (error) {
         console.log(error);
-        if(error.code){
+        if (error.code) {
             return res.status(error.code).json(error.message)
         } else {
             return res.sendStatus(500);

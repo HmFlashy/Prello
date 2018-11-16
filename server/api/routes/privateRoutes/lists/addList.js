@@ -57,20 +57,6 @@ module.exports = async (req, res) => {
         const name = req.body.name;
         const boardId = req.body.boardId;
         const pos = req.body.pos;
-        if (!name) {
-            throwError(400, "Missing name parameter")
-        }
-        if (!boardId) {
-            throwError(400, "Missing boardId parameter")
-        }
-        if (!pos) {
-            throwError(400, "Missing pos parameter")
-        }
-        if(!boardId){
-            throwError(400, "Missing boardId parameter")
-        } else if (!boardId.match(/^[0-9a-fA-F]{24}$/)) {
-            throwError(400, `The boardId ${boardId} is malformed`)
-        }
         const list = await ListController.addList(name, boardId, pos);
         if (!list) {
             throwError(500, "Internal server issue")

@@ -33,17 +33,8 @@ const throwError = require('../../../../helper/RequestHelper').throwError;
 module.exports = async (req, res) => {
     try {
         const cardId = req.params.cardId;
-        if (!cardId.match(/^[0-9a-fA-F]{24}$/)) {
-            throwError(400, `The cardId ${cardId} is malformed`)
-        }
         const checklistId = req.params.checklistId
-        if (!checklistId.match(/^[0-9a-fA-F]{24}$/)) {
-            throwError(400, `The checklistId ${checklistId} is malformed`)
-        }
         const itemId = req.params.itemId
-        if (!itemId.match(/^[0-9a-fA-F]{24}$/)) {
-            throwError(400, `The itemId ${itemId} is malformed`)
-        }
         const card = await ChecklistController.deleteItem(cardId, checklistId, itemId)
         const checklists = card.checklists
         socketIO.broadcast('action', card.board, {
