@@ -9,6 +9,8 @@ const Attachment = require("../api/models/index").Attachment;
 const Category = require("../api/models/index").Category;
 const Team = require("../api/models/index").Team;
 const Checklist = require("../api/models/index").Checklist;
+const Poll = require("../api/models/index").Poll;
+const Option = require("../api/models/index").Option;
 const passwordHelper = require("../api/helper/passwordHelper");
 const OAuthClient = require("../oauth/server/models/OAuthClients")
 
@@ -171,6 +173,27 @@ async function initDB() {
     list4.listInformation.nbCards = 1;
     list3.watchers = [{ watcher: Loris._id }];
 
+    const option1 = Option({
+        title: "C'est nul",
+        voters: [Hugo._id]
+    })
+
+    const option2 = Option({
+        title: "Génial",
+        voters: []
+    })
+
+    const poll = Poll({
+        title: "Super poll !",
+        owner: Kevin._id,
+        card: card1._id,
+        options: [
+            option1,
+            option2
+        ]
+    })
+    await poll.save()
+
     const board1 = Board({
         name: "Prello", lists: [list1._id, list2._id, list3._id], teams: [Khal._id],
         owner: Hugo._id,
@@ -197,7 +220,8 @@ async function initDB() {
         boardInformation: {
             nbStars: 2,
             nbMembers: 4
-        }
+        },
+        polls: [poll._id]
     });
 
     Khal.boards = [board1._id];
@@ -219,7 +243,7 @@ async function initDB() {
         boardInformation: {
             nbStars: 2,
             nbMembers: 2
-        }
+        },
     });
 
     const board3 = Board({

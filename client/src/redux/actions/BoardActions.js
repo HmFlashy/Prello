@@ -5,6 +5,20 @@ export const actionBoardSubscribe = (socket) => {
     }
 };
 
+export const actionBoardUpdateName = (data) => {
+    return {
+        type: 'UPDATE_BOARD_NAME',
+        payload: data
+    }
+};
+
+export const failedActionBoardUpdateName = (data) => {
+    return {
+        type: 'FAILED_UPDATE_BOARD_NAME',
+        payload: data
+    }
+};
+
 export const actionFetchingBoard = (id) => {
     return {
         type: 'FETCHING_BOARD',
@@ -208,6 +222,81 @@ export const actionSwitchDueDateMode = (mode) => {
 export const actionClearFilter = () => {
     return {
         type: 'CLEAR_FILTER',
-        payload: {}
+        payload: null
+    }
+};
+
+export const actionFetchingSearchedMembers = () => {
+    return {
+        type: 'FETCHING_SEARCHED_MEMBERS',
+        payload: null
+    }
+};
+
+export const actionFetchedSearchedMembers = (members) => {
+    return {
+        type: 'FETCHED_SEARCHED_MEMBERS',
+        payload: {
+            members
+        }
+    }
+};
+
+export const actionFailedFetchingSearchedMembers = (error) => {
+    return {
+        type: 'FAILED_FETCHING_SEARCHED_MEMBERS',
+        payload: {
+            error
+        }
+    }
+};
+
+export const actionFetchingMissingMembers = () => {
+    return {
+        type: 'FETCHING_MISSING_MEMBERS',
+        payload : null
+    }
+};
+
+export const actionFetchedMissingMembers = (members) => {
+    return {
+        type: 'FETCHED_MISSING_MEMBERS',
+        payload: {
+            members
+        }
+    }
+};
+
+export const actionFailedFetchingMissingMembers = (error) => {
+    return {
+        type: 'FAILED_FETCHING_MISSING_MEMBERS',
+        payload : {
+            error
+        }
+    }
+};
+
+export const actionFetchingSearchedTeams = () => {
+    return {
+        type: 'FETCHING_SEARCHED_TEAMS',
+        payload: null
+    }
+};
+
+export const actionFetchedSearchedTeams = (teams) => {
+    return {
+        type: 'FETCHED_SEARCHED_TEAMS',
+        payload: {
+            teams
+        }
+    }
+};
+
+export const actionFailedFetchingSearchedTeams = (error) => {
+    return {
+        type: 'FAILED_FETCHING_SEARCHED_TEAMS',
+        payload: {
+            error
+        }
     }
 };

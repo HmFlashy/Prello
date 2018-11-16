@@ -3,11 +3,9 @@ import UrlConfig from '../config/UrlConfig'
 import { tokenHeader } from '../helpers/HeaderHelper'
 
 export default {
-    async updateListNameApi(listId, newName) {
+    async updateListApi(listId, data) {
         try {
-            const res = await axios.put(`${UrlConfig.API}/lists/${listId}`, {
-                name: newName
-            }, tokenHeader());
+            const res = await axios.put(`${UrlConfig.API}/lists/${listId}`, data, tokenHeader());
             return res.data
         } catch (err) {
             console.log(err);
@@ -31,6 +29,14 @@ export default {
             const res = await axios.put(`${UrlConfig.API}/lists/${listId}`, {
                 pos
             }, tokenHeader());
+            return res.data
+        } catch (error) {
+            throw error
+        }
+    },
+    async deleteListApi(listId) {
+        try {
+            const res = await axios.delete(`${UrlConfig.API}/lists/${listId}`, tokenHeader());
             return res.data
         } catch (error) {
             throw error

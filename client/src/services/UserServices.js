@@ -69,5 +69,21 @@ export default {
         } catch(error) {
             throw error
         }
+    },
+    async addURI(clientId, uri){
+        try {
+            const res = await axios.post(`${UrlConfig.API}/me/client_applications/${clientId}/uris`, { clientId, uri }, tokenHeader())
+            return res.data
+        } catch(error){
+            throw error
+        }
+    },
+    async removeURI(clientId, uri){
+        try {
+            const res = await axios.delete(`${UrlConfig.API}/me/client_applications/${clientId}/uris/${uri}`, tokenHeader())
+            return res.data
+        } catch(error){
+            throw error
+        }
     }
 }

@@ -2,6 +2,7 @@
 const List = require("../models/index").List;
 const Board = require("../models/index").Board;
 const Card = require("../models/index").Card;
+const User = require("../models/index").User;
 require("../../config/db");
 const mongoose = require('mongoose');
 
@@ -15,16 +16,20 @@ const expect = chai.expect;
 
 let board1 = null;
 let header = null;
+let hugoUser = null;
 
 describe("Lists", () => {
     before((done) => {
-        chai.request(server)
-            .post(`/api/login`)
-            .send({"email": "hugo.maitre69@gmail.com", "password": "m"})
-            .end((err, res) => {
-                header = `Bearer ${res.body.token}`;
-                done()
-            })
+        User.findOne({email: "hugo.maitre69@gmail.com"}).then((hugo) => {
+            hugoUser = hugo;
+            chai.request(server)
+                .post(`/api/login`)
+                .send({"email": "hugo.maitre69@gmail.com", "password": "m"})
+                .end((err, res) => {
+                    header = `Bearer ${res.body.token}`;
+                    done()
+                })
+        })
     });
 
     beforeEach((done) => { // Before each test we empty the database
@@ -32,7 +37,7 @@ describe("Lists", () => {
         array.push(Board.deleteMany());
         array.push(List.deleteMany());
         Promise.all(array).then(() => {
-            const boardModel = Board({name: "Prello"});
+            const boardModel = Board({name: "Prello", members: [{member: hugoUser._id, role: "Admin"}]});
             boardModel.save((err, board) => {
                 if (err) {}
                 board1 = board;
@@ -45,14 +50,12 @@ describe("Lists", () => {
     * Test the /POST route
     */
     describe("POST list", () => {
-        it("it should not POST a list without name field", (done) => {
+        it("it should not POST a list without boardId", (done) => {
             chai.request(server)
                 .post("/api/lists")
                 .set("Authorization", header)
                 .end((err, res) => {
                     res.should.have.status(400);
-                    res.body.should.be.a("object");
-                    res.body.should.have.property("message").eql("Missing name parameter");
                     done();
                 });
         });
@@ -60,11 +63,9 @@ describe("Lists", () => {
             chai.request(server)
                 .post("/api/lists")
                 .set("Authorization", header)
-                .send({name: "Doing"})
+                .send({boardId: board1._id})
                 .end((err, res) => {
                     res.should.have.status(400);
-                    res.body.should.be.a("object");
-                    res.body.should.have.property("message").equal("Missing boardId parameter");
                     done();
                 });
         });
@@ -92,23 +93,8 @@ describe("Lists", () => {
     * Test the /PUT/:listId route
     */
     describe("PUT/:listId list", () => {
-        it("should UPDATE the list if nothing inside the body is given", (done) => {
-            let list = new List({name: "Doing", boardId: board1._id});
-            list.save((err, list) => {
-                chai.request(server)
-                    .put(`/api/lists/${list._id}`)
-                    .set("Authorization", header)
-                    .send({})
-                    .end((err, res) => {
-                        res.should.have.status(200);
-                        res.body.should.be.a("object");
-                        done();
-                    });
-            });
-        });
-
         it("should UPDATE the name of the list given the id and the new name", (done) => {
-            let list = new List({name: "Doing", boardId: board1._id});
+            let list = new List({name: "Doing", board: board1._id});
             list.save((err, list) => {
                 chai.request(server)
                     .put(`/api/lists/${list._id}`)
@@ -124,7 +110,7 @@ describe("Lists", () => {
         });
 
         it("should UPDATE the isArchived parameter of the list given the id and the new value", (done) => {
-            let list = new List({name: "Doing", boardId: board1._id});
+            let list = new List({name: "Doing", board: board1._id});
             list.save((err, list) => {
                 chai.request(server)
                     .put(`/api/lists/${list._id}`)
@@ -140,7 +126,7 @@ describe("Lists", () => {
         });
 
         it("should return a 400 bad request if the id is not an object Id", (done) => {
-            let list = new List({name: "Doing", boardId: board1._id});
+            let list = new List({name: "Doing", board: board1._id});
             list.save((err, list) => {
                 if (err) {}
                 chai.request(server)
@@ -149,14 +135,13 @@ describe("Lists", () => {
                     .send({})
                     .end((err, res) => {
                         res.should.have.status(400);
-                        res.body.should.equal("The listId 52d5e1d52 is malformed");
                         done();
                     });
             });
         });
 
         it("should return a 404 not found if the given id doesn't exist", (done) => {
-            let list = new List({name: "Doing", boardId: board1._id});
+            let list = new List({name: "Doing", board: board1._id});
             list.save((err, list) => {
                 if (err) {}
                 chai.request(server)
@@ -164,9 +149,7 @@ describe("Lists", () => {
                     .set("Authorization", header)
                     .send({name: "To Do"})
                     .end((err, res) => {
-                        console.log(JSON.stringify(res));
                         res.should.have.status(404);
-                        res.body.should.equal(`The listId ${board1._id} was not found`);
                         done();
                     });
             });
@@ -189,7 +172,6 @@ describe("Lists", () => {
                         .set("Authorization", header)
                         .end((err, res) => {
                             res.should.have.status(400);
-                            res.body.should.equal("The listId 52d5e1d52 is malformed");
                             done();
                         });
                 });
@@ -208,7 +190,6 @@ describe("Lists", () => {
                         .set("Authorization", header)
                         .end((err, res) => {
                             res.should.have.status(404);
-                            res.body.should.equal(`The listId ${board1._id} was not found`);
                             done();
                         });
                 });
@@ -227,37 +208,9 @@ describe("Lists", () => {
                         .set("Authorization", header)
                         .end((err, res) => {
                             res.should.have.status(400);
-                            res.body.should.equal("Can't delete a list not archived");
                             done();
                         });
                 });
-            })
-        });
-
-        it("should return a 400 bad request if the list is not empty", (done) => {
-            let card = new Card({name: "card name"});
-            card.save((err, card) => {
-                let list = new List({
-                    name: "Doing",
-                    board: board1._id,
-                    cards: [card._id],
-                    isArchived: true
-                });
-                list.save((err, list) => {
-                    if (err) {}
-                    board1.lists = [list._id];
-                    board1.save((err) => {
-                        if (err) {}
-                        chai.request(server)
-                            .delete(`/api/lists/${list._id}`)
-                            .set("Authorization", header)
-                            .end((err, res) => {
-                                res.should.have.status(400);
-                                res.body.should.equal("Can't delete a list not empty");
-                                done();
-                            });
-                    })
-                })
             })
         });
 

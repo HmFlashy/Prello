@@ -5,7 +5,7 @@ import { Icon, Modal, Header, Button, Dropdown, Popup } from 'semantic-ui-react'
 export default (props) => (
     <Popup
         trigger={props.trigger}
-        open={console.log(props.isOpened) || props.isOpened}
+        open={props.isOpened}
         onClose={props.onCancel}
         position='bottom left'
         on='click'>

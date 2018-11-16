@@ -36,6 +36,7 @@ class App extends Component {
                 <Route exact path="/card/:cardId" component={BoardPage} />
                 <Route exact path="/team/:teamId" component={TeamPage} />
                 <Route exact path="/me" component={MePage} />
+                <Route exact path="/developer/app/:idApp" component={DeveloperPage} />
                 <Route exact path="/developer" component={DeveloperPage} />
                 <Redirect to="/welcome" />
               </Switch>

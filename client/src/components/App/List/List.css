@@ -32,3 +32,19 @@
 .list-header .label {
     margin-left: 20px !important;
 }
+
+.list-card-nb{
+    height: 26px
+}
+
+.archive_list{
+    position: absolute;
+    right: 46px;
+    margin:0px !important;
+    width: 26px !important;
+    cursor: pointer;
+}
+
+.iconArchive{
+    margin: 0px !important
+}

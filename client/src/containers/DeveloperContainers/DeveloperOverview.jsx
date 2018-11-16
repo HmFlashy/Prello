@@ -4,34 +4,19 @@ import UserServices from '../../services/UserServices'
 import { 
     actionAddingClientApplication, 
     actionClientApplicationAdded, 
-    failedActionAddingClientApplication
+    failedActionAddingClientApplication,
+    actionAddingURI,
+    actionAddURI,
+    failedActionAddURI,
+    actionRemoveURI,
+    actionRemovingURI,
+    failedActionRemoveURI
 } from '../../redux/actions/UserActions'
-
-const applications = [
-    {
-        name: "Test",
-        id: "12345",
-        secret: "secret",
-        redirectUris: ["http://localhost", "https://mesfesse.com"]
-    },
-    {
-        name: "Application2",
-        id: "12345",
-        secret: "secret",
-        redirectUris: ["http://trutr", "https://yes.com"]
-    },
-    {
-        name: "Application3",
-        id: "12345",
-        secret: "secret",
-        redirectUris: ["http://bijour", "https://hello.com"]
-    }
-]
 
 const mapStateToProps = state => {
     console.log(state.authentification.user)
     return {
-        applications: state.authentification.user.client_applications || applications
+        applications: state.authentification.user.client_applications
     }
 };
 
@@ -45,6 +30,26 @@ const mapDispatchToProps = (dispatch) => {
                 return client_app
             } catch(error) {
                 dispatch(failedActionAddingClientApplication(error))
+            }
+        },
+        async addURI(clientId, uri){
+            try {
+                dispatch(actionAddingURI(clientId, uri))
+                await UserServices.addURI(clientId, uri)
+                dispatch(actionAddURI(clientId, uri))
+                return uri
+            } catch(error) {
+                dispatch(failedActionAddURI(error))
+            }
+        },
+        async removeURI(clientId, uri){
+            try {
+                dispatch(actionRemovingURI(clientId, uri))
+                await UserServices.removeURI(clientId, uri)
+                dispatch(actionRemoveURI(clientId, uri))
+                return uri
+            } catch(error) {
+                dispatch(failedActionRemoveURI(error))
             }
         }
     }

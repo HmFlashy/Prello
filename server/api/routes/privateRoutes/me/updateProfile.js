@@ -35,7 +35,6 @@ module.exports = async (req, res) => {
         } else if (!userId.match(/^[0-9a-fA-F]{24}$/)) {
             throwError(400, `The userId ${userId} is malformed`)
         }
-        console.log(userId)
         const { bio, email, fullName, organization, username } = req.body
         const user = await UserController.updateUser(userId, fullName, username, email, bio, organization, req.body.newPassword && req.body.newPassword.length > 8 ? req.body.newPassword : undefined);
         res.status(200).json(user)

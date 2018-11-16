@@ -25,6 +25,7 @@ class CardDetail extends Component {
         this.state = {
             descriptionTextArea: "",
             isNameUpdating: false,
+            isDescInput: false,
             width: 0,
             height: 0,
             mdeState: null,
@@ -62,13 +63,11 @@ class CardDetail extends Component {
 
     componentWillMount() {
         console.log(this.props.card)
-        console.log("JE MONTE")
     }
 
     componentDidMount() {
         this.props.fetchCard(this.props.match.params.cardId).then(card => {
             this.setState({
-                isDescInput: this.props.card.desc === null,
                 mdeState: {
                     markdown: this.props.card.desc || ""
                 }
@@ -181,6 +180,10 @@ class CardDetail extends Component {
         this.props.deleteCard(this.props.card._id)
     }
 
+    validateNewName(event) {
+        console.log(event.target.value)
+    }
+
     render() {
         return this.props.card.name != null ?
             <div className="displayColumn main">
@@ -188,7 +191,11 @@ class CardDetail extends Component {
                     ? <Segment inverted color='orange' textAlign="center" size="medium"><Icon name="archive" size="large"></Icon>This card is archived</Segment>
                     : ""
                 }
-                <Header name={this.props.card.name} list={this.props.card.list} ></Header>
+                <Header
+                    name={this.props.card.name}
+                    list={this.props.card.list}
+                    validateNewName={(event) => this.updateCard({ name: this.props.card.name, _id: this.props.card._id }, { name: event.target.value, _id: this.props.card._id })}
+                ></Header>
                 <Divider />
                 <div className={this.state.width > 600 ? "displayRow main" : "main"}>
                     <div className="details main">
@@ -220,7 +227,7 @@ class CardDetail extends Component {
                         {
                             !this.state.isDescInput ?
                                 <div className="description-html">
-                                    <Description descToInput={this.descToInput} description={<div className="mde-preview "><div className="mde-preview-content" dangerouslySetInnerHTML={{ __html: this.converter.makeHtml(this.props.card.desc) }} /></div>}></Description>
+                                    <Description descToInput={this.descToInput} description={<div className="mde-preview "><div className="mde-preview-content" dangerouslySetInnerHTML={{ __html: this.converter.makeHtml(this.props.card.desc || "No description") }} /></div>}></Description>
                                     <Divider />
                                 </div>
                                 : <div>

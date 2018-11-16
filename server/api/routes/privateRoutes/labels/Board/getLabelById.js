@@ -31,7 +31,6 @@ const throwError = require('../../../../helper/RequestHelper').throwError;
   */
  module.exports = async (req, res) => {
     try {
-        console.log(req.params)
         const boardId = req.params.boardId;
         if(!boardId) {
             throwError(400, 'Missing boardId parameter')

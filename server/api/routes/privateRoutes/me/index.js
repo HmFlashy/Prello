@@ -12,5 +12,7 @@ router.put('/categories/:categoryId', require('./updateCategoryName'));
 router.put('/boards/:boardId/category', require('./updateBoardCategory'));
 router.get('/', require('./getUsersWithQuery'));
 router.post('/client_applications', require('./addClientApplication'))
+router.post('/client_applications/:clientId/uris', require('./addRedirectUri'))
+router.delete('/client_applications/:clientId/uris/:uri', require('./removeRedirectUri'))
 
 module.exports = router;

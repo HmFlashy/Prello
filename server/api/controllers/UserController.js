@@ -19,8 +19,11 @@ const getById = async (userId) => {
     try {
         const user = await User.findById(userId).populate([{
             path: "teams.team",
-            select: ["name"]
-        }, {
+            select: ["name","boards", "members"],
+            populate: ["boards", {
+                path:"members.member"}]
+        },
+        {
             path: "client_applications"
         }]);
         return user
@@ -123,7 +126,6 @@ const addCategory = async (userId, name) => {
         const category = await Category.create({
             name: name
         });
-        console.log(category)
         await User.updateOne({ _id: user._id }, { $push: { categories: category } });
         return category
     } catch (error) {
@@ -201,19 +203,18 @@ const updateBoardCategory = async (userId, boardId, categoryId) => {
     }
 }
 
-
 const rand_string = (n) => {
     if (n <= 0) {
-        return '';
+        return "";
     }
-    var rs = '';
+    var rs = "";
     try {
         rs = crypto.randomBytes(Math.ceil(n / 2)).toString('hex').slice(0, n);
         /* note: could do this non-blocking, but still might fail */
     }
     catch (ex) {
         /* known exception cause: depletion of entropy info for randomBytes */
-        console.error('Exception generating random string: ' + ex);
+        console.error("Exception generating random string: " + ex);
         /* weaker random fallback */
         rs = '';
         var r = n % 8, q = (n - r) / 8, i;
@@ -262,6 +263,61 @@ const addClientApplication = async (userId, name) => {
     }
 }
 
+const addRedirectUri = async (clientId, uri) => {
+    try {
+        const clientApplication = await ClientApplication.updateOne({ _id: clientId }, { $push: { redirectUris: uri } }, { new: true });
+        return clientApplication
+    } catch (error) {
+        throw error
+    }
+}
+
+const removeRedirectUri = async (clientId, uri) => {
+    try {
+        const clientApplication = await ClientApplication.updateOne({ _id: clientId }, { $pull: { redirectUris: uri } }, { new: true });
+        return clientApplication
+    } catch (error) {
+        throw error
+    }
+}
+
+const getMembersBySearch = async (boardId, query) => {
+    try {
+        const board = await Board.findById(boardId);
+        if (!board) {
+            throwError(404, "Board not found")
+        }
+        const members = await User.find({
+            $and: [
+                {
+                    "_id": {$nin: board.members.map(boardMember => boardMember.member)}
+                }, {
+                    $or: [{"fullName": {$regex: `.*${query}*.`, $options: "i"}},
+                        {"email": {$regex: `.*${query}*.`, $options: "i"}}]
+                }
+            ]
+        }).sort({"fullName": 1}).limit(10);
+        return members
+    } catch (error) {
+        throw error
+    }
+}
+
+const deleteTeam = async (userId, teamId) => {
+    try {
+        const user = await User.findOneAndUpdate({_id: userId}, {
+            $pull:
+                { teams: {team:teamId }}
+        }, { new: true });
+        if (!user) {
+            throwError(404, `The user ${userId} was not found`)
+        }
+        return user;
+    } catch (error) {
+        throw error
+    }
+};
+
 module.exports = {
     getByEmail,
     addUser,
@@ -274,5 +330,9 @@ module.exports = {
     updateCategoryName,
     updateBoardCategory,
     addClientApplication,
-    updateUser
+    addRedirectUri,
+    removeRedirectUri,
+    getMembersBySearch,
+    updateUser,
+    deleteTeam
 }

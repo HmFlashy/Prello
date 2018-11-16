@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import "./ListBoards.css"
 import ListBoardsFilterContainer from "../../../../containers/BoardContainer/ListBoardsFilterContainer"
-import { Button, Dropdown, Icon, Ref } from "semantic-ui-react";
+import { Button, Dropdown, Icon, Ref, Divider, Popup, Header, Input } from "semantic-ui-react";
 import DynamicInput from "../../Input/DynamicInput";
 
 class ListBoards extends Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.handleChange = this.handleChange.bind(this);
         this.handleAddition = this.handleAddition.bind(this);
         this.getCurrentValues = this.getCurrentValues.bind(this);
@@ -21,7 +21,9 @@ class ListBoards extends Component {
             currentValues: [],
             categoryOptions: [],
             currentEditValue: null,
-            categoryName: null
+            categoryName: null, 
+            isCreatingTeam:false,
+            currentTeamName:""
         }
     }
 
@@ -112,34 +114,66 @@ class ListBoards extends Component {
     render() {
         const currentValues = this.getCurrentValues();
         return (
-            <div className="background-color-list">
-                <h1 className="title-list-boards">Your Boards</h1>
-                <Dropdown
-                    options={this.getCategoryOptions()}
-                    placeholder='Choose Categories'
-                    search
-                    selection
-                    fluid
-                    multiple
-                    allowAdditions
-                    value={this.state.currentValues}
-                    onChange={this.handleChange}
-                    onAddItem={this.handleAddition}
-                >
-                </Dropdown>
-                <div className={"listBoards"}>
-                    <ListBoardsFilterContainer key={1} categories={currentValues} onlyStars={true} noTeam={false}
-                        title={"Your starred boards"} />
+            <div className="displayRow board-flex background-color-list">
+                <div className="board-flex-team">
+                    <h1 className="title-list-boards">Your Teams</h1>
+                    {this.props.teams.map(team =>
+                        <p><Button className="your-team" onClick={() => this.props.history.push(`/team/${team.team._id}`)}>{team.team.name}</Button><Button icon onClick={() => this.props.deleteTeam(team.team._id)} >
+                        <Icon name='trash alternate' />
+                    </Button></p>
+                    )
+                    }
+                    <p> <Popup
+                            trigger={<Button className="newTeam" icon={"plus"} color="green" inverted circular />
+                            }
+                            on='click'
+                            open={this.state.isCreatingTeam}
+                            onClose={() => this.setState({ isCreatingTeam: false })}
+                            onOpen={() => this.setState({ isCreatingTeam: true })}
+                            position='bottom left'>
+                            <Header icon='user check outline' content='Enter a name' />
+                            <Popup.Content>
+                                <Input onChange={(event, data) => this.setState({ currentTeamName: data.value })} />
+                            </Popup.Content>
+                            <div className={"team-div-add-button"}>
+                                <Button color='green' className={"team-add-button"}
+                                    onClick={() => { this.state.currentTeamName ? this.setState({ isCreatingTeam: false }, () => this.props.addTeam(this.state.currentTeamName, this.props.userId)) : console.log("Please fill the name of the team"); }}>
+                                    <Icon name='add' /> Add
+                                </Button>
+                            </div>
+                        </Popup></p>
+
                 </div>
-                <div className={"listBoards"}>
-                    <ListBoardsFilterContainer key={2} categories={currentValues} onlyStars={false} noTeam={true}
-                        title={"Your personal boards"} />
-                </div>
-                <div className={"listBoards"}>
-                    {this.props.teams.map(team => (
-                        <ListBoardsFilterContainer key={team.team._id} teams={[team.team._id]} title={team.team.name}
-                            categories={currentValues} onlyStars={false} noTeam={false} />
-                    ))}
+                <div className="board-flex">
+                    <h1 className="title-list-boards">Your Boards</h1>
+                    <Dropdown
+                        options={this.getCategoryOptions()}
+                        placeholder='Choose Categories'
+                        search
+                        selection
+                        clearable
+                        fluid
+                        multiple
+                        allowAdditions
+                        value={this.state.currentValues}
+                        onChange={this.handleChange}
+                        onAddItem={this.handleAddition}
+                    >
+                    </Dropdown>
+                    <div className={"listBoards"}>
+                        <ListBoardsFilterContainer key={1} addBoard={false} categories={currentValues} onlyStars={true} noTeam={false}
+                            title={"Your starred boards"} />
+                    </div>
+                    <div className={"listBoards"}>
+                        <ListBoardsFilterContainer key={2} addBoard={true} categories={currentValues} onlyStars={false} noTeam={true}
+                            title={"Your personal boards"} />
+                    </div>
+                    <div className={"listBoards"}>
+                        {this.props.teams.map(team => (
+                            <ListBoardsFilterContainer addBoard={true} key={team.team._id} teams={[team.team._id]} title={team.team.name}
+                                categories={currentValues} onlyStars={false} noTeam={false} />
+                        ))}
+                    </div>
                 </div>
             </div>
         )

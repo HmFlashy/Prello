@@ -20,7 +20,6 @@ export default class DueDate extends Component {
             <div className="displayRow">
                 <Segment color={GetDueDateColor(this.props.date, this.props.isCompleted)}>
                     <Form.Checkbox defaultChecked={this.props.isCompleted} onChange={(event, data) => this.props.onChange(data.checked)} label={Math.abs(moment(this.props.date).diff(moment(), 'hours')) < 21 ? moment(this.props.date).fromNow() : moment(this.props.date).format("MMMM Do YYYY, H:mm")} />
-
                 </Segment>
                 <Label className="remove-label" onClick={() => this.setState({ isDeleting: true })}><Icon className="remove-label-icon" name="cancel"></Icon></Label>
                 <ValidationInput

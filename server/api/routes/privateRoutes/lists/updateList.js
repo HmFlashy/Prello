@@ -6,7 +6,7 @@ const types = {
     name: 'UPDATE_LIST_NAME',
     isArchived: 'UPDATE_LIST_ISARCHIVED',
     boardId: 'UPDATE_LIST_BOARD',
-    pos: 'UPDATE_LIST_POS'
+    pos: 'MOVE_LIST'
 };
 
 /**
@@ -80,7 +80,7 @@ module.exports = async (req, res) => {
         }
         Object.keys(req.body).forEach(action => {
             if (types[action]) {
-                socketIO.broadcast('action', {
+                socketIO.broadcast('action', listUpdated.board, {
                     type: types[action],
                     payload: { [action]: listUpdated[action], "_id": listUpdated._id }
                 })

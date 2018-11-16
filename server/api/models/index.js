@@ -7,7 +7,7 @@ module.exports = {
     Card: require('./Card').Card,
     Item: require('./Card').Item,
     Checklist: require('./Card').Checklist,
-    Board: require('./Board'),
+    Board: require('./Board').Board,
     List: require('./List'),
     Attachment: require('./Attachment'),
     Action: require('./Action'),
@@ -15,5 +15,7 @@ module.exports = {
     Category: require('./User').Category,
     Label: require('./Label'),
     Team: require('./Team'),
-    Comment: require('./Comment')
+    Comment: require('./Comment'),
+    Poll: require('./Board').Poll,
+    Option: require('./Board').Option
 };

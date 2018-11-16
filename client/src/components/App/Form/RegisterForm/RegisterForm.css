@@ -1,3 +1,9 @@
 .register-form {
-    margin-top: 100px;
+    margin-top: 50px;
+}
+
+.prello-logo{
+    margin-bottom: 50px;
+    width:75%;
+    margin-left: 50px !important;
 }

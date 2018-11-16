@@ -14,26 +14,37 @@ chai.use(chaiHttp);
 chai.should();
 const expect = chai.expect;
 let card = null;
+let hugoUser = null;
 let header = null;
 
 describe("Board", () => {
     before((done) => {
-        chai.request(server)
-            .post(`/api/login`)
-            .send({"email": "hugo.maitre69@gmail.com", "password": "m"})
-            .end((err, res) => {
-                header = `Bearer ${res.body.token}`;
-                done()
-            })
+        User.findOne({email: "hugo.maitre69@gmail.com"}).then((hugo) => {
+            hugoUser = hugo;
+            chai.request(server)
+                .post(`/api/login`)
+                .send({"email": "hugo.maitre69@gmail.com", "password": "m"})
+                .end((err, res) => {
+                    header = `Bearer ${res.body.token}`;
+                    done()
+                })
+        })
     });
 
     beforeEach((done) => { // Before each test we empty the database
-        Card.deleteMany().then(() => {
-            const cardModel = Card({name: "Add comments"});
-            cardModel.save((err, card1) => {
-                if (err) {}
-                card = card1;
-                done()
+        Board.deleteMany().then(() => {
+            Card.deleteMany().then(() => {
+                Board.create({
+                    name: "BoardTest",
+                    members: [{member: hugoUser._id, role: "Admin"}]
+                }).then(board => {
+                    const cardModel = Card({name: "Add comments", board: board._id});
+                    cardModel.save((err, card1) => {
+                        if (err) {}
+                        card = card1;
+                        done()
+                    })
+                })
             })
         })
     });
@@ -47,11 +58,10 @@ describe("Board", () => {
                 .set("Authorization", header)
                 .end((err, res) => {
                     res.should.have.status(400);
-                    res.body.should.be.equal("The cardId dsd5de5d25 is malformed");
                     done();
                 });
         });
-        it("it should not GET a card if the card was not found", (done) => {
+       it("it should not GET a card if the card was not found", (done) => {
             const boardModel = Board({name: "Prello"});
             boardModel.save((err, board) => {
                 if (err) {}
@@ -60,7 +70,6 @@ describe("Board", () => {
                     .set("Authorization", header)
                     .end((err, res) => {
                         res.should.have.status(404);
-                        res.body.should.be.equal(`The card ${board._id} was not found`);
                         done();
                     });
             });
@@ -102,7 +111,6 @@ describe("Board", () => {
                 .set("Authorization", header)
                 .end((err, res) => {
                     res.should.have.status(400);
-                    res.body.should.be.equal(`Can't delete a card not archived`);
                     done()
                 });
         });
@@ -112,7 +120,6 @@ describe("Board", () => {
                 .set("Authorization", header)
                 .end((err, res) => {
                     res.should.have.status(400);
-                    res.body.should.be.equal(`The cardId 5de2de52 is malformed`);
                     done();
                 });
         });
@@ -125,7 +132,6 @@ describe("Board", () => {
                     .set("Authorization", header)
                     .end((err, res) => {
                         res.should.have.status(404);
-                        res.body.should.be.equal(`The card ${board._id} was not found`);
                         done();
                     });
             })

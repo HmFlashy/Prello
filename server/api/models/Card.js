@@ -43,20 +43,20 @@ const CardSchema = new mongoose.Schema({
     }
 }, { timestamps: true });
 
-CardSchema.pre('remove', function(next) {
+CardSchema.pre('remove', function (next) {
     let array = []
     const User = require('./index').User;
     const Attachment = require('./index').Attachment;
     const Comment = require('./index').Comment;
     const List = require('./index').List;
-    array.push(User.updateMany({cardsWatched: {$in: [this._id]}}, {$pull: {cardsWatched: this._id}}).exec());
-    array.push(List.update({cards: {$in: [this._id]}}, {$pull: {cards: this._id}}).exec());
-    Attachment.find({card: this._id}).then(attachments => {
+    array.push(User.updateMany({ cardsWatched: { $in: [this._id] } }, { $pull: { cardsWatched: this._id } }).exec());
+    array.push(List.update({ cards: { $in: [this._id] } }, { $pull: { cards: this._id } }).exec());
+    Attachment.find({ card: this._id }).then(attachments => {
         attachments.forEach(attachment => {
             array.push(attachment.remove())
         })
     });
-    Comment.find({card: this._id}).then(comments => {
+    Comment.find({ card: this._id }).then(comments => {
         comments.forEach(comment => {
             array.push(comment.remove())
         })

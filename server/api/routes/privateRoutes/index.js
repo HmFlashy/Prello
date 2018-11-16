@@ -14,10 +14,6 @@ router.use('/boards', require('./boards'))
 router.use('/files', require('./files.js'))
 router.use('/profile', require('./profile'))
 router.use('/me', require('./me'))
-
-router.use('/cards', require('./cards'));
-router.use('/lists', require('./lists'));
-router.use('/boards', require('./boards'))
-router.use('/files', require('./files'))
+router.use('/teams', require('./teams'))
 
 module.exports = router;

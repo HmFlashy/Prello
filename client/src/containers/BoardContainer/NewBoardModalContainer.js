@@ -19,6 +19,8 @@ const mapStateToProps = (state, ownProps) => {
             {key: 2, value: "Team", text: "Team"},
             {key: 3, value: "Public", text: "Public"}
         ],
+        team: user.teams.find(team=>team.team._id === ownProps.teamId)
+
     }
 };
 
@@ -35,6 +37,7 @@ const mapDispatchToProps = (dispatch) => {
                 console.log(error)
             }
         }
+        
     }
 };
 

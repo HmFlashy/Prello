@@ -6,31 +6,35 @@ const throwError = require("../helper/RequestHelper").throwError;
 
 const getCardById = async (cardId) => {
     try {
-        const card = await Card.findById(cardId).populate(
-            [{
-                path: "labels"
-            }, {
-                path: "members"
-            },
-            {
-                path: "list"
-            },
-            {
-                path: "comments",
-                populate: {
-                    path: "author",
-                    select: ["_id", "fullName", "initials", "username"]
-                }
-            },
-            {
-                path: "attachments",
-                populate: {
-                    path: "owner",
-                    select: ["_id", "fullName", "initials", "username", "bio"]
-                }
-            }]
-        )
-        return card
+        if(await Card.findById(cardId)) {
+            const card = await Card.findById(cardId).populate(
+                [{
+                    path: "labels"
+                }, {
+                    path: "members"
+                },
+                    {
+                        path: "list"
+                    },
+                    {
+                        path: "comments",
+                        populate: {
+                            path: "author",
+                            select: ["_id", "fullName", "initials", "username"]
+                        }
+                    },
+                    {
+                        path: "attachments",
+                        populate: {
+                            path: "owner",
+                            select: ["_id", "fullName", "initials", "username", "bio"]
+                        }
+                    }]
+            )
+            return card
+        } else {
+            throwError(404, "Card not found")
+        }
     } catch (error) {
         throw error
     }
@@ -191,7 +195,6 @@ const addToArray = async (cardId, key, data) => {
 
 const removeToArray = async (cardId, key, data) => {
     try {
-        console.log(data)
         return await Card.findOneAndUpdate({ _id: cardId },
             { $pull: { [key]: data } }, { "new": true })
     } catch (error) {

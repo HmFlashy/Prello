@@ -36,8 +36,5 @@ export default {
         } catch (error) {
             throw error.response
         }
-    },
-    async authenticateLdap(email, password) {
-
     }
 }

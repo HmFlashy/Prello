@@ -2,5 +2,6 @@ module.exports = {
     cardValidator: require('./card'),
     commentValidator: require('./comments'),
     attachmentValidator: require('./attachments'),
-    userValidator: require('./user')
+    userValidator: require('./User'),
+    pollValidator: require('./Poll')
 };

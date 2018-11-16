@@ -63,23 +63,23 @@ module.exports = async (req, res) => {
         const teamId = req.body.teamId;
         const userId = req.user._id.toString();
         const categoryId = req.body.categoryId;
-        if(!name) {
+        if (!name) {
             throwError(400, "Missing name parameter")
         }
-        if(!visibility) {
+        if (!visibility) {
             throwError(400, "Missing visibility parameter")
         }
         if (teamId) {
-            if(!teamId.match(/^[0-9a-fA-F]{24}$/)) {
+            if (!teamId.match(/^[0-9a-fA-F]{24}$/)) {
                 throwError(400, `The teamId ${teamId} is malformed`)
             }
         }
 
         const board = await boardsController.addBoard(name, visibility, teamId, userId, categoryId);
         return res.status(201).json(board)
-    } catch(error) {
+    } catch (error) {
         console.log(error);
-        if(error.code){
+        if (error.code) {
             return res.status(error.code).json(error.message)
         } else {
             return res.sendStatus(500);

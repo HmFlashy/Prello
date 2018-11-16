@@ -6,7 +6,7 @@ import Move from './subComponents/Move/MoveContainer.js'
 import moment from 'moment';
 import LabelColorPicker from '../../../../Input/LabelColorPicker';
 import DropboxChooser from 'react-dropbox-chooser'
-import { FilePicker } from 'react-file-picker'
+import { FilePicker} from 'react-file-picker'
 
 class Menu extends Component {
 
@@ -98,32 +98,37 @@ class Menu extends Component {
                                 </Button>
                             </div>
                         </Popup>
-                        <Button icon labelPosition='left'
+                        {/*<Button icon labelPosition='left'
                             onClick={() => this.setState({ duedate: moment(new Date()).add(1, "days") }, () => this.setState({ isPickingDate: true }))}>
                             <Icon name='calendar check' />
                             Due date
-                        </Button>
-                        <Modal open={this.state.isPickingDate}>
+                                                </Button>*/}
+                        <Popup
+                            open={this.state.isPickingDate}
+                            onOpen={() => console.log(this.state.isPickingDate) || this.setState({ isPickingDate: true })}
+                            onClose={() => console.log(this.state.isPickingDate) || this.setState({ isPickingDate: false })}
+                            trigger={<Button icon labelPosition='left'
+                                onClick={() => this.setState({ duedate: moment(new Date()).add(1, "days") }, () => this.setState({ isPickingDate: true }))}>
+                                <Icon name='calendar check' />
+                                Due date
+                                    </Button>}
+                            flowing
+                            position='bottom left'
+                            on='click'>
                             <Header icon='calendar' content='Select a date' />
-                            <Modal.Content>
+                            <Popup.Content>
                                 <DatePicker
                                     onChange={this.handleOnDateSelect}
                                     startDate={this.state.duedate}
                                 />
-                            </Modal.Content>
-                            <Modal.Actions>
-                                <Button color='red' onClick={() => this.setState({ isPickingDate: false })}>
-                                    <Icon name='remove' /> Cancel
+                            </Popup.Content>
+                            <Button color='green' onClick={() => {
+                                this.setState({ isPickingDate: false });
+                                this.props.onDueDate(this.state.duedate);
+                            }}>
+                                <Icon name='checkmark' /> Validate
                                 </Button>
-                                <Button color='green' onClick={() => {
-                                    this.setState({ isPickingDate: false });
-                                    this.props.onDueDate(this.state.duedate);
-                                    console.log("Change due date")
-                                }}>
-                                    <Icon name='checkmark' /> Validate
-                                </Button>
-                            </Modal.Actions>
-                        </Modal>
+                        </Popup>
                         <Popup
                             trigger={<Button icon labelPosition='left'>
                                 <Icon name='paperclip' />

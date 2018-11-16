@@ -73,3 +73,71 @@ export const actionClientApplicationAdded = (name) => {
         payload: name
     }
 }
+
+export const actionAddingURI = (clientId, uri) => {
+    return {
+        type: "ADDING_URI",
+        payload: {
+            clientId,
+            uri
+        }
+    }
+}
+
+export const actionAddURI = (clientId, uri) => {
+    return {
+        type: "ADD_URI",
+        payload: {
+            clientId,
+            uri
+        }
+    }
+}
+
+export const failedActionAddURI = (error) => {
+    return {
+        type: "FAILED_ADD_URI",
+        payload: error
+    }
+}
+
+export const actionRemovingURI = (clientId, uri) => {
+    return {
+        type: "REMOVE_URI",
+        payload: {
+            clientId,
+            uri
+        }
+    }
+}
+
+export const actionRemoveURI = (clientId, uri) => {
+    return {
+        type: "REMOVE_URI",
+        payload: {
+            clientId,
+            uri
+        }
+    }
+}
+
+export const failedActionRemoveURI = (error) => {
+    return {
+        type: "FAILED_REMOVE_URI",
+        payload: error
+    }
+}
+
+export const actionAddTeam = (team) => {
+    return {
+        type: "ADD_TEAM",
+        payload: team
+    }
+}
+
+export const actionDeleteTeam = (team) => {
+    return {
+        type: "DELETE_TEAM",
+        payload: team
+    }
+}

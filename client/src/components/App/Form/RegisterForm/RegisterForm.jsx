@@ -74,6 +74,7 @@ class RegisterForm extends Component {
                 <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
                     <Grid.Column style={{ maxWidth: 450 }}>
                         <Header as='h2' color='teal' textAlign='center'>
+                        <p><Image color="teal" className="prello-logo" src='https://image.ibb.co/hoWeaL/Logo-Prello.png' /></p>
                             <Image src='http://cdn.onlinewebfonts.com/svg/img_411076.png' /> Sign up to Prello
                         </Header>
                         <Message color='red' hidden={!this.state.formError}>{this.state.messageFormError}</Message>

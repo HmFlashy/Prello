@@ -12,7 +12,7 @@ const mapStateToProps = (state, ownProps) => {
         board: board,
         userId: user._id,
         isStarred: board?board.starred.includes(user._id):null
-    }
+        }
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {

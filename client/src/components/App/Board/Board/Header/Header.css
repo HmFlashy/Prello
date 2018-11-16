@@ -120,3 +120,25 @@
     opacity: 0.6;
     font-size: 90%;
 }
+
+.dropdown-add-member {
+    width: 200px;
+}
+
+.dropdown-member-item {
+    display: inline-block;
+}
+
+.add-member-button {
+    display: flex !important;
+    flex-direction: column;
+}
+
+.dropdown-add-team {
+    width: 200px;
+}
+
+.add-team-button {
+    display: flex !important;
+    flex-direction: column;
+}

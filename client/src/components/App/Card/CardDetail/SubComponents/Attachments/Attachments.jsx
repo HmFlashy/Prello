@@ -36,14 +36,14 @@ export default class Attachments extends Component {
                                             var parser = document.createElement('a');
                                             parser.href = attachment.url;
                                             console.log(parser.host)
-                                            if (parser.host === "prello-khal.s3.eu-west-3.amazonaws.com") {
+                                            if ((/^prello-khal\.s3.*\.amazonaws\.com$/).test(parser.host)) {
                                                 try {
                                                     var xhr = new XMLHttpRequest();
                                                     xhr.open('GET', `${UrlConfig.API}/files?key=${attachment.name}`, true);
                                                     xhr.setRequestHeader('Authorization', tokenHeader().headers.Authorization);
                                                     xhr.responseType = 'arraybuffer';
                                                     xhr.onload = (e) => {
-                                                        if (this.status == 200) {
+                                                        if (xhr.status > 199 && xhr.status < 400) {
                                                             var blob = new Blob([this.response], { type: "application/pdf" });
                                                             var link = document.createElement('a');
                                                             link.href = window.URL.createObjectURL(blob);
@@ -53,6 +53,7 @@ export default class Attachments extends Component {
                                                     };
                                                     xhr.send();
                                                 } catch (e) {
+                                                    console.log(e)
                                                     throw e
                                                 }
                                             }

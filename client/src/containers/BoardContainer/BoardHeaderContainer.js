@@ -5,21 +5,40 @@ import userServices from "../../services/UserServices";
 import {
     actionBoardSubscribe,
     actionClearFilter,
+    actionFailedFetchingSearchedMembers,
+    actionFetchedSearchedMembers,
+    actionFetchedMissingMembers,
     actionSwitchDueDateMode,
-    actionSwitchFilterMode
+    actionBoardUpdateName,
+    failedActionBoardUpdateName,
+    actionSwitchFilterMode,
+    actionFetchingSearchedTeams,
+    actionFetchedSearchedTeams,
+    actionFailedFetchingSearchedTeams,
+    actionFetchingSearchedMembers, actionFetchingMissingMembers, actionFailedFetchingMissingMembers
 } from "../../redux/actions/BoardActions";
 import { actionStarBoard, actionUnstarBoard } from "../../redux/actions/UserActions";
 import { actionUpdateSearchFilter, actionAddBoardLabelFilter, actionDeleteBoardLabelFilter, actionAddBoardMemberFilter, actionDeleteBoardMemberFilter } from "../../redux/actions/BoardActions";
 import { withRouter } from "react-router"
+import BoardServices from "../../services/BoardServices";
+import TeamServices from "../../services/TeamServices";
+import listServices from '../../services/ListServices'
 
 const mapStateToProps = state => {
     const user = state.authentification.user;
-    const archivedCards = state.cards.all.filter(card => card.isArchived)
+    const archivedLists = state.lists.all.filter(list => list.isArchived);
+    const archivedCards = state.cards.all.filter(card => card.isArchived);
     return {
         userId: user._id,
         archivedCards: archivedCards,
+        archivedLists,
         board: state.boards.currentBoard,
         isStarred: state.boards.currentBoard.starred.includes(state.authentification.user._id),
+        membersSearched: state.boards.currentBoard.membersSearched,
+        missingMembers: state.boards.currentBoard.missingMembers,
+        teamsSearched: state.boards.currentBoard.teamsSearched,
+        isFetchingMembers: state.boards.currentBoard.isFetchingMembers,
+        isFetchingTeams: state.boards.currentBoard.isFetchingTeams
     }
 };
 
@@ -64,6 +83,88 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         clearFilter() {
             dispatch(actionClearFilter())
+        },
+        async fetchMembers(boardId, query){
+            try {
+                let members = [];
+                if(query.length>=3){
+                    dispatch(actionFetchingSearchedMembers());
+                    members = await BoardServices.getMembers(boardId, query);
+                }
+                dispatch(actionFetchedSearchedMembers(members));
+            } catch (error) {
+                dispatch(actionFailedFetchingSearchedMembers(error));
+            }
+        },
+        async fetchingMissingMembers() {
+            let array = [];
+            dispatch(actionFetchingMissingMembers())
+            await ownProps.board.teams.forEach(team => {
+                array.push(TeamServices.getTeam(team._id));
+            });
+            Promise.all(array).then(teams => {
+                let members = [];
+                teams.forEach(team => team.members.forEach(teamMember => members.push(teamMember.member)));
+                const currentMembersIds = ownProps.board.members.map(boardMember => boardMember.member._id);
+                const missingMembers = members.filter(member =>
+                    !currentMembersIds.includes(member._id));
+                dispatch(actionFetchedMissingMembers(missingMembers));
+            }).catch((error) => {
+                dispatch(actionFailedFetchingMissingMembers(error))
+            })
+        },
+        async addMembers(boardId, ids) {
+            try {
+                ids.map(async id => {
+                    await BoardServices.addMember(boardId, id);
+                })
+            } catch (error) {
+                throw error
+            }
+        },
+        async updateName(boardId, oldVal, newVal) {
+            try {
+                dispatch(actionBoardUpdateName({ _id: boardId, name: newVal }))
+                BoardServices.updateName(boardId, newVal)
+            } catch (error) {
+                dispatch(failedActionBoardUpdateName({ _id: boardId, name: oldVal }))
+                console.log(error)
+            }
+        },
+        async restoreList(_id) {
+            try {
+                await listServices.updateListApi(_id, { isArchived: false })
+            } catch (error) {
+                console.log(error)
+            }
+        },
+        async deleteList(listId) {
+            try {
+                listServices.deleteListApi(listId)
+            } catch (error) {
+                console.log(error)
+            }
+        },
+        async fetchTeams(boardId, query){
+            try {
+                let teams = [];
+                if(query.length>=3){
+                    dispatch(actionFetchingSearchedTeams());
+                    teams = await BoardServices.getTeams(boardId, query);
+                }
+                dispatch(actionFetchedSearchedTeams(teams));
+            } catch (error) {
+                dispatch(actionFailedFetchingSearchedTeams(error));
+            }
+        },
+        async addTeams(boardId, ids) {
+            try {
+                ids.map(async id => {
+                    await BoardServices.addTeam(boardId, id);
+                })
+            } catch (error) {
+                throw error
+            }
         }
     }
 };
