@@ -85,7 +85,7 @@ export default class Me extends Component {
                         </Header>
                         <Form size='large' error={this.state.formError}>
                             <Segment stacked>
-                                <Form.Input fluid label='First name' value={this.state.fullName} onChange={(event) => this.updateField({ fullName: event.target.value })} placeholder='Full name' error={this.state.fullNameError} required />
+                                <Form.Input fluid label='Name' value={this.state.fullName} onChange={(event) => this.updateField({ fullName: event.target.value })} placeholder='Full name' error={this.state.fullNameError} required />
                                 <Form.Input fluid label='Username' value={this.state.username} onChange={(event) => this.updateField({ username: event.target.value })} placeholder='Username' error={this.state.usernameError} required />
                                 <Form.Input fluid label='Email' type='emal' value={this.state.email} icon='user' iconPosition='left' onChange={(event) => this.updateField({ email: event.target.value })} placeholder='E-mail address' error={this.state.emailError} required />
                                 <Form.Group widths="equal">
