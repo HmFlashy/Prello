@@ -14,7 +14,8 @@ const defaultAuthentificationState = {
         client_applications: []
     },
     error: null,
-    token: localStorage.getItem("token-prello")
+    token: localStorage.getItem("token-prello"),
+    queryMember: ""
 };
 
 export default (state = defaultAuthentificationState, action) => {
@@ -178,7 +179,12 @@ export default (state = defaultAuthentificationState, action) => {
                             application
                     )
                 }
-            }
+            };
+        case "UPDATE_SEARCH_TEAM_MEMBERS":
+            return {
+                ...state,
+                queryMember: action.payload.query
+            };
         default:
             return {
                 ...state,
