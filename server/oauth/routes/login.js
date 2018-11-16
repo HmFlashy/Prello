@@ -23,7 +23,8 @@ module.exports = {
       return res.render('login', { // views: login
         redirect_uri: req.query.redirect_uri,
         client_id: req.query.client_id,
-        scope: req.query.scope,
+        client_name: client.name,
+        scopes: req.query.scope.split(" "),
         response_type: req.query.response_type,
         state: 'truc'
       })
@@ -59,7 +60,8 @@ module.exports = {
       res.render('login', { // views: login
         redirect_uri: req.query.redirect_uri,
         client_id: req.query.client_id,
-        scope: req.query.scope,
+        client_name: client.name,
+        scopes: req.query.scope.split(" "),
         response_type: req.query.response_type,
         state: 'truc',
         email: req.body.username,
