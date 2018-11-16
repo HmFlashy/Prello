@@ -37,7 +37,7 @@ module.exports = async (req, res) => {
         if (req.get('content-type').includes("multipart/form-data"))
             S3.s3Upload.single('file')(req, res, (err, data) => {
                 if (err)
-                    res.status(400).send("Malformed request")
+                    res.status(500).send("Internal error")
                 else {
                     const name = req.file.key;
                     const owner = req.user._id.toString();

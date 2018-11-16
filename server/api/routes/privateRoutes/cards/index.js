@@ -31,7 +31,7 @@ router.put('/:cardId/comments/:commentId', commentValidator.updateCommentValidat
 router.put('/:cardId/labels/:labelId', labelValidator.addLabelCardValidator, checkRequest, checkRightsFromCard(["in:Board"]), require('../labels/Card/addLabel'));
 router.delete('/:cardId/labels/:labelId', labelValidator.removeLabelCardValidator, checkRequest, checkRightsFromCard(["in:Board"]), require('../labels/Card/removeLabel'));
 
-router.post('/:cardId/attachments', attachmentValidator.addAttachmentValidator, checkRequest, checkRightsFromCard(["in:Board"]), require('./addAttachments'));
+router.post('/:cardId/attachments', attachmentValidator.addAttachmentValidator, checkRightsFromCard(["in:Board"]), require('./addAttachments'));
 router.delete('/:cardId/attachments/:attachmentId', attachmentValidator.deleteAttachmentValidator, checkRequest, checkRightsFromCard(["in:Board"]), require('./deleteAttachments'));
 
 
