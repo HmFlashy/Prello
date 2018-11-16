@@ -72,9 +72,24 @@ class LoginForm extends Component {
                 section: this.state.section,
                 year: this.state.year
             } : null
+            this.setState({
+                error: null
+            })
             await this.props.authenticate(this.state.email, this.state.password, ldapOptions)
             this.props.history.push(this.props.location.redirect || { pathname: '/home' })
         } catch(error) {
+            console.log(error)
+            const errorMessage = 
+                error.data === "LDAP_SERVER_ERROR" ? "Can't contact LDAP server, connect with regular credentials" :
+                error.data === "PASSWORD_EMPTY" ? "The password is required" :
+                error.data === "EMAIL_EMPTY" ? 
+                    (!this.state.polytechChecked ? "The username or email is required" : "Your name and lastname is required") :
+                error.data === "INTERVAL_SERVER_ISSUE" ? (!this.state.polytechChecked ? "Email, username or password is wrong" : "Your name or password is wrong") :
+                "Unknown error"
+                console.log(errorMessage)
+            this.setState({
+                error: errorMessage
+            })
         }
     }
 
@@ -110,9 +125,9 @@ class LoginForm extends Component {
                         <Image color="teal" src='http://cdn.onlinewebfonts.com/svg/img_311846.png' /> Log-in to your account
                         </Header>
                         {
-                            this.props.error ?
+                            this.state.error ?
                                 
-                            <Message color='red' hidden={!this.props.error}>{this.props.error}</Message> : null
+                            <Message color='red' hidden={!this.state.error}>{this.state.error}</Message> : null
                         }
                         <Form size='large'>
                             <Segment stacked>

@@ -75,7 +75,7 @@ module.exports = async (req, res) => {
             },
             json: true
         }
-        const token = await request(options).catch(error => throwError(400, error.response.body.error_description))
+        const token = await request(options).catch(error => console.log(error.response) || error.response && error.response.body && error.response.body === "LDAP_SERVER_ERROR" ? throwError(400, "LDAP_SERVER_ERROR") : throwError(400, null))
         return res.status(200).json({
             token: token.access_token
         })
