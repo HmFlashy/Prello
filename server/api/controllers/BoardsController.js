@@ -194,7 +194,6 @@ const addBoard = async (name, visibility, teamId, userId, categoryId) => {
                 members: [{ member: user._id, role: "Admin" }]
             });
             newBoard = await addBoardTeam(board._id, teamId);
-            await Team.updateOne({ _id: team._id }, { $push: { boards: newBoard._id } });
         } else {
             newBoard = await Board.create({
                 name: name,
