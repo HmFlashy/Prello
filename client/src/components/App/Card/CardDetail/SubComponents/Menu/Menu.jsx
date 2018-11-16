@@ -6,7 +6,7 @@ import Move from './subComponents/Move/MoveContainer.js'
 import moment from 'moment';
 import LabelColorPicker from '../../../../Input/LabelColorPicker';
 import DropboxChooser from 'react-dropbox-chooser'
-import { FilePicker} from 'react-file-picker'
+import { FilePicker } from 'react-file-picker'
 
 class Menu extends Component {
 
