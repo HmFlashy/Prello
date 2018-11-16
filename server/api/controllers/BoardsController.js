@@ -172,11 +172,9 @@ const addBoard = async (name, visibility, teamId, userId, categoryId) => {
         if (!user) {
             throwError(404, `The user ${userId} was not found`)
         }
-        console.log(categoryId)
         const category = await Category.findById(categoryId);
         if (categoryId) {
             if (!category) throwError(404, `The category ${categoryId} was not found`);
-            console.log(JSON.stringify(user.categories));
             if (!user.categories.find(userCategory => userCategory._id.toString() === category._id.toString())) {
                 throwError(400, `The category ${categoryId} doesn't belong to the user`)
             }
@@ -328,7 +326,6 @@ const addBoardTeam = async (boardId, teamId) => {
                     path: "members.member",
                     select: ["_id", "fullName", "username", "bio", "initials"]
                 }]);
-            console.log(JSON.stringify(boardUpdated))
             return boardUpdated
         }
         ).catch(error => { throw error })
@@ -366,9 +363,9 @@ const deleteBord = async (boardId) => {
         if (!board) {
             throwError(404, `The board ${boardId} was not found`)
         }
-        if (!board.isClosed) {
-            throwError(400, `Can't delete a board not closed`)
-        }
+        // if (!board.isClosed) {
+        //     throwError(400, `Can't delete a board not closed`)
+        // }
         board.remove()
 
         return board;

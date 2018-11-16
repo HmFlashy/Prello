@@ -80,7 +80,7 @@ module.exports = async (req, res) => {
             token: token.access_token
         })
     } catch (error) {
-        console.log(error.message)
+        console.log(error)
         return res.status(error.code).send(error.message)
     }
 }

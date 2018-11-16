@@ -126,7 +126,6 @@ const addCategory = async (userId, name) => {
         const category = await Category.create({
             name: name
         });
-        console.log(category)
         await User.updateOne({ _id: user._id }, { $push: { categories: category } });
         return category
     } catch (error) {

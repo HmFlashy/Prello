@@ -34,7 +34,9 @@ const funcs = {
 checkRightsFromBoard = (toCheck, idIsInBody = false) => async (req, res, next) => {
     try {
         boardId = idIsInBody ? req.body.boardId : req.params.boardId
-        if (!boardId.match(/^[0-9a-fA-F]{24}$/)) {
+        if(!boardId){
+            throwError(400, "Missing boardId parameter")
+        } else if (!boardId.match(/^[0-9a-fA-F]{24}$/)) {
             throwError(400, `The boardId ${boardId} is malformed`)
         }
         const board = await BoardController.getBoardById(boardId).catch(err => throwError(404, "Board not found"))
@@ -51,7 +53,9 @@ checkRightsFromBoard = (toCheck, idIsInBody = false) => async (req, res, next) =
 checkRightsFromCard = (toCheck, idIsInBody = false) => async (req, res, next) => {
     try {
         cardId = idIsInBody ? req.body.cardId : req.params.cardId
-        if (!cardId.match(/^[0-9a-fA-F]{24}$/)) {
+        if(!cardId){
+            throwError(400, "Missing cardId parameter")
+        } else if (!cardId.match(/^[0-9a-fA-F]{24}$/)) {
             throwError(400, `The cardId ${cardId} is malformed`)
         }
         const card = await CardsController.getCardById(cardId).catch(err => throwError(404, "Card not found"))
@@ -69,7 +73,9 @@ checkRightsFromCard = (toCheck, idIsInBody = false) => async (req, res, next) =>
 checkRightsFromList = (toCheck, idIsInBody = false) => async (req, res, next) => {
     try {
         listId = idIsInBody ? req.body.listId : req.params.listId
-        if (!listId.match(/^[0-9a-fA-F]{24}$/)) {
+        if(!listId){
+            throwError(400, "Missing listId parameter")
+        } else if (!listId.match(/^[0-9a-fA-F]{24}$/)) {
             throwError(400, `The listId ${listId} is malformed`)
         }
         const list = await ListsController.getById(listId).catch(err => throwError(404, "List not found"))

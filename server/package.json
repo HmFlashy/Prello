@@ -5,7 +5,7 @@
   "scripts": {
     "start": "npm run init:db && node server.js",
     "init:db": "node config/initDB.js",
-    "test": "nyc mocha api/test/*.js --timeout 10000 --recurvise --exit"
+    "test": "mocha api/test/*.js --timeout 10000"
   },
   "dependencies": {
     "aws-sdk": "^2.344.0",

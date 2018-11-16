@@ -59,7 +59,7 @@ module.exports = async (req, res) => {
         const boardId = req.params.boardId;
         const userId = req.body.userId;
         if (!userId) {
-            throwError(400, `The userId ${userId} is malformed`)
+            throwError(400, `Missing userId parameter`)
         } else if (!userId.match(/^[0-9a-fA-F]{24}$/)) {
             throwError(400, `The userId ${userId} is malformed`)
         }

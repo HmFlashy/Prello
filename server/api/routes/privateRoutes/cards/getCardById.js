@@ -38,7 +38,6 @@ const socketIO = require('../../../../socket/index');
   */
 module.exports = async (req, res) => {
     try {
-        console.log(req.params)
         const cardId = req.params.cardId;
         if(!cardId) {
             throwError(400, 'Missing cardId parameter')

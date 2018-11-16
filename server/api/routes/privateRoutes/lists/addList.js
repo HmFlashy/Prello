@@ -66,7 +66,9 @@ module.exports = async (req, res) => {
         if (!pos) {
             throwError(400, "Missing pos parameter")
         }
-        if (!boardId.match(/^[0-9a-fA-F]{24}$/)) {
+        if(!boardId){
+            throwError(400, "Missing boardId parameter")
+        } else if (!boardId.match(/^[0-9a-fA-F]{24}$/)) {
             throwError(400, `The boardId ${boardId} is malformed`)
         }
         const list = await ListController.addList(name, boardId, pos);
