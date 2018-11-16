@@ -19,12 +19,17 @@ class TeamMembers extends Component {
 
     constructor(){
         super()
-        this.addUsers = this.addUsers.bind(this)
+        this.addUsers = this.addUsers.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.updateSearch = this.updateSearch.bind(this);
         this.state = {
             currentRole: "",
-            currentUserId: ""      
+            currentUserId: ""
          }
+    }
+
+    componentWillMount() {
+        this.props.updateSearchMembers("")
     }
 
     addUsers(users){
@@ -32,8 +37,11 @@ class TeamMembers extends Component {
     }
     handleChange(e, {value, id}) {
         this.setState({currentRole: value, currentUserId: id});
-        console.log(this.state.currentUserId)
         this.props.changeRole(this.state.currentUserId, value)
+    }
+
+    updateSearch(e, { value }) {
+        this.props.updateSearchMembers(value)
     }
 
     render(){
@@ -41,7 +49,7 @@ class TeamMembers extends Component {
             <div className="team-members">
                 <h2>Team members ({this.props.team.members.length})</h2>
                 <Container className="action-team-members">
-                    <Input placeholder='Search...' />
+                    <Input placeholder='Search...' value={this.props.queryMember} onChange={this.updateSearch}/>
                     <AddMemberModal addUsers={this.addUsers} className="add-member"/>
                 </Container>
                         {

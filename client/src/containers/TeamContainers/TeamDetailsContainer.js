@@ -1,11 +1,17 @@
-import { connect } from 'react-redux';
-import TeamDetails from '../../components/App/Team/TeamDetails'
-import TeamServices from '../../services/TeamServices';
-
+import {connect} from "react-redux";
+import TeamDetails from "../../components/App/Team/TeamDetails"
+import TeamServices from "../../services/TeamServices";
+import {actionUpdateSearch} from "../../redux/actions/UserActions";
 
 const mapStateToProps = (state, ownProps) => {
+    const userTeam = state.authentification.user.teams.find(team => team.team._id === ownProps.teamId);
+    const query = state.authentification.queryMember;
     return {
-        team: state.authentification.user.teams.find(team=>team.team._id === ownProps.teamId).team
+        team: userTeam ? {
+            ...userTeam.team,
+            members: query.length > 0 ? userTeam.team.members.filter(teamMember => teamMember.member.fullName.toLowerCase().includes(query.toLowerCase())) : userTeam.team.members
+        } : state.teams.currentTeam,
+        queryMember: query
     }
 };
 
@@ -27,7 +33,7 @@ const mapDispatchToProps = (dispatch) => {
                 throw error
             }
         },
-        async deleteMember(teamId, memberId){
+        async deleteMember(teamId, memberId) {
             try {
                 const data = await TeamServices.deleteMember(teamId, memberId)
                 return data
@@ -42,6 +48,9 @@ const mapDispatchToProps = (dispatch) => {
             } catch (error) {
                 throw error
             }
+        },
+        updateSearch(query) {
+            dispatch(actionUpdateSearch(query))
         }
     }
 };

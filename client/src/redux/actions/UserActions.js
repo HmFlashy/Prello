@@ -141,3 +141,12 @@ export const actionDeleteTeam = (team) => {
         payload: team
     }
 }
+
+export const actionUpdateSearch = (query) => {
+    return {
+        type: "UPDATE_SEARCH_TEAM_MEMBERS",
+        payload: {
+            query
+        }
+    }
+}
