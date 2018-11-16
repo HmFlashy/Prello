@@ -192,6 +192,7 @@ async function initDB() {
             option2
         ]
     })
+    await poll.save()
 
     const board1 = Board({
         name: "Prello", lists: [list1._id, list2._id, list3._id], teams: [Khal._id],
@@ -220,7 +221,7 @@ async function initDB() {
             nbStars: 2,
             nbMembers: 4
         },
-        polls: [poll]
+        polls: [poll._id]
     });
 
     Khal.boards = [board1._id];

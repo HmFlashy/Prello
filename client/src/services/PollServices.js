@@ -14,7 +14,7 @@ export default {
     },
     async addOption(data) {
         try {
-            const res = await axios.post(`${UrlConfig.API}/boards/${data.boardId}/polls/${data.pollId}`, data, tokenHeader());
+            const res = await axios.post(`${UrlConfig.API}/boards/${data.boardId}/polls/${data.pollId}/options`, data, tokenHeader());
             return res.data
         } catch (err) {
             console.log(err);

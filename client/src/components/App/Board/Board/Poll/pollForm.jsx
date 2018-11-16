@@ -17,8 +17,9 @@ class PollForm extends Component {
             <div>
                 <Modal.Content>
                     <Input value={this.state.value} onChange={(event) => this.setState({ value: event.target.value })}></Input>
-                    <Dropdown placeholder='Select card' text={this.state.card.name}>
+                    <Dropdown placeholder='Select card' text={this.state.card.name ? this.state.card.name : "No card"}>
                         <Dropdown.Menu>
+                            <Dropdown.Item text={"No card"} onClick={() => this.setState({ card: "" })} />
                             {this.props.cards.map(card =>
                                 <Dropdown.Item text={card.name} onClick={() => this.setState({ card: card })} />
                             )}

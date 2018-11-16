@@ -1,19 +1,5 @@
 const mongoose = require("mongoose");
-/*_id: "5bec522276647829627e7b64",
-                title: "Super poll !",
-                owner: "5bec522276647829627e7b61",
-                card: { _id: "5bec522276647829627e7b68", name: "Add comment to a card" },
-                options: [{
-                    _id: "5bec522276647829627e7b",
-                    title: "C'est nul",
-                    voters: [{ _id: "5bec522276647829627e7b61", fullName: "Kevin Giordani" }]
-                }, {
-                    _id: "5bec522276647829627e7b",
-                    title: "Tro b1",
-                    voters: []
-                },
-                ]
-            }*/
+
 const OptionSchema = new mongoose.Schema({
     title: { type: String, required: true },
     voters: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }]
@@ -36,7 +22,7 @@ const BoardSchema = new mongoose.Schema({
         role: String,
         _id: false
     }],
-    polls: [PollSchema],
+    polls: [{ type: mongoose.Schema.Types.ObjectId, ref: "Poll" }],
     starred: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     isClosed: { type: Boolean, default: false },
     activities: [{ type: mongoose.Schema.Types.ObjectId, ref: "Action" }],

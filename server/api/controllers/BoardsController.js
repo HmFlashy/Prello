@@ -53,13 +53,20 @@ const getBoardById = async (boardId) => {
                 path: "labels"
             },
             {
-                path: "polls.card",
-                select: ["_id", "name"]
+                path: "polls",
+                populate: {
+                    path: "card",
+                    select: ["_id", "name"]
+                }
             },
             {
-                path: "polls.options.voters",
-                select: ["_id", "fullName"]
-            }
+                path: "polls",
+                populate: {
+                    path: "options.voters",
+                    select: ["_id", "fullName"]
+                }
+            },
+
             ]);
         if (!board) {
             throwError(404, `The board ${boardId} was not found`)

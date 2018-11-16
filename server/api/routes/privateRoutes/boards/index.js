@@ -33,7 +33,7 @@ router.get('/:boardId/members/:query', checkRightsFromBoard(["in:Board"]), requi
 router.get('/:boardId/teams/:query', require('./getTeamsSearched'));
 
 router.put('/:boardId/polls/:pollId/vote/:optionId', pollValidator.voteValidator, checkRightsFromBoard(["in:Board"]), require('../polls/vote'))
-router.post('/:boardId/polls/:pollId', pollValidator.addOptionValidator, checkRightsFromBoard(["in:Board"]), require('../polls/addOption'))
+router.post('/:boardId/polls/:pollId/options', pollValidator.addOptionValidator, checkRightsFromBoard(["in:Board"]), require('../polls/addOption'))
 router.put('/:boardId/polls/:pollId', pollValidator.updatePollValidator, checkRightsFromBoard(["in:Board"]), require('../polls/updatePoll'))
 router.post('/:boardId/polls', pollValidator.addPollValidator, checkRightsFromBoard(["in:Board"]), require('../polls/addPoll'))
 router.delete('/:boardId/polls/:pollId', pollValidator.deletePollValidator, checkRightsFromBoard(["in:Board"]), require('../polls/deletePoll'))

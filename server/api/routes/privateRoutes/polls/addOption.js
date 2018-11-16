@@ -59,7 +59,7 @@ module.exports = async (req, res) => {
             type: "ADD_OPTION_POLL",
             payload: {
                 _id: pollId,
-                optionAdded
+                option: optionAdded
             }
         });
         return res.status(200).json(optionAdded)

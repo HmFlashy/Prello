@@ -55,9 +55,11 @@ module.exports = async (req, res) => {
             return res.status(400).json({ errors: errors.array() });
         }
         const name = req.body.name;
+        const card = req.body.card;
         const boardId = req.params.boardId;
         const pollId = req.params.pollId;
-        const poll = await pollController.updatePoll(boardId, pollId, name);
+        const poll = await pollController.updatePoll(boardId, pollId, card, name);
+        console.log(poll)
         //if (!poll) throwError(500);
         socketIO.broadcast("action", boardId, {
             type: "UPDATE_POLL",
