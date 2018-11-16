@@ -37,8 +37,8 @@ checkRightsFromBoard = (toCheck, idIsInBody = false) => async (req, res, next) =
         if (!boardId.match(/^[0-9a-fA-F]{24}$/)) {
             throwError(400, `The boardId ${boardId} is malformed`)
         }
-        const board = await BoardController.getBoardById(boardId).catch(err => res.status(404).send("Board not found"))
-        checkRights(toCheck, req.user._id, board, req.method) ? next() : res.status(401).send("Unauthorized")
+        const board = await BoardController.getBoardById(boardId).catch(err => throwError(404, "Board not found"))
+        checkRights(toCheck, req.user._id, board, null ,req.method) ? next() : throwError(401, "Unauthorized")
     } catch (error) {
         if (error.code) {
             return res.status(error.code).json(error.message)
@@ -54,9 +54,9 @@ checkRightsFromCard = (toCheck, idIsInBody = false) => async (req, res, next) =>
         if (!cardId.match(/^[0-9a-fA-F]{24}$/)) {
             throwError(400, `The cardId ${cardId} is malformed`)
         }
-        const card = await CardsController.getCardById(cardId).catch(err => res.status(404).send("Card not found"))
-        const board = await BoardController.getBoardById(card.board).catch(err => res.status(404).send("Board not found"))
-        checkRights(toCheck, req.user._id, board, req.method) ? next() : res.status(401).send("Unauthorized")
+        const card = await CardsController.getCardById(cardId).catch(err => throwError(404, "Card not found"))
+        const board = await BoardController.getBoardById(card.board).catch(err => throwError(404, "Board not found"))
+        checkRights(toCheck, req.user._id, board,null,  req.method) ? next() : throwError(401, "Unauthorized")
     } catch (error) {
         if (error.code) {
             return res.status(error.code).json(error.message)
@@ -72,9 +72,9 @@ checkRightsFromList = (toCheck, idIsInBody = false) => async (req, res, next) =>
         if (!listId.match(/^[0-9a-fA-F]{24}$/)) {
             throwError(400, `The listId ${listId} is malformed`)
         }
-        const list = await ListsController.getById(listId).catch(err => res.status(404).send("List not found"))
-        const board = await BoardController.getBoardById(list.board).catch(err => res.status(404).send("Board not found"))
-        checkRights(toCheck, req.user._id, board, req.method) ? next() : res.status(401).send("Unauthorized")
+        const list = await ListsController.getById(listId).catch(err => throwError(404, "List not found"))
+        const board = await BoardController.getBoardById(list.board).catch(err => throwError(404, "Board not found"))
+        checkRights(toCheck, req.user._id, board,null,  req.method) ? next() : throwError(401, "Unauthorized")
     } catch (error) {
         if (error.code) {
             return res.status(error.code).json(error.message)
@@ -90,8 +90,8 @@ checkRightsFromTeam = (toCheck, idIsInBody = false) => async (req, res, next) =>
         if (!teamId.match(/^[0-9a-fA-F]{24}$/)) {
             throwError(400, `The teamId ${teamId} is malformed`)
         }
-        const team = await TeamsController.getTeamById(teamId).catch(err => res.status(404).send("Team not found"))
-        checkRights(toCheck, req.user._id, null, team, req.method) ? next() : res.status(401).send("Unauthorized")
+        const team = await TeamsController.getTeamById(teamId).catch(err => throwError(404, "Team not found"))
+        checkRights(toCheck, req.user._id, null, team, req.method) ? next() : throwError(401, "Unauthorized")
     } catch (error) {
         if (error.code) {
             return res.status(error.code).json(error.message)
