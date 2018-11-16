@@ -41,20 +41,15 @@ class TeamDetails extends Component {
         return (
             <div className="team-layout">
                 <div className="team-header">
-                    <h1 style={{ fontWeight: "bold" }}>{this.props.team.name}</h1>
+                    <h1 className="team-name" style={{ fontWeight: "bold" }}>{this.props.team.name}</h1>
                 </div>
                 <div className="team-content">
                     <Menu attached='top' color="grey" className="menu-content" tabular>
                         <Menu.Item name='boards' active={activeItem === 'boards'} position="center-left" onClick={this.handleItemClick} />
                         <Menu.Item
                             name='members'
-                            active={activeItem === 'members'}
-                            onClick={this.handleItemClick}
-                        />
-                        <Menu.Item
-                            name='settings'
                             position="center-right"
-                            active={activeItem === 'settings'}
+                            active={activeItem === 'members'}
                             onClick={this.handleItemClick}
                         />
                     </Menu>
@@ -64,7 +59,7 @@ class TeamDetails extends Component {
                             {
                                 activeItem === "boards" ? <TeamBoards team={this.props.team} /> :
                                     activeItem === "members" ? <TeamMembers changeRole={this.changeRole} deleteMember={this.deleteMember} addUsers={this.addUsers} team={this.props.team} /> :
-                                        activeItem === "settings" ? <div>Settings</div> : <div>Error</div>
+                                         <div>Error</div>
 
                             }
                         </Container>
