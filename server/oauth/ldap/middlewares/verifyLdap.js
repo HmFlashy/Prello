@@ -2,6 +2,7 @@ const OAuthUsers = require('../../server/models/OAuthUsers')
 const ldapClient = require('../client')
 const UserController = require('../../../api/controllers/UserController')
 const logger = require('../../../logger')
+
 module.exports = async (req, res, next) => {
     try {
         if(req.body.ldap == "true"){

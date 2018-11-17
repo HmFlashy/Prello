@@ -5,22 +5,22 @@ const ListsController = require("../../controllers/ListsController");
 const throwError = require("../../helper/RequestHelper").throwError;
 const logger = require("../../../logger")
 
-inBoard = (userId, board, team, method) => {
+const inBoard = (userId, board, team, method) => {
     if(method === "GET" &&  board.visibility === "Public")
         return true
     else
         return  board.members.some(member => member.member._id.toString() === userId.toString())
 }
 
-isBoardAdmin = (userId, board, team) => {
+const isBoardAdmin = (userId, board, team) => {
     return board.members.some(member => member.member._id.toString() === userId.toString() && member.role === "Admin")
 }
 
-inTeam = (userId, board, team) => {
+const inTeam = (userId, board, team) => {
     return team.members.some(member => member.member._id.toString() === userId.toString())
 }
 
-isTeamAdmin = (userId, board, team) => {
+const isTeamAdmin = (userId, board, team) => {
     return team.members.some(member => member.member._id.toString() === userId.toString() && member.role === "Admin")
 }
 
@@ -31,9 +31,9 @@ const funcs = {
     "status:Team:Admin": isTeamAdmin
 }
 
-checkRightsFromBoard = (toCheck, idIsInBody = false) => async (req, res, next) => {
+const checkRightsFromBoard = (toCheck, idIsInBody = false) => async (req, res, next) => {
     try {
-        boardId = idIsInBody ? req.body.boardId : req.params.boardId
+        const boardId = idIsInBody ? req.body.boardId : req.params.boardId
         if(!boardId){
             throwError(400, "Missing boardId parameter")
         } else if (!boardId.match(/^[0-9a-fA-F]{24}$/)) {
@@ -42,6 +42,7 @@ checkRightsFromBoard = (toCheck, idIsInBody = false) => async (req, res, next) =
         const board = await BoardController.getBoardById(boardId).catch(err => throwError(404, "Board not found"))
         checkRights(toCheck, req.user._id, board, null ,req.method) ? next() : throwError(401, "Unauthorized")
     } catch (error) {
+        logger.error(error.message)
         if (error.code) {
             return res.status(error.code).json(error.message)
         } else {
@@ -50,9 +51,9 @@ checkRightsFromBoard = (toCheck, idIsInBody = false) => async (req, res, next) =
     }
 }
 
-checkRightsFromCard = (toCheck, idIsInBody = false) => async (req, res, next) => {
+const checkRightsFromCard = (toCheck, idIsInBody = false) => async (req, res, next) => {
     try {
-        cardId = idIsInBody ? req.body.cardId : req.params.cardId
+        const cardId = idIsInBody ? req.body.cardId : req.params.cardId
         if(!cardId){
             throwError(400, "Missing cardId parameter")
         } else if (!cardId.match(/^[0-9a-fA-F]{24}$/)) {
@@ -62,6 +63,7 @@ checkRightsFromCard = (toCheck, idIsInBody = false) => async (req, res, next) =>
         const board = await BoardController.getBoardById(card.board).catch(err => throwError(404, "Board not found"))
         checkRights(toCheck, req.user._id, board,null,  req.method) ? next() : throwError(401, "Unauthorized")
     } catch (error) {
+        logger.error(error.message)
         if (error.code) {
             return res.status(error.code).json(error.message)
         } else {
@@ -70,9 +72,9 @@ checkRightsFromCard = (toCheck, idIsInBody = false) => async (req, res, next) =>
     }
 }
 
-checkRightsFromList = (toCheck, idIsInBody = false) => async (req, res, next) => {
+const checkRightsFromList = (toCheck, idIsInBody = false) => async (req, res, next) => {
     try {
-        listId = idIsInBody ? req.body.listId : req.params.listId
+        const listId = idIsInBody ? req.body.listId : req.params.listId
         if(!listId){
             throwError(400, "Missing listId parameter")
         } else if (!listId.match(/^[0-9a-fA-F]{24}$/)) {
@@ -82,6 +84,7 @@ checkRightsFromList = (toCheck, idIsInBody = false) => async (req, res, next) =>
         const board = await BoardController.getBoardById(list.board).catch(err => throwError(404, "Board not found"))
         checkRights(toCheck, req.user._id, board,null,  req.method) ? next() : throwError(401, "Unauthorized")
     } catch (error) {
+        logger.error(error.message)
         if (error.code) {
             return res.status(error.code).json(error.message)
         } else {
@@ -90,15 +93,16 @@ checkRightsFromList = (toCheck, idIsInBody = false) => async (req, res, next) =>
     }
 }
 
-checkRightsFromTeam = (toCheck, idIsInBody = false) => async (req, res, next) => {
+const checkRightsFromTeam = (toCheck, idIsInBody = false) => async (req, res, next) => {
     try {
-        teamId = idIsInBody ? req.body.teamId : req.params.teamId
+        const teamId = idIsInBody ? req.body.teamId : req.params.teamId
         if (!teamId.match(/^[0-9a-fA-F]{24}$/)) {
             throwError(400, `The teamId ${teamId} is malformed`)
         }
         const team = await TeamsController.getTeamById(teamId).catch(err => throwError(404, "Team not found"))
         checkRights(toCheck, req.user._id, null, team, req.method) ? next() : throwError(401, "Unauthorized")
     } catch (error) {
+        logger.error(error.message)
         if (error.code) {
             return res.status(error.code).json(error.message)
         } else {
@@ -107,7 +111,7 @@ checkRightsFromTeam = (toCheck, idIsInBody = false) => async (req, res, next) =>
     }
 }
 
-checkRights = (toCheck, userId, board, team, method) => {
+const checkRights = (toCheck, userId, board, team, method) => {
     for (const atom of toCheck) {
         if (!funcs[atom])
             logger.error(`Unknow right to check ${atom}`)
