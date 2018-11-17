@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import "./ListBoards.css"
 import ListBoardsFilterContainer from "../../../../containers/BoardContainer/ListBoardsFilterContainer"
-import { Button, Dropdown, Icon, Ref, Divider, Popup, Header, Input } from "semantic-ui-react";
-import DynamicInput from "../../Input/DynamicInput";
+import { Button, Dropdown, Icon, Popup, Header, Input } from "semantic-ui-react";
 
 class ListBoards extends Component {
 

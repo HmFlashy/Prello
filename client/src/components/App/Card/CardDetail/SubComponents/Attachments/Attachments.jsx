@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import './Attachments.css'
 import { Image, Button, Icon, Segment } from 'semantic-ui-react'
 import moment from 'moment'
-import axios from 'axios'
 import UrlConfig from '../../../../../../config/UrlConfig'
 import { tokenHeader } from '../../../../../..//helpers/HeaderHelper'
 import ValidationInput from '../../../../Input/ValidationInput'

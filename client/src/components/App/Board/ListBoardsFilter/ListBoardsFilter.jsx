@@ -1,15 +1,11 @@
 import React, { Component } from "react";
 import "../BoardOverview/BoardOverview"
 import './ListBoardsFilter.css'
-import { Icon, List, Divider, Button } from "semantic-ui-react"
+import { Icon, List, Divider } from "semantic-ui-react"
 import BoardOverviewContainer from "../../../../containers/BoardContainer/BoardOverviewContainer";
 import NewBoardModalContainer from "../../../../containers/BoardContainer/NewBoardModalContainer";
 
 class ListBoardsFilter extends Component {
-
-    constructor(props) {
-        super(props);
-    }
 
     render() {
         return (

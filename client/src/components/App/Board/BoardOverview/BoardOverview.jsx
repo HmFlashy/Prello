@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Card, Icon, List, Modal, Rail, Segment, Label} from "semantic-ui-react"
+import {Card, Icon, Label} from "semantic-ui-react"
 import "./BoardOverview.css"
 import BoardOverviewModalContainer from "../../../../containers/BoardContainer/BoardOverviewModalContainer";
 import {withRouter} from "react-router-dom"

@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Card, Button, Modal, Header, Dropdown, Input} from "semantic-ui-react"
+import { Button, Modal, Header, Dropdown, Input} from "semantic-ui-react"
 import NewBoard from "../NewBoard/NewBoard";
 import {withRouter} from "react-router-dom"
 

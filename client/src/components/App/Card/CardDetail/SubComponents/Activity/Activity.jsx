@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import './Activity.css'
-import { Icon, Button, Segment, Modal } from 'semantic-ui-react'
+import { Icon, Button, Segment } from 'semantic-ui-react'
 import DynamicInput from '../../../../Input/DynamicInput'
 import ValidationInput from '../../../../Input/ValidationInput'
 import Avatar from '../../../../Avatar';
 import moment from 'moment'
 import autoBind from 'react-autobind';
-export default class Actitivty extends Component {
+export default class Actitity extends Component {
 
     constructor(props) {
         super(props)

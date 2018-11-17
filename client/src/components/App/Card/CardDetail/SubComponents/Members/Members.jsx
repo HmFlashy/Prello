@@ -1,12 +1,10 @@
 import React from 'react';
-import './Members.css'
-import { Icon } from 'semantic-ui-react'
 import Avatar from '../../../../Avatar';
 
 export default (props) => (
     <div className={props.className}>
         <p>Members</p>
-        <div className="    ">
+        <div className="">
             {
                 props.card ?
                     props.card.members.map(member =>

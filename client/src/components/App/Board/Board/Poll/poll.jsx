@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./poll.css"
-import { Button, Form, Modal, Segment, Input, Label, List, Popup, Checkbox } from "semantic-ui-react"
+import { Button, Form, Modal, Segment, Input, Popup, Checkbox } from "semantic-ui-react"
 import Avatar from "../../../Avatar"
 import DynamicInput from "../../../Input/DynamicInput"
 import CardOverviewContainer from '../../../../../containers/CardContainers/CardOverviewContainer'

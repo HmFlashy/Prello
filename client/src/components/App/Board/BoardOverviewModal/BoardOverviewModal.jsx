@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Card, Button, Modal, Header, Dropdown, Input, List, Grid} from "semantic-ui-react"
+import { Button, Modal, Header, Dropdown, Input } from "semantic-ui-react"
 
 class BoardOverviewModal extends Component {
 
