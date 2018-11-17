@@ -2,7 +2,7 @@ const Board = require("../models/index").Board;
 const Poll = require("../models/index").Poll;
 const Option = require("../models/index").Option;
 const Card = require("../models/index").Card;
-const throwError = require("../helper/RequestHelper").throwError;
+const logger = require("../../logger")
 //Return poll
 const vote = async (boardId, pollId, optionId, isVoting, userId) => {
     try {
@@ -11,6 +11,7 @@ const vote = async (boardId, pollId, optionId, isVoting, userId) => {
         return await Poll.findOneAndUpdate({ _id: pollId },
             { $set: { options: poll.options } }, { "new": true })
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 }
@@ -25,6 +26,7 @@ const addOption = async (boardId, pollId, title) => {
             { $push: { options: option } }, { "new": true })
         return option
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 }
@@ -43,6 +45,7 @@ const updatePoll = async (boardId, pollId, card, title) => {
                 select: ["_id", "name"]
             }])
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 }
@@ -68,6 +71,7 @@ const addPoll = async (boardId, title, card, owner) => {
                 select: ["_id", "name"]
             }])
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 }
@@ -78,6 +82,7 @@ const deletePoll = async (boardId, pollId) => {
         await Poll.deleteOne({ _id: pollId })
         return board
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 }
@@ -87,6 +92,7 @@ const deletePollOption = async (boardId, pollId, optionId) => {
         return await Poll.findOneAndUpdate({ _id: pollId },
             { $pull: { options: { _id: optionId } } }, { "new": true })
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 }
@@ -97,6 +103,7 @@ const updatePollOption = async (boardId, pollId, optionId, name) => {
         return await Poll.findOneAndUpdate({ _id: pollId },
             { $set: { options: poll.options } }, { "new": true })
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 }

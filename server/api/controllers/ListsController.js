@@ -1,6 +1,7 @@
 const List = require("../models/index").List;
 const Board = require("../models/index").Board;
 const throwError = require("../helper/RequestHelper").throwError;
+const logger = require("../../logger")
 
 const addList = async (name, boardId, pos) => {
     let list = null
@@ -28,9 +29,10 @@ const addList = async (name, boardId, pos) => {
             if (list) await list.remove();
             await board.save();
         } catch (error) {
-            console.log("DB corrupted");
+            logger.error("DB corrupted")
             throw error
         }
+        logger.error(error.message)
         throw error;
     }
 };
@@ -53,6 +55,7 @@ const deleteList = async (listId) => {
             throwError(400, "Can't delete a list not archived")
         }
     } catch (error) {
+        logger.error(error.message)
         throw error;
     }
 };
@@ -65,6 +68,7 @@ const updateList = async (listId, body) => {
         }
         return list
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 };
@@ -77,6 +81,7 @@ const getById = async (listId) => {
         }
         return list
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 }
@@ -87,6 +92,7 @@ const removeLabel = async (listId, labelId) => {
         const listCards = list.cards
         listCards.forEach(listCard => CardsController.removeToArray(listCard._id, 'labels', labelId))
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 };

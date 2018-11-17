@@ -3,6 +3,7 @@ const Card = require("../models/index").Card;
 const Comment = require("../models/index").Comment;
 const Attachment = require("../models/index").Attachment;
 const throwError = require("../helper/RequestHelper").throwError;
+const logger = require("../../logger")
 
 const getCardById = async (cardId) => {
     try {

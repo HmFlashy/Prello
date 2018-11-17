@@ -1,9 +1,9 @@
-const Board = require('../models').Board;
 const Label = require('../models').Label;
 const CardsController = require('./CardsController');
 const BoardsController = require('./BoardsController')
 const mongoose = require('mongoose');
 const throwError = require('../helper/RequestHelper').throwError;
+const logger = require("../../logger")
 
 
 

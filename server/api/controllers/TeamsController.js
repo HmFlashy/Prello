@@ -1,10 +1,10 @@
 const Board = require("../models/index").Board;
 const User = require("../models/index").User;
 const Team = require("../models/index").Team;
-const BoardsController = require('./BoardsController')
 const UserController = require('./UserController')
 const throwError = require("../helper/RequestHelper").throwError;
 const mongoose = require("mongoose");
+const logger = require("../../logger")
 
 const addTeam = async (name, creatorId) => {
 
@@ -18,6 +18,7 @@ const addTeam = async (name, creatorId) => {
         const finalTeam = await updateTeamMember(updatedTeam._id, creatorId, 'Admin')
         return finalTeam
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 }
@@ -38,7 +39,7 @@ const deleteTeam = async (teamId) => {
         session.endSession();
         return await team.remove();
     } catch (error) {
-        console.log(error)
+        logger.error(error.message)
         await session.abortTransaction();
         session.endSession();
         throw error;
@@ -54,6 +55,7 @@ const addMember = async (teamId, memberId) => {
             { $push: { teams: {team:teamId} } }, { "new": true })
         return team
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 }
@@ -66,6 +68,7 @@ const deleteMember = async (teamId, memberId) => {
             { $pull: { teams: {team:teamId} } }, { "new": true })
         return team
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 }
@@ -78,6 +81,7 @@ const addBoard = async (teamId, boardId) => {
             { $push: { teams: teamId } }, { "new": true })
         return team
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 }
@@ -90,6 +94,7 @@ const deleteBoard = async (teamId, boardId) => {
             { $pull: { teams: teamId } }, { "new": true })
         return team
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 }
@@ -104,7 +109,7 @@ const updateTeamMember = async (teamId, memberId, role) => {
         const finalMember = await User.findOneAndUpdate({_id: memberId}, { $set: { teams: teamUpdated } }, { "new": true })
         return finalTeam
     } catch (error) {
-        console.log(error)
+        logger.error(error.message)
         throw error
     }
 }
@@ -120,6 +125,7 @@ const getTeamById = async (teamId) => {
         }
         return team;
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 };
@@ -139,6 +145,7 @@ const getTeamsBySearch = async (boardId, query) => {
         }).sort({"name": 1}).limit(10);
         return teams
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 }
@@ -149,6 +156,7 @@ const updateTeam = async (teamId, data) => {
     try {
         return await Team.findOneAndUpdate({ _id: teamId }, { $set: data }, { "new": true })
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 
