@@ -34,7 +34,8 @@ module.exports = async (req, res) => {
     try {
         const labelId = req.params.labelId
         const boardId = req.params.boardId;
-        if (labelUpdated = await LabelsController.updateLabel(labelId, req.body)) {
+        const labelUpdated = await LabelsController.updateLabel(labelId, req.body)
+        if (labelUpdated) {
             socketIO.broadcast('action', boardId, {
                 type: 'UPDATED_LABEL',
                 payload: { boardId: boardId, labelUpdated }

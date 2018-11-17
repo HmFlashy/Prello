@@ -68,7 +68,7 @@ module.exports = async (req, res) => {
     try {
         const idCard = req.params.cardId
         if (fields[req.params.field]) {
-            const card = await CardController.removeToArray(req.params.idCard, req.params.field, req.body.payload)
+            const card = await CardController.removeToArray(idCard, req.params.field, req.body.payload)
             socketIO.broadcast('action', card.board, {
                 type: fields[req.params.field],
                 payload: req.body.label

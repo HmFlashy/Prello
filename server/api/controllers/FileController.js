@@ -4,7 +4,7 @@ const logger = require("../../logger")
 
 const addAttachment = async (name, owner, cardId, url) => {
     try {
-        attachment = new Attchment({
+        let attachment = new Attchment({
             name,
             owner,
             card: cardId,

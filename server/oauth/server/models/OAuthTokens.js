@@ -42,8 +42,8 @@ OAuthTokens.saveToken = async (token, client, user) => {
     user: user,
   })
   // Can't just chain `lean()` to `save()` as we did with `findOne()` elsewhere. Instead we use `Promise` to resolve the data.
-  const savedAccessToken = await accessToken.save()
-  const savedRefreshToken = await refreshToken.save()
+  await accessToken.save()
+  await refreshToken.save()
   let saveResult = new Object({
     ...token,
     client: client,

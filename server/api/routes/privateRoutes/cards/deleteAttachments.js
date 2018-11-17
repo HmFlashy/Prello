@@ -33,7 +33,7 @@ module.exports = async (req, res) => {
     try {
         const cardId = req.params.cardId;
         const attachmentId = req.params.attachmentId;
-        card = await CardController.deleteAttachment(cardId, attachmentId)
+        const card = await CardController.deleteAttachment(cardId, attachmentId)
         socketIO.broadcast("action", card.board, {
             type: "REMOVE_CARD_ATTACHMENT",
             payload: { _id: cardId, attachmentId }

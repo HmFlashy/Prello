@@ -44,14 +44,14 @@ const getCardById = async (cardId) => {
 
 const addAttachment = async (name, owner, cardId, url) => {
     try {
-        attachment = new Attachment({
+        let attachment = new Attachment({
             name,
             owner,
             card: cardId,
             url
         })
         attachment = await attachment.save()
-        card = await Card.findOne({_id: cardId})
+        let card = await Card.findOne({_id: cardId})
         card.cardInformation.nbAttachments = card.cardInformation.nbAttachments + 1
         card.attachments.push(attachment._id)
         return [await Attachment.findById(attachment._id).populate(
@@ -68,7 +68,7 @@ const addAttachment = async (name, owner, cardId, url) => {
 
 const deleteAttachment = async (cardId, attachmentId) => {
     await Attachment.deleteOne({_id: attachmentId})
-    card = await Card.findOne({_id: cardId})
+    let card = await Card.findOne({_id: cardId})
     card.cardInformation.nbAttachments = card.cardInformation.nbAttachments - 1
     card.attachments = card.attachments.filter(attachment => attachment != attachmentId)
     card = await card.save()
@@ -76,7 +76,7 @@ const deleteAttachment = async (cardId, attachmentId) => {
 }
 
 const addComment = async (cardId, author, content) => {
-    comment = new Comment({
+    let comment = new Comment({
         author,
         card: cardId,
         content
@@ -156,6 +156,7 @@ const moveCard = async (cardId, newListId, pos) => {
             pos
         }));
         const [oldListUpdated, newListUpdated, cardUpdated] = await Promise.all(array);
+        if(!oldListUpdated) throwError(500, `OLD_LIST_NOT_UPDATED`)
         if (!cardUpdated) throwError(404, `CARD_NOT_FOUND`);
         return [newListUpdated, cardUpdated];
     } catch (error) {

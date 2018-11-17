@@ -63,7 +63,7 @@ module.exports = async (req, res) => {
             const owner = req.user._id.toString();
             const url = req.body.url;
             const cardId = req.params.cardId;
-            result = await CardController.addAttachment(name, owner, cardId, url)
+            const result = await CardController.addAttachment(name, owner, cardId, url)
             socketIO.broadcast("action", result[1].board, {
                 type: "ADD_CARD_ATTACHMENT",
                 payload: { _id: cardId, attachment: result[0] }

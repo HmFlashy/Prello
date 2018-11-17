@@ -30,7 +30,7 @@ const search = async (name, password, section, year) => {
                 logger.error(err.message)
                 reject(err)
             } else {
-                search_options = {
+                const search_options = {
                     base: `cn=${name}, ou=${section}${year}, ou=${section}, ou=Etudiants,ou=Comptes,${base}`,
                     scope: LDAP.SUBTREE,
                     filter: '(objectClass=*)',
