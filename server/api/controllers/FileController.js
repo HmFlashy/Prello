@@ -19,6 +19,7 @@ const addAttachment = async (name, owner, cardId, url) => {
         ), await Card.findOneAndUpdate({ _id: cardId },
             { $push: { attachments: attachment._id } }, { "new": true })]
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 };

@@ -98,3 +98,5 @@ client/node_modules
 data
 
 .env*
+server/error.log
+server/combined.log

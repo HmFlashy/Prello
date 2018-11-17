@@ -36,6 +36,7 @@ const getCardById = async (cardId) => {
             throwError(404, "Card not found")
         }
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 };
@@ -59,6 +60,7 @@ const addAttachment = async (name, owner, cardId, url) => {
             }]
         ), await card.save()]
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 };
@@ -122,9 +124,10 @@ const addCard = async (name, listId, pos) => {
             if (card) await card.remove();
             await list.save();
         } catch (error) {
-            console.log("DB corrupted!!!");
+            logger.error("DB corrupted !!")
             throw error
         }
+        logger.error(error.message)
         throw error
     }
 };
@@ -160,9 +163,10 @@ const moveCard = async (cardId, newListId, pos) => {
             if (newList) await newList.save();
             if (card) await card.save();
         } catch (error) {
-            console.log("DB corrupted !!!");
+            logger.error("DB corrupted !!!")
             throw error
         }
+        logger.error(error.message)
         throw error
     }
 };
@@ -172,6 +176,7 @@ const getCards = async () => {
         return await Card.find({})
     }
     catch (error) {
+        logger.error(error.message)
         throw error
     }
 };
@@ -180,6 +185,7 @@ const updateCard = async (cardId, data) => {
     try {
         return await Card.findOneAndUpdate({_id: cardId}, {$set: data}, {"new": true})
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 }
@@ -189,6 +195,7 @@ const addToArray = async (cardId, key, data) => {
         return await Card.findOneAndUpdate({_id: cardId},
             {$push: {[key]: data}}, {"new": true})
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 }
@@ -198,6 +205,7 @@ const removeToArray = async (cardId, key, data) => {
         return await Card.findOneAndUpdate({_id: cardId},
             {$pull: {[key]: data}}, {"new": true})
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 }
@@ -214,7 +222,7 @@ const deleteCard = async (cardId) => {
         card.remove();
         return card
     } catch (error) {
-        console.log(error)
+        logger.error(error.message)
         throw error;
     }
 }
@@ -229,6 +237,7 @@ const deleteBoardMember = async (boardId, userId) => {
         await Comment.deleteMany({author: userId});
         await Attachment.deleteMany({owner: userId});
     } catch (error) {
+        logger.error(error.message)
         throw error;
     }
 }

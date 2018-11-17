@@ -15,6 +15,7 @@ const addChecklist = async (name, cardId) => {
             }, { "new": true })
         return card
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 }
@@ -33,6 +34,7 @@ const deleteChecklist = async (cardId, checklistId) => {
         card.cardInformation.nbItems = card.cardInformation.nbItems - items
         return card
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 }
@@ -52,6 +54,7 @@ const updateChecklist = async (cardId, checklistId, name) => {
         }, { "new": true })
         return card
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 }
@@ -67,6 +70,7 @@ const addItem = async (cardId, checklistId, name) => {
             }, { "new": true })
         return card
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 }
@@ -95,6 +99,7 @@ const deleteItem = async (cardId, checklistId, itemId) => {
             }, { "new": true })
         return card
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 }
@@ -121,6 +126,7 @@ const updateItem = async (cardId, checklistId, itemId, data) => {
             }, { "new": true })
         return card
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 }
