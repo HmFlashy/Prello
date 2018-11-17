@@ -1,4 +1,4 @@
-import Header from "./../../components/App/Board/Board/Header"
+import Header from "./../../components/App/Board/Board/BoardHeader"
 import { connect } from "react-redux";
 import socketService from "../../services/SocketService";
 import userServices from "../../services/UserServices";

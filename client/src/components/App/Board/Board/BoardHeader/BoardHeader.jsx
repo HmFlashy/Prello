@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import "./Header.css"
+import "./BoardHeader.css"
 import {Button, Divider, Dropdown, Icon, Input, Label, List, Popup} from "semantic-ui-react"
 import CardsArchivedModal from "../CardsArchivedModal";
 import PollContainer from "../../../../../containers/BoardContainer/PollContainer";

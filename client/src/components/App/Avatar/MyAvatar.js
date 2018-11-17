@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './Avatar.css'
 import { Popup } from 'semantic-ui-react'
 import Avatar from 'react-avatar';
 
