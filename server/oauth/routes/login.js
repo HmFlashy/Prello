@@ -1,6 +1,6 @@
 const getClient = require('../server/model').getClient
 const InvalidRequestError = require('oauth2-server').InvalidRequestError;
-const logger = require('../../../../logger')
+const logger = require('../../logger')
 
 module.exports = {
   async Login(req, res) {
