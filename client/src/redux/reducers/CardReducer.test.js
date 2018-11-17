@@ -106,7 +106,7 @@ describe('Updating card', () => {
         updateActions.forEach(action => {
             result = cardReducer({
                 all: [...defaultCardReducer.all, {
-                    _id: "u00000", isArchived: false
+                    _id: "u00000"
                     , name: "currentName"
                     , desc: "currentDescription"
                     , dueDate: moment.now()
@@ -225,7 +225,7 @@ describe('Updating card', () => {
             updateActions.forEach(action => {
                 result = cardReducer({
                     all: [...defaultCardReducer.all, {
-                        _id: "u00000", isArchived: false
+                        _id: "u00000"
                         , name: "currentName"
                         , desc: "currentDescription"
                         , dueDate: moment.now()
