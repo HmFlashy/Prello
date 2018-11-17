@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import './Menu.css'
-import { Button, Icon, Divider, Modal, Header, Input, Popup, Loader, Dimmer, Label, Checkbox } from 'semantic-ui-react'
+import { Button, Icon, Divider, Modal, Header, Input, Popup, Loader, Dimmer, Label } from 'semantic-ui-react'
 import DatePicker from './datepicker';
 import Move from './subComponents/Move/MoveContainer.js'
 import moment from 'moment';
-import LabelColorPicker from '../../../../Input/LabelColorPicker';
 import DropboxChooser from 'react-dropbox-chooser'
-import { FilePicker} from 'react-file-picker'
-
+//import { FilePicker } from 'react-file-picker'
+import autoBind from 'react-autobind';
 class Menu extends Component {
 
     constructor(props) {
@@ -24,6 +23,7 @@ class Menu extends Component {
             isAttaching: false,
             newCardLabels: []
         };
+        autoBind(this);
         this.handleOnDateSelect = this.handleOnDateSelect.bind(this);
     }
 
@@ -147,6 +147,15 @@ class Menu extends Component {
                                 : ""
                             }
                             <Popup.Content>
+                                <div className="App">
+                                    <div positive className="fullsize attaching-button">
+                                        <input type="file" id="" onChange={async event => {
+                                            this.setState({ isUploading: true })
+                                            await this.props.onUploadLocalFile(event.target.files[0]); this.setState({ isUploading: false })
+                                        }} />
+                                    </div>
+                                </div>
+                                {/*
                                 <FilePicker
                                     extensions={['pdf']}
                                     onChange={file => this.setState({ isUploading: true }, async () => { await this.props.onUploadLocalFile(file); this.setState({ isUploading: false }) })}
@@ -155,7 +164,7 @@ class Menu extends Component {
                                     <Button positive className="fullsize attaching-button">
                                         <Icon name='computer' /> Local
                                         </Button>
-                                </FilePicker>
+                                </FilePicker>*/}
                                 <DropboxChooser
                                     appKey={'ad87evrukye9cq0'}
                                     success={file => this.setState({ isUploading: true }, async () => { await this.props.onUploadFile({ url: file[0].link, name: file[0].name }); this.setState({ isUploading: false }) })}

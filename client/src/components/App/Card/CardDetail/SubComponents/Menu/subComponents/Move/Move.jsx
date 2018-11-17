@@ -1,6 +1,6 @@
 import React from 'react';
 import './Move.css'
-import { Icon, Modal, Header, Button, Dropdown, Popup } from 'semantic-ui-react'
+import { Icon, Header, Button, Dropdown, Popup } from 'semantic-ui-react'
 
 export default (props) => (
     <Popup

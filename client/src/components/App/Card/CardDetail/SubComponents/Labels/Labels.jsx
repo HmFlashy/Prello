@@ -1,6 +1,5 @@
 import React from 'react';
-import './Labels.css'
-import { Icon, Label } from 'semantic-ui-react'
+import { Label } from 'semantic-ui-react'
 
 export default (props) => (
     <div className={props.className}>

@@ -19,6 +19,13 @@ export const actionGetProfile = (user) => {
     }
 };
 
+export const actionLogout = () => {
+    return {
+        type: "LOGOUT",
+        payload: null
+    }
+}
+
 export const actionAddBoard = (board, categoryId) => {
     return {
         type: "ADD_BOARD",

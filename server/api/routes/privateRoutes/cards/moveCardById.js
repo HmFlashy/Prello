@@ -39,21 +39,9 @@ const socketIO = require('../../../../socket/index');
 module.exports = async (req, res) => {
     try {
         const cardId = req.params.cardId;
-        if (!cardId || !cardId.match(/^[0-9a-fA-F]{24}$/)) {
-            throwError(400, "Bad Request cardId malformed")
-        }
         const oldListId = req.body.oldListId
-        if (!oldListId || !oldListId.match(/^[0-9a-fA-F]{24}$/)) {
-            throwError(400, "Bad Request oldListId malformed")
-        }
         const newListId = req.body.newListId
-        if (!newListId || !newListId.match(/^[0-9a-fA-F]{24}$/)) {
-            throwError(400, "Bad Request newListId malformed")
-        }
         const pos = req.body.pos
-        if (!pos && pos !== 0) {
-            throwError(400, "Bad Request pos malformed")
-        }
         const result = await CardController.moveCard(cardId, newListId, pos);
         socketIO.broadcast('action', result[1].board, {
             type: 'MOVED_CARD',

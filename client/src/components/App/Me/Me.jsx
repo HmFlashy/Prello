@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './Me.css'
 import { Loader, Dimmer, Grid, Button, TextArea, Form, Segment, Header, Image } from 'semantic-ui-react'
 
 export default class Me extends Component {
@@ -31,13 +30,7 @@ export default class Me extends Component {
         if (await this.isFormValid()) {
             if ((!this.state.newPassword && !this.state.newConfirmPassword) || this.state.newPassword && this.state.newConfirmPassword && this.state.newConfirmPassword == this.state.newPassword) {
                 const { fullName, email, username, bio, organization, newPassword } = this.state
-                if ((newPassword != '' && newPassword.length > 8)) {
-                    this.setState({ formError: false, passwordError: false })
-                    return await this.props.updateProfile({
-                        fullName, email, username, bio, organization, newPassword
-                    })
-                }
-                else if (newPassword == '') {
+                if (newPassword !== '' && newPassword.length > 8 ){
                     this.setState({ formError: false, passwordError: false })
                     return await this.props.updateProfile({
                         fullName, email, username, bio, organization, newPassword

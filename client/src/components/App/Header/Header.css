@@ -35,5 +35,19 @@
 
 .header-right {
     flex: 4;
+    flex-direction: row;
     text-align: right;
+}
+
+.truc {
+    display: inline;
+    margin-left: 5px !important;
+}
+
+.popup-edit-member {
+    display: inline-block;
+}
+
+.popup-member-information {
+    display: block;
 }

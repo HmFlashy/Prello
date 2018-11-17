@@ -29,25 +29,13 @@ const throwError = require('../../../../helper/RequestHelper').throwError;
   *         500:
   *           description: Internal error
   */
- module.exports = async (req, res) => {
+module.exports = async (req, res) => {
     try {
-        const boardId = req.params.boardId;
-        if(!boardId) {
-            throwError(400, 'Missing boardId parameter')
-        }
         const labelId = req.params.labelId;
-        if(!labelId) {
-            throwError(400, 'Missing labelId parameter')
-        }
         const label = await LabelsController.getLabelById(labelId)
-        if (!label) {
-            throwError(400, 'Label not found')
-        } else {
-            return res.status(200).json(label)
-        }
-    } catch(error) {
+    } catch (error) {
         console.log(error)
-        if(error.code){
+        if (error.code) {
             return res.status(error.code).json(error.message)
         } else {
             return res.sendStatus(500);

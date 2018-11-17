@@ -89,7 +89,7 @@ const removeLabel = async (listId, labelId) => {
     } catch (error) {
         throw error
     }
-}
+};
 
 module.exports = {
     addList,

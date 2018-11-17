@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
 import './Activity.css'
-import { Icon, Button, Segment, Modal } from 'semantic-ui-react'
+import { Icon, Button, Segment } from 'semantic-ui-react'
 import DynamicInput from '../../../../Input/DynamicInput'
 import ValidationInput from '../../../../Input/ValidationInput'
 import Avatar from '../../../../Avatar';
 import moment from 'moment'
-
-export default class Actitivty extends Component {
+import autoBind from 'react-autobind';
+export default class Actitity extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
             isDeleting: false
         };
+        autoBind(this);
     }
 
     render() {

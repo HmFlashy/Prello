@@ -52,13 +52,7 @@ const throwError = require('../../../helper/RequestHelper').throwError;
 module.exports = async (req, res) => {
     try {
         const teamId = req.params.teamId;
-        if (!teamId.match(/^[0-9a-fA-F]{24}$/)) {
-            throwError(400, `The teamId ${teamId} is malformed`)
-        }
         const boardId = req.params.boardId;
-        if (!boardId.match(/^[0-9a-fA-F]{24}$/)) {
-            throwError(400, `The boardId ${boardId} is malformed`)
-        }
         const team = await TeamsController.addBoard(teamId, boardId)
         socketIO.broadcast('action', {
             type: 'ADDED_BOARD_TEAM',

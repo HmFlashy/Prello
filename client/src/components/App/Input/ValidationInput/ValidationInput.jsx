@@ -1,13 +1,7 @@
 import React, { Component } from 'react';
 import { Modal, Button } from 'semantic-ui-react'
-import PropTypes from 'prop-types';
-import './ValidationInput.css'
 
 class ValidationInput extends Component {
-
-    constructor() {
-        super()
-    }
 
     render() {
         return (

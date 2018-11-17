@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, Button, Input, Segment, Checkbox, Container, Dropdown, Icon, Label } from 'semantic-ui-react'
+import { Modal, Button, Input, Segment, Checkbox, Container, Icon, Label } from 'semantic-ui-react'
 import './AddMemberModal.css'
 import UserServices from '../../../../services/UserServices';
 

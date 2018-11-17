@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import './Description.css'
-import { Icon } from 'semantic-ui-react'
 
 class CardDescription extends Component {
  

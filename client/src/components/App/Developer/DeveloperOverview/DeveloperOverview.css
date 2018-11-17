@@ -31,6 +31,10 @@
     background-color: rgb(104, 250, 255);
 }
 
+.do-list {
+    margin-top:  0px !important;
+}
+
 .do-applications .do-list {
     flex: 1;
     background-color: aliceblue;
@@ -40,10 +44,6 @@
 .do-applications .do-list-item:hover {
     background-color: rgb(205, 232, 255);
     cursor: pointer;
-}
-
-.do-list {
-    margin-top:  0px !important;
 }
 
 .no-application {

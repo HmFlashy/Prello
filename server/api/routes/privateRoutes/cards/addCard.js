@@ -62,10 +62,6 @@ const { validationResult } = require('express-validator/check');
  */
 module.exports = async (req, res) => {
     try {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
-        }
         const name = req.body.name;
         const listId = req.body.listId;
         const pos = req.body.pos

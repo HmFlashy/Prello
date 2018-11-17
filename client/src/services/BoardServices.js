@@ -127,5 +127,21 @@ export default {
         } catch (error) {
             throw error
         }
+    },
+    async deleteMember(boardId, memberId) {
+        try {
+            const res = await axios.delete(`${UrlConfig.API}/boards/${boardId}/members/${memberId}`, tokenHeader());
+            return res.data
+        } catch (error) {
+            throw error
+        }
+    },
+    async changeRoleBoardMember(boardId, memberId, role) {
+        try {
+            const res = await axios.put(`${UrlConfig.API}/boards/${boardId}/members/${memberId}`, {role: role}, tokenHeader());
+            return res.data
+        } catch(error) {
+            throw error
+        }
     }
 }

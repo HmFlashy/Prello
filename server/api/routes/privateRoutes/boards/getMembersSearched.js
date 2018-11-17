@@ -28,17 +28,12 @@ const UserController = require('../../../controllers/UserController');
 module.exports = async (req, res) => {
     try {
         const boardId = req.params.boardId;
-        if (!boardId) {
-            throwError(400, "Missing boardId parameter")
-        } else if (!boardId.match(/^[0-9a-fA-F]{24}$/)) {
-            throwError(400, `The boardId ${boardId} is malformed`)
-        }
         const query = req.params.query;
         const members = await UserController.getMembersBySearch(boardId, query);
         return res.status(200).json(members)
-    } catch(error) {
+    } catch (error) {
         console.log(error)
-        if(error.code){
+        if (error.code) {
             return res.status(error.code).json(error.message)
         } else {
             return res.sendStatus(500);

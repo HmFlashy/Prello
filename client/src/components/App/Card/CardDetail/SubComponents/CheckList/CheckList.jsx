@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './CheckList.css'
 import { Progress, Form, Button, Icon, Input } from 'semantic-ui-react'
 import DynamicInput from '../../../../Input'
-
+import autoBind from 'react-autobind';
 export default class CheckList extends Component {
 
     constructor(props) {
@@ -11,6 +11,7 @@ export default class CheckList extends Component {
             isAddingItem: [],
             newItemName: ""
         };
+        autoBind(this);
         this.validateNewChecklistName = this.validateNewChecklistName.bind(this)
         this.updateItem = this.updateItem.bind(this)
     }
@@ -43,7 +44,7 @@ export default class CheckList extends Component {
                                         }
                                     }
                                     checklist.title === "" ? console.log("Please fill the checklist name") :
-                                    this.validateNewChecklistName(checklist._id, this.props.checklists, { checklists: newVal }, event.target.value)
+                                        this.validateNewChecklistName(checklist._id, this.props.checklists, { checklists: newVal }, event.target.value)
                                 }}>
                             </DynamicInput>
                             <Button onClick={() => this.props.onDelete(checklist._id)}>Delete</Button>
@@ -82,7 +83,7 @@ export default class CheckList extends Component {
                                                 }
                                             }
                                             item.name === "" ? console.log("Please fill the item name") :
-                                            this.updateItem(checklist._id, item._id, this.props.checklists, { checklists: newVal }, { name: event.target.value })
+                                                this.updateItem(checklist._id, item._id, this.props.checklists, { checklists: newVal }, { name: event.target.value })
                                         }} />
                                 </div>
                                 <Button icon='cancel' size="mini" onClick={() => this.props.onDeleteItem(checklist._id, item._id)} />
@@ -94,8 +95,8 @@ export default class CheckList extends Component {
                         }
                         <Button className="addItem" onClick={() => {
                             if (this.state.isAddingItem[checklist._id]) {
-                                if (this.state.newItemName === ""){}
-                                else return this.props.onAddItem(checklist._id, this.state.newItemName) || this.setState({ newItemName: "" })
+                                if (!this.state.newItemName === "")
+                                    return this.props.onAddItem(checklist._id, this.state.newItemName) || this.setState({ newItemName: "" })
                             }
                             else {
                                 let newIsAddingItem = [...this.state.isAddingItem]

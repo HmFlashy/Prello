@@ -34,10 +34,6 @@ const S3 = require("../../../S3Service.js")
  */
 module.exports = async (req, res) => {
     try {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
-        }
         const cardId = req.params.cardId;
         const attachmentId = req.params.attachmentId;
         card = await CardController.deleteAttachment(cardId, attachmentId)

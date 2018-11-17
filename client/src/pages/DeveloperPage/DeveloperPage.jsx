@@ -4,7 +4,7 @@ import HeaderLayout from "../../components/App/Layout/HeaderLayout/HeaderLayout"
 import ErrorLayoutContainer from "../../containers/ErrorLayoutContainer";
 import DeveloperOverviewContainer from "../../containers/DeveloperContainers/DeveloperOverview"
 
-class HomePage extends Component {
+class DeveloperPage extends Component {
 
     render() {
         return (
@@ -19,4 +19,4 @@ class HomePage extends Component {
     }
 }
 
-export default HomePage
+export default DeveloperPage

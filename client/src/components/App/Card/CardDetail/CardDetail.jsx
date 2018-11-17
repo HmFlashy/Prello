@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './CardDetail.css'
-import { TextArea, Icon, Divider, Form, Button, Loader, Segment } from 'semantic-ui-react'
+import { Icon, Divider, Button, Loader, Segment } from 'semantic-ui-react'
 import Menu from "./SubComponents/Menu"
 import Members from "./SubComponents/Members"
 import Labels from "./SubComponents/Labels"
@@ -15,6 +15,7 @@ import moment from 'moment';
 import ReactMde from "react-mde";
 import Showdown from "showdown";
 import 'react-mde/lib/styles/css/react-mde-all.css';
+import autoBind from 'react-autobind';
 
 class CardDetail extends Component {
 
@@ -30,6 +31,7 @@ class CardDetail extends Component {
             height: 0,
             mdeState: null,
         }
+        autoBind(this);
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
 
         this.onDelete = this.onDelete.bind(this);

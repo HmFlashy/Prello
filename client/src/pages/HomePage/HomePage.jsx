@@ -1,4 +1,3 @@
-import "./HomePage.css"
 import React, {Component} from "react"
 import ListBoardsContainer from "../../containers/BoardContainer/ListBoardsContainer"
 import SecureLayoutContainer from "../../containers/SecureLayoutContainer";

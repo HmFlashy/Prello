@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import './Comment.css'
 import { Form, TextArea, Button, Icon } from 'semantic-ui-react'
-
-export default class Menu extends Component {
+import autoBind from 'react-autobind';
+export default class Comment extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
             comment: ""
         }
+        autoBind(this);
     }
 
     send(event) {

@@ -1,4 +1,4 @@
-import Header from "./../../components/App/Board/Board/Header"
+import Header from "./../../components/App/Board/Board/BoardHeader"
 import { connect } from "react-redux";
 import socketService from "../../services/SocketService";
 import userServices from "../../services/UserServices";
@@ -15,7 +15,10 @@ import {
     actionFetchingSearchedTeams,
     actionFetchedSearchedTeams,
     actionFailedFetchingSearchedTeams,
-    actionFetchingSearchedMembers, actionFetchingMissingMembers, actionFailedFetchingMissingMembers
+    actionFetchingSearchedMembers,
+    actionFetchingMissingMembers,
+    actionFailedFetchingMissingMembers,
+    actionDeletedBoardMember, actionFailedDeletingBoardMember, actionChangeRoleMember, actionChangeRoleBoardMember
 } from "../../redux/actions/BoardActions";
 import { actionStarBoard, actionUnstarBoard } from "../../redux/actions/UserActions";
 import { actionUpdateSearchFilter, actionAddBoardLabelFilter, actionDeleteBoardLabelFilter, actionAddBoardMemberFilter, actionDeleteBoardMemberFilter } from "../../redux/actions/BoardActions";
@@ -163,6 +166,22 @@ const mapDispatchToProps = (dispatch, ownProps) => {
                     await BoardServices.addTeam(boardId, id);
                 })
             } catch (error) {
+                console.log(error)
+            }
+        },
+        async changeRole(memberId, role) {
+            try {
+                await BoardServices.changeRoleBoardMember(ownProps.board._id, memberId, role);
+            } catch(error) {
+                throw error
+            }
+        },
+        async removeMember(memberId) {
+            try {
+                await BoardServices.deleteMember(ownProps.board._id, memberId);
+                dispatch(actionDeletedBoardMember(ownProps.board._id, memberId))
+            } catch(error) {
+                dispatch(actionFailedDeletingBoardMember(error))
                 throw error
             }
         }

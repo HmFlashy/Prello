@@ -13,7 +13,7 @@ import {
     actionBoardSubscribe
 } from '../redux/actions/BoardActions'
 import userServices from "../services/UserServices";
-import { actionGetProfile } from "../redux/actions/UserActions";
+import { actionGetProfile, actionLogout } from "../redux/actions/UserActions";
 
 const mapStateToProps = (state, ownProps) => {
     return {
@@ -23,7 +23,7 @@ const mapStateToProps = (state, ownProps) => {
     }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         subscribe(boardId) {
             socketService.subscribe(boardId)
@@ -32,6 +32,10 @@ const mapDispatchToProps = dispatch => {
         unsubscribe(boardId) {
             socketService.unsubscribe(boardId)
             //dispatch(actionBoardUnsubscribe(boardId))
+        },
+        logout(boardId){
+            dispatch(actionLogout())
+            ownProps.history.push("/login")
         },
         async fetchBoards() {
             try {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './Header.css'
-import { Segment, Dropdown, Button, Search } from 'semantic-ui-react'
+import { Segment, Dropdown, Button } from 'semantic-ui-react'
 import { withRouter } from 'react-router';
 import Avatar from "../Avatar"
 
@@ -16,6 +16,7 @@ class Header extends Component {
         this.goHome = this.goHome.bind(this);
         this.goProfile = this.goProfile.bind(this);
         this.changeBoard = this.changeBoard.bind(this)
+        this.logout = this.logout.bind(this)
     }
 
     componentDidMount() {
@@ -53,6 +54,10 @@ class Header extends Component {
         this.props.subscribe(nextBoardId)
     }
 
+    logout(){
+        this.props.logout()
+    }
+
     render() {
         return (
             <Segment inverted className="inline app-header" size='mini'>
@@ -80,14 +85,21 @@ class Header extends Component {
                     <img className="header-center-image" src="http://image.noelshack.com/fichiers/2018/45/3/1541618482-logoprello.png"></img>
                 </div>
                 <div className="header-right">
-                    <div onClick={this.goProfile}>
-                        <Avatar
-                            _id={this.props.user._id}
-                            fullName={this.props.user.fullName}
-                            bio={this.props.user.bio}
-                            round
-                            size="40"
-                            textSizeRatio={1.4} />
+                    <div className="elements">
+                        <div className="truc" onClick={this.goProfile}>
+                            <Avatar
+                                _id={this.props.user._id}
+                                fullName={this.props.user.fullName}
+                                bio={this.props.user.bio}
+                                round
+                                size="40"
+                                textSizeRatio={1.4} />
+                        </div>
+                        <div className="truc">
+                            <Button color="red" onClick={this.logout}>
+                                Logout
+                            </Button>
+                        </div>
                     </div>
                     { /*
                     {this.state.width > 1000 ? <Dropdown button className='icon' floating labeled icon='plus' text='Create'>

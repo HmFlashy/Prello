@@ -1,9 +1,9 @@
-const defaultCardReducer = {
+export const defaultCardReducer = {
   all: [],
   error: null
 }
 
-export default (state = defaultCardReducer, action) => {
+export default (state = defaultCardReducer, action = { type: null, payload: null }) => {
   switch (action.type) {
     case "FETCHED_BOARD":
       const board = action.payload
@@ -17,7 +17,6 @@ export default (state = defaultCardReducer, action) => {
         error: action.payload
       }
     case 'ADD_CARD':
-      console.log(action)
       const card = action.payload
       return {
         ...state,
@@ -87,7 +86,6 @@ export default (state = defaultCardReducer, action) => {
     case 'FAILED_UPDATE_CHECKLIST':
     case 'ADDED_ITEM':
     case 'DELETED_ITEM':
-    case 'UPDATING_ITEM':
     case 'UPDATED_ITEM_ISCHECKED':
     case 'UPDATED_ITEM_NAME':
     case 'FAILED_UPDATE_ITEM':
@@ -130,6 +128,16 @@ export default (state = defaultCardReducer, action) => {
         ...state,
         all: state.all.map(card => card._id === action.payload._id ? { ...card, cardInformation: { ...card.cardInformation, nbAttachments: card.cardInformation.nbAttachments - 1 } } : card)
       }
+      case 'DELETED_BOARD_MEMBER':
+          return {
+              ...state,
+              all: state.all.map(card => {
+                return {
+                    ...card,
+                    members: card.members.filter(member => member._id !== action.payload.memberId)
+                }
+              })
+          }
     default:
       return state
   }

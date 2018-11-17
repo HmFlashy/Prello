@@ -1,7 +1,7 @@
 import './Error500Page.css'
 import React, { Component } from 'react'
 
-class Error404Page extends Component {
+class Error500Page extends Component {
 
     render(){
         return ( 
@@ -15,4 +15,4 @@ class Error404Page extends Component {
     }
 }
 
-export default Error404Page
+export default Error500Page

@@ -17,8 +17,6 @@ import {
     failedActionAddComment,
     failedActionDeleteComment,
     failedActionUpdateComment,
-    actionAddComment,
-    actionDeleteComment,
     actionUpdateComment,
     failedActionCardAddLabel,
     failedActionCardRemoveLabel

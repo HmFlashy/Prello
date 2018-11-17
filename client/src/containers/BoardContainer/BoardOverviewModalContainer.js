@@ -4,7 +4,10 @@ import boardServices from "../../services/BoardServices"
 import {
     actionUpdateBoardName,
     actionUpdateBoardCategory,
-    actionUpdateBoardVisibility
+    actionUpdateBoardVisibility,
+    failedActionBoardUpdateName,
+    failedActionUpdateBoardCategory,
+    failedActionUpdateBoardVisibility
 } from "../../redux/actions/BoardActions"
 
 const mapStateToProps = (state, ownProps) => {
@@ -30,14 +33,17 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        async updateBoard(name, category, visibility) {
+        async updateBoard(name, oldName, category, oldCategory, visibility, oldVisibility) {
+            const categoryId = category._id ? category._id : null;
             try {
-                const categoryId = category._id ? category._id : null;
-                const board = await boardServices.updateBoard(ownProps.boardId, name, categoryId, visibility);
-                dispatch(actionUpdateBoardName(board._id, name))
-                dispatch(actionUpdateBoardCategory(board._id, category))
-                dispatch(actionUpdateBoardVisibility(board._id, visibility))
+                dispatch(actionUpdateBoardName({_id: ownProps.boardId, name: name}));
+                dispatch(actionUpdateBoardCategory({_id: ownProps.boardId, category: category}));
+                dispatch(actionUpdateBoardVisibility({_id: ownProps.boardId, visibility: visibility}));
+                return await boardServices.updateBoard(ownProps.boardId, name, categoryId, visibility);
             } catch (error) {
+                dispatch(failedActionBoardUpdateName({_id: ownProps.boardId, name: oldName}));
+                dispatch(failedActionUpdateBoardCategory({_id: ownProps.boardId, category: oldCategory}));
+                dispatch(failedActionUpdateBoardVisibility({_id: ownProps.boardId, visibility: oldVisibility}));
                 console.log(error)
             }
         }

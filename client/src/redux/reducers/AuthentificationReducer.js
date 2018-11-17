@@ -14,11 +14,10 @@ const defaultAuthentificationState = {
         client_applications: []
     },
     error: null,
-    token: localStorage.getItem("token-prello"),
     queryMember: ""
 };
 
-export default (state = defaultAuthentificationState, action) => {
+export default (state = defaultAuthentificationState, action = { type: null, payload: null }) => {
     const data = action.payload;
     switch (action.type) {
         case "LOGIN_FAILED":
@@ -40,6 +39,11 @@ export default (state = defaultAuthentificationState, action) => {
                 ...state,
                 error: null
             };
+        case "LOGOUT":
+            return {
+                ...state,
+                token: null
+            }
         case "USER_BOARD_STAR":
             return {
                 ...state,
@@ -132,12 +136,13 @@ export default (state = defaultAuthentificationState, action) => {
                 }
             };
         case "UPDATE_BOARD_CATEGORY":
+        case "FAILED_UPDATE_BOARD_CATEGORY":
             return {
                 ...state,
                 user: {
                     ...state.user,
                     boards: state.user.boards.map(board => {
-                        if (board.board === action.payload.boardId) {
+                        if (board.board === action.payload._id) {
                             if (action.payload.category === "No Category") {
                                 return { ...board, category: null }
                             } else {
@@ -185,6 +190,24 @@ export default (state = defaultAuthentificationState, action) => {
                 ...state,
                 queryMember: action.payload.query
             };
+        case "DELETED_BOARD_MEMBER":
+            return {
+                ...state,
+                boards: state.user._id === action.payload.memberId?state.user.boards.filter(boardMember =>
+                    boardMember.board !== action.payload.boardId):state.user.boards
+            };
+        case "UPDATED_BOARD_ROLE_MEMBER":
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    boards: state.user.boards.map(board => {
+                        if(board._id === action.payload.boardId) {
+                            return {...board, role: action.payload.role}
+                        } else return board
+                    })
+                }
+            }
         default:
             return {
                 ...state,

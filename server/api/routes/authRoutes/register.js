@@ -66,24 +66,48 @@ module.exports = async (req, res) => {
     try {
         const { firstname, lastname, username, email, password, organization } = req.body
         if(!firstname){
-            throwError(400, "Bad Request firstname malformed")
+            throwError(400, "MISSING_FIRSTNAME")
         }
+        const trimedFirstname = firstname.trim()
         if(!lastname){
-            throwError(400, "Bad Request lastname malformed")
+            throwError(400, "MISSING_LASTNAME")
         }
-        if(!username || username.length < 4 || username.length > 20){
-            throwError(400, "Bad Request username malformed")
+        const trimedLastname = lastname.trim()
+        if(!username) {
+            throwError(400, "MISSING_USERNAME")
         }
-        if (!email || !email.match(emailRegEx)) {
-            throwError(400, "Bad Request email malformed")
+        const trimedUsername = username.trim()
+        if(trimedUsername.length < 4 || trimedUsername.length > 20){
+            throwError(400, "USERNAME_MALFORMED")
         }
-        if (!password || !password.match(passwordRegex)) {
-            throwError(400, "Bad Request password malformed")
+        if (!email) { 
+            throwError(400, "MISSING_EMAIL")
+        }
+        const trimedEmail = email.trim().toLowerCase()
+        if(!trimedEmail.match(emailRegEx)) {
+            throwError(400, "EMAIL_MALFORMED")
+        }
+        if (!password) {
+            throwError(400, "MISSING_PASSWORD")
+        }
+        const trimedPassword = password.trim()
+        if(!trimedPassword.match(passwordRegex)) {
+            throwError(400, "PASSWORD_MALFORMED")
         }
         if(!organization){
-            throwError(400, "Bad Request organization malformed")
+            throwError(400, "MISSING_ORGANIZATION")
         }
-        const user = await UserController.addUser(firstname, lastname, username, email, password, organization)
+        const trimedOrganization = organization.trim()
+        const existingUser = await UserController.getUserByEmailOrUsername(trimedUsername, trimedEmail)
+        console.log(existingUser)
+        if(existingUser){
+            if(existingUser.username === trimedUsername){
+                throwError(400, "USERNAME_ALREADY_TAKEN")
+            } else {
+                throwError(400, "EMAIL_ALREADY_TAKEN")
+            }
+        }
+        const user = await UserController.addUser(trimedFirstname, trimedLastname, trimedUsername, trimedEmail, trimedPassword, trimedOrganization)
         return res.status(201).json(user)
     } catch (error) {
         console.log(error)

@@ -58,9 +58,9 @@ const addUser = async (firstname, lastname, username, email, password, organizat
     }
 }
 
-const getUserByUsername = async (username) => {
+const getUserByEmailOrUsername = async (username, email) => {
     try {
-        return await User.findOne({ username: username })
+        return await User.findOne({ $or: [{ username: username}, {email: email}] })
     } catch (error) {
         throw error
     }
@@ -108,8 +108,7 @@ const starBoard = async (userId, boardId) => {
 
 const getUsersWithQuery = async (query) => {
     try {
-        const users = await User.find({ $or: [{ username: new RegExp(query) }, { email: new RegExp(query) }] })
-        console.log(users)
+        const users = await User.find({ $or: [{ username: new RegExp(query, "i") }, { email: new RegExp(query, "i") }] })
         if (!users) {
             throwError(404, `No users was found`)
         }
@@ -322,6 +321,7 @@ module.exports = {
     getByEmail,
     addUser,
     getById,
+    getUserByEmailOrUsername,
     unstarBoard,
     starBoard,
     getUsersWithQuery,

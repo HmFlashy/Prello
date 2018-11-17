@@ -23,12 +23,6 @@ export default {
             throw error.response
         }
     },
-    getToken() {
-        return localStorage.getItem("token-prello")
-    },
-    logout() {
-        localStorage.removeItem("token-prello")
-    },
     async updateProfile(data) {
         try {
             const res = await axios.put(`${UrlConfig.API}/me`, data, tokenHeader())

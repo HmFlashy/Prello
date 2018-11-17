@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Card, Icon, List, Modal, Rail, Segment, Label} from "semantic-ui-react"
+import {Card, Icon, Label} from "semantic-ui-react"
 import "./BoardOverview.css"
 import BoardOverviewModalContainer from "../../../../containers/BoardContainer/BoardOverviewModalContainer";
 import {withRouter} from "react-router-dom"
@@ -59,7 +59,7 @@ class BoardOverview extends Component {
             <div>
                 <Card className="board-item" onClick={this.displayBoard}>
                     <Card.Content>
-                        <p className="title">{this.props.board ? this.props.board.name : ""}</p>
+                        <p className="title">{this.props.board ?this.props.board.name: ""}</p>
                         <div className="board-overview-bottom">
                             <div>
                                 <Label onClick={this.starBoard}

@@ -52,13 +52,7 @@ const throwError = require('../../../helper/RequestHelper').throwError;
 module.exports = async (req, res) => {
     try {
         const teamId = req.params.teamId;
-        if (!teamId.match(/^[0-9a-fA-F]{24}$/)) {
-            throwError(400, `The teamId ${teamId} is malformed`)
-        }
         const memberId = req.params.memberId;
-        if (!memberId.match(/^[0-9a-fA-F]{24}$/)) {
-            throwError(400, `The memberId ${memberId} is malformed`)
-        }
         const team = await TeamsController.deleteMember(teamId, memberId)
         socketIO.broadcast('action', {
             type: 'DELETED_MEMBER_TEAM',

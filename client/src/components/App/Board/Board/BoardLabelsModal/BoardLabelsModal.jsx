@@ -68,10 +68,16 @@ class BoardLabelsModal extends Component {
                         <Input placeholder="Label name" defaultValue={this.state.currentLabel.name} onChange={(event, data) => this.setState({ updatedLabelName: data.value })}></Input>
                     </Modal.Content>
                     <Modal.Actions>
-                        <Button color='green' onClick={() => (this.state.updatedLabelColor === "" || this.state.updatedLabelName === "") ? console.log("Please fill all the fields") : (this.setState({
-                            isLabelUpdating: false, currentLabel: {},
-                            updatedLabelName: "", updatedLabelColor: ""
-                        }), this.props.onUpdateLabel(this.state.currentLabel._id, this.state.updatedLabelName, this.state.updatedLabelColor))}>
+                        <Button color='green' onClick={() => (
+                            this.state.updatedLabelColor === "" || this.state.updatedLabelName === "") ? 
+                                console.log("Please fill all the fields") : 
+                                (
+                                    this.setState({
+                                        isLabelUpdating: false, currentLabel: {},
+                                        updatedLabelName: "", updatedLabelColor: ""
+                                    }) ||
+                                    this.props.onUpdateLabel(this.state.currentLabel._id, this.state.updatedLabelName, this.state.updatedLabelColor)
+                            )}>
                             <Icon name='checkmark' /> Validate
                   </Button>
                     </Modal.Actions>

@@ -7,12 +7,12 @@ import {actionStarBoard, actionUnstarBoard} from "../../redux/actions/UserAction
 
 const mapStateToProps = (state, ownProps) => {
     const user = state.authentification.user;
-    const board = state.boards.all.find(board => ownProps.boardId === board._id)
+    const board = state.boards.all.find(board => ownProps.boardId === board._id);
     return {
         board: board,
         userId: user._id,
-        isStarred: board?board.starred.includes(user._id):null
-        }
+        isStarred: board?board.starred.includes(user._id):false
+    }
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {

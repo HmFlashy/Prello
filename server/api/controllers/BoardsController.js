@@ -3,6 +3,7 @@ const User = require("../models/index").User;
 const Team = require("../models/index").Team;
 const Category = require("../models/index").Category;
 const ListsController = require("./ListsController")
+const CardsController = require("./CardsController")
 const throwError = require("../helper/RequestHelper").throwError;
 const mongoose = require("mongoose");
 
@@ -26,46 +27,46 @@ const getBoardById = async (boardId) => {
                     ]
                 }
             },
-            {
-                path: "members.member",
-                select: ["_id", "name", "email", "fullName", "initials", "username",
-                    "organization", "teams", , "bio"],
-                populate: {
-                    path: "teams.team",
-                    select: ["_id", "name"]
-                }
-            },
-            {
-                path: "teams",
-                select: ["_id", "name", "members"],
-                populate: {
+                {
                     path: "members.member",
-                    select: ["_id", "role", "name", "email", "fullName", "initials", "username",
-                        "organization", "teams", "bio"],
-                }
-            }, {
+                    select: ["_id", "name", "email", "fullName", "initials", "username",
+                        "organization", "teams", , "bio"],
+                    populate: {
+                        path: "teams.team",
+                        select: ["_id", "name"]
+                    }
+                },
+                {
+                    path: "teams",
+                    select: ["_id", "name", "members"],
+                    populate: {
+                        path: "members.member",
+                        select: ["_id", "role", "name", "email", "fullName", "initials", "username",
+                            "organization", "teams", "bio"],
+                    }
+                }, {
                 path: "owner",
                 select: ["_id"]
             }, {
                 path: "activities"
             },
-            {
-                path: "labels"
-            },
-            {
-                path: "polls",
-                populate: {
-                    path: "card",
-                    select: ["_id", "name"]
-                }
-            },
-            {
-                path: "polls",
-                populate: {
-                    path: "options.voters",
-                    select: ["_id", "fullName"]
-                }
-            },
+                {
+                    path: "labels"
+                },
+                {
+                    path: "polls",
+                    populate: {
+                        path: "card",
+                        select: ["_id", "name"]
+                    }
+                },
+                {
+                    path: "polls",
+                    populate: {
+                        path: "options.voters",
+                        select: ["_id", "fullName"]
+                    }
+                },
 
             ]);
         if (!board) {
@@ -94,32 +95,32 @@ const getBoardForExport = async (boardId) => {
                     }
                 }
             },
-            {
-                path: "members.member",
-                select: ["_id", "name", "email", "fullName", "initials", "username",
-                    "organization", "teams", , "bio"],
-                populate: {
-                    path: "teams.team",
-                    select: ["_id", "name"]
-                }
-            },
-            {
-                path: "teams",
-                select: ["_id", "name", "members"],
-                populate: {
+                {
                     path: "members.member",
-                    select: ["_id", "role", "name", "email", "fullName", "initials", "username",
-                        "organization", "teams", "bio"],
-                }
-            }, {
+                    select: ["_id", "name", "email", "fullName", "initials", "username",
+                        "organization", "teams", , "bio"],
+                    populate: {
+                        path: "teams.team",
+                        select: ["_id", "name"]
+                    }
+                },
+                {
+                    path: "teams",
+                    select: ["_id", "name", "members"],
+                    populate: {
+                        path: "members.member",
+                        select: ["_id", "role", "name", "email", "fullName", "initials", "username",
+                            "organization", "teams", "bio"],
+                    }
+                }, {
                 path: "owner",
                 select: ["_id"]
             }, {
                 path: "activities"
             },
-            {
-                path: "labels"
-            }
+                {
+                    path: "labels"
+                }
             ]);
         if (!board) {
             throwError(404, `The board ${boardId} was not found`)
@@ -132,7 +133,7 @@ const getBoardForExport = async (boardId) => {
 
 const getBoards = async (user) => {
     try {
-        const boards = await Board.find({ "members.member": { $in: [user._id] } }).select({
+        const boards = await Board.find({"members.member": {$in: [user._id]}}).select({
             _id: 1, name: 1, boardInformation: 1, starred: 1, teams: 1, visibility: 1
         });
         return boards
@@ -143,7 +144,7 @@ const getBoards = async (user) => {
 
 const getBoardsInfo = async (boardId) => {
     try {
-        const boards = await Board.find({ _id: boardId }).populate([{
+        const boards = await Board.find({_id: boardId}).populate([{
             path: "lists",
             select: ["name"],
             populate: {
@@ -196,7 +197,7 @@ const addBoard = async (name, visibility, teamId, userId, categoryId) => {
                 name: name,
                 visibility: visibility,
                 owner: user._id,
-                members: [{ member: user._id, role: "Admin" }]
+                members: [{member: user._id, role: "Admin"}]
             });
             newBoard = await addBoardTeam(board._id, teamId);
         } else {
@@ -204,10 +205,10 @@ const addBoard = async (name, visibility, teamId, userId, categoryId) => {
                 name: name,
                 visibility: visibility,
                 owner: user._id,
-                members: [{ member: user._id, role: "Admin" }]
+                members: [{member: user._id, role: "Admin"}]
             });
         }
-        await User.updateOne({ _id: user._id }, {
+        await User.updateOne({_id: user._id}, {
             $push: {
                 boards: {
                     board: newBoard._id,
@@ -232,7 +233,7 @@ const addBoard = async (name, visibility, teamId, userId, categoryId) => {
 
 const updateBoard = async (boardId, data) => {
     try {
-        return await Board.findOneAndUpdate({ _id: boardId }, { $set: data }, { "new": true })
+        return await Board.findOneAndUpdate({_id: boardId}, {$set: data}, {"new": true})
     } catch (error) {
         throw error
     }
@@ -240,16 +241,16 @@ const updateBoard = async (boardId, data) => {
 
 const addLabel = async (boardId, label) => {
     try {
-        await Board.findOneAndUpdate({ _id: boardId },
-            { $push: { labels: label } }, { "new": true })
+        await Board.findOneAndUpdate({_id: boardId},
+            {$push: {labels: label}}, {"new": true})
     } catch (error) {
         throw error
     }
 }
 const removeLabel = async (boardId, labelId) => {
     try {
-        const board = await Board.findOneAndUpdate({ _id: boardId },
-            { $pull: { labels: labelId } }, { "new": true })
+        const board = await Board.findOneAndUpdate({_id: boardId},
+            {$pull: {labels: labelId}}, {"new": true})
         const boardLists = board.lists
         boardLists.forEach(boardList => ListsController.removeLabel(boardList._id, labelId))
     } catch (error) {
@@ -259,24 +260,25 @@ const removeLabel = async (boardId, labelId) => {
 
 const addBoardMember = async (boardId, userId) => {
     try {
-        if (await Board.findOne({ $and: [{ _id: boardId }, { "members.member": { $in: [userId] } }] })) {
+        if (await Board.findOne({$and: [{_id: boardId}, {"members.member": {$in: [userId]}}]})) {
             throwError(400, `The user ${userId} is already in the board`)
         }
 
-        const user = await User.findOneAndUpdate({ _id: userId }, {
+        const user = await User.findOneAndUpdate({_id: userId}, {
             $push:
-                { boards: { board: boardId, role: "Member" } }
-        }, { new: true });
+                {boards: {board: boardId, role: "Member"}}
+        }, {new: true});
         if (!user) {
             throwError(404, `The user ${userId} was not found`)
         }
 
-        const board = await Board.findOneAndUpdate({ _id: boardId }, {
+        const board = await Board.findOneAndUpdate({_id: boardId}, {
             $push: {
                 members:
-                    { member: user._id, role: "Member" }
-            }
-        }, { new: true }).populate({
+                    {member: user._id, role: "Member"}
+            },
+            $inc: {"boardInformation.nbMembers": 1}
+        }, {new: true}).populate({
             path: "members.member",
             select: ["fullName", "username", "email", "_id", "bio"]
         });
@@ -291,10 +293,13 @@ const addBoardMember = async (boardId, userId) => {
 
 const addBoardTeam = async (boardId, teamId) => {
     try {
-        const team = await Team.findOneAndUpdate({ _id: teamId }, {
+        if (await Board.find({$and: [{"teams": {$in: [teamId]}}, {_id: boardId}]}).limit(1).length>0) {
+            throwError(400, `The team already exists in the board`)
+        }
+        const team = await Team.findOneAndUpdate({_id: teamId}, {
             $push:
-                { boards: boardId }
-        }, { new: true });
+                {boards: boardId}
+        }, {new: true});
         if (!team) {
             throwError(404, `The team ${teamId} was not found`)
         }
@@ -307,34 +312,35 @@ const addBoardTeam = async (boardId, teamId) => {
         let array = []
         team.members.forEach(async teamMember => {
             if (!(board.members.map(boardMember => boardMember.member.toString()).includes(teamMember.member.toString()))) {
-                array.push(User.findOneAndUpdate({ $and: [{ "_id": teamMember.member }, { "boards.board": { $nin: [boardId] } }] }, {
+                array.push(User.findOneAndUpdate({$and: [{"_id": teamMember.member}, {"boards.board": {$nin: [boardId]}}]}, {
                     $push:
-                        { boards: { board: boardId, role: "Member" } }
+                        {boards: {board: boardId, role: "Member"}}
                 }));
-                array.push(Board.findOneAndUpdate({ _id: boardId }, {
+                array.push(Board.findOneAndUpdate({_id: boardId}, {
                     $push: {
-                        members: { member: teamMember.member, role: "Member" }
-                    }
+                        members: {member: teamMember.member, role: "Member"}
+                    },
+                    $inc: {"boardInformation.nbMembers": 1}
                 }))
             }
         });
 
         return await Promise.all(array).then(async () => {
-            const boardUpdated = await
-                Board.findOneAndUpdate({ _id: boardId }, {
-                    $push: {
-                        teams: team._id
-                    }
-                }, { new: true }).populate([{
-                    path: "teams",
-                    select: ["_id", "name"]
-                },
-                {
-                    path: "members.member",
-                    select: ["_id", "fullName", "username", "bio", "initials"]
-                }]);
-            return boardUpdated
-        }
+                const boardUpdated = await
+                    Board.findOneAndUpdate({_id: boardId}, {
+                        $push: {
+                            teams: team._id
+                        }
+                    }, {new: true}).populate([{
+                        path: "teams",
+                        select: ["_id", "name"]
+                    },
+                        {
+                            path: "members.member",
+                            select: ["_id", "fullName", "username", "bio", "initials"]
+                        }]);
+                return boardUpdated
+            }
         ).catch(error => { throw error })
     } catch (error) {
         throw error
@@ -343,18 +349,18 @@ const addBoardTeam = async (boardId, teamId) => {
 
 const deleteBoardTeam = async (boardId, teamId) => {
     try {
-        const team = await Team.findOneAndUpdate({ _id: teamId }, {
+        const team = await Team.findOneAndUpdate({_id: teamId}, {
             $pull:
-                { boards: boardId }
-        }, { new: true });
+                {boards: boardId}
+        }, {new: true});
         if (!team) {
             throwError(404, `The team ${teamId} was not found`)
         }
-        const board = await Board.findOneAndUpdate({ _id: boardId }, {
+        const board = await Board.findOneAndUpdate({_id: boardId}, {
             $pull: {
                 teams: team._id
             }
-        }, { new: true });
+        }, {new: true});
         if (!board) {
             throwError(404, `The board ${boardId} was not found`)
         }
@@ -364,7 +370,32 @@ const deleteBoardTeam = async (boardId, teamId) => {
     }
 };
 
-const deleteBord = async (boardId) => {
+const deleteBoardMember= async (boardId, userId) => {
+    try {
+        const user = await User.findOneAndUpdate({_id: userId}, {
+            $pull:
+                {boards: {board: boardId}}
+        }, {new: true});
+        if (!user) {
+            throwError(404, `The user ${userId} was not found`)
+        }
+        const board = await Board.findOneAndUpdate({_id: boardId}, {
+            $pull: {
+                members: {member: userId},
+                starred: userId
+            }
+        }, {new: true});
+        if (!board) {
+            throwError(404, `The board ${boardId} was not found`)
+        }
+        await CardsController.deleteBoardMember(boardId, userId);
+        return board;
+    } catch (error) {
+        throw error
+    }
+};
+
+const deleteBoard = async (boardId) => {
     try {
         const board = await Board.findById(boardId);
         if (!board) {
@@ -375,6 +406,37 @@ const deleteBord = async (boardId) => {
         // }
         board.remove()
 
+        return board;
+    } catch (error) {
+        throw error
+    }
+};
+
+const updateRoleBoardMember = async (boardId, userId, role) => {
+    try {
+        const user = await User.findById(userId);
+        if(!user) throwError(404, `The user ${userId} was not found`);
+        const newBoards = user.boards.map(userBoard => {
+            if (userBoard.board.toString() === boardId) {
+                userBoard.role = role;
+                return userBoard
+            }
+            else return userBoard;
+        });
+        user.boards = newBoards;
+        await user.save();
+
+        const board = await Board.findById(boardId);
+        if(!board) throwError(404, `The board ${boardId} was not found`);
+        const newMembers = board.members.map(boardMember => {
+            if (boardMember.member.toString() === userId) {
+                boardMember.role = role;
+                return boardMember
+            }
+            else return boardMember;
+        });
+        board.members = newMembers;
+        await board.save();
         return board;
     } catch (error) {
         throw error
@@ -390,8 +452,10 @@ module.exports = {
     addBoardTeam,
     deleteBoardTeam,
     addBoardMember,
-    deleteBord,
+    deleteBoard,
     updateBoard,
     getBoardsInfo,
-    getBoardForExport
+    getBoardForExport,
+    deleteBoardMember,
+    updateRoleBoardMember
 };

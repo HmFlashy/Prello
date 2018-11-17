@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import "./NewDeveloperApplication.css"
 import DynamicInput from '../../Input';
 
-class DeveloperApplication extends Component {
+class NewDeveloperApplication extends Component {
 
     constructor(props){
         super(props)
@@ -22,4 +22,4 @@ class DeveloperApplication extends Component {
 
 }
 
-export default DeveloperApplication
+export default NewDeveloperApplication

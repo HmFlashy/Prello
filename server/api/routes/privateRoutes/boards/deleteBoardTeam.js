@@ -57,28 +57,15 @@ module.exports = async (req, res) => {
     try {
         const boardId = req.params.boardId;
         const teamId = req.body.teamId;
-
-        if(!boardId) {
-            throwError(400, "Missing boardId parameter")
-        } else if(!boardId.match(/^[0-9a-fA-F]{24}$/)) {
-            throwError(400, `The boardId ${boardId} is malformed`)
-        }
-
-        if(teamId) {
-            if (!teamId.match(/^[0-9a-fA-F]{24}$/)) {
-                throwError(400, `The teamId ${teamId} is malformed`)
-            }
-        }
-
         const board = await boardsController.deleteBoardTeam(boardId, teamId);
         socketIO.broadcast("action", boardId, {
             type: "DELETED_BOARD_TEAM",
             payload: board.teams
         });
         return res.status(200).json(board)
-    } catch(error) {
+    } catch (error) {
         console.log(error);
-        if(error.code){
+        if (error.code) {
             return res.status(error.code).json(error.message)
         } else {
             return res.sendStatus(500);

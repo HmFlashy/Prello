@@ -52,10 +52,6 @@ const { validationResult } = require('express-validator/check');
  */
 module.exports = async (req, res) => {
     try {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
-        }
         const author = req.body.author;
         const cardId = req.params.cardId;
         const content = req.body.content;

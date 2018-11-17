@@ -9,7 +9,7 @@ const defaultTeamState = {
     }
 };
 
-export default (state = defaultTeamState, action) => {
+export default (state = defaultTeamState, action = { type: null, payload: null }) => {
     const splitted = action.type.split("_");
     switch (splitted[0]) {
         case "FETCHED_TEAM":

@@ -24,7 +24,7 @@ const defaultCardModalState = {
     }
 }
 
-export default (state = defaultCardModalState, action) => {
+export default (state = defaultCardModalState, action = { type: null, payload: null }) => {
     switch (action.type) {
         case 'DISPLAY_CARD_MODAL':
             return {

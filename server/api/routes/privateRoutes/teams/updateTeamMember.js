@@ -29,25 +29,16 @@ const throwError = require('../../../helper/RequestHelper').throwError;
   *         500:
   *           description: Internal error
   */
- module.exports = async (req, res) => {
+module.exports = async (req, res) => {
     try {
         const teamId = req.params.teamId
         const role = req.body.role
-        if (!teamId.match(/^[0-9a-fA-F]{24}$/)) {
-            throwError(400, `The teamId ${teamId} is malformed`)
-        }
-        if (Object.keys(req.body).length === 0) {
-            throwError(400, "No data in body")
-        }
         const memberId = req.params.memberId;
-        if (!memberId.match(/^[0-9a-fA-F]{24}$/)) {
-            throwError(400, `The memberId ${memberId} is malformed`)
-        }
         if (memberUpdated = await teamsController.updateTeamMember(teamId, memberId, role)) {
             socketIO.broadcast('action', {
                 type: 'UPDATED_TEAM_MEMBER',
                 payload: { memberId: memberId, memberUpdated }
-                   
+
             })
             return res.status(200).json({
                 type: "Success",

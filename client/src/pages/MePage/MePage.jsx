@@ -1,4 +1,3 @@
-import './MePage.css'
 import React, { Component } from 'react'
 import SecureLayoutContainer from '../../containers/SecureLayoutContainer';
 import MeContainer from '../../containers/MeContainer';

@@ -14,6 +14,7 @@
     "normalize.css": "^8.0.0",
     "prop-type": "0.0.1",
     "react": "^16.5.2",
+    "react-autobind": "^1.0.6",
     "react-avatar": "^3.4.6",
     "react-beautiful-dnd": "^9.0.2",
     "react-datepicker": "^1.7.0",
@@ -39,6 +40,7 @@
     "build": "react-scripts build",
     "build:production": "REACT_APP_ENV=production npm run build",
     "test": "react-scripts test  --watchAll=false",
+    "test:dev": "react-scripts test  --watchAll=true",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
