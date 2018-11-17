@@ -28,6 +28,10 @@ describe("Board", () => {
                 .post(`/api/login`)
                 .send({ "email": "hugo.maitre69@gmail.com", "password": "m" })
                 .end((err, res) => {
+                    if (err) {
+                        console.log("An error as occurred " + error);
+                        process.exit(-1)
+                    }
                     header = `Bearer ${res.body.token}`;
                     done()
                 })
@@ -54,8 +58,11 @@ describe("Board", () => {
                     });
                 })
             })
+        }).catch(error => {
+            console.log("An error as occurred " + error);
+            process.exit(-1)
         })
-    })
+    });
     /*
     * Test the /GET route
      */
@@ -138,7 +145,6 @@ describe("Board", () => {
                     res.body.should.have.property("name").equal("Prello");
                     res.body.should.have.property("owner").equal(hugoUser._id.toString());
                     User.findById(hugoUser._id).find({ boards: { "$in": [{ board: res.body._id, role: "Admin", category: null }] } }, (err, user) => {
-                        if (err) { }
                         expect(user);
                         done();
                     });
@@ -165,10 +171,8 @@ describe("Board", () => {
                     res.body.should.have.property("name").equal("Prello");
                     res.body.should.have.property("owner").equal(hugoUser._id.toString());
                     User.findById(hugoUser._id).find({ boards: { "$in": [{ board: res.body._id, role: "Admin", category: null }] } }, (err, user) => {
-                        if (err) { }
                         expect(user);
                         Team.findById(team._id).find({ boards: { "$in": [res.body._id] } }, (err, team) => {
-                            if (err) { }
                             expect(team);
                             done();
                         })
@@ -271,36 +275,11 @@ describe("Board", () => {
                             }]
                         }
                     }, (err, user) => {
-                        if (err) { }
                         expect(user);
                         done();
                     });
                 });
         });
-        /*it("should ADD the member to the board given its email", (done) => {
-            chai.request(server)
-                .put(`/api/boards/${board._id}/members`)
-                .set("Authorization", header)
-                .send({email: user.email})
-                .end((err, res) => {
-                    res.should.have.status(200);
-                    res.body.should.be.a("object");
-                    res.body.members[0].should.have.property("role").equal("Member");
-                    res.body.members[0].should.have.property("member").equal(user._id.toString());
-                    User.findById(user._id).find({
-                        boards: {
-                            "$in": [{
-                                board: res.body._id,
-                                role: "Member"
-                            }]
-                        }
-                    }, (err, user) => {
-                        if (err) {}
-                        expect(user);
-                        done();
-                    });
-                });
-        });*/
         it("should NOT ADD a member to the board if the boardId is malformed", (done) => {
             chai.request(server)
                 .put(`/api/boards/5de2de52/members`)
@@ -356,7 +335,6 @@ describe("Board", () => {
                     res.body.should.be.a("object");
                     expect(res.body.teams.includes(team._id));
                     Team.findById(team._id).find({ boards: { "$in": [res.body._id] } }, (err, team) => {
-                        if (err) { }
                         expect(team);
                         done();
                     });
@@ -480,7 +458,7 @@ describe("Board", () => {
                     res.body.should.be.a("object");
                     res.body.should.have.property("name").equal("BoardTest");
                     Board.findById(res.body._id, (error, newBoard) => {
-                        if (error) { }
+                        expect(newBoard).to.be.null;
                         members.forEach(boardMember => {
                             const member = boardMember.member;
                             User.findOne({

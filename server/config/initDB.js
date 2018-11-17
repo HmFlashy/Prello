@@ -35,7 +35,7 @@ async function initDB() {
     const Alex = User({
         name: "Alex", fullName: "Alex Aufauvre", bio: `Amazing skills in design, I'm the guy you need to 
     enhance your application`, initials: "AA", username: "Giroud", organization: "Polytech"
-        , email: "a", hash: alexHash
+        , email: "a@a.a", hash: alexHash
     });
     const hugoHash = await passwordHelper.passwordHelper("m");
     const Hugo = User({
@@ -57,12 +57,12 @@ async function initDB() {
     const Kevin = User({
         name: "Kevin", fullName: "Kevin Giordani", bio: `IOT Expert, I will put my grain of salt 
     in your application`, initials: "KG", username: "kevin.kevin01", organization: "Polytech"
-        , email: "k", hash: kevinHash
+        , email: "k@k.k", hash: kevinHash
     });
     const lorisHash = await passwordHelper.passwordHelper("z");
     const Loris = User({
         name: "Loris", fullName: "Loris Zirah", bio: `DB Expert and Data Scientist, let's give a meaning to 
-    your data`, initials: "LZ", username: "Airkan", organization: "Polytech", email: "l"
+    your data`, initials: "LZ", username: "Airkan", organization: "Polytech", email: "l@l.l"
         , hash: lorisHash
     });
 

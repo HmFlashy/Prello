@@ -1,7 +1,8 @@
 const List = require("../models/index").List;
 const Board = require("../models/index").Board;
 const throwError = require("../helper/RequestHelper").throwError;
-const logger = require("../../logger")
+const logger = require("../../logger");
+const CardsController = require("../controllers/CardsController");
 
 const addList = async (name, boardId, pos) => {
     let list = null

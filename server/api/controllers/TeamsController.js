@@ -3,7 +3,6 @@ const User = require("../models/index").User;
 const Team = require("../models/index").Team;
 const UserController = require('./UserController')
 const throwError = require("../helper/RequestHelper").throwError;
-const mongoose = require("mongoose");
 const logger = require("../../logger")
 
 const addTeam = async (name, creatorId) => {
@@ -24,10 +23,7 @@ const addTeam = async (name, creatorId) => {
 }
 
 const deleteTeam = async (teamId) => {
-    let session = null
     try {
-        session = await mongoose.startSession()
-        session.startTransaction();
         const team = await Team.findById(teamId)
         if(!team) {
             throwError(404, `The team ${teamId} was not found`)
@@ -35,13 +31,9 @@ const deleteTeam = async (teamId) => {
         await team.boards.forEach(board => Board.findOneAndUpdate({ _id: board._id },
             { $pull: { teams: {team:teamId} } }, { "new": true }));   
         await team.members.forEach(member => UserController.deleteTeam(member.member, teamId))
-        await session.commitTransaction();
-        session.endSession();
         return await team.remove();
     } catch (error) {
         logger.error(error.message)
-        await session.abortTransaction();
-        session.endSession();
         throw error;
     }
 }

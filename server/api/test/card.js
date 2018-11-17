@@ -25,6 +25,10 @@ describe("Board", () => {
                 .post(`/api/login`)
                 .send({"email": "hugo.maitre69@gmail.com", "password": "m"})
                 .end((err, res) => {
+                    if (err) {
+                        console.log("An error as occurred " + error);
+                        process.exit(-1)
+                    }
                     header = `Bearer ${res.body.token}`;
                     done()
                 })
@@ -40,12 +44,14 @@ describe("Board", () => {
                 }).then(board => {
                     const cardModel = Card({name: "Add comments", board: board._id});
                     cardModel.save((err, card1) => {
-                        if (err) {}
                         card = card1;
                         done()
                     })
                 })
             })
+        }).catch(error => {
+            console.log("An error as occurred " + error);
+            process.exit(-1)
         })
     });
     /*
@@ -61,7 +67,7 @@ describe("Board", () => {
                     done();
                 });
         });
-       it("it should not GET a card if the card was not found", (done) => {
+        it("it should not GET a card if the card was not found", (done) => {
             const boardModel = Board({name: "Prello"});
             boardModel.save((err, board) => {
                 if (err) {}
@@ -93,7 +99,6 @@ describe("Board", () => {
             Card.findOneAndUpdate({_id: card._id}, {
                 $set: {isArchived: true}
             }, {new: true}, (error, cardArchived) => {
-                if (error) {}
                 chai.request(server)
                     .delete(`/api/cards/${cardArchived._id}`)
                     .set("Authorization", header)
@@ -126,7 +131,6 @@ describe("Board", () => {
         it("should NOT DELETE the card if the cardId was not found", (done) => {
             const boardModel = Board({name: "Prello"});
             boardModel.save((err, board) => {
-                if (err) {}
                 chai.request(server)
                     .delete(`/api/cards/${board._id}`)
                     .set("Authorization", header)

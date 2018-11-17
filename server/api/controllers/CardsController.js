@@ -104,11 +104,12 @@ const updateComment = async (cardId, commentId, content) => {
 }
 
 const addCard = async (name, listId, pos) => {
+    let card = null;
     try {
         const list = await List.findById(listId);
         if (!list) throwError(404, "LIST_NOT_FOUND");
 
-        let card = new Card({
+        card = new Card({
             name: name,
             list: listId,
             board: list.board,
@@ -236,8 +237,6 @@ const deleteBoardMember = async (boardId, userId) => {
                 members: userId
             }
         });
-        await Comment.deleteMany({ author: userId });
-        await Attachment.deleteMany({ owner: userId });
     } catch (error) {
         logger.error(error.message)
         throw error;

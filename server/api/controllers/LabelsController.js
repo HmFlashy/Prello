@@ -1,7 +1,6 @@
 const Label = require('../models').Label;
 const CardsController = require('./CardsController');
 const BoardsController = require('./BoardsController')
-const mongoose = require('mongoose');
 const throwError = require('../helper/RequestHelper').throwError;
 const logger = require("../../logger")
 
@@ -34,22 +33,15 @@ const createLabel = async (name, color, boardId) => {
 }
 
 const deleteLabel = async (boardId, labelId) => {
-    let session = null
     try {
-        session = await mongoose.startSession()
-        session.startTransaction();
         const label = await Label.findById(labelId)
         if(!label) {
             throwError(404, `The label ${labelId} was not found`)
         }
         await BoardsController.removeLabel(boardId,labelId);    
-        await session.commitTransaction();
-        session.endSession();
         return await label.remove();
     } catch (error) {
         logger.error(error.message)
-        await session.abortTransaction();
-        session.endSession();
         throw error;
     }
 }
