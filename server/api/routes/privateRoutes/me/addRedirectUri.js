@@ -1,5 +1,5 @@
 const UserController = require('../../../controllers/UserController')
-const throwError = require('../../../helper/RequestHelper').throwError
+const logger = require('../../../../logger')
 
 /**
  * @swagger
@@ -24,7 +24,7 @@ module.exports = async (req, res) => {
         const clientApplication = await UserController.addRedirectUri(clientId, uri);
         res.status(201).json(clientApplication)
     } catch (error) {
-        console.log(error)
+        logger.error(error.message)
         if (error.code) {
             res.status(error.code).json(error.message)
         } else {

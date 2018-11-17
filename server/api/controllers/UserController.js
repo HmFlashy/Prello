@@ -3,8 +3,8 @@ const Board = require("../models/index").Board;
 const Category = require("../models/index").Category;
 const throwError = require("../helper/RequestHelper").throwError;
 const passwordHelper = require("../helper/passwordHelper");
-const mongoose = require("mongoose")
 const ClientApplication = require("../../oauth/server/models").OAuthClients
+const logger = require("../../logger")
 
 const getByEmail = async (email) => {
     try {
@@ -114,6 +114,7 @@ const getUsersWithQuery = async (query) => {
         }
         return users
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 }
@@ -128,6 +129,7 @@ const addCategory = async (userId, name) => {
         await User.updateOne({ _id: user._id }, { $push: { categories: category } });
         return category
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 }
@@ -153,6 +155,7 @@ const deleteCategory = async (userId, categoryId) => {
         user.boards = newUserBoards
         await user.save()
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 }
@@ -179,6 +182,7 @@ const updateCategoryName = async (userId, categoryId, name) => {
         user.boards = newUserBoards
         await user.save()
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 }
@@ -198,6 +202,7 @@ const updateBoardCategory = async (userId, boardId, categoryId) => {
         await user.save();
         return user;
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 }
@@ -237,7 +242,8 @@ const updateUser = async (userId, fullName, username, email, bio, organization, 
             return await User.findOneAndUpdate({ _id: userId }, { $set: { fullName, username, email, bio, organization } }, { "new": true })
         }
     } catch (error) {
-        console.log(error)
+        logger.error(error.message)
+        throw error
     }
 }
 
@@ -258,6 +264,7 @@ const addClientApplication = async (userId, name) => {
         await User.updateOne({ _id: user._id }, { $push: { client_applications: clientApplication } });
         return clientApplication
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 }
@@ -267,6 +274,7 @@ const addRedirectUri = async (clientId, uri) => {
         const clientApplication = await ClientApplication.updateOne({ _id: clientId }, { $push: { redirectUris: uri } }, { new: true });
         return clientApplication
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 }
@@ -276,6 +284,7 @@ const removeRedirectUri = async (clientId, uri) => {
         const clientApplication = await ClientApplication.updateOne({ _id: clientId }, { $pull: { redirectUris: uri } }, { new: true });
         return clientApplication
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 }
@@ -298,6 +307,7 @@ const getMembersBySearch = async (boardId, query) => {
         }).sort({"fullName": 1}).limit(10);
         return members
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 }
@@ -313,6 +323,7 @@ const deleteTeam = async (userId, teamId) => {
         }
         return user;
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 };

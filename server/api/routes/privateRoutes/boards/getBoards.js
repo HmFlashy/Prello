@@ -1,4 +1,5 @@
 const boardsController = require('../../../controllers/BoardsController');
+const logger =require('../../../../logger')
 
 /**
  * @swagger
@@ -30,7 +31,7 @@ module.exports = async (req, res) => {
         const boards = await boardsController.getBoards(req.user);
         return res.status(200).json(boards)
     } catch(error) {
-        console.log(error)
+        logger.error(error.message)
         if(error.code){
             return res.status(error.code).json(error.message)
         } else {

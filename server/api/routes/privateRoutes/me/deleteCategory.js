@@ -1,5 +1,5 @@
 const UserController = require('../../../controllers/UserController')
-const throwError = require('../../../helper/RequestHelper').throwError
+const logger = require('../../../../logger')
 
 /**
  * @swagger
@@ -29,7 +29,7 @@ module.exports = async (req, res) => {
         await UserController.deleteCategory(userId, categoryId);
         res.sendStatus(200)
     } catch (error) {
-        console.log(error)
+        logger.error(error.message)
         if (error.code) {
             res.status(error.code).json(error.message)
         } else {

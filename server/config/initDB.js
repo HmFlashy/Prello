@@ -13,6 +13,7 @@ const Poll = require("../api/models/index").Poll;
 const Option = require("../api/models/index").Option;
 const passwordHelper = require("../api/helper/passwordHelper");
 const OAuthClient = require("../oauth/server/models/OAuthClients")
+const logger = require('../logger')
 
 require("dotenv").config({});
 connect();
@@ -392,13 +393,13 @@ async function initDB() {
     array.push(Label.insertMany([FrontEnd, BackEnd, DB, DB2]));
 
     Promise.all(array).then(() => {
-        console.log("Init DB successful");
-        console.log("Closing the connection to the database");
+        logger.info("Init DB successful");
+        logger.info("Closing the connection to the database");
         mongoose.connection.close();
-    }).catch(error => console.log(error))
+    }).catch(error => logger.error(error.message))
 }
 
 mongoose.connection.once("open", async function () {
-    console.log("Connected to MongoDB");
+    logger.info("Connected to MongoDB");
     await initDB()
-}).catch(err => console.log(err));
+}).catch(err => logger.error(error.message));

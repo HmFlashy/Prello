@@ -1,4 +1,5 @@
 const UserController = require('../../../controllers/UserController');
+const logger =require('../../../../logger')
 
 /**
  * @swagger
@@ -32,7 +33,7 @@ module.exports = async (req, res) => {
         const members = await UserController.getMembersBySearch(boardId, query);
         return res.status(200).json(members)
     } catch (error) {
-        console.log(error)
+        logger.error(error.message)
         if (error.code) {
             return res.status(error.code).json(error.message)
         } else {

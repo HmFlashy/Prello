@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 mongoose.Promise = Promise;
+const logger = require('../logger')
 
 // Connect to Mongoose
 mongoose.connect(process.env.MONGO_URL, {
@@ -7,9 +8,9 @@ mongoose.connect(process.env.MONGO_URL, {
 })
 
 mongoose.connection.once('open', function() {
-  console.log('Connected to mongoDB') 
+  logger.info('Connected to mongoDB') 
 }).on('error', function(error){
-  console.log('Connection error:', error)
+  logger.info('Connection error:', error)
 })
 
 require('../api/models')

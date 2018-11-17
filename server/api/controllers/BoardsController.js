@@ -5,7 +5,7 @@ const Category = require("../models/index").Category;
 const ListsController = require("./ListsController")
 const CardsController = require("./CardsController")
 const throwError = require("../helper/RequestHelper").throwError;
-const mongoose = require("mongoose");
+const logger = require("../../logger")
 
 const getBoardById = async (boardId) => {
     try {
@@ -74,6 +74,7 @@ const getBoardById = async (boardId) => {
         }
         return board
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 };
@@ -127,6 +128,7 @@ const getBoardForExport = async (boardId) => {
         }
         return board
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 };
@@ -138,6 +140,7 @@ const getBoards = async (user) => {
         });
         return boards
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 };
@@ -167,6 +170,7 @@ const getBoardsInfo = async (boardId) => {
         }
         return boards
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 };
@@ -224,7 +228,7 @@ const addBoard = async (name, visibility, teamId, userId, categoryId) => {
             if (user) await user.save();
             if (newBoard) await newBoard.remove();
         } catch (error) {
-            console.log("DB corrupted !!!");
+            logger.error("DB_CORRUPTED")
             throw error;
         }
         throw error
@@ -235,6 +239,7 @@ const updateBoard = async (boardId, data) => {
     try {
         return await Board.findOneAndUpdate({_id: boardId}, {$set: data}, {"new": true})
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 }
@@ -244,6 +249,7 @@ const addLabel = async (boardId, label) => {
         await Board.findOneAndUpdate({_id: boardId},
             {$push: {labels: label}}, {"new": true})
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 }
@@ -254,6 +260,7 @@ const removeLabel = async (boardId, labelId) => {
         const boardLists = board.lists
         boardLists.forEach(boardList => ListsController.removeLabel(boardList._id, labelId))
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 }
@@ -287,6 +294,7 @@ const addBoardMember = async (boardId, userId) => {
         }
         return board;
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 };
@@ -341,8 +349,9 @@ const addBoardTeam = async (boardId, teamId) => {
                         }]);
                 return boardUpdated
             }
-        ).catch(error => { throw error })
+        )
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 };
@@ -366,6 +375,7 @@ const deleteBoardTeam = async (boardId, teamId) => {
         }
         return board;
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 };
@@ -391,6 +401,7 @@ const deleteBoardMember= async (boardId, userId) => {
         await CardsController.deleteBoardMember(boardId, userId);
         return board;
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 };
@@ -408,6 +419,7 @@ const deleteBoard = async (boardId) => {
 
         return board;
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 };
@@ -439,6 +451,7 @@ const updateRoleBoardMember = async (boardId, userId, role) => {
         await board.save();
         return board;
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 }

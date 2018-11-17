@@ -1,6 +1,6 @@
 const CardController = require('../../../controllers/CardsController')
 const socketIO = require('../../../../socket/index')
-const throwError = require('../../../helper/RequestHelper').throwError;
+const logger =require('../../../../logger')
 
 const types = {
     name: 'UPDATE_CARD_NAME',
@@ -90,6 +90,7 @@ module.exports = async (req, res) => {
             })
         }
     } catch (error) {
+        logger.error(error.message)
         (error.code)
             ? res.status(error.code).json(error.message)
             : res.sendStatus(500);

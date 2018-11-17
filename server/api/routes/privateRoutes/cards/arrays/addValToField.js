@@ -1,6 +1,7 @@
 const CardController = require('../../../../controllers/CardsController')
 const socketIO = require('../../../../../socket/index')
 const throwError = require('../../../../helper/RequestHelper').throwError;
+const logger =require('../../../../../logger')
 
 
 const fields = {
@@ -67,7 +68,7 @@ module.exports = async (req, res) => {
     try {
         const idCard = req.params.cardId
         if (fields[req.params.field]) {
-            const card = await CardController.addToArray(req.params.idCard, req.params.field, req.body.payload)
+            const card = await CardController.addToArray(idCard, req.params.field, req.body.payload)
             socketIO.broadcast('action', card.board, {
                 type: fields[req.params.field],
                 payload: req.body.label
@@ -78,6 +79,7 @@ module.exports = async (req, res) => {
             throwError(400, "Bad Request unknown field")
         }
     } catch (error) {
+        logger.error(error.message)
         res.status(500).json(error.message)
     }
 }

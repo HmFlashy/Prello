@@ -1,5 +1,6 @@
 const boardsController = require("../../../controllers/BoardsController");
 const throwError = require("../../../helper/RequestHelper").throwError;
+const logger =require('../../../../logger')
 
 module.exports = async (req, res) => {
     try {
@@ -10,7 +11,7 @@ module.exports = async (req, res) => {
         }
         return res.status(200).json(board)
     } catch (error) {
-        console.log(error);
+        logger.error(error.message);
         if (error.code) {
             return res.status(error.code).json(error.message)
         } else {

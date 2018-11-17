@@ -1,11 +1,14 @@
 const socketio = require('socket.io');
 const redisAdapter = require('socket.io-redis')(process.env.REDIS_URL);
-redisAdapter.pubClient.on('error', (error) => console.log(error));
-redisAdapter.pubClient.on('connect', () => console.log("Connected to Redis"));
+const logger = require('../logger')
+
+
+redisAdapter.pubClient.on('error', (error) => logger.error(error));
+redisAdapter.pubClient.on('connect', () => logger.info("Connected to Redis"));
 let io = null
 
 const socketLog = (text) => {
-	console.log("| SocketIO | : " + text)
+	logger.info("| SocketIO | : " + text)
 }
 module.exports = {
 	listen: (server) => {

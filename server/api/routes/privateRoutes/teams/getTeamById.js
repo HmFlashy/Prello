@@ -1,6 +1,5 @@
 const TeamsController = require('../../../controllers/TeamsController')
-const socketIO = require('../../../../socket')
-const throwError = require('../../../helper/RequestHelper').throwError;
+const logger = require('../../../../logger')
 
 /**
  * @swagger
@@ -35,7 +34,7 @@ module.exports = async (req, res) => {
         const team = await TeamsController.getTeamById(teamId);
         return res.status(200).json(team);
     } catch (error) {
-        console.log(error)
+        logger.error(error.message)
         if (error.code) {
             return res.status(error.code).json(error.message)
         } else {

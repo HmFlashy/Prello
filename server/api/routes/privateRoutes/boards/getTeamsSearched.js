@@ -1,4 +1,5 @@
 const TeamController = require('../../../controllers/TeamsController');
+const logger =require('../../../../logger')
 
 /**
  * @swagger
@@ -32,7 +33,7 @@ module.exports = async (req, res) => {
         const teams = await TeamController.getTeamsBySearch(boardId, query);
         return res.status(200).json(teams)
     } catch (error) {
-        console.log(error)
+        logger.error(error.message)
         if (error.code) {
             return res.status(error.code).json(error.message)
         } else {

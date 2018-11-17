@@ -3,6 +3,7 @@ const throwError = require('../../helper/RequestHelper').throwError;
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const request = require('request-promise')
+const logger = require('../../../logger')
 
 
 const emailRegEx = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/
@@ -81,12 +82,12 @@ module.exports = async (req, res) => {
             },
             json: true
         }
-        const token = await request(options).catch(error => console.log(error.response) || error.response && error.response.body && error.response.body === "LDAP_SERVER_ERROR" ? throwError(400, "LDAP_SERVER_ERROR") : throwError(400, null))
+        const token = await request(options).catch(error => error.response && error.response.body && error.response.body === "LDAP_SERVER_ERROR" ? throwError(400, "LDAP_SERVER_ERROR") : throwError(400, null))
         return res.status(200).json({
             token: token.access_token
         })
     } catch (error) {
-        console.log(error)
+        logger.error(error.message)
         return res.status(error.code).send(error.message)
     }
 }

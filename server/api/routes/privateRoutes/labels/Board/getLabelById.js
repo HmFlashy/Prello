@@ -1,6 +1,5 @@
 const LabelsController = require('../../../../controllers/LabelsController')
-const socketIO = require('../../../../../socket')
-const throwError = require('../../../../helper/RequestHelper').throwError;
+const logger = require('../../../../../logger')
 
 /**
   * @swagger
@@ -34,7 +33,7 @@ module.exports = async (req, res) => {
         const labelId = req.params.labelId;
         const label = await LabelsController.getLabelById(labelId)
     } catch (error) {
-        console.log(error)
+        logger.error(error.message)
         if (error.code) {
             return res.status(error.code).json(error.message)
         } else {

@@ -1,6 +1,6 @@
 const Attchment = require("../models/index").Attachment;
 const throwError = require("../helper/RequestHelper").throwError;
-const mongoose = require("mongoose");
+const logger = require("../../logger")
 
 const addAttachment = async (name, owner, cardId, url) => {
     try {
@@ -19,6 +19,7 @@ const addAttachment = async (name, owner, cardId, url) => {
         ), await Card.findOneAndUpdate({ _id: cardId },
             { $push: { attachments: attachment._id } }, { "new": true })]
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 };

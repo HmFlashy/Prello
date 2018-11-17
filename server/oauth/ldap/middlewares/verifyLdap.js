@@ -1,6 +1,7 @@
 const OAuthUsers = require('../../server/models/OAuthUsers')
 const ldapClient = require('../client')
 const UserController = require('../../../api/controllers/UserController')
+const logger = require('../../../logger')
 module.exports = async (req, res, next) => {
     try {
         if(req.body.ldap == "true"){
@@ -20,6 +21,7 @@ module.exports = async (req, res, next) => {
         }
         next()
     } catch(error) {
+        logger.error(error.message)
         const message = 
             error.name === "LDAPError" ? "LDAP_SERVER_ERROR" :
             null
