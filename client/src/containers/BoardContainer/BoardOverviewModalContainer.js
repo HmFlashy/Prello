@@ -39,7 +39,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
                 dispatch(actionUpdateBoardName({_id: ownProps.boardId, name: name}));
                 dispatch(actionUpdateBoardCategory({_id: ownProps.boardId, category: category}));
                 dispatch(actionUpdateBoardVisibility({_id: ownProps.boardId, visibility: visibility}));
-                const board = await boardServices.updateBoard(ownProps.boardId, name, categoryId, visibility);
+                return await boardServices.updateBoard(ownProps.boardId, name, categoryId, visibility);
             } catch (error) {
                 dispatch(failedActionBoardUpdateName({_id: ownProps.boardId, name: oldName}));
                 dispatch(failedActionUpdateBoardCategory({_id: ownProps.boardId, category: oldCategory}));

@@ -1,4 +1,3 @@
-import "./BoardPage.css"
 import React, {Component} from "react"
 import BoardContainer from "../../containers/BoardContainer/BoardContainer";
 import ErrorLayoutContainer from "../../containers/ErrorLayoutContainer";

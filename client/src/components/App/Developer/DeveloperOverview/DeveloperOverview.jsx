@@ -5,7 +5,6 @@ import { List } from 'semantic-ui-react';
 import DeveloperApplication from '../DeveloperApplication';
 import NewDeveloperApplication from '../NewDeveloperApplication';
 import DeveloperApplicationDetail from '../DeveloperApplicationDetail';
-import PropTypes from 'prop-types'
 
 class DeveloperOverview extends Component {
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon, Dropdown, Button, Segment } from 'semantic-ui-react'
+import { Dropdown, Button, Segment } from 'semantic-ui-react'
 
 export default (props) => (
     <Segment>

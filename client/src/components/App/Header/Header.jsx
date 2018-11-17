@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './Header.css'
-import { Segment, Dropdown, Button, Search } from 'semantic-ui-react'
+import { Segment, Dropdown, Button } from 'semantic-ui-react'
 import { withRouter } from 'react-router';
 import Avatar from "../Avatar"
 

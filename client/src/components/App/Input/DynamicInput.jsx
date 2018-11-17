@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Input, Ref } from 'semantic-ui-react'
 import PropTypes from 'prop-types';
-import './DynamicInput.css'
 
 class DynamicInput extends Component {
 

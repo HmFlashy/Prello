@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Grid, Label, Dropdown, Segment } from 'semantic-ui-react'
-import PropTypes from 'prop-types';
 import './LabelColorPicker.css'
 
 class LabelColorPicker extends Component {

@@ -56,7 +56,7 @@ export const getDueDateMode = (date, isCompleted, dueDateMode) => {
             else return isCompleted;
         case "DUE_DATE_NOT_MARKED_COMPLETED":
             if (!date) return false;
-            else return date !== null && !isCompleted;
+            else return !isCompleted;
         case "OVERDUE":
             if (!date) return false;
             else if (isCompleted) return false;
@@ -64,5 +64,7 @@ export const getDueDateMode = (date, isCompleted, dueDateMode) => {
                 const diff = moment(date).diff(moment(), "seconds");
                 return (diff <= 0)
             }
+        default:
+            break;
     }
 };

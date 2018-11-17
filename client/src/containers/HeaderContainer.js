@@ -14,7 +14,6 @@ import {
 } from '../redux/actions/BoardActions'
 import userServices from "../services/UserServices";
 import { actionGetProfile, actionLogout } from "../redux/actions/UserActions";
-import AuthentificationServices from '../services/AuthentificationServices';
 
 const mapStateToProps = (state, ownProps) => {
     return {

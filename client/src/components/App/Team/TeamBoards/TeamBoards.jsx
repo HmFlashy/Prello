@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import { Segment, Input, Container } from 'semantic-ui-react'
 import './TeamBoards.css'
 import BoardOverviewContainer from '../../../../containers/BoardContainer/BoardOverviewContainer';
-import NewBoardModalContainer from '../../../../containers/BoardContainer/NewBoardModalContainer';
 
 class TeamBoards extends Component {
 

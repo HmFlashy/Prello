@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import CardOverviewContainer from '../../../containers/CardContainers/CardOverviewContainer';
-import { Segment, Container, List, Input, Button, Icon, Label } from 'semantic-ui-react'
-import './List.css'
+import { Segment, Container, List, Input, Icon, Label } from 'semantic-ui-react'
+import './MyList.css'
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 import DynamicInput from '../Input/DynamicInput'
 

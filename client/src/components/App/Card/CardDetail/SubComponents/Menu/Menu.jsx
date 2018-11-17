@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import './Menu.css'
-import { Button, Icon, Divider, Modal, Header, Input, Popup, Loader, Dimmer, Label, Checkbox } from 'semantic-ui-react'
+import { Button, Icon, Divider, Modal, Header, Input, Popup, Loader, Dimmer, Label } from 'semantic-ui-react'
 import DatePicker from './datepicker';
 import Move from './subComponents/Move/MoveContainer.js'
 import moment from 'moment';
-import LabelColorPicker from '../../../../Input/LabelColorPicker';
 import DropboxChooser from 'react-dropbox-chooser'
 //import { FilePicker } from 'react-file-picker'
-import axios from 'axios'
 import autoBind from 'react-autobind';
 class Menu extends Component {
 

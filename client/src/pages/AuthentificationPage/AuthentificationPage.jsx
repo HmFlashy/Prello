@@ -1,4 +1,3 @@
-import './Authentification.css'
 import React, { Component } from 'react'
 import LoginFormContainer from '../../containers/AuthentificationContainers/LoginFormContainer';
 import RegisterFormContainer from '../../containers/AuthentificationContainers/RegisterFormContainer';
