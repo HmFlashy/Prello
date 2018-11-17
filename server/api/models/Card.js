@@ -39,7 +39,7 @@ const CardSchema = new mongoose.Schema({
         nbItems: { type: Number, default: 0 },
         nbItemsChecked: { type: Number, default: 0 },
         nbAttachments: { type: Number, default: 0 },
-        description: { type: String, default: false }
+        description: { type: Boolean, default: false }
     }
 }, { timestamps: true });
 
