@@ -35,7 +35,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             //dispatch(actionBoardUnsubscribe(boardId))
         },
         logout(boardId){
-            AuthentificationServices.logout()
             dispatch(actionLogout())
             ownProps.history.push("/login")
         },
