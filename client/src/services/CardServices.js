@@ -8,6 +8,7 @@ export default {
             const res = await axios.get(`${UrlConfig.API}/cards/${cardId}`, tokenHeader())
             return res.data
         } catch (e) {
+            console.log(e)
             throw e
         }
     }, async updateCardApi(cardId, toUpdate) {
@@ -15,6 +16,7 @@ export default {
             const res = await axios.put(`${UrlConfig.API}/cards/${cardId}`, toUpdate, tokenHeader())
             return res.data
         } catch (error) {
+            console.log(error)
             throw error
         }
     }, async moveCardApi(cardId, data) {
@@ -22,6 +24,7 @@ export default {
             const res = await axios.put(`${UrlConfig.API}/cards/${cardId}/move`, data, tokenHeader())
             return res.data
         } catch (error) {
+            console.log(error)
             throw error
         }
     }, async deleteCardApi(cardId) {
@@ -29,6 +32,7 @@ export default {
             const res = await axios.delete(`${UrlConfig.API}/cards/${cardId}`, tokenHeader())
             return res.data
         } catch (error) {
+            console.log(error)
             throw error
         }
     },
@@ -41,6 +45,7 @@ export default {
             }, tokenHeader())
             return res.data
         } catch (error) {
+            console.log(error)
             throw error
         }
     },
@@ -49,6 +54,7 @@ export default {
             const res = await axios.post(`${UrlConfig.API}/cards/${cardId}/comments`, data, tokenHeader())
             return res.data
         } catch (error) {
+            console.log(error)
             throw error
         }
     },
@@ -57,6 +63,7 @@ export default {
             const res = await axios.delete(`${UrlConfig.API}/cards/${cardId}/comments/${commentId}`, tokenHeader())
             return res.data
         } catch (error) {
+            console.log(error)
             throw error
         }
     },
@@ -65,6 +72,7 @@ export default {
             const res = await axios.put(`${UrlConfig.API}/cards/${cardId}/comments/${commentId}`, data, tokenHeader())
             return res.data
         } catch (error) {
+            console.log(error)
             throw error
         }
     },
@@ -75,6 +83,7 @@ export default {
             }, tokenHeader())
             return res.data
         } catch (error) {
+            console.log(error)
             throw error
         }
     },
@@ -83,6 +92,7 @@ export default {
             const res = await axios.delete(`${UrlConfig.API}/cards/${cardId}/checklists/${checkListId}`, tokenHeader())
             return res.data
         } catch (error) {
+            console.log(error)
             throw error
         }
     },
@@ -93,6 +103,7 @@ export default {
             }, tokenHeader())
             return res.data
         } catch (error) {
+            console.log(error)
             throw error
         }
     },
@@ -103,6 +114,7 @@ export default {
             }, tokenHeader())
             return res.data
         } catch (error) {
+            console.log(error)
             throw error
         }
     },
@@ -111,6 +123,7 @@ export default {
             const res = await axios.delete(`${UrlConfig.API}/cards/${cardId}/checklists/${checkListId}/items/${itemId}`, tokenHeader())
             return res.data
         } catch (error) {
+            console.log(error)
             throw error
         }
     },
@@ -121,6 +134,7 @@ export default {
                 , tokenHeader())
             return res.data
         } catch (error) {
+            console.log(error)
             throw error
         }
     },
@@ -129,6 +143,7 @@ export default {
             const res = await axios.put(`${UrlConfig.API}/cards/${cardId}/labels/${labelId}`, null, tokenHeader())
             return res.data
         } catch (error) {
+            console.log(error)
             throw error
         }
     },
@@ -137,6 +152,7 @@ export default {
             const res = await axios.delete(`${UrlConfig.API}/cards/${cardId}/labels/${labelId}`, tokenHeader())
             return res.data
         } catch (error) {
+            console.log(error)
             throw error
         }
     },
@@ -148,6 +164,7 @@ export default {
             const res = await axios.post(`${UrlConfig.API}/cards/${cardId}/attachments`, formData, { ...tokenHeader(), 'Content-Type': 'multipart/form-data' })
             return res.data
         } catch (error) {
+            console.log(error)
             throw error
         }
     },
@@ -156,6 +173,7 @@ export default {
             const res = await axios.post(`${UrlConfig.API}/cards/${cardId}/attachments`, data, tokenHeader())
             return res.data
         } catch (error) {
+            console.log(error)
             throw error
         }
     },
@@ -164,6 +182,7 @@ export default {
             const res = await axios.delete(`${UrlConfig.API}/cards/${cardId}/attachments/${attachmentId}`, tokenHeader())
             return res.data
         } catch (error) {
+            console.log(error)
             throw error
         }
     }
