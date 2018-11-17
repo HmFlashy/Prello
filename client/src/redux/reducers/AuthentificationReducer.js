@@ -17,7 +17,7 @@ const defaultAuthentificationState = {
     queryMember: ""
 };
 
-export default (state = defaultAuthentificationState, action) => {
+export default (state = defaultAuthentificationState, action = { type: null, payload: null }) => {
     const data = action.payload;
     switch (action.type) {
         case "LOGIN_FAILED":
@@ -136,21 +136,6 @@ export default (state = defaultAuthentificationState, action) => {
                 }
             };
         case "UPDATE_BOARD_CATEGORY":
-            return {
-                ...state,
-                user: {
-                    ...state.user,
-                    boards: state.user.boards.map(board => {
-                        if (board.board === action.payload._id) {
-                            if (action.payload.category === "No Category") {
-                                return { ...board, category: null }
-                            } else {
-                                return { ...board, category: action.payload.category }
-                            }
-                        } else return board
-                    })
-                }
-            }
         case "FAILED_UPDATE_BOARD_CATEGORY":
             return {
                 ...state,

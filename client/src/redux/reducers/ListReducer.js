@@ -2,7 +2,7 @@ export const defaultListReducer = {
     all: []
 }
 
-export default (state = defaultListReducer, action) => {
+export default (state = defaultListReducer, action = { type: null, payload: null }) => {
     switch (action.type) {
         case "FETCHED_BOARD":
             const board = action.payload

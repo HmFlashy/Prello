@@ -34,7 +34,7 @@ const defaultBoardReducer = {
     }
 };
 
-export default (state = defaultBoardReducer, action) => {
+export default (state = defaultBoardReducer, action = { type: null, payload: null }) => {
     switch (action.type) {
         case "FETCHED_BOARD":
             const board = action.payload;
@@ -47,6 +47,7 @@ export default (state = defaultBoardReducer, action) => {
                 }
             };
         case "FETCHING_BOARD":
+        case "FETCHING_BOARDS":
             return {
                 ...state,
                 fetching: true
@@ -55,11 +56,6 @@ export default (state = defaultBoardReducer, action) => {
             return {
                 ...state,
                 all: [...action.payload]
-            };
-        case "FETCHING_BOARDS":
-            return {
-                ...state,
-                fetching: true
             };
         case "BOARD_SUBSCRIBE":
             return {

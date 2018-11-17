@@ -3,7 +3,7 @@ export const defaultCardReducer = {
   error: null
 }
 
-export default (state = defaultCardReducer, action) => {
+export default (state = defaultCardReducer, action = { type: null, payload: null }) => {
   switch (action.type) {
     case "FETCHED_BOARD":
       const board = action.payload
