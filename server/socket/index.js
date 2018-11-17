@@ -4,7 +4,7 @@ const logger = require('../logger')
 
 
 redisAdapter.pubClient.on('error', (error) => logger.error(error));
-redisAdapter.pubClient.on('connect', () => logger.error("Connected to Redis"));
+redisAdapter.pubClient.on('connect', () => logger.info("Connected to Redis"));
 let io = null
 
 const socketLog = (text) => {
