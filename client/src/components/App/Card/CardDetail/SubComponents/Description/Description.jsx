@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class CardDescription extends Component {
+class Description extends Component {
  
     render(){
         return(
@@ -15,4 +15,4 @@ class CardDescription extends Component {
     }
 }
 
-export default CardDescription
+export default Description

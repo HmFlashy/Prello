@@ -35,6 +35,7 @@ export default {
                 tokenHeader())
             return res.data
         } catch(error) {
+            console.log(error)
             throw error
         }
     },
@@ -43,6 +44,7 @@ export default {
             const res = await axios.post(`${UrlConfig.API}/me/categories`, {name: name}, tokenHeader())
             return res.data
         } catch(error) {
+            console.log(error)
             throw error
         }
     },
@@ -51,6 +53,7 @@ export default {
             const res = await axios.delete(`${UrlConfig.API}/me/categories/${id}`, tokenHeader())
             return res.data
         } catch(error) {
+            console.log(error)
             throw error
         }
     },
@@ -59,6 +62,7 @@ export default {
             const res = await axios.put(`${UrlConfig.API}/me/categories/${id}`, { name }, tokenHeader())
             return res.data
         } catch(error) {
+            console.log(error)
             throw error
         }
     },
@@ -67,6 +71,7 @@ export default {
             const res = await axios.post(`${UrlConfig.API}/me/client_applications`, { name }, tokenHeader())
             return res.data
         } catch(error) {
+            console.log(error)
             throw error
         }
     },
@@ -75,6 +80,7 @@ export default {
             const res = await axios.post(`${UrlConfig.API}/me/client_applications/${clientId}/uris`, { clientId, uri }, tokenHeader())
             return res.data
         } catch(error){
+            console.log(error)
             throw error
         }
     },
@@ -83,6 +89,7 @@ export default {
             const res = await axios.delete(`${UrlConfig.API}/me/client_applications/${clientId}/uris/${uri}`, tokenHeader())
             return res.data
         } catch(error){
+            console.log(error)
             throw error
         }
     }

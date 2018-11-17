@@ -10,7 +10,7 @@ import WelcomePage from "./pages/WelcomePage";
 import DeveloperPage from './pages/DeveloperPage'
 
 import { Provider } from 'react-redux'
-import configureStore from './redux/store'
+import configureStore from './redux/configureStore'
 import { DragDropContext } from 'react-beautiful-dnd';
 import TeamPage from "./pages/TeamPage";
 import MePage from "./pages/MePage";
