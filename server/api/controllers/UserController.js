@@ -108,7 +108,7 @@ const starBoard = async (userId, boardId) => {
 
 const getUsersWithQuery = async (query) => {
     try {
-        const users = await User.find({ $or: [{ username: new RegExp(query, i) }, { email: new RegExp(query, i) }] })
+        const users = await User.find({ $or: [{ username: new RegExp(query, "i") }, { email: new RegExp(query, "i") }] })
         if (!users) {
             throwError(404, `No users was found`)
         }
