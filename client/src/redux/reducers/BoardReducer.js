@@ -607,6 +607,11 @@ export default (state = defaultBoardReducer, action = { type: null, payload: nul
                 },
                 all: state.all.filter(board => !(board._id === action.payload.boardId && action.payload.memberId === action.payload.userId))
             };
+        case "DELETE_BOARD":
+            return {
+                ...state,
+                all: state.all.filter(board => board._id !== action.payload._id)
+            };
         case "UPDATED_BOARD_ROLE_MEMBER":
             return {
                 ...state,

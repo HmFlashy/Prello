@@ -55,7 +55,7 @@ class Header extends Component {
         this.props.subscribe(nextBoardId)
     }
 
-    logout(){
+    logout() {
         AuthentificationServices.logout()
         this.props.logout()
     }
@@ -67,7 +67,7 @@ class Header extends Component {
                     <Button icon='home' onClick={this.goHome} />
                     {
                         this.state.width > 800 ?
-                            <Dropdown text='Boards' icon='flipboard' floating labeled button className='icon'>
+                            <Dropdown text='Boards' icon='flipboard' floating labeled button className='icon' scrolling>
                                 <Dropdown.Menu>
                                     <Dropdown.Header icon='tags' content='Boards' />
                                     {this.props.boards.map(board => <Dropdown.Item key={board._id} onClick={() => { this.changeBoard(board._id) }}>{board.name}</Dropdown.Item>)}
@@ -81,7 +81,6 @@ class Header extends Component {
                                 </Dropdown.Menu>
                             </Dropdown>
                     }
-                    {/*<Search results={[{ title: "yo", description: "mdr" }]} size="small" className="search"></Search>*/}
                 </div>
                 <div className="header-center">
                     <img className="header-center-image" src="http://image.noelshack.com/fichiers/2018/45/3/1541618482-logoprello.png"></img>
@@ -103,54 +102,6 @@ class Header extends Component {
                             </Button>
                         </div>
                     </div>
-                    { /*
-                    {this.state.width > 1000 ? <Dropdown button className='icon' floating labeled icon='plus' text='Create'>
-                        <Dropdown.Menu>
-                            <Dropdown.Header content='Create' />
-                            <Dropdown.Divider />
-                            <Dropdown.Item>Create a board</Dropdown.Item>
-                            <Dropdown.Item>Create a team</Dropdown.Item>
-                        </Dropdown.Menu>
-                    </Dropdown> :
-                        <Dropdown trigger={<Button icon='plus' size='medium' />} icon={null} className='icon'>
-                            <Dropdown.Menu>
-                                <Dropdown.Header content='Create' />
-                                <Dropdown.Divider />
-                                <Dropdown.Item>Create a board</Dropdown.Item>
-                                <Dropdown.Item>Create a team</Dropdown.Item>
-                            </Dropdown.Menu>
-                        </Dropdown>}
-                    {this.state.width > 1000
-                        ? <Dropdown button className='icon' floating labeled icon='bell outline' text='Notifications' />
-                        : <Dropdown trigger={<Button icon='bell outline' size='medium' />} icon={null} className='icon' />
-                    }
-                    {this.state.width > 800
-                        ? <Dropdown button className='icon' floating labeled icon='user outline' text='User'>
-                            <Dropdown.Menu>
-                                <Dropdown.Header content='name' />
-                                <Dropdown.Divider />
-                                <Dropdown.Item>Profile</Dropdown.Item>
-                                <Dropdown.Item>Cards</Dropdown.Item>
-                                <Dropdown.Item>Settings</Dropdown.Item>
-                                <Dropdown.Divider />
-                                <Dropdown.Item>Change language</Dropdown.Item>
-                                <Dropdown.Item>Log out</Dropdown.Item>
-                            </Dropdown.Menu>
-                        </Dropdown>
-                        : <Dropdown trigger={<Button icon='user outline' size='medium' />} icon={null} className='icon'>
-                            <Dropdown.Menu>
-                                <Dropdown.Header content='name' />
-                                <Dropdown.Divider />
-                                <Dropdown.Item>Profile</Dropdown.Item>
-                                <Dropdown.Item>Cards</Dropdown.Item>
-                                <Dropdown.Item>Settings</Dropdown.Item>
-                                <Dropdown.Divider />
-                                <Dropdown.Item>Change language</Dropdown.Item>
-                                <Dropdown.Item>Log out</Dropdown.Item>
-                            </Dropdown.Menu>
-                        </Dropdown>
-                    }
-                */}
                 </div>
             </Segment>
         )

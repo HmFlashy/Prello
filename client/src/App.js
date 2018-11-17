@@ -26,7 +26,7 @@ class App extends Component {
 
         <Provider store={configureStore()}>
           <ConnectedRouter history={history}>
-            <div className="App">
+            <div className="App fillheight">
               <Switch>
                 <Route exact path="/welcome" component={WelcomePage} />
                 <Route exact path="/login" component={AuthentificationPage} />

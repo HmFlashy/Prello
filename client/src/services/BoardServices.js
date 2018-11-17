@@ -131,7 +131,7 @@ export default {
     },
     async addTeam(boardId, id) {
         try {
-            const res = await axios.put(`${UrlConfig.API}/boards/${boardId}/teams`, {teamId: id}, tokenHeader());
+            const res = await axios.put(`${UrlConfig.API}/boards/${boardId}/teams`, { teamId: id }, tokenHeader());
             return res.data;
         } catch (error) {
             console.log(error)
@@ -149,9 +149,18 @@ export default {
     },
     async changeRoleBoardMember(boardId, memberId, role) {
         try {
-            const res = await axios.put(`${UrlConfig.API}/boards/${boardId}/members/${memberId}`, {role: role}, tokenHeader());
+            const res = await axios.put(`${UrlConfig.API}/boards/${boardId}/members/${memberId}`, { role: role }, tokenHeader());
             return res.data
-        } catch(error) {
+        } catch (error) {
+            console.log(error)
+            throw error
+        }
+    },
+    async deleteBoard(boardId) {
+        try {
+            const res = await axios.delete(`${UrlConfig.API}/boards/${boardId}`, tokenHeader());
+            return res.data
+        } catch (error) {
             console.log(error)
             throw error
         }

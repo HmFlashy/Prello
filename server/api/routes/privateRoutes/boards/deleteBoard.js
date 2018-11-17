@@ -1,7 +1,7 @@
 const boardsController = require('../../../controllers/BoardsController');
 const socketIO = require('../../../../socket/index');
 const throwError = require('../../../helper/RequestHelper').throwError;
-const logger =require('../../../../logger')
+const logger = require('../../../../logger')
 
 /**
  * @swagger
@@ -48,7 +48,9 @@ module.exports = async (req, res) => {
         }
         socketIO.broadcast("action", boardId, {
             type: "DELETE_BOARD",
-            payload: board
+            payload: {
+                _id: board._id
+            }
         });
         return res.status(200).json(board)
     } catch (error) {

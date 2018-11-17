@@ -355,15 +355,27 @@ class BoardHeader extends Component {
                                                 options={this.state.roleOptions}
                                                 value={this.state.roleOptions.find(roleOption => roleOption.text === boardMember.role).value}
                                                 onChange={(e, { value }) => this.handleChangeRole(boardMember.member._id, value)}
-                                                disabled={!this.props.board.members.some(boardMember => this.props.userId === boardMember.member._id && boardMember.member.role === "Admin")}
+                                                disabled={!this.props.board.members.some(boardMember => this.props.userId === boardMember.member._id && boardMember.role === "Admin")}
                                             />
-                                            <Button onClick={() => {
-                                                this.removeMember(boardMember.member._id);
-                                                if (this.props.userId === boardMember.member._id)
-                                                    this.props.history.push(`/home`);
-                                            }}>
-                                                {this.props.userId === boardMember.member._id ? "Leave board" : "Remove from the board"}
+                                            {this.props.board.members.some(boardMember => this.props.userId === boardMember.member._id && boardMember.role === "Admin")
+                                                ? <Button onClick={() => {
+                                                    this.removeMember(boardMember.member._id);
+                                                    if (this.props.userId === boardMember.member._id)
+                                                        this.props.history.push(`/home`);
+                                                }}>
+                                                    {this.props.userId === boardMember.member._id ? "Leave board" : "Remove from the board"}
+                                                </Button>
+                                                : this.props.userId === boardMember.member._id
+                                                    ? <Button onClick={() => {
+                                                        this.removeMember(boardMember.member._id);
+                                                        if (this.props.userId === boardMember.member._id)
+                                                            this.props.history.push(`/home`);
+                                                    }}>
+                                                        Leave board
                                             </Button>
+                                                    : ""
+                                            }
+
                                         </Popup.Content>
                                     </Popup>)}
                                 <Popup
@@ -619,6 +631,13 @@ class BoardHeader extends Component {
                         }}>
                             Export
                     </Button>
+                        {this.props.board.members.some(boardMember => this.props.userId === boardMember.member._id && boardMember.role === "Admin")
+                            ? <Button className="button-header" onClick={() => { this.props.deleteBoard(); this.props.history.push(`/home`) }}>
+                                Delete
+                            </Button>
+                            : ""
+                        }
+
                     </div>
                 )
                 : <Dimmer active>

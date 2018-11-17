@@ -184,6 +184,14 @@ const mapDispatchToProps = (dispatch, ownProps) => {
                 dispatch(actionFailedDeletingBoardMember(error))
                 throw error
             }
+        },
+        async deleteBoard() {
+            try {
+                await BoardServices.deleteBoard(ownProps.board._id);
+            } catch (error) {
+                dispatch(actionFailedDeletingBoardMember(error))
+                throw error
+            }
         }
     }
 };

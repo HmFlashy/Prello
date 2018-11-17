@@ -197,6 +197,11 @@ export default (state = defaultAuthentificationState, action = { type: null, pay
                 boards: state.user._id === action.payload.memberId ? state.user.boards.filter(boardMember =>
                     boardMember.board !== action.payload.boardId) : state.user.boards
             };
+        case "DELETE_BOARD":
+            return {
+                ...state,
+                boards: state.user.boards.filter(boardMember => boardMember.board !== action.payload._id)
+            };
         case "UPDATED_BOARD_ROLE_MEMBER":
             return {
                 ...state,
