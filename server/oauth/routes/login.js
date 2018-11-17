@@ -1,5 +1,6 @@
 const getClient = require('../server/model').getClient
 const InvalidRequestError = require('oauth2-server').InvalidRequestError;
+const logger = require('../../../../logger')
 
 module.exports = {
   async Login(req, res) {
@@ -29,7 +30,7 @@ module.exports = {
         state: 'truc'
       })
     } catch(error){
-      console.log(error)
+      logger.error(error.message)
       return res.sendStatus(500)
     }
   },

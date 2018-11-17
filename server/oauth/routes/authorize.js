@@ -1,5 +1,6 @@
 const getUser = require('../server/model').getUser
 const oauth = require('../server/OAuth2Server')
+const logger = require('../../logger')
 
 module.exports = async (req, res, next) => {
     const options = {
@@ -10,6 +11,7 @@ module.exports = async (req, res, next) => {
                 try {
                     return await getUser(email, password)
                 } catch(error) {
+                    logger.error(error.message)
                     throw error
                 }
             }

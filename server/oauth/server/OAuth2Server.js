@@ -3,6 +3,7 @@ const OAuthServer = require('express-oauth-server');
 const OAuthUser = mongoose.model('User');
 const jwt = require('jsonwebtoken')
 require('./models')
+const logger = require('../../logger')
 
 const oauth = new OAuthServer({
     model: require('./model'),
@@ -19,7 +20,7 @@ oauth.populateCurrentUser = () => {
       req.user = user
       next()
     })
-    .catch(error => console.log(error) || Promise.reject(error))
+    .catch(error => logger.error(error.message) || Promise.reject(error))
   }
 }
 

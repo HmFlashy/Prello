@@ -1,5 +1,6 @@
 require('dotenv').config()
 const LDAP = require('ldap-client')
+const logger = require('../../logger')
 
 const base = process.env.LDAP_BASE
 
@@ -11,11 +12,11 @@ var ldap = new LDAP({
     filter:          '(objectClass=*)',                 // default filter for all future searches
     scope:           LDAP.SUBTREE,                      // default scope for all future searches
     connect:         () => {
-        console.log("Connected")
+        logger.info("Connected")
     }
 }, function(err) {
     if(err){
-        console.log(err)
+        logger.error(err.message)
     }
 });
 
@@ -26,7 +27,7 @@ const search = async (name, password, section, year) => {
             password: password
         }, (err) => {
             if(err) {
-                console.log(err)
+                logger.error(err.message)
                 reject(err)
             } else {
                 search_options = {
@@ -36,7 +37,7 @@ const search = async (name, password, section, year) => {
                     attrs: '*'
                 }
                 ldap.search(search_options, (err, data) => {
-                    if(err) return console.log(err) || reject(err)
+                    if(err) return logger.error(err.message) || reject(err)
                     return resolve(data)
                 });
             }
