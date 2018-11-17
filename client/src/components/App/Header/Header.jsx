@@ -3,6 +3,7 @@ import './Header.css'
 import { Segment, Dropdown, Button } from 'semantic-ui-react'
 import { withRouter } from 'react-router';
 import Avatar from "../Avatar"
+import AuthentificationServices from '../../../services/AuthentificationServices';
 
 class Header extends Component {
 
@@ -55,6 +56,7 @@ class Header extends Component {
     }
 
     logout(){
+        AuthentificationServices.logout()
         this.props.logout()
     }
 

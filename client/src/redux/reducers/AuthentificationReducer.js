@@ -14,6 +14,7 @@ const defaultAuthentificationState = {
         client_applications: []
     },
     error: null,
+    token: localStorage.getItem("token-prello"),
     queryMember: ""
 };
 
