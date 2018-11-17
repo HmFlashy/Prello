@@ -1,6 +1,6 @@
 const UserController = require('../../../controllers/UserController')
-const throwError = require('../../../helper/RequestHelper').throwError
 const { validationResult } = require('express-validator/check');
+const logger = require('../../../../logger')
 
 /**
  * @swagger
@@ -34,7 +34,7 @@ module.exports = async (req, res) => {
         const user = await UserController.updateUser(userId, fullName, username, email, bio, organization, req.body.newPassword && req.body.newPassword.length > 8 ? req.body.newPassword : undefined);
         res.status(200).json(user)
     } catch (error) {
-        console.log(error)
+        logger.error(error.message)
         if (error.code) {
             res.status(error.code).json(error.message)
         } else {

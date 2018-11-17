@@ -1,6 +1,7 @@
 const BoardsController = require("../../../controllers/BoardsController");
 const socketIO = require("../../../../socket/index");
 const throwError = require("../../../helper/RequestHelper").throwError;
+const logger =require('../../../../logger')
 
 const types = {
     name: "UPDATE_BOARD_NAME",
@@ -76,7 +77,7 @@ module.exports = async (req, res) => {
         });
         return res.status(200).json(boardUpdated)
     } catch (error) {
-        console.log(error)
+        logger.error(error.message)
         if (error.code) {
             return res.status(error.code).json(error.message)
         } else {

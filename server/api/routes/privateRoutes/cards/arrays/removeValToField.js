@@ -1,6 +1,7 @@
 const CardController = require('../../../../controllers/CardsController')
 const socketIO = require('../../../../../socket/index')
 const throwError = require('../../../../helper/RequestHelper').throwError;
+const logger =require('../../../../../logger')
 
 
 const fields = {
@@ -78,6 +79,7 @@ module.exports = async (req, res) => {
             throwError(400, "Bad Request unknown field")
         }
     } catch (error) {
+        logger.error(error.messag)
         res.status(500).json(error.message)
     }
 }

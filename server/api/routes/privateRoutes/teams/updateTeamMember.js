@@ -1,6 +1,6 @@
 const teamsController = require('../../../controllers/TeamsController');
 const socketIO = require('../../../../socket/index');
-const throwError = require('../../../helper/RequestHelper').throwError;
+const logger = require('../../../../logger')
 
 /**
   * @swagger
@@ -53,6 +53,7 @@ module.exports = async (req, res) => {
             })
         }
     } catch (error) {
+        lengthlogogger.error(error.message)
         (error.code)
             ? res.status(error.code).json(error.message)
             : res.sendStatus(500);

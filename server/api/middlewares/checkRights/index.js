@@ -1,9 +1,9 @@
 const TeamsController = require("../../controllers/TeamsController");
-const UserController = require("../../controllers/UserController");
 const BoardController = require("../../controllers/BoardsController");
 const CardsController = require("../../controllers/CardsController");
 const ListsController = require("../../controllers/ListsController");
 const throwError = require("../../helper/RequestHelper").throwError;
+const logger = require("../../../logger")
 
 inBoard = (userId, board, team, method) => {
     if(method === "GET" &&  board.visibility === "Public")
@@ -110,7 +110,7 @@ checkRightsFromTeam = (toCheck, idIsInBody = false) => async (req, res, next) =>
 checkRights = (toCheck, userId, board, team, method) => {
     for (const atom of toCheck) {
         if (!funcs[atom])
-            console.log(`Unknow right to check ${atom}`)
+            logger.error(`Unknow right to check ${atom}`)
         if (funcs[atom] && !funcs[atom](userId, board, team, method))
             return false
     }

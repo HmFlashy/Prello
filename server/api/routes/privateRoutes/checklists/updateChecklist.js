@@ -1,7 +1,6 @@
-const CardController = require('../../../controllers/CardsController')
 const ChecklistController = require('../../../controllers/ChecklistController')
 const socketIO = require('../../../../socket/index')
-const throwError = require('../../../helper/RequestHelper').throwError;
+const logger =require('../../../../logger')
 
 /**
   * @swagger
@@ -55,6 +54,7 @@ module.exports = async (req, res) => {
         })
         return res.status(200).json(checklists)
     } catch (error) {
+        logger.error(error.message)
         res.status(500).json(error.message)
     }
 }

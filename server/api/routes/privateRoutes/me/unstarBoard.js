@@ -1,5 +1,5 @@
 const UserController = require('../../../controllers/UserController')
-const throwError = require('../../../helper/RequestHelper').throwError
+const logger = require('../../../../logger')
 
 /**
  * @swagger
@@ -29,7 +29,7 @@ module.exports = async (req, res) => {
         const board = await UserController.unstarBoard(userId, boardId)
         res.status(200).json(board)
     } catch (error) {
-        console.log(error)
+        logger.error(error.message)
         if (error.code) {
             res.status(error.code).json(error.message)
         } else {

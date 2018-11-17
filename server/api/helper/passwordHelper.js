@@ -1,12 +1,13 @@
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
+const logger = require("../../logger")
 
 const passwordHelper = async(password) => {
     try {
         const hash = await bcrypt.hash(password, saltRounds)
         return hash
     } catch (error) {
-        console.log(error);
+const logger = require("../../logger")
         throw error
     }
 };

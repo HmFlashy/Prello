@@ -4,6 +4,7 @@ const socketIO = require("../../../../socket/index")
 const throwError = require("../../../helper/RequestHelper").throwError;
 const { validationResult } = require('express-validator/check');
 const S3 = require("../../../S3Service.js")
+const logger =require('../../../../logger')
 
 /**
  * @swagger
@@ -72,7 +73,7 @@ module.exports = async (req, res) => {
         }
 
     } catch (error) {
-        console.log(error)
+        logger.error(error.message)
         if (error.code) {
             res.status(error.code).json(error.message);
         } else {
