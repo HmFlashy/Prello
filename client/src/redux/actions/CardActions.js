@@ -15,7 +15,7 @@ const types = (type, isUpdating) => {
 
 export const actionUpdateCard = (data) => {
     return {
-        type: types(types[Object.keys(data)[0]], false),
+        type: types([Object.keys(data)[0]], false),
         payload: data
     }
 }
@@ -44,7 +44,7 @@ export const failedActionMoveCard = (data) => {
 export const failedActionUpdateCard = (error) => {
     let type
     Object.keys(error).map(key => {
-        if(key !== "_id"){
+        if (key !== "_id") {
             type = `FAILED_UPDATE_${key.toUpperCase()}`
         }
     })

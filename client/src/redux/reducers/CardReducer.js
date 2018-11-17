@@ -1,4 +1,4 @@
-const defaultCardReducer = {
+export const defaultCardReducer = {
   all: [],
   error: null
 }
@@ -17,7 +17,6 @@ export default (state = defaultCardReducer, action) => {
         error: action.payload
       }
     case 'ADD_CARD':
-      console.log(action)
       const card = action.payload
       return {
         ...state,

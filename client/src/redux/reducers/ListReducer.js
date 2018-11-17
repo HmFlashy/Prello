@@ -1,4 +1,4 @@
-const defaultListReducer = {
+export const defaultListReducer = {
     all: []
 }
 
