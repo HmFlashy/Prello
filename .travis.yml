@@ -9,8 +9,11 @@ addons:
     organization: "hmflashy-github" # the key of the org you chose at step #3
     token:
       secure: SumRNkxmgTpZDVRfpw7rdh450Vm56+V+GGkgPG05US87UFpI/DKg7oqtNXR9d++q3LPFg2KM6aENDH7LSJmYk7E1RvlBFiOsCZxWyTNRE7uHMNceGL8qFSV9snbEXqYcOcEsuxLWF3VecuBnUpaibQuxAqUGLOQ9pVa/LQpGmC+K79V8eDTohaG9JZx4fw9kmdZwmd2gDlRni7vg59/k2GvsnmUE+Vf/sNajctu89EpO8RZqhz+Gap+8kXlPcbwDhbNOGJ972F3THWQY54L4VjmkU5aDqhtChMUL7pbd0jAgI8cLn/w2wh7nPAW0wF8AcEjhDeiJeF4pIW5VyLuoKy+uL03pNbmFyXkDe1v0HqRBaBF+tPMrIKp3L8R4As+0Z3FYE+nGpgARW7bFKl9mmXcQoIarN1mDfLD8TFvBLnmkRjFX7meL2gmSTqCPsIdRwI79cQ6i7oQK1NxvET1QU2PemEIFkycAqRcNA7kjidqwmpEO3GACqcjml3XoUgeQOJtFHweQrVLE7WQX4eFdip5mbzlNNKcHEsxPu1lyGJpik6B6J/XcQa5Sa54ecKA0g3ag2sWQme7zkTV2F/k3wI1AK68ROeZPWY/jE0L8QJHEU5rJ+YwyjTeBr0erVScczU+DQrtx7ootcselyungD4MdaxbpnbM7ssjhN8Q7lsE= # encrypted value of your token
+env:
+  - FOLDER=client
+  - FOLDER=server
 before_script:
   - cd server && sudo apt-get install libldap2-dev -y && npm install && npm run init:db
 script: 
-  - cd .. && cd server && npm install && npm run test
-  - cd .. && sonar-scanner
+  - cd .. && cd $FOLDER && npm install && npm run test
+  - sonar-scanner
