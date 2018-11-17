@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {Card, Button, Modal, Header, Dropdown, Input} from "semantic-ui-react"
 import NewBoard from "../NewBoard/NewBoard";
-import { withRouter } from 'react-router-dom'
+import {withRouter} from "react-router-dom"
 
 class NewBoardModal extends Component {
 
@@ -15,22 +15,23 @@ class NewBoardModal extends Component {
             currentNameBoard: "",
             currentCategory: null,
             currentVisibility: null,
-            currentTeam: null        }
+            currentTeam: null
+        }
     }
 
     componentWillMount() {
         this.state = {
             modalOpen: false,
             currentNameBoard: "",
-            currentCategory: this.props.categoryOptions.length > 0 ? this.props.categoryOptions[0].value: "",
-            currentVisibility: this.props.visibilityOptions.length > 0 ? this.props.visibilityOptions[0].value: "",
+            currentCategory: this.props.categoryOptions.length > 0 ? this.props.categoryOptions[0].value : "",
+            currentVisibility: this.props.visibilityOptions.length > 0 ? this.props.visibilityOptions[0].value : "",
             /*currentCategory: this.props.categoryOptions.length > 0 ?
                 this.props.categoryOptions.find(
                 category => this.props.categoryId? this.props.categoryId === category.key: "No Category" === category.key).value: "",
             currentVisibility: this.props.visibilityOptions.length > 0 ? this.props.visibilityOptions[0].value: "",*/
             //currentTeam: this.props.teamOptions.length > 0 ? this.props.teamOptions[0].value: ""
             currentTeam: this.props.teamOptions.length > 0 ? this.props.teamOptions.find(
-                team => this.props.teamId? this.props.teamId === team.key: "No Team" === team.key).value: ""
+                team => this.props.teamId ? this.props.teamId === team.key : "No Team" === team.key).value : ""
         }
     }
 
@@ -41,6 +42,7 @@ class NewBoardModal extends Component {
     changeVisibility() {
         this.setState({modalOpen: !this.state.modalOpen})
     }
+
     changeVisibilityTeam() {
         this.setState({modalOpenTeam: !this.state.modalOpenTeam})
     }
@@ -48,12 +50,17 @@ class NewBoardModal extends Component {
     async addBoard() {
         if (this.state.currentNameBoard) {
             const newBoard = await this.props.addBoard(this.state.currentNameBoard, this.state.currentCategory, this.state.currentVisibility, this.state.currentTeam);
-            this.changeVisibility();
-            this.props.history.push(`/boards/${newBoard._id}`)
+            if (newBoard) {
+                this.changeVisibility();
+                this.props.history.push(`/boards/${newBoard._id}`)
+            } else {
+                console.log("Error while creating the board")
+            }
         } else {
             console.log("name required")
         }
     }
+
     async addTeam() {
         if (this.state.currentNameTeam) {
             const newTeam = await this.props.addTeam(this.state.currentNameTeam);
@@ -63,9 +70,11 @@ class NewBoardModal extends Component {
             console.log("name required")
         }
     }
+
     render() {
         return (
-            <Modal open={this.state.modalOpen} onClose={this.changeVisibility} trigger={<NewBoard changeVisibility={this.changeVisibility} />} closeIcon>
+            <Modal open={this.state.modalOpen} onClose={this.changeVisibility}
+                   trigger={<NewBoard changeVisibility={this.changeVisibility}/>} closeIcon>
                 <Header icon='table' content={"Creating a new board"}/>
                 <Input placeholder={"Name"} id={"NameBoard"} value={this.state.currentNameBoard}
                        onChange={this.handleChange}/>

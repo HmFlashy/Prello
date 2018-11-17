@@ -192,7 +192,6 @@ async function initDB() {
             option2
         ]
     })
-    await poll.save()
 
     const board1 = Board({
         name: "Prello", lists: [list1._id, list2._id, list3._id], teams: [Khal._id],
@@ -386,45 +385,19 @@ async function initDB() {
     Loris.listsWatched = [list3._id, list4._id];
 
     array = [];
-    await Card.insertMany([card1, card2, card3, card4, card5],
-        array.push(function (error) {
-            if (error) throw error
-        }));
-
-    await List.insertMany([list1, list2, list3, list4],
-        array.push(function (error) {
-            if (error) throw error
-        }));
-
-    await Board.insertMany([board1, board2, board3, board4, board5],
-        array.push(function (error) {
-            if (error) throw error
-        }));
-
+    array.push(poll.save());
+    array.push(Card.insertMany([card1, card2, card3, card4, card5]));
+    array.push(List.insertMany([list1, list2, list3, list4]));
+    array.push(Board.insertMany([board1, board2, board3, board4, board5]));
     array.push(await PrelloClient.save())
-    array.push(await Alex.save());
-    array.push(await Kevin.save());
-    array.push(await Hugo.save());
-    array.push(await Loris.save());
+    array.push(User.insertMany([Alex, Kevin, Hugo, Loris]));
+    array.push(Category.insertMany([hugoCategory2, hugoCategory1, hugoCategory3, kevinCategory1, kevinCategory2]));
+    array.push(Team.insertMany([Khal]));
+    array.push(Label.insertMany([FrontEnd, BackEnd, DB, DB2]));
 
-    await Category.insertMany([hugoCategory2, hugoCategory1, hugoCategory3, kevinCategory1, kevinCategory2],
-        array.push(function (error) {
-            if (error) throw error
-        })
-    );
-    await Team.insertMany([Khal],
-        array.push(function (error) {
-            if (error) throw error
-        })
-    );
-    await Label.insertMany([FrontEnd, BackEnd, DB, DB2],
-        array.push(function (error) {
-            if (error) throw error
-        })
-    );
     Promise.all(array).then(() => {
         console.log("Init DB successful");
-        console.log("Closing the connection to the database")
+        console.log("Closing the connection to the database");
         mongoose.connection.close();
     }).catch(error => console.log(error))
 }

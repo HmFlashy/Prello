@@ -50,6 +50,7 @@ class BoardHeader extends Component {
         this.getSearchedTeamsOptions = this.getSearchedTeamsOptions.bind(this);
         this.handleChangeSearchTeam = this.handleChangeSearchTeam.bind(this);
         this.handleChangeTeams = this.handleChangeTeams.bind(this);
+        this.openMemberDetails = this.openMemberDetails.bind(this);
     }
 
     overStar() {
@@ -231,6 +232,10 @@ class BoardHeader extends Component {
         this.props.fetchTeams(this.props.board._id, e.target.value);
     };
 
+    openMemberDetails(e) {
+        console.log(e.target.value)
+    }
+
     render() {
         return (
             <div className="boardHeader">
@@ -298,13 +303,15 @@ class BoardHeader extends Component {
                         </div>
                         <div className="header-board-member">
                             {console.log(this.props.board.members)}
-                            {this.props.board.members.map(boardMember => <span><Avatar
+                            {this.props.board.members.map(boardMember => <span
+                                onClick={this.openMemberDetails}
+                                key={boardMember.member._id}><Avatar
                                 _id={boardMember.member._id}
                                 fullName={boardMember.member.fullName}
                                 bio={boardMember.member.bio}
                                 round
                                 size="25"
-                                textSizeRatio={1.4} /></span>)}
+                                textSizeRatio={1.4}/></span>)}
                             <Popup
                                 flowing={true}
                                 trigger={<Icon name={"add user"} />}

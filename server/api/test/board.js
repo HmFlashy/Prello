@@ -127,44 +127,45 @@ describe("Board", () => {
                     done();
                 });
         });
-        /*it("it should POST a board with the given name and user and update the user", (done) => {
+        it("it should POST a board with the given name and user and update the user", (done) => {
             chai.request(server)
                 .post("/api/boards/")
                 .set("Authorization", header)
-                .send({name: "Prello", visibility: "private", userId: user._id})
+                .send({name: "Prello", visibility: "Private"})
                 .end((err, res) => {
+                    console.log(res)
                     res.should.have.status(201);
                     res.body.should.be.a("object");
                     res.body.should.have.property("name").equal("Prello");
-                    res.body.should.have.property("owner").equal(user._id.toString());
-                    User.findById(user._id).find({boards: {"$in": [{board: res.body._id, role: "Admin"}]}}, (err, user) => {
+                    res.body.should.have.property("owner").equal(hugoUser._id.toString());
+                    User.findById(hugoUser._id).find({boards: {"$in": [{board: res.body._id, role: "Admin", category: null}]}}, (err, user) => {
                         if (err) {}
                         expect(user);
                         done();
                     });
                 });
-        });*/
+        });
         it("it should not POST a board if the team was not found", (done) => {
             chai.request(server)
                 .post("/api/boards")
                 .set("Authorization", header)
-                .send({name: "Prello", visibility: "private", teamId: user._id})
+                .send({name: "Prello", visibility: "Private", teamId: user._id})
                 .end((err, res) => {
                     res.should.have.status(404);
                     done();
                 });
         });
-        /*it("it should POST a board with the given name, user and team and update both the user and the team", (done) => {
+        it("it should POST a board with the given name, user and team and update both the user and the team", (done) => {
             chai.request(server)
                 .post("/api/boards/")
                 .set("Authorization", header)
-                .send({name: "Prello", visibility: "private", userId: user._id})
+                .send({name: "Prello", visibility: "Private", teamId: team._id})
                 .end((err, res) => {
                     res.should.have.status(201);
                     res.body.should.be.a("object");
                     res.body.should.have.property("name").equal("Prello");
-                    res.body.should.have.property("owner").equal(user._id.toString());
-                    User.findById(user._id).find({boards: {"$in": [{board: res.body._id, role: "Admin"}]}}, (err, user) => {
+                    res.body.should.have.property("owner").equal(hugoUser._id.toString());
+                    User.findById(hugoUser._id).find({boards: {"$in": [{board: res.body._id, role: "Admin", category: null}]}}, (err, user) => {
                         if (err) {}
                         expect(user);
                         Team.findById(team._id).find({boards: {"$in": [res.body._id]}}, (err, team) => {
@@ -174,7 +175,7 @@ describe("Board", () => {
                         })
                     });
                 });
-        });*/
+        });
     });
     /*
     * Test the /PUT/:boardId route
@@ -219,11 +220,11 @@ describe("Board", () => {
             chai.request(server)
                 .put(`/api/boards/${board._id}`)
                 .set("Authorization", header)
-                .send({visibility: "public"})
+                .send({visibility: "Public"})
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.a("object");
-                    res.body.should.have.property("visibility").equal("public");
+                    res.body.should.have.property("visibility").equal("Public");
                     done()
                 });
         });
@@ -305,7 +306,7 @@ describe("Board", () => {
             chai.request(server)
                 .put(`/api/boards/5de2de52/members`)
                 .set("Authorization", header)
-                .send({email: user.email})
+                .send({userId: user._id})
                 .end((err, res) => {
                     res.should.have.status(400);
                     done();
@@ -315,7 +316,7 @@ describe("Board", () => {
             chai.request(server)
                 .put(`/api/boards/${user._id}/members`)
                 .set("Authorization", header)
-                .send({email: user.email})
+                .send({userId: user._id})
                 .end((err, res) => {
                     res.should.have.status(404);
                     done();
@@ -333,9 +334,9 @@ describe("Board", () => {
         });
         it("should NOT ADD a member to board if the user was not found", (done) => {
             chai.request(server)
-                .put(`/api/boards/${user._id}/members`)
+                .put(`/api/boards/${board._id}/members`)
                 .set("Authorization", header)
-                .send({email: "example@ggg.com"})
+                .send({userId: board._id})
                 .end((err, res) => {
                     res.should.have.status(404);
                     done();
@@ -362,29 +363,29 @@ describe("Board", () => {
                     });
                 });
         });
-        it("should NOT ADD a member to the board if the boardId is malformed", (done) => {
+        it("should NOT ADD a team to the board if the boardId is malformed", (done) => {
             chai.request(server)
-                .put(`/api/boards/5de2de52/members`)
+                .put(`/api/boards/5de2de52/teams`)
                 .set("Authorization", header)
-                .send({email: user.email})
+                .send({teamId: team._id})
                 .end((err, res) => {
                     res.should.have.status(400);
                     done();
                 });
         });
-        it("should NOT ADD a member to board if the boardId was not found", (done) => {
+        it("should NOT ADD a team to board if the boardId was not found", (done) => {
             chai.request(server)
-                .put(`/api/boards/${user._id}/members`)
+                .put(`/api/boards/${team._id}/teams`)
                 .set("Authorization", header)
-                .send({email: user.email})
+                .send({teamId: team._id})
                 .end((err, res) => {
                     res.should.have.status(404);
                     done();
                 });
         });
-        it("should NOT ADD a member to board if the teamId for the team is malformed", (done) => {
+        it("should NOT ADD a team to board if the teamId for the team is malformed", (done) => {
             chai.request(server)
-                .put(`/api/boards/${board._id}/members`)
+                .put(`/api/boards/${board._id}/teams`)
                 .set("Authorization", header)
                 .send({teamId: "frfrfrr552"})
                 .end((err, res) => {
@@ -392,11 +393,11 @@ describe("Board", () => {
                     done();
                 });
         });
-        it("should NOT ADD a member to board if the team was not founds", (done) => {
+        it("should NOT ADD a team to board if the team was not found", (done) => {
             chai.request(server)
-                .put(`/api/boards/${user._id}/members`)
+                .put(`/api/boards/${user._id}/teams`)
                 .set("Authorization", header)
-                .send({email: "example@ggg.com"})
+                .send({teamId: board._id})
                 .end((err, res) => {
                     res.should.have.status(404);
                     done();
@@ -435,11 +436,11 @@ describe("Board", () => {
             chai.request(server)
                 .put(`/api/boards/${board._id}`)
                 .set("Authorization", header)
-                .send({visibility: "public"})
+                .send({visibility: "Public"})
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.a("object");
-                    res.body.should.have.property("visibility").equal("public");
+                    res.body.should.have.property("visibility").equal("Public");
                     done()
                 });
         });
@@ -473,7 +474,7 @@ describe("Board", () => {
             const members = board.members;
             const teams = board.teams;
             chai.request(server)
-                .del(`/api/boards/${board._id}`)
+                .delete(`/api/boards/${board._id}`)
                 .set("Authorization", header)
                 .end((err, res) => {
                     res.should.have.status(200);
@@ -499,7 +500,7 @@ describe("Board", () => {
         });
         it("should NOT DELETE the board if the boardId is malformed", (done) => {
             chai.request(server)
-                .del(`/api/boards/5de2de52`)
+                .delete(`/api/boards/5de2de52`)
                 .set("Authorization", header)
                 .end((err, res) => {
                     res.should.have.status(400);
@@ -508,7 +509,7 @@ describe("Board", () => {
         });
         it("should NOT DELETE the board if the boardId was not found", (done) => {
             chai.request(server)
-                .del(`/api/boards/${user._id}`)
+                .delete(`/api/boards/${user._id}`)
                 .set("Authorization", header)
                 .end((err, res) => {
                     res.should.have.status(404);
