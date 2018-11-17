@@ -98,6 +98,15 @@ module.exports = async (req, res) => {
             throwError(400, "MISSING_ORGANIZATION")
         }
         const trimedOrganization = organization.trim()
+        const existingUser = await UserController.getUserByEmailOrUsername(trimedUsername, trimedEmail)
+        console.log(existingUser)
+        if(existingUser){
+            if(existingUser.username === trimedUsername){
+                throwError(400, "USERNAME_ALREADY_TAKEN")
+            } else {
+                throwError(400, "EMAIL_ALREADY_TAKEN")
+            }
+        }
         const user = await UserController.addUser(trimedFirstname, trimedLastname, trimedUsername, trimedEmail, trimedPassword, trimedOrganization)
         return res.status(201).json(user)
     } catch (error) {

@@ -44,6 +44,15 @@ class RegisterForm extends Component {
             }
         } catch (error) {
             console.log(error)
+            const errorMessage = error.data ?
+                (error.data === "USERNAME_ALREADY_TAKEN" ? "Username already taken" :
+                error.data === "EMAIL_ALREADY_TOKEN" ? "Email already taken" :
+                "Problem registering") :
+                "Unknown error"
+            this.setState({
+                formError: true,
+                messageFormError: errorMessage
+            })
         }
     }
 
