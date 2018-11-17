@@ -6,7 +6,7 @@ import ValidationInput from '../../../../Input/ValidationInput'
 import Avatar from '../../../../Avatar';
 import moment from 'moment'
 import autoBind from 'react-autobind';
-export default class Actitity extends Component {
+export default class Activity extends Component {
 
     constructor(props) {
         super(props)
