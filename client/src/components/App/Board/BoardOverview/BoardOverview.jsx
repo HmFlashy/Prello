@@ -59,7 +59,7 @@ class BoardOverview extends Component {
             <div>
                 <Card className="board-item" onClick={this.displayBoard}>
                     <Card.Content>
-                        <p className="title">{this.props.board ? this.props.board.name : ""}</p>
+                        <p className="title">{this.props.board.name}</p>
                         <div className="board-overview-bottom">
                             <div>
                                 <Label onClick={this.starBoard}

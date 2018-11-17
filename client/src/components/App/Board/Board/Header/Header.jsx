@@ -25,7 +25,8 @@ class BoardHeader extends Component {
             currentMembersValues: [],
             currentMembers: [],
             currentTeamsValues: [],
-            currentTeams: []
+            currentTeams: [],
+            searchTeam: ""
         };
         this.open = this.open.bind(this);
         this.overStar = this.overStar.bind(this);
@@ -192,7 +193,8 @@ class BoardHeader extends Component {
         this.props.addTeams(this.props.board._id, this.state.currentTeams.map(team => team.key));
         this.setState({
             currentTeams: [],
-            currentTeamsValues: []
+            currentTeamsValues: [],
+            searchTeam: ''
         })
     }
 
@@ -279,7 +281,7 @@ class BoardHeader extends Component {
                                 onOpen={() => this.openTeamsPopup()}
                                 position='bottom left'>
                                 <div className={"add-team-button"}>
-                                    <Button icon="add" onClick={this.addTeams} positive content={"Add"} />
+                                    <Button icon="add" onClick={this.addTeams} positive value={this.state.searchTeam} content={"Add"} />
                                 </div>
                                 <Divider />
                                 <div className={"dropdown-add-team"}>

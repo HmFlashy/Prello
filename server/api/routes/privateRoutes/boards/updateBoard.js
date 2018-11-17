@@ -64,6 +64,7 @@ const types = {
 module.exports = async (req, res) => {
     try {
         const boardId = req.params.boardId;
+        console.log(req.body)
         const boardUpdated = await BoardsController.updateBoard(boardId, req.body);
         if (!boardUpdated) {
             throwError(404, `The board ${boardId} was not found`)

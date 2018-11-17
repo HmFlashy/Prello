@@ -5,17 +5,20 @@ export const actionBoardSubscribe = (socket) => {
     }
 };
 
-export const actionBoardUpdateName = (data) => {
+export const actionBoardUpdateName = (boardId, name) => {
     return {
         type: 'UPDATE_BOARD_NAME',
-        payload: data
+        payload: {
+            name,
+            boardId
+        }
     }
 };
 
 export const failedActionBoardUpdateName = (data) => {
     return {
         type: 'FAILED_UPDATE_BOARD_NAME',
-        payload: data
+        payload:data
     }
 };
 
@@ -75,35 +78,40 @@ export const actionCloseCardModal = () => {
     }
 };
 
-export const actionUpdateBoardName = (boardId, name) => {
+export const actionUpdateBoardName = (data) => {
     return {
         type: 'UPDATE_BOARD_NAME',
-        payload: {
-            boardId: boardId,
-            name: name
-        }
+        payload: data
     }
 };
 
-export const actionUpdateBoardVisibility = (boardId, visibility) => {
+export const actionUpdateBoardVisibility = (data) => {
     return {
         type: 'UPDATE_BOARD_VISIBILITY',
-        payload: {
-            boardId: boardId,
-            visibility: visibility
-        }
+        payload: data
     }
 };
 
-export const actionUpdateBoardCategory = (boardId, category) => {
+export const failedActionUpdateBoardVisibility = (data) => {
     return {
-        type: 'UPDATE_BOARD_CATEGORY',
-        payload: {
-            boardId: boardId,
-            category: category
-        }
+        type: 'FAILED_UPDATE_BOARD_VISIBILITY',
+        payload: data
     }
 };
+
+export const actionUpdateBoardCategory = (data) => {
+    return {
+        type: 'UPDATE_BOARD_CATEGORY',
+        payload: data
+    }
+};
+export const failedActionUpdateBoardCategory = (data) => {
+    return {
+        type: 'FAILED_UPDATE_BOARD_CATEGORY',
+        payload: data
+    }
+};
+
 
 export const actionBoardCreatingLabel = (boardId, label) => {
     return {

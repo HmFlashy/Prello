@@ -184,10 +184,23 @@ export default (state = defaultBoardReducer, action) => {
                 error: null
             };
         case 'UPDATE_BOARD_NAME':
+            return {
+                ...state,
+                all: state.all.map(board => {
+                    if(board._id === action.payload._id) {return {...board, name: action.payload.name}} else return board
+                }),
+                currentBoard: {
+                    ...state.currentBoard,
+                    name: action.payload.name
+                }
+            }
         case "FAILED_UPDATE_BOARD_NAME":
             return {
                 ...state,
                 currentBoard: state.currentBoard._id === action.payload._id ? { ...state.currentBoard, name: action.payload.name } : state.currentBoard,
+                all: state.all.map(board => {
+                    if(board._id === action.payload._id) {return {...board, name: action.payload.name}} else return board
+                }),
                 error: null
             };
         case "FAILED_FETCH_BOARD":
@@ -302,11 +315,25 @@ export default (state = defaultBoardReducer, action) => {
             return {
                 ...state,
                 all: state.all.map(board => {
-                    if (board._id === action.payload.boardId) {
+                    if (board._id === action.payload._id) {
                         return { ...board, visibility: action.payload.visibility }
                     } else return board
                 }),
-                currentBoard: state.currentBoard._id === action.payload.boardId ? {
+                currentBoard: state.currentBoard._id === action.payload._id ? {
+                    ...board,
+                    visibility: action.payload.visibility
+                } : { ...state.currentBoard }
+
+            };
+        case "FAILED_UPDATE_BOARD_VISIBILITY":
+            return {
+                ...state,
+                all: state.all.map(board => {
+                    if (board._id === action.payload._id) {
+                        return { ...board, visibility: action.payload.visibility }
+                    } else return board
+                }),
+                currentBoard: state.currentBoard._id === action.payload._id ? {
                     ...board,
                     visibility: action.payload.visibility
                 } : { ...state.currentBoard }
@@ -532,7 +559,8 @@ export default (state = defaultBoardReducer, action) => {
                 currentBoard: {
                     ...state.currentBoard,
                     teams: action.payload.teams,
-                    members: action.payload.members
+                    members: action.payload.members,
+                    teamsSearched: []
                 }
             }
         default:

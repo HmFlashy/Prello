@@ -20,8 +20,9 @@ class BoardOverviewModal extends Component {
     }
 
     updateBoard = async () => {
-        if (this.state.currentNameBoard) {
-            await this.props.updateBoard(this.state.currentNameBoard, this.state.currentCategory, this.state.currentVisibility);
+        if (this.state.currentNameBoard.length>0) {
+            await this.props.updateBoard(this.state.currentNameBoard, this.props.board.name, this.state.currentCategory,
+                this.props.board.category, this.state.currentVisibility, this.props.board.visibility);
             this.props.closeBoardUpdateModal()
         } else {
             console.log("name required")
@@ -29,7 +30,6 @@ class BoardOverviewModal extends Component {
     }
 
     refreshValues() {
-        console.log(this.props.board)
         this.setState({
             currentNameBoard: this.props.board.name,
             currentCategory: this.props.categoryOptions.find(
