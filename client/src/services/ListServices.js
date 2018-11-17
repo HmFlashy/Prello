@@ -21,6 +21,7 @@ export default {
             }, tokenHeader());
             return res.data
         } catch (error) {
+            console.log(error)
             throw error
         }
     },
@@ -31,6 +32,7 @@ export default {
             }, tokenHeader());
             return res.data
         } catch (error) {
+            console.log(error)
             throw error
         }
     },
@@ -39,6 +41,7 @@ export default {
             const res = await axios.delete(`${UrlConfig.API}/lists/${listId}`, tokenHeader());
             return res.data
         } catch (error) {
+            console.log(error)
             throw error
         }
     }

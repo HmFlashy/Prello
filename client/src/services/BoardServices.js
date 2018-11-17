@@ -41,6 +41,7 @@ export default {
                 tokenHeader());
             return res.data
         } catch (error) {
+            console.log(error)
             throw error
         }
     },
@@ -52,6 +53,7 @@ export default {
             }, tokenHeader())
             return res.data
         } catch (error) {
+            console.log(error)
             throw error
         }
     },
@@ -63,6 +65,7 @@ export default {
             }, tokenHeader())
             return res.data
         } catch (error) {
+            console.log(error)
             throw error
         }
     },
@@ -71,6 +74,7 @@ export default {
             const res = await axios.delete(`${UrlConfig.API}/boards/${boardId}/labels/${labelId}`, tokenHeader())
             return res.data
         } catch (error) {
+            console.log(error)
             throw error
         }
     },
@@ -85,6 +89,7 @@ export default {
             }, tokenHeader());
             return res.data
         } catch (error) {
+            console.log(error)
             throw error
         }
     },
@@ -93,6 +98,7 @@ export default {
             const res = await axios.get(`${UrlConfig.API}/boards/${boardId}/members/${query}`, tokenHeader());
             return res.data;
         } catch (error) {
+            console.log(error)
             throw error
         }
     },
@@ -101,6 +107,7 @@ export default {
             const res = await axios.put(`${UrlConfig.API}/boards/${boardId}/members`, { userId: id }, tokenHeader());
             return res.data;
         } catch (error) {
+            console.log(error)
             throw error
         }
     },
@@ -109,6 +116,7 @@ export default {
             const res = await axios.put(`${UrlConfig.API}/boards/${boardId}`, { name }, tokenHeader());
             return res.data;
         } catch (error) {
+            console.log(error)
             throw error
         }
     },
@@ -117,6 +125,7 @@ export default {
             const res = await axios.get(`${UrlConfig.API}/boards/${boardId}/teams/${query}`, tokenHeader());
             return res.data;
         } catch (error) {
+            console.log(error)
             throw error
         }
     },
@@ -125,6 +134,7 @@ export default {
             const res = await axios.put(`${UrlConfig.API}/boards/${boardId}/teams`, {teamId: id}, tokenHeader());
             return res.data;
         } catch (error) {
+            console.log(error)
             throw error
         }
     },
@@ -133,6 +143,7 @@ export default {
             const res = await axios.delete(`${UrlConfig.API}/boards/${boardId}/members/${memberId}`, tokenHeader());
             return res.data
         } catch (error) {
+            console.log(error)
             throw error
         }
     },
@@ -141,6 +152,7 @@ export default {
             const res = await axios.put(`${UrlConfig.API}/boards/${boardId}/members/${memberId}`, {role: role}, tokenHeader());
             return res.data
         } catch(error) {
+            console.log(error)
             throw error
         }
     }

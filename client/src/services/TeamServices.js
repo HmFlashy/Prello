@@ -7,6 +7,7 @@ export default {
         try {
             return await users.forEach(user => axios.put(`${UrlConfig.API}/teams/${teamId}/members/${user._id}`, tokenHeader()))
         } catch(error) {
+            console.log(error)
             throw error
         }
     },
@@ -15,6 +16,7 @@ export default {
             const res = await axios.get(`${UrlConfig.API}/teams/${teamId}`, tokenHeader());
             return res.data
         } catch (error) {
+            console.log(error)
             throw error
         }
     },
@@ -27,6 +29,7 @@ export default {
                 tokenHeader());
             return res.data
         } catch (error) {
+            console.log(error)
             throw error
         }
     },
@@ -35,6 +38,7 @@ export default {
             const res = await axios.delete(`${UrlConfig.API}/teams/${teamId}`, tokenHeader());
             return res.data
         } catch (error) {
+            console.log(error)
             throw error
         }
     },
@@ -43,6 +47,7 @@ export default {
             const res = await axios.delete(`${UrlConfig.API}/teams/${teamId}/members/${memberId}`, tokenHeader());
             return res.data
         } catch (error) {
+            console.log(error)
             throw error
         }
     },
@@ -51,6 +56,7 @@ export default {
             const res = await axios.put(`${UrlConfig.API}/teams/${teamId}/members/${memberId}`, {role}, tokenHeader());
             return res.data
         } catch (error) {
+            console.log(error)
             throw error
         }
     }
