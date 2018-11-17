@@ -159,10 +159,12 @@ class Poll extends Component {
                 </Popup>
                 {
                     < Modal
+                        className="poll-modal"
                         open={this.state.isFormOpened}
                         onClose={() => this.setState({ isFormOpened: false, isOpened: true })}
                         size='tiny'
                     >
+
                         <PollForm
                             value={this.state.formName}
                             card={this.state.formCard}

@@ -1,3 +1,13 @@
 .center-div{
     text-align: center
 }
+.poll-modal{
+    width: 300px !important;
+    text-align: center;
+}
+.poll-form{
+    height: 80px;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+}
