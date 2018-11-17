@@ -6,7 +6,7 @@ import axios from 'axios'
 import UrlConfig from '../../../../../../config/UrlConfig'
 import { tokenHeader } from '../../../../../..//helpers/HeaderHelper'
 import ValidationInput from '../../../../Input/ValidationInput'
-
+import autoBind from 'react-autobind';
 export default class Attachments extends Component {
 
     imageThumbnail = {
@@ -18,6 +18,7 @@ export default class Attachments extends Component {
         this.state = {
             isDeleting: false
         };
+        autoBind(this);
     }
 
 

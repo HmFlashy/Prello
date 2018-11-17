@@ -5,7 +5,7 @@ import DynamicInput from '../../../../Input/DynamicInput'
 import ValidationInput from '../../../../Input/ValidationInput'
 import Avatar from '../../../../Avatar';
 import moment from 'moment'
-
+import autoBind from 'react-autobind';
 export default class Actitivty extends Component {
 
     constructor(props) {
@@ -13,6 +13,7 @@ export default class Actitivty extends Component {
         this.state = {
             isDeleting: false
         };
+        autoBind(this);
     }
 
     render() {

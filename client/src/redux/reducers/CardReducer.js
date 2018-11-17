@@ -86,7 +86,6 @@ export default (state = defaultCardReducer, action) => {
     case 'FAILED_UPDATE_CHECKLIST':
     case 'ADDED_ITEM':
     case 'DELETED_ITEM':
-    case 'UPDATING_ITEM':
     case 'UPDATED_ITEM_ISCHECKED':
     case 'UPDATED_ITEM_NAME':
     case 'FAILED_UPDATE_ITEM':

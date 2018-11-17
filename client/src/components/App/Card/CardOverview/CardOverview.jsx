@@ -5,6 +5,7 @@ import DynamicInput from '../../Input/DynamicInput'
 import Avatar from '../../Avatar';
 import { GetDueDateColor, SmallDate } from '../../../../helpers/DateHelper'
 import { Draggable } from 'react-beautiful-dnd';
+import autoBind from 'react-autobind';
 
 class CardOverview extends Component {
 
@@ -18,6 +19,7 @@ class CardOverview extends Component {
             isNameUpdating: false,
             isHoverEye: false
         }
+        autoBind(this);
     }
 
     componentDidMount() {

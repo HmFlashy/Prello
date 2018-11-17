@@ -8,7 +8,7 @@ import LabelColorPicker from '../../../../Input/LabelColorPicker';
 import DropboxChooser from 'react-dropbox-chooser'
 //import { FilePicker } from 'react-file-picker'
 import axios from 'axios'
-
+import autoBind from 'react-autobind';
 class Menu extends Component {
 
     constructor(props) {
@@ -25,6 +25,7 @@ class Menu extends Component {
             isAttaching: false,
             newCardLabels: []
         };
+        autoBind(this);
         this.handleOnDateSelect = this.handleOnDateSelect.bind(this);
     }
 

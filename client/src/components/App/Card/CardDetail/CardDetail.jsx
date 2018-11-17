@@ -15,7 +15,7 @@ import moment from 'moment';
 import ReactMde from "react-mde";
 import Showdown from "showdown";
 import 'react-mde/lib/styles/css/react-mde-all.css';
-
+import autoBind from 'react-autobind';
 class CardDetail extends Component {
 
     constructor() {
@@ -30,6 +30,7 @@ class CardDetail extends Component {
             height: 0,
             mdeState: null,
         }
+        autoBind(this);
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
 
         this.onDelete = this.onDelete.bind(this);

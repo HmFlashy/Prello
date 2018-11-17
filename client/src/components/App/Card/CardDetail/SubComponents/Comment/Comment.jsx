@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './Comment.css'
 import { Form, TextArea, Button, Icon } from 'semantic-ui-react'
-
+import autoBind from 'react-autobind';
 export default class Menu extends Component {
 
     constructor(props) {
@@ -9,6 +9,7 @@ export default class Menu extends Component {
         this.state = {
             comment: ""
         }
+        autoBind(this);
     }
 
     send(event) {
