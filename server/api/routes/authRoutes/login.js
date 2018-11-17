@@ -50,17 +50,23 @@ module.exports = async (req, res) => {
     try {
         const email = req.body.email;
         const password = req.body.password;
-        /*if (!email || !email.match(emailRegEx)) {
-            throwError(400, "EMAIL_MALFORMED")
-        }*/
-        if(!password){
-            throwError(400, "PASSWORD_EMPTY")
+
+        if (!email) {
+            throwError(400, "MISSING_EMAIL")
         }
+        const trimedEmail = email.trim().toLowerCase()
+        if(!trimedEmail.match(emailRegEx)) {
+            throwError(400, "EMAIL_MALFORMED")
+        }
+        if(!password){
+            throwError(400, "MISSING_PASSWORD")
+        }
+
         const options = {
             method: 'POST',
             uri: `${process.env.URL_OAUTH}/oauth/token`,
             form: {
-                username: email,
+                username: trimedEmail,
                 password: password,
                 scope: "read write",
                 grant_type: 'password',
