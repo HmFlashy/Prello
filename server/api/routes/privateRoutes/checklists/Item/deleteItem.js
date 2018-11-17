@@ -1,6 +1,6 @@
 const ChecklistController = require('../../../../controllers/ChecklistController')
 const socketIO = require('../../../../../socket/index')
-const logger =require('../../../../logger')
+const logger = require('../../../../../logger')
 
 /**
   * @swagger
