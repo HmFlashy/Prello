@@ -34,7 +34,7 @@ router.put('/:boardId/labels/:labelId', labelValidator.updateLabelBoardValidator
 router.get('/:boardId/labels/:labelId', labelValidator.getLabelByIdValidator, checkRequest, checkRightsFromBoard(["in:Board"]), require('../labels/Board/getLabelById'));
 
 router.put("/:boardId/members", boardsValidator.addMemberBoardValidator, checkRequest, checkRightsFromBoard(["in:Board", "status:Board:Admin"]), require('./addBoardMember'));
-router.delete("/:boardId/members/:memberId", boardsValidator.deleteBoardMemberValidator, checkRequest, checkRightsFromBoard(["in:Board", "status:Board:Admin"]), require('./deleteBoardMember'));
+router.delete("/:boardId/members/:memberId", boardsValidator.deleteBoardMemberValidator, checkRequest, require('./deleteBoardMember'));
 router.get('/:boardId/members/:query', boardsValidator.getMemberSearchedBoardValidator, checkRequest, checkRightsFromBoard(["in:Board"]), require('./getMembersSearched'));
 router.put('/:boardId/members/:memberId', boardsValidator.updateRoleBoardMemberValidator, checkRequest, checkRightsFromBoard(["in:Board", "status:Board:Admin"]), require('./updateRoleBoardMember'));
 

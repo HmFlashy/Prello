@@ -168,7 +168,7 @@ export default (state = defaultAuthentificationState, action = { type: null, pay
                 user: {
                     ...state.user,
                     client_applications: state.user.client_applications.map(
-                        application => application._id === action.payload.clientId ? 
+                        application => application._id === action.payload.clientId ?
                             { ...application, redirectUris: [...application.redirectUris, action.payload.uri] } :
                             application
                     )
@@ -180,7 +180,7 @@ export default (state = defaultAuthentificationState, action = { type: null, pay
                 user: {
                     ...state.user,
                     client_applications: state.user.client_applications.map(
-                        application => application._id === action.payload.clientId ? 
+                        application => application._id === action.payload.clientId ?
                             { ...application, redirectUris: application.redirectUris.filter(uri => uri !== action.payload.uri) } :
                             application
                     )
@@ -194,8 +194,8 @@ export default (state = defaultAuthentificationState, action = { type: null, pay
         case "DELETED_BOARD_MEMBER":
             return {
                 ...state,
-                boards: state.user._id === action.payload.memberId?state.user.boards.filter(boardMember =>
-                    boardMember.board !== action.payload.boardId):state.user.boards
+                boards: state.user._id === action.payload.memberId ? state.user.boards.filter(boardMember =>
+                    boardMember.board !== action.payload.boardId) : state.user.boards
             };
         case "UPDATED_BOARD_ROLE_MEMBER":
             return {
@@ -203,8 +203,8 @@ export default (state = defaultAuthentificationState, action = { type: null, pay
                 user: {
                     ...state.user,
                     boards: state.user.boards.map(board => {
-                        if(board._id === action.payload.boardId) {
-                            return {...board, role: action.payload.role}
+                        if (board._id === action.payload.boardId) {
+                            return { ...board, role: action.payload.role }
                         } else return board
                     })
                 }

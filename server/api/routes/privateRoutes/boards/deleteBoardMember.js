@@ -1,6 +1,6 @@
 const boardsController = require('../../../controllers/BoardsController');
 const socketIO = require('../../../../socket/index');
-const logger =require('../../../../logger')
+const logger = require('../../../../logger')
 
 /**
  * @swagger
@@ -60,12 +60,25 @@ module.exports = async (req, res) => {
     try {
         const boardId = req.params.boardId;
         const userId = req.params.memberId;
-        const board = await boardsController.deleteBoardMember(boardId, userId);
-        socketIO.broadcast("action", boardId, {
-            type: "DELETED_BOARD_MEMBER",
-            payload: board.members
-        });
-        return res.status(200).json(board)
+        const board = await boardsController.getBoardById(boardId)
+        const isInBoard = board.members.some(member => member.member._id.toString() === req.user._id.toString())
+        if (isInBoard
+            && board.members.some(member => member.member._id.toString() === userId.toString() && member.role === "Admin")
+            || isInBoard
+            && userId.toString() === req.user._id.toString()) {
+            const board = await boardsController.deleteBoardMember(boardId, userId);
+            socketIO.broadcast("action", boardId, {
+                type: "DELETED_BOARD_MEMBER",
+                payload: {
+                    boardId,
+                    memberId: userId,
+                    userId: req.user._id
+                }
+            });
+            return res.status(200).json(board)
+        } else {
+            return res.status(403)
+        }
     } catch (error) {
         logger.error(error.message);
         if (error.code) {

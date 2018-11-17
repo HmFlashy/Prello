@@ -322,7 +322,6 @@ class BoardHeader extends Component {
                                 </Popup>
                             </div>
                             <div className="header-board-member">
-                                {console.log(this.props.board.members)}
                                 {this.props.board.members.map(boardMember =>
                                     <Popup
                                         key={this.props.fullName}
@@ -356,9 +355,15 @@ class BoardHeader extends Component {
                                                 options={this.state.roleOptions}
                                                 value={this.state.roleOptions.find(roleOption => roleOption.text === boardMember.role).value}
                                                 onChange={(e, { value }) => this.handleChangeRole(boardMember.member._id, value)}
+                                                disabled={!this.props.board.members.some(boardMember => this.props.userId === boardMember.member._id && boardMember.member.role === "Admin")}
                                             />
-                                            <Button onClick={() => this.removeMember(boardMember.member._id)}>Remove from
-                                            the board</Button>
+                                            <Button onClick={() => {
+                                                this.removeMember(boardMember.member._id);
+                                                if (this.props.userId === boardMember.member._id)
+                                                    this.props.history.push(`/home`);
+                                            }}>
+                                                {this.props.userId === boardMember.member._id ? "Leave board" : "Remove from the board"}
+                                            </Button>
                                         </Popup.Content>
                                     </Popup>)}
                                 <Popup

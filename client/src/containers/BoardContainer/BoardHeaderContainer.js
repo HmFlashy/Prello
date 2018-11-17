@@ -18,7 +18,7 @@ import {
     actionFetchingSearchedMembers,
     actionFetchingMissingMembers,
     actionFailedFetchingMissingMembers,
-    actionDeletedBoardMember, 
+    actionDeletedBoardMember,
     actionFailedDeletingBoardMember
 } from "../../redux/actions/BoardActions";
 import { actionStarBoard, actionUnstarBoard } from "../../redux/actions/UserActions";
@@ -88,10 +88,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         clearFilter() {
             dispatch(actionClearFilter())
         },
-        async fetchMembers(boardId, query){
+        async fetchMembers(boardId, query) {
             try {
                 let members = [];
-                if(query.length>=3){
+                if (query.length >= 3) {
                     dispatch(actionFetchingSearchedMembers());
                     members = await BoardServices.getMembers(boardId, query);
                 }
@@ -149,10 +149,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
                 console.log(error)
             }
         },
-        async fetchTeams(boardId, query){
+        async fetchTeams(boardId, query) {
             try {
                 let teams = [];
-                if(query.length>=3){
+                if (query.length >= 3) {
                     dispatch(actionFetchingSearchedTeams());
                     teams = await BoardServices.getTeams(boardId, query);
                 }
@@ -173,15 +173,14 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         async changeRole(memberId, role) {
             try {
                 await BoardServices.changeRoleBoardMember(ownProps.board._id, memberId, role);
-            } catch(error) {
+            } catch (error) {
                 throw error
             }
         },
         async removeMember(memberId) {
             try {
                 await BoardServices.deleteMember(ownProps.board._id, memberId);
-                dispatch(actionDeletedBoardMember(ownProps.board._id, memberId))
-            } catch(error) {
+            } catch (error) {
                 dispatch(actionFailedDeletingBoardMember(error))
                 throw error
             }
