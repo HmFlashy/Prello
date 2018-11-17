@@ -1,9 +1,9 @@
 require('dotenv').config()
-//const LDAP = require('ldap-client')
+const LDAP = require('ldap-client')
 
 const base = process.env.LDAP_BASE
 
-/*var ldap = new LDAP({
+var ldap = new LDAP({
     uri:             process.env.LDAP_URI,              // string
     validatecert:    process.env.VALIDATE_CERTIFICATE,  // seconds, default is -1 (infinite timeout), connect timeout
     base:            process.env.LDAP_BASE,             // default base for all future searches
@@ -17,7 +17,7 @@ const base = process.env.LDAP_BASE
     if(err){
         console.log(err)
     }
-});*/
+});
 
 const search = async (name, password, section, year) => {
     return await new Promise((resolve, reject) => {
