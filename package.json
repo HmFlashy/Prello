@@ -6,7 +6,7 @@
     "concurrently": "^4.0.1"
   },
   "scripts": {
-    "test": "npm run init:db && cd server && npm test",
+    "test": "npm run init:db && cd client && npm test && cd ../server && npm test",
     "client": "cd client && npm run dev",
     "server": "cd server && nodemon server.js",
     "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
