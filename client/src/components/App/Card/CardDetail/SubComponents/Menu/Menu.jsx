@@ -20,6 +20,7 @@ class Menu extends Component {
             url: "",
             isMovingCard: false,
             isDeleting: false,
+            isSharing: false,
             isAttaching: false,
             newCardLabels: []
         };
@@ -195,14 +196,6 @@ class Menu extends Component {
                             }}
                             onCancel={() => console.log("cancel") || this.setState({ isMovingCard: false })}
                         />
-                        <Button icon labelPosition='left'>
-                            <Icon name='copy' />
-                            Copy
-                        </Button>
-                        <Button icon labelPosition='left'>
-                            <Icon name='eye' />
-                            Watch
-                        </Button>
                         {this.props.isArchived
                             ? <Button icon labelPosition='left' onClick={() => this.setState({ isDeleting: true })}
                                 color="red">
@@ -217,10 +210,46 @@ class Menu extends Component {
                                 : "Archive"
                             }
                         </Button>
-                        <Button icon labelPosition='left'>
-                            <Icon name='share' />
-                            Share
-                        </Button>
+
+                        <Popup
+                            trigger={
+                                <Button icon labelPosition='left'>
+                                    <Icon name='share' />
+                                    Share
+                                </Button>}
+                            on='click'
+                            open={this.state.isSharing}
+                            onClose={() => this.setState({ isSharing: false })}
+                            onOpen={() => this.setState({ isSharing: true })}
+                            position='bottom left'>
+                            <Header icon='linkify' content='URL' />
+                            <Popup.Content>
+                                <Label
+                                    as='a'
+                                    size="big"
+                                    onClick={() => {
+                                        const el = document.createElement('textarea');
+                                        el.value = window.location.href;
+                                        el.setAttribute('readonly', '');
+                                        el.style.position = 'absolute';
+                                        el.style.left = '-9999px';
+                                        document.body.appendChild(el);
+                                        const selected =
+                                            document.getSelection().rangeCount > 0
+                                                ? document.getSelection().getRangeAt(0)
+                                                : false;
+                                        el.select();
+                                        document.execCommand('copy');
+                                        document.body.removeChild(el);
+                                        if (selected) {
+                                            document.getSelection().removeAllRanges();
+                                            document.getSelection().addRange(selected);
+                                        }
+                                    }}>
+                                    {window.location.href}
+                                </Label>
+                            </Popup.Content>
+                        </Popup>
                     </Button.Group>
                 </div>
                 <Modal size="mini" open={this.state.isDeleting} onClose={() => this.setState({ isDeleting: false })}>
