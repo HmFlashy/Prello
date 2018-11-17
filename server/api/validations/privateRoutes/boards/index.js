@@ -5,6 +5,7 @@ module.exports = {
     deleteBoardValidator: require('./deleteBoardValidator'),
     updateBoardValidator: require('./updateBoardValidator'),
     deleteTeamBoardValidator: require('./deleteTeamBoardValidator'),
+    deleteBoardMemberValidator: require('./deleteBoardMemberValidator'),
     getByIdBoardValidator: require('./getByIdBoardValidator'),
     getForExportBoardValidator: require('./getForExportBoardValidator'),
     getInfoBoardValidator: require('./getInfoBoardValidator'),

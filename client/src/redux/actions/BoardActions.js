@@ -308,3 +308,21 @@ export const actionFailedFetchingSearchedTeams = (error) => {
         }
     }
 };
+
+export const actionDeletedBoardMember = (memberId) => {
+    return {
+        type: 'DELETED_BOARD_MEMBER',
+        payload: {
+            memberId
+        }
+    }
+};
+
+export const actionFailedDeletingBoardMember = (error) => {
+    return {
+        type: 'FAILED_DELETING_BOARD_MEMBER',
+        payload: {
+            error
+        }
+    }
+};

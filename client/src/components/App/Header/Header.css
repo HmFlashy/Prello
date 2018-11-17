@@ -43,3 +43,11 @@
     display: inline;
     margin-left: 5px !important;
 }
+
+.popup-edit-member {
+    display: inline-block;
+}
+
+.popup-member-information {
+    display: block;
+}

@@ -127,5 +127,13 @@ export default {
         } catch (error) {
             throw error
         }
+    },
+    async deleteMember(boardId, memberId) {
+        try {
+            const res = await axios.delete(`${UrlConfig.API}/boards/${boardId}/members/${memberId}`, tokenHeader())
+            return res.data
+        } catch (error) {
+            throw error
+        }
     }
 }

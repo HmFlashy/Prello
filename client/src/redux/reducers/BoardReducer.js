@@ -553,7 +553,6 @@ export default (state = defaultBoardReducer, action) => {
                 }
             };
         case "ADD_BOARD_TEAM":
-            console.log(JSON.stringify(action.payload))
             return {
                 ...state,
                 currentBoard: {
@@ -561,6 +560,16 @@ export default (state = defaultBoardReducer, action) => {
                     teams: action.payload.teams,
                     members: action.payload.members,
                     teamsSearched: []
+                }
+            }
+        case "DELETED_BOARD_MEMBER":
+            return {
+                ...state,
+                currentBoard: {
+                    ...state.currentBoard,
+                    members: state.currentBoard.members.filter(boardMember =>
+                        boardMember.member._id!==action.payload.memberId
+                    )
                 }
             }
         default:
