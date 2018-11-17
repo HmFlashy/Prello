@@ -31,7 +31,7 @@ const logger = require('../../../../../logger')
 module.exports = async (req, res) => {
     try {
         const labelId = req.params.labelId;
-        const label = await LabelsController.getLabelById(labelId)
+        await LabelsController.getLabelById(labelId)
     } catch (error) {
         logger.error(error.message)
         if (error.code) {

@@ -11,6 +11,7 @@ const getByEmail = async (email) => {
         const user = await User.findOne({ email: email })
         return user
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 }
@@ -28,6 +29,7 @@ const getById = async (userId) => {
         }]);
         return user
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 }
@@ -54,6 +56,7 @@ const addUser = async (firstname, lastname, username, email, password, organizat
         });
         return await user.save()
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 }
@@ -62,6 +65,7 @@ const getUserByEmailOrUsername = async (username, email) => {
     try {
         return await User.findOne({ $or: [{ username: username}, {email: email}] })
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 }
@@ -82,6 +86,7 @@ const unstarBoard = async (userId, boardId) => {
         }
         return { user, board }
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 }
@@ -102,6 +107,7 @@ const starBoard = async (userId, boardId) => {
         }
         return board
     } catch (error) {
+        logger.error(error.message)
         throw error
     }
 }
@@ -163,7 +169,6 @@ const deleteCategory = async (userId, categoryId) => {
 const updateCategoryName = async (userId, categoryId, name) => {
     let user = null;
     try {
-        const category = await Category.findById(categoryId)
         const newCategory = await Category.findOneAndUpdate({ _id: categoryId }, { $set: { name: name } }, { new: true })
         user = await User.findByIdAndUpdate({ _id: userId }, { $pull: { categories: { _id: categoryId } } });
         user = await User.findByIdAndUpdate({ _id: userId }, { $push: { categories: newCategory } });

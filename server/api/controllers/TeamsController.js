@@ -51,7 +51,7 @@ const addMember = async (teamId, memberId) => {
     try {
         const team = await Team.findOneAndUpdate({ _id: teamId },
             { $push: { members: {member: memberId} } }, { "new": true })
-        const member = await User.findOneAndUpdate({ _id: memberId },
+        await User.findOneAndUpdate({ _id: memberId },
             { $push: { teams: {team:teamId} } }, { "new": true })
         return team
     } catch (error) {
@@ -64,7 +64,7 @@ const deleteMember = async (teamId, memberId) => {
     try {
         const team = await Team.findOneAndUpdate({ _id: teamId },
             { $pull: { members: {member: memberId} } }, { "new": true })
-        const member = await User.findOneAndUpdate({ _id: memberId },
+        await User.findOneAndUpdate({ _id: memberId },
             { $pull: { teams: {team:teamId} } }, { "new": true })
         return team
     } catch (error) {
@@ -77,7 +77,7 @@ const addBoard = async (teamId, boardId) => {
     try {
         const team = await Team.findOneAndUpdate({ _id: teamId },
             { $push: { boards: boardId} }, { "new": true })
-        const board = await Board.findOneAndUpdate({ _id: boardId },
+        await Board.findOneAndUpdate({ _id: boardId },
             { $push: { teams: teamId } }, { "new": true })
         return team
     } catch (error) {
@@ -90,7 +90,7 @@ const deleteBoard = async (teamId, boardId) => {
     try {
         const team = await Team.findOneAndUpdate({ _id: teamId },
             { $pull: { boards: boardId} }, { "new": true })
-        const board = await Board.findOneAndUpdate({ _id: boardId },
+        await Board.findOneAndUpdate({ _id: boardId },
             { $pull: { teams: teamId } }, { "new": true })
         return team
     } catch (error) {
@@ -106,7 +106,7 @@ const updateTeamMember = async (teamId, memberId, role) => {
         const finalTeam = await Team.findOneAndUpdate({_id: teamId}, { $set: { members: memberUpdated } }, { "new": true })
         const member = await User.findById({_id: memberId})
         let teamUpdated = await member.teams.map(tea => tea.team.toString() === teamId.toString()? {team: tea.team, role} : {team: tea.team, role: tea.role})
-        const finalMember = await User.findOneAndUpdate({_id: memberId}, { $set: { teams: teamUpdated } }, { "new": true })
+        await User.findOneAndUpdate({_id: memberId}, { $set: { teams: teamUpdated } }, { "new": true })
         return finalTeam
     } catch (error) {
         logger.error(error.message)

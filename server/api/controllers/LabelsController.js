@@ -67,7 +67,7 @@ const updateLabel = async (labelId, data) => {
 const addLabel = async (cardId, labelId) => {
     try {
         const label = await getLabelById(labelId)
-        const card = await CardsController.addToArray(cardId, 'labels', label)
+        await CardsController.addToArray(cardId, 'labels', label)
         return label
     } catch (error) {
         logger.error(error.message)

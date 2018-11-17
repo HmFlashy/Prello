@@ -1,6 +1,7 @@
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+const logger = require('../../../logger')
 
 const OAuthAuthorizationCode = new Schema({
     authorizationCode: String,
@@ -19,6 +20,7 @@ OAuthAuthorizationCodes.getAuthorizationCode = async (authorizationCode) => {
         const code = await OAuthAuthorizationCodes.findOne({ authorizationCode: authorizationCode })
         return code
     } catch(error) {
+        logger.error(error.message)
         throw error
     }
 }

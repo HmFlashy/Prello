@@ -68,7 +68,8 @@ const types = {
 module.exports = async (req, res) => {
     try {
         const cardId = req.params.cardId
-        if (cardUpdated = await CardController.updateCard(cardId, req.body)) {
+        const cardUpdated = await CardController.updateCard(cardId, req.body)
+        if (cardUpdated) {
             Object.keys(req.body).forEach(action => {
                 if (types[action]) {
                     socketIO.broadcast('action', cardUpdated.board, {

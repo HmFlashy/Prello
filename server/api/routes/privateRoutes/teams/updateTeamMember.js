@@ -34,7 +34,8 @@ module.exports = async (req, res) => {
         const teamId = req.params.teamId
         const role = req.body.role
         const memberId = req.params.memberId;
-        if (memberUpdated = await teamsController.updateTeamMember(teamId, memberId, role)) {
+        const memberUpdated = await teamsController.updateTeamMember(teamId, memberId, role)
+        if (memberUpdated) {
             socketIO.broadcast('action', {
                 type: 'UPDATED_TEAM_MEMBER',
                 payload: { memberId: memberId, memberUpdated }

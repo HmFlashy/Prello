@@ -33,7 +33,8 @@ const logger = require('../../../../logger')
 module.exports = async (req, res) => {
     try {
         const teamId = req.params.teamId
-        if (teamUpdated = await TeamsController.updateTeam(teamId, req.body)) {
+        const teamUpdated = await TeamsController.updateTeam(teamId, req.body)
+        if (teamUpdated) {
             socketIO.broadcast('action', teamId, {
                 type: 'UPDATED_TEAM',
                 payload: { teamId: teamId, teamUpdated }
