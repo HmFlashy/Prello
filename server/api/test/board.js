@@ -22,11 +22,11 @@ let hugoUser = null;
 
 describe("Board", () => {
     before((done) => {
-        User.findOne({email: "hugo.maitre69@gmail.com"}).then((hugo) => {
+        User.findOne({ email: "hugo.maitre69@gmail.com" }).then((hugo) => {
             hugoUser = hugo;
             chai.request(server)
                 .post(`/api/login`)
-                .send({"email": "hugo.maitre69@gmail.com", "password": "m"})
+                .send({ "email": "hugo.maitre69@gmail.com", "password": "m" })
                 .end((err, res) => {
                     header = `Bearer ${res.body.token}`;
                     done()
@@ -35,16 +35,16 @@ describe("Board", () => {
     });
 
     beforeEach((done) => { // Before each test we empty the database
-        User.deleteMany({name: "Testeur"}).then(() => {
+        User.deleteMany({ name: "Testeur" }).then(() => {
             Team.deleteMany().then(() => {
                 Board.deleteMany().then(() => {
-                    User.create({name: "Testeur"}).then(user1 => {
+                    User.create({ name: "Testeur" }).then(user1 => {
                         user = user1;
-                        Team.create({name: "TeamTest"}).then(team1 => {
+                        Team.create({ name: "TeamTest" }).then(team1 => {
                             team = team1;
                             Board.create({
                                 name: "BoardTest",
-                                members: [{member: hugoUser._id, role: "Admin"}]
+                                members: [{ member: hugoUser._id, role: "Admin" }]
                             }).then(board1 => {
                                 board = board1;
                             }).then(() => {
@@ -120,7 +120,7 @@ describe("Board", () => {
         it("it should not POST a board without visibility field", (done) => {
             chai.request(server)
                 .post("/api/boards")
-                .send({name: "Doing"})
+                .send({ name: "Doing" })
                 .set("Authorization", header)
                 .end((err, res) => {
                     res.should.have.status(400);
@@ -131,15 +131,14 @@ describe("Board", () => {
             chai.request(server)
                 .post("/api/boards/")
                 .set("Authorization", header)
-                .send({name: "Prello", visibility: "Private"})
+                .send({ name: "Prello", visibility: "Private" })
                 .end((err, res) => {
-                    console.log(res)
                     res.should.have.status(201);
                     res.body.should.be.a("object");
                     res.body.should.have.property("name").equal("Prello");
                     res.body.should.have.property("owner").equal(hugoUser._id.toString());
-                    User.findById(hugoUser._id).find({boards: {"$in": [{board: res.body._id, role: "Admin", category: null}]}}, (err, user) => {
-                        if (err) {}
+                    User.findById(hugoUser._id).find({ boards: { "$in": [{ board: res.body._id, role: "Admin", category: null }] } }, (err, user) => {
+                        if (err) { }
                         expect(user);
                         done();
                     });
@@ -149,7 +148,7 @@ describe("Board", () => {
             chai.request(server)
                 .post("/api/boards")
                 .set("Authorization", header)
-                .send({name: "Prello", visibility: "Private", teamId: user._id})
+                .send({ name: "Prello", visibility: "Private", teamId: user._id })
                 .end((err, res) => {
                     res.should.have.status(404);
                     done();
@@ -159,17 +158,17 @@ describe("Board", () => {
             chai.request(server)
                 .post("/api/boards/")
                 .set("Authorization", header)
-                .send({name: "Prello", visibility: "Private", teamId: team._id})
+                .send({ name: "Prello", visibility: "Private", teamId: team._id })
                 .end((err, res) => {
                     res.should.have.status(201);
                     res.body.should.be.a("object");
                     res.body.should.have.property("name").equal("Prello");
                     res.body.should.have.property("owner").equal(hugoUser._id.toString());
-                    User.findById(hugoUser._id).find({boards: {"$in": [{board: res.body._id, role: "Admin", category: null}]}}, (err, user) => {
-                        if (err) {}
+                    User.findById(hugoUser._id).find({ boards: { "$in": [{ board: res.body._id, role: "Admin", category: null }] } }, (err, user) => {
+                        if (err) { }
                         expect(user);
-                        Team.findById(team._id).find({boards: {"$in": [res.body._id]}}, (err, team) => {
-                            if (err) {}
+                        Team.findById(team._id).find({ boards: { "$in": [res.body._id] } }, (err, team) => {
+                            if (err) { }
                             expect(team);
                             done();
                         })
@@ -196,7 +195,7 @@ describe("Board", () => {
             chai.request(server)
                 .put(`/api/boards/${board._id}`)
                 .set("Authorization", header)
-                .send({name: "ADcare"})
+                .send({ name: "ADcare" })
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.a("object");
@@ -208,7 +207,7 @@ describe("Board", () => {
             chai.request(server)
                 .put(`/api/boards/${board._id}`)
                 .set("Authorization", header)
-                .send({isClosed: true})
+                .send({ isClosed: true })
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.a("object");
@@ -220,7 +219,7 @@ describe("Board", () => {
             chai.request(server)
                 .put(`/api/boards/${board._id}`)
                 .set("Authorization", header)
-                .send({visibility: "Public"})
+                .send({ visibility: "Public" })
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.a("object");
@@ -232,7 +231,7 @@ describe("Board", () => {
             chai.request(server)
                 .put(`/api/boards/5de2de52`)
                 .set("Authorization", header)
-                .send({name: "ADcare"})
+                .send({ name: "ADcare" })
                 .end((err, res) => {
                     res.should.have.status(400);
                     done();
@@ -242,7 +241,7 @@ describe("Board", () => {
             chai.request(server)
                 .put(`/api/boards/${user._id}`)
                 .set("Authorization", header)
-                .send({name: "ADcare"})
+                .send({ name: "ADcare" })
                 .end((err, res) => {
                     res.should.have.status(404);
                     done();
@@ -257,7 +256,7 @@ describe("Board", () => {
             chai.request(server)
                 .put(`/api/boards/${board._id}/members`)
                 .set("Authorization", header)
-                .send({userId: user._id})
+                .send({ userId: user._id })
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.a("object");
@@ -272,7 +271,7 @@ describe("Board", () => {
                             }]
                         }
                     }, (err, user) => {
-                        if (err) {}
+                        if (err) { }
                         expect(user);
                         done();
                     });
@@ -306,7 +305,7 @@ describe("Board", () => {
             chai.request(server)
                 .put(`/api/boards/5de2de52/members`)
                 .set("Authorization", header)
-                .send({userId: user._id})
+                .send({ userId: user._id })
                 .end((err, res) => {
                     res.should.have.status(400);
                     done();
@@ -316,7 +315,7 @@ describe("Board", () => {
             chai.request(server)
                 .put(`/api/boards/${user._id}/members`)
                 .set("Authorization", header)
-                .send({userId: user._id})
+                .send({ userId: user._id })
                 .end((err, res) => {
                     res.should.have.status(404);
                     done();
@@ -326,7 +325,7 @@ describe("Board", () => {
             chai.request(server)
                 .put(`/api/boards/${board._id}/members`)
                 .set("Authorization", header)
-                .send({userId: "frfrfrr552"})
+                .send({ userId: "frfrfrr552" })
                 .end((err, res) => {
                     res.should.have.status(400);
                     done();
@@ -336,7 +335,7 @@ describe("Board", () => {
             chai.request(server)
                 .put(`/api/boards/${board._id}/members`)
                 .set("Authorization", header)
-                .send({userId: board._id})
+                .send({ userId: board._id })
                 .end((err, res) => {
                     res.should.have.status(404);
                     done();
@@ -351,13 +350,13 @@ describe("Board", () => {
             chai.request(server)
                 .put(`/api/boards/${board._id}/teams`)
                 .set("Authorization", header)
-                .send({teamId: team._id})
+                .send({ teamId: team._id })
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.a("object");
                     expect(res.body.teams.includes(team._id));
-                    Team.findById(team._id).find({boards: {"$in": [res.body._id]}}, (err, team) => {
-                        if (err) {}
+                    Team.findById(team._id).find({ boards: { "$in": [res.body._id] } }, (err, team) => {
+                        if (err) { }
                         expect(team);
                         done();
                     });
@@ -367,7 +366,7 @@ describe("Board", () => {
             chai.request(server)
                 .put(`/api/boards/5de2de52/teams`)
                 .set("Authorization", header)
-                .send({teamId: team._id})
+                .send({ teamId: team._id })
                 .end((err, res) => {
                     res.should.have.status(400);
                     done();
@@ -377,7 +376,7 @@ describe("Board", () => {
             chai.request(server)
                 .put(`/api/boards/${team._id}/teams`)
                 .set("Authorization", header)
-                .send({teamId: team._id})
+                .send({ teamId: team._id })
                 .end((err, res) => {
                     res.should.have.status(404);
                     done();
@@ -387,7 +386,7 @@ describe("Board", () => {
             chai.request(server)
                 .put(`/api/boards/${board._id}/teams`)
                 .set("Authorization", header)
-                .send({teamId: "frfrfrr552"})
+                .send({ teamId: "frfrfrr552" })
                 .end((err, res) => {
                     res.should.have.status(400);
                     done();
@@ -397,7 +396,7 @@ describe("Board", () => {
             chai.request(server)
                 .put(`/api/boards/${user._id}/teams`)
                 .set("Authorization", header)
-                .send({teamId: board._id})
+                .send({ teamId: board._id })
                 .end((err, res) => {
                     res.should.have.status(404);
                     done();
@@ -412,7 +411,7 @@ describe("Board", () => {
             chai.request(server)
                 .put(`/api/boards/${board._id}`)
                 .set("Authorization", header)
-                .send({name: "ADcare"})
+                .send({ name: "ADcare" })
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.a("object");
@@ -424,7 +423,7 @@ describe("Board", () => {
             chai.request(server)
                 .put(`/api/boards/${board._id}`)
                 .set("Authorization", header)
-                .send({isClosed: true})
+                .send({ isClosed: true })
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.a("object");
@@ -436,7 +435,7 @@ describe("Board", () => {
             chai.request(server)
                 .put(`/api/boards/${board._id}`)
                 .set("Authorization", header)
-                .send({visibility: "Public"})
+                .send({ visibility: "Public" })
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.a("object");
@@ -448,7 +447,7 @@ describe("Board", () => {
             chai.request(server)
                 .put(`/api/boards/5de2de52`)
                 .set("Authorization", header)
-                .send({name: "ADcare"})
+                .send({ name: "ADcare" })
                 .end((err, res) => {
                     res.should.have.status(400);
                     done();
@@ -458,7 +457,7 @@ describe("Board", () => {
             chai.request(server)
                 .put(`/api/boards/${user._id}`)
                 .set("Authorization", header)
-                .send({name: "ADcare"})
+                .send({ name: "ADcare" })
                 .end((err, res) => {
                     res.should.have.status(404);
                     done();
@@ -481,7 +480,7 @@ describe("Board", () => {
                     res.body.should.be.a("object");
                     res.body.should.have.property("name").equal("BoardTest");
                     Board.findById(res.body._id, (error, newBoard) => {
-                        if (error) {}
+                        if (error) { }
                         members.forEach(boardMember => {
                             const member = boardMember.member;
                             User.findOne({
@@ -490,7 +489,7 @@ describe("Board", () => {
                             }, (user) => expect(user).to.be.null)
                         });
                         teams.forEach(team => {
-                            Team.findOne({_id: team._id, boards: {$in: [board._id]}}, (team) =>
+                            Team.findOne({ _id: team._id, boards: { $in: [board._id] } }, (team) =>
                                 expect(team).to.be.null
                             )
                         });
