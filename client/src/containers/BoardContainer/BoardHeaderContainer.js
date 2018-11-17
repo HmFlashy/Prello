@@ -18,7 +18,7 @@ import {
     actionFetchingSearchedMembers,
     actionFetchingMissingMembers,
     actionFailedFetchingMissingMembers,
-    actionDeletedBoardMember
+    actionDeletedBoardMember, actionFailedDeletingBoardMember, actionChangeRoleMember, actionChangeRoleBoardMember
 } from "../../redux/actions/BoardActions";
 import { actionStarBoard, actionUnstarBoard } from "../../redux/actions/UserActions";
 import { actionUpdateSearchFilter, actionAddBoardLabelFilter, actionDeleteBoardLabelFilter, actionAddBoardMemberFilter, actionDeleteBoardMemberFilter } from "../../redux/actions/BoardActions";
@@ -171,7 +171,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         async changeRole(memberId, role) {
             try {
-
+                await BoardServices.changeRoleBoardMember(ownProps.board._id, memberId, role);
             } catch(error) {
                 throw error
             }
@@ -179,9 +179,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         async removeMember(memberId) {
             try {
                 await BoardServices.deleteMember(ownProps.board._id, memberId);
-                console.log("toto")
-                dispatch(actionDeletedBoardMember(memberId))
+                dispatch(actionDeletedBoardMember(ownProps.board._id, memberId))
             } catch(error) {
+                dispatch(actionFailedDeletingBoardMember(error))
                 throw error
             }
         }

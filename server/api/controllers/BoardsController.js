@@ -3,6 +3,7 @@ const User = require("../models/index").User;
 const Team = require("../models/index").Team;
 const Category = require("../models/index").Category;
 const ListsController = require("./ListsController")
+const CardsController = require("./CardsController")
 const throwError = require("../helper/RequestHelper").throwError;
 const mongoose = require("mongoose");
 
@@ -380,19 +381,21 @@ const deleteBoardMember= async (boardId, userId) => {
         }
         const board = await Board.findOneAndUpdate({_id: boardId}, {
             $pull: {
-                members: {member: userId}
+                members: {member: userId},
+                starred: userId
             }
         }, {new: true});
         if (!board) {
             throwError(404, `The board ${boardId} was not found`)
         }
+        await CardsController.deleteBoardMember(boardId, userId);
         return board;
     } catch (error) {
         throw error
     }
 };
 
-const deleteBord = async (boardId) => {
+const deleteBoard = async (boardId) => {
     try {
         const board = await Board.findById(boardId);
         if (!board) {
@@ -403,6 +406,37 @@ const deleteBord = async (boardId) => {
         // }
         board.remove()
 
+        return board;
+    } catch (error) {
+        throw error
+    }
+};
+
+const updateRoleBoardMember = async (boardId, userId, role) => {
+    try {
+        const user = await User.findById(userId);
+        if(!user) throwError(404, `The user ${userId} was not found`);
+        const newBoards = user.boards.map(userBoard => {
+            if (userBoard.board.toString() === boardId) {
+                userBoard.role = role;
+                return userBoard
+            }
+            else return userBoard;
+        });
+        user.boards = newBoards;
+        await user.save();
+
+        const board = await Board.findById(boardId);
+        if(!board) throwError(404, `The board ${boardId} was not found`);
+        const newMembers = board.members.map(boardMember => {
+            if (boardMember.member.toString() === userId) {
+                boardMember.role = role;
+                return boardMember
+            }
+            else return boardMember;
+        });
+        board.members = newMembers;
+        await board.save();
         return board;
     } catch (error) {
         throw error
@@ -418,9 +452,10 @@ module.exports = {
     addBoardTeam,
     deleteBoardTeam,
     addBoardMember,
-    deleteBord,
+    deleteBoard,
     updateBoard,
     getBoardsInfo,
     getBoardForExport,
-    deleteBoardMember
+    deleteBoardMember,
+    updateRoleBoardMember
 };

@@ -59,7 +59,7 @@ const throwError = require('../../../helper/RequestHelper').throwError;
 module.exports = async (req, res) => {
     try {
         const boardId = req.params.boardId;
-        const userId = req.params.userId;
+        const userId = req.params.memberId;
         const board = await boardsController.deleteBoardMember(boardId, userId);
         socketIO.broadcast("action", boardId, {
             type: "DELETED_BOARD_MEMBER",

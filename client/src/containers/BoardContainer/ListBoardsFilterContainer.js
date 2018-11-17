@@ -5,13 +5,15 @@ const mapStateToProps = (state, ownProps) => {
     const user = state.authentification.user;
     const boardsWithTeam = user.boards.filter(boardUser => {
         const board = state.boards.all.find(board => (board._id === boardUser.board));
-        return ((ownProps.noTeam ?
-            board.teams.filter(teamBoard =>
-                user.teams.map(team => team.team._id).includes(teamBoard)).length === 0 :
-            ownProps.teams ? board.teams.filter(teamBoard => ownProps.teams.includes(teamBoard)).length > 0 : true)
-            && (boardUser.category ? ownProps.categories.includes(boardUser.category._id) :
-                ownProps.categories.includes("No Category")) &&
-            (ownProps.onlyStars ? user.starred.includes(boardUser.board) : true))
+        if(board) {
+            return ((ownProps.noTeam ?
+                board.teams.filter(teamBoard =>
+                    user.teams.map(team => team.team._id).includes(teamBoard)).length === 0 :
+                ownProps.teams ? board.teams.filter(teamBoard => ownProps.teams.includes(teamBoard)).length > 0 : true)
+                && (boardUser.category ? ownProps.categories.includes(boardUser.category._id) :
+                    ownProps.categories.includes("No Category")) &&
+                (ownProps.onlyStars ? user.starred.includes(boardUser.board) : true))
+        } else return false
     })
         .map(board => board.board);
     return {

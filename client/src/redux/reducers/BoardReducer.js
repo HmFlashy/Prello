@@ -43,7 +43,7 @@ export default (state = defaultBoardReducer, action) => {
                 currentBoard: {
                     ...defaultBoardReducer.currentBoard,
                     ...board,
-                    lists: board.lists.map(list => ({ _id: list._id, pos: list.pos, isArchived: list.isArchived }))
+                    lists: board.lists.map(list => ({_id: list._id, pos: list.pos, isArchived: list.isArchived}))
                 }
             };
         case "FETCHING_BOARD":
@@ -65,15 +65,18 @@ export default (state = defaultBoardReducer, action) => {
             return {
                 ...state
             };
-        case 'UPDATE_LIST_ISARCHIVED':
+        case "UPDATE_LIST_ISARCHIVED":
             return {
                 ...state,
                 currentBoard: {
                     ...state.currentBoard,
-                    lists: state.currentBoard.lists.map(list => list._id === action.payload._id ? { ...list, isArchived: action.payload.isArchived } : list)
+                    lists: state.currentBoard.lists.map(list => list._id === action.payload._id ? {
+                        ...list,
+                        isArchived: action.payload.isArchived
+                    } : list)
                 }
             }
-        case 'DELETE_LIST':
+        case "DELETE_LIST":
             return {
                 ...state,
                 currentBoard: {
@@ -92,12 +95,18 @@ export default (state = defaultBoardReducer, action) => {
                 vote: true||false
             }
         }*/
-        case 'VOTE':
+        case "VOTE":
             return {
                 ...state,
                 currentBoard: {
                     ...state.currentBoard,
-                    polls: state.currentBoard.polls.map(poll => poll._id === action.payload._id ? { ...poll, options: poll.options.map(option => option._id === action.payload.optionId ? { ...option, voters: action.payload.vote.vote ? [...option.voters, action.payload.vote.voter] : option.voters.filter(voter => voter._id !== action.payload.vote.voter._id) } : option) } : poll)
+                    polls: state.currentBoard.polls.map(poll => poll._id === action.payload._id ? {
+                        ...poll,
+                        options: poll.options.map(option => option._id === action.payload.optionId ? {
+                            ...option,
+                            voters: action.payload.vote.vote ? [...option.voters, action.payload.vote.voter] : option.voters.filter(voter => voter._id !== action.payload.vote.voter._id)
+                        } : option)
+                    } : poll)
                 }
             }
         /*payload : {
@@ -106,12 +115,15 @@ export default (state = defaultBoardReducer, action) => {
 
             }
         }*/
-        case 'ADD_OPTION_POLL':
+        case "ADD_OPTION_POLL":
             return {
                 ...state,
                 currentBoard: {
                     ...state.currentBoard,
-                    polls: state.currentBoard.polls.map(poll => poll._id === action.payload._id ? { ...poll, options: [...poll.options, action.payload.option] } : poll)
+                    polls: state.currentBoard.polls.map(poll => poll._id === action.payload._id ? {
+                        ...poll,
+                        options: [...poll.options, action.payload.option]
+                    } : poll)
                 }
             }
         /*payload : {
@@ -122,18 +134,22 @@ export default (state = defaultBoardReducer, action) => {
                 _id
             }
         }*/
-        case 'UPDATE_POLL':
+        case "UPDATE_POLL":
             return {
                 ...state,
                 currentBoard: {
                     ...state.currentBoard,
-                    polls: state.currentBoard.polls.map(poll => poll._id === action.payload._id ? { ...poll, title: action.payload.title, card: action.payload.card } : poll)
+                    polls: state.currentBoard.polls.map(poll => poll._id === action.payload._id ? {
+                        ...poll,
+                        title: action.payload.title,
+                        card: action.payload.card
+                    } : poll)
                 }
             }
         /*payload : {
             poll
         }*/
-        case 'ADD_POLL':
+        case "ADD_POLL":
             return {
                 ...state,
                 currentBoard: {
@@ -144,7 +160,7 @@ export default (state = defaultBoardReducer, action) => {
         /*payload : {
             _id: pollId
         }*/
-        case 'DELETE_POLL':
+        case "DELETE_POLL":
             return {
                 ...state,
                 currentBoard: {
@@ -156,12 +172,15 @@ export default (state = defaultBoardReducer, action) => {
            _id : pollId
            optionId
        }*/
-        case 'DELETE_OPTION_POLL':
+        case "DELETE_OPTION_POLL":
             return {
                 ...state,
                 currentBoard: {
                     ...state.currentBoard,
-                    polls: state.currentBoard.polls.map(poll => poll._id === action.payload._id ? { ...poll, options: poll.options.filter(option => option._id !== action.payload.optionId) } : poll)
+                    polls: state.currentBoard.polls.map(poll => poll._id === action.payload._id ? {
+                        ...poll,
+                        options: poll.options.filter(option => option._id !== action.payload.optionId)
+                    } : poll)
                 }
             }
         /*payload : {
@@ -169,25 +188,36 @@ export default (state = defaultBoardReducer, action) => {
            optionId
            title
        }*/
-        case 'UPDATE_OPTION_POLL':
+        case "UPDATE_OPTION_POLL":
             return {
                 ...state,
                 currentBoard: {
                     ...state.currentBoard,
-                    polls: state.currentBoard.polls.map(poll => poll._id === action.payload._id ? { ...poll, options: poll.options.map(option => option._id === action.payload.optionId ? { ...option, title: action.payload.title } : option) } : poll)
+                    polls: state.currentBoard.polls.map(poll => poll._id === action.payload._id ? {
+                        ...poll,
+                        options: poll.options.map(option => option._id === action.payload.optionId ? {
+                            ...option,
+                            title: action.payload.title
+                        } : option)
+                    } : poll)
                 }
             }
         case "GET_BOARD":
             return {
                 ...state,
-                currentBoard: { ...defaultBoardReducer, ...action.payload },
+                currentBoard: {...defaultBoardReducer, ...action.payload},
                 error: null
             };
-        case 'UPDATE_BOARD_NAME':
+        case "UPDATE_BOARD_NAME":
             return {
                 ...state,
                 all: state.all.map(board => {
-                    if(board._id === action.payload._id) {return {...board, name: action.payload.name}} else return board
+                    if (board._id === action.payload._id) {
+                        return {
+                            ...board,
+                            name: action.payload.name
+                        }
+                    } else return board
                 }),
                 currentBoard: {
                     ...state.currentBoard,
@@ -197,9 +227,17 @@ export default (state = defaultBoardReducer, action) => {
         case "FAILED_UPDATE_BOARD_NAME":
             return {
                 ...state,
-                currentBoard: state.currentBoard._id === action.payload._id ? { ...state.currentBoard, name: action.payload.name } : state.currentBoard,
+                currentBoard: state.currentBoard._id === action.payload._id ? {
+                    ...state.currentBoard,
+                    name: action.payload.name
+                } : state.currentBoard,
                 all: state.all.map(board => {
-                    if(board._id === action.payload._id) {return {...board, name: action.payload.name}} else return board
+                    if (board._id === action.payload._id) {
+                        return {
+                            ...board,
+                            name: action.payload.name
+                        }
+                    } else return board
                 }),
                 error: null
             };
@@ -219,7 +257,7 @@ export default (state = defaultBoardReducer, action) => {
                 ...state,
                 currentBoard: {
                     ...state.currentBoard,
-                    lists: [...state.currentBoard.lists, { _id: list._id, pos: list.pos }]
+                    lists: [...state.currentBoard.lists, {_id: list._id, pos: list.pos}]
                 }
             };
         case "MOVE_LIST":
@@ -252,18 +290,18 @@ export default (state = defaultBoardReducer, action) => {
                     }
                 },
                 all: state.all.map(function (board) {
-                    if (board._id === action.payload.board) {
-                        return {
-                            ...board,
-                            starred:
-                                [...board.starred, action.payload.user],
-                            boardInformation: {
-                                ...board.boardInformation,
-                                nbStars: board.boardInformation.nbStars + 1
+                        if (board._id === action.payload.board) {
+                            return {
+                                ...board,
+                                starred:
+                                    [...board.starred, action.payload.user],
+                                boardInformation: {
+                                    ...board.boardInformation,
+                                    nbStars: board.boardInformation.nbStars + 1
+                                }
                             }
-                        }
-                    } else return board
-                }
+                        } else return board
+                    }
                 )
             };
         case "USER_BOARD_UNSTAR":
@@ -279,17 +317,17 @@ export default (state = defaultBoardReducer, action) => {
                     }
                 },
                 all: state.all.map(function (board) {
-                    if (board._id === action.payload.board) {
-                        return {
-                            ...board,
-                            starred: board.starred.filter(user => user !== action.payload.user),
-                            boardInformation: {
-                                ...board.boardInformation,
-                                nbStars: board.boardInformation.nbStars - 1
+                        if (board._id === action.payload.board) {
+                            return {
+                                ...board,
+                                starred: board.starred.filter(user => user !== action.payload.user),
+                                boardInformation: {
+                                    ...board.boardInformation,
+                                    nbStars: board.boardInformation.nbStars - 1
+                                }
                             }
-                        }
-                    } else return board
-                }
+                        } else return board
+                    }
                 )
             };
         case "ADD_BOARD":
@@ -302,13 +340,13 @@ export default (state = defaultBoardReducer, action) => {
                 ...state,
                 all: state.all.map(board => {
                     if (board._id === action.payload.boardId) {
-                        return { ...board, name: action.payload.name }
+                        return {...board, name: action.payload.name}
                     } else return board
                 }),
                 currentBoard: state.currentBoard._id === action.payload.boardId ? {
-                    ...board,
+                    ...state.currentBoard,
                     name: action.payload.name
-                } : { ...state.currentBoard }
+                } : {...state.currentBoard}
 
             };
         case "UPDATE_BOARD_VISIBILITY":
@@ -316,13 +354,13 @@ export default (state = defaultBoardReducer, action) => {
                 ...state,
                 all: state.all.map(board => {
                     if (board._id === action.payload._id) {
-                        return { ...board, visibility: action.payload.visibility }
+                        return {...board, visibility: action.payload.visibility}
                     } else return board
                 }),
                 currentBoard: state.currentBoard._id === action.payload._id ? {
-                    ...board,
+                    ...state.currentBoard,
                     visibility: action.payload.visibility
-                } : { ...state.currentBoard }
+                } : {...state.currentBoard}
 
             };
         case "FAILED_UPDATE_BOARD_VISIBILITY":
@@ -330,20 +368,20 @@ export default (state = defaultBoardReducer, action) => {
                 ...state,
                 all: state.all.map(board => {
                     if (board._id === action.payload._id) {
-                        return { ...board, visibility: action.payload.visibility }
+                        return {...board, visibility: action.payload.visibility}
                     } else return board
                 }),
                 currentBoard: state.currentBoard._id === action.payload._id ? {
                     ...board,
                     visibility: action.payload.visibility
-                } : { ...state.currentBoard }
+                } : {...state.currentBoard}
 
             };
         case "CREATED_LABEL":
             return (state.currentBoard._id && state.currentBoard._id === action.payload.boardId) ?
                 ({
                     ...state,
-                    currentBoard: { ...state.currentBoard, labels: [...state.currentBoard.labels, action.payload.label] }
+                    currentBoard: {...state.currentBoard, labels: [...state.currentBoard.labels, action.payload.label]}
                 }) : state;
         case "UPDATED_LABEL":
             return (state.currentBoard._id && state.currentBoard._id === action.payload.boardId) ?
@@ -561,17 +599,30 @@ export default (state = defaultBoardReducer, action) => {
                     members: action.payload.members,
                     teamsSearched: []
                 }
-            }
+            };
         case "DELETED_BOARD_MEMBER":
             return {
                 ...state,
                 currentBoard: {
                     ...state.currentBoard,
                     members: state.currentBoard.members.filter(boardMember =>
-                        boardMember.member._id!==action.payload.memberId
+                        boardMember.member._id !== action.payload.memberId
                     )
                 }
-            }
+            };
+        case "UPDATED_BOARD_ROLE_MEMBER":
+            return {
+                ...state,
+                currentBoard: {
+                    ...state.currentBoard,
+                    members: state.currentBoard.members.map(boardMember => {
+                        if (boardMember.member._id === action.payload.memberId) {
+                            boardMember.role = action.payload.role;
+                            return boardMember
+                        } else return boardMember
+                    })
+                }
+            };
         default:
             return state
     }

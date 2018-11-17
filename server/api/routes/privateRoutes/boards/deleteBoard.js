@@ -41,7 +41,7 @@ const throwError = require('../../../helper/RequestHelper').throwError;
 module.exports = async (req, res) => {
     try {
         const boardId = req.params.boardId;
-        const board = await boardsController.deleteBord(boardId);
+        const board = await boardsController.deleteBoard(boardId);
         if (!board) {
             throwError(404, `The board ${boardId} was not found`)
         }

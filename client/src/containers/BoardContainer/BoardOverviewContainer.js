@@ -11,7 +11,7 @@ const mapStateToProps = (state, ownProps) => {
     return {
         board: board,
         userId: user._id,
-        isStarred: board?board.starred.includes(user._id):null
+        isStarred: board?board.starred.includes(user._id):false
     }
 };
 

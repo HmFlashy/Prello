@@ -205,6 +205,24 @@ export default (state = defaultAuthentificationState, action) => {
                 ...state,
                 queryMember: action.payload.query
             };
+        case "DELETED_BOARD_MEMBER":
+            return {
+                ...state,
+                boards: state.user._id === action.payload.memberId?state.user.boards.filter(boardMember =>
+                    boardMember.board !== action.payload.boardId):state.user.boards
+            };
+        case "UPDATED_BOARD_ROLE_MEMBER":
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    boards: state.user.boards.map(board => {
+                        if(board._id === action.payload.boardId) {
+                            return {...board, role: action.payload.role}
+                        } else return board
+                    })
+                }
+            }
         default:
             return {
                 ...state,

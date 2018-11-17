@@ -6,7 +6,7 @@ const throwError = require("../helper/RequestHelper").throwError;
 
 const getCardById = async (cardId) => {
     try {
-        if(await Card.findById(cardId)) {
+        if (await Card.findById(cardId)) {
             const card = await Card.findById(cardId).populate(
                 [{
                     path: "labels"
@@ -49,7 +49,7 @@ const addAttachment = async (name, owner, cardId, url) => {
             url
         })
         attachment = await attachment.save()
-        card = await Card.findOne({ _id: cardId })
+        card = await Card.findOne({_id: cardId})
         card.cardInformation.nbAttachments = card.cardInformation.nbAttachments + 1
         card.attachments.push(attachment._id)
         return [await Attachment.findById(attachment._id).populate(
@@ -64,8 +64,8 @@ const addAttachment = async (name, owner, cardId, url) => {
 };
 
 const deleteAttachment = async (cardId, attachmentId) => {
-    await Attachment.deleteOne({ _id: attachmentId })
-    card = await Card.findOne({ _id: cardId })
+    await Attachment.deleteOne({_id: attachmentId})
+    card = await Card.findOne({_id: cardId})
     card.cardInformation.nbAttachments = card.cardInformation.nbAttachments - 1
     card.attachments = card.attachments.filter(attachment => attachment != attachmentId)
     card = await card.save()
@@ -84,26 +84,26 @@ const addComment = async (cardId, author, content) => {
             path: "author",
             select: ["_id", "fullName", "initials", "username"]
         }]
-    ), await Card.findOneAndUpdate({ _id: cardId },
-        { $push: { comments: comment._id } }, { "new": true })]
+    ), await Card.findOneAndUpdate({_id: cardId},
+        {$push: {comments: comment._id}}, {"new": true})]
 }
 
 const deleteComment = async (cardId, commentId) => {
-    await Comment.deleteOne({ _id: commentId })
-    return await Card.findOneAndUpdate({ _id: cardId },
-        { $pull: { comments: commentId } }, { "new": true })
+    await Comment.deleteOne({_id: commentId})
+    return await Card.findOneAndUpdate({_id: cardId},
+        {$pull: {comments: commentId}}, {"new": true})
 }
 
 const updateComment = async (cardId, commentId, content) => {
-    const comment = await Comment.findOneAndUpdate({ _id: commentId },
-        { $set: { content: content, wasModified: true, dateModified: Date.now() } }, { "new": true })
-    return [comment, await Card.findOne({ _id: cardId })]
+    const comment = await Comment.findOneAndUpdate({_id: commentId},
+        {$set: {content: content, wasModified: true, dateModified: Date.now()}}, {"new": true})
+    return [comment, await Card.findOne({_id: cardId})]
 }
 
 const addCard = async (name, listId, pos) => {
     try {
         const list = await List.findById(listId);
-        if (!list) throwError(404, 'LIST_NOT_FOUND');
+        if (!list) throwError(404, "LIST_NOT_FOUND");
 
         card = new Card({
             name: name,
@@ -113,8 +113,8 @@ const addCard = async (name, listId, pos) => {
         });
         let array = [];
         array.push(card.save());
-        array.push(List.updateOne({ _id: listId },
-            { $push: { cards: card } }));
+        array.push(List.updateOne({_id: listId},
+            {$push: {cards: card}}));
         [card] = await Promise.all(array);
         return card
     } catch (error) {
@@ -135,7 +135,7 @@ const moveCard = async (cardId, newListId, pos) => {
     let card = null;
     try {
         let array = [];
-        array.push(await List.findOne({ cards: { $in: [cardId] } }));
+        array.push(await List.findOne({cards: {$in: [cardId]}}));
         array.push(await List.findById(newListId).exec());
         array.push(await Card.findById(cardId));
         [oldList, newList, card] = await Promise.all(array);
@@ -144,9 +144,9 @@ const moveCard = async (cardId, newListId, pos) => {
         if (!newList) throwError(404, `NEW_LIST_NOT_FOUND`);
 
         array = [];
-        array.push(await List.findOneAndUpdate({ _id: card.list }, { $pull: { cards: cardId } }));
-        array.push(await List.findOneAndUpdate({ _id: newListId }, { $push: { cards: cardId } }));
-        array.push(await Card.findOneAndUpdate({ _id: cardId }, {
+        array.push(await List.findOneAndUpdate({_id: card.list}, {$pull: {cards: cardId}}));
+        array.push(await List.findOneAndUpdate({_id: newListId}, {$push: {cards: cardId}}));
+        array.push(await Card.findOneAndUpdate({_id: cardId}, {
             list: newListId,
             board: newList.board,
             pos
@@ -178,7 +178,7 @@ const getCards = async () => {
 
 const updateCard = async (cardId, data) => {
     try {
-        return await Card.findOneAndUpdate({ _id: cardId }, { $set: data }, { "new": true })
+        return await Card.findOneAndUpdate({_id: cardId}, {$set: data}, {"new": true})
     } catch (error) {
         throw error
     }
@@ -186,8 +186,8 @@ const updateCard = async (cardId, data) => {
 
 const addToArray = async (cardId, key, data) => {
     try {
-        return await Card.findOneAndUpdate({ _id: cardId },
-            { $push: { [key]: data } }, { "new": true })
+        return await Card.findOneAndUpdate({_id: cardId},
+            {$push: {[key]: data}}, {"new": true})
     } catch (error) {
         throw error
     }
@@ -195,8 +195,8 @@ const addToArray = async (cardId, key, data) => {
 
 const removeToArray = async (cardId, key, data) => {
     try {
-        return await Card.findOneAndUpdate({ _id: cardId },
-            { $pull: { [key]: data } }, { "new": true })
+        return await Card.findOneAndUpdate({_id: cardId},
+            {$pull: {[key]: data}}, {"new": true})
     } catch (error) {
         throw error
     }
@@ -219,6 +219,20 @@ const deleteCard = async (cardId) => {
     }
 }
 
+const deleteBoardMember = async (boardId, userId) => {
+    try {
+        await Card.updateMany({board: boardId}, {
+            $pull: {
+                members: userId
+            }
+        });
+        await Comment.deleteMany({author: userId});
+        await Attachment.deleteMany({owner: userId});
+    } catch (error) {
+        throw error;
+    }
+}
+
 module.exports = {
     getCardById,
     getCards,
@@ -232,5 +246,6 @@ module.exports = {
     deleteComment,
     updateComment,
     addAttachment,
-    deleteAttachment
+    deleteAttachment,
+    deleteBoardMember
 };

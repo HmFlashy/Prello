@@ -128,6 +128,16 @@ export default (state = defaultCardReducer, action) => {
         ...state,
         all: state.all.map(card => card._id === action.payload._id ? { ...card, cardInformation: { ...card.cardInformation, nbAttachments: card.cardInformation.nbAttachments - 1 } } : card)
       }
+      case 'DELETED_BOARD_MEMBER':
+          return {
+              ...state,
+              all: state.all.map(card => {
+                return {
+                    ...card,
+                    members: card.members.filter(member => member._id !== action.payload.memberId)
+                }
+              })
+          }
     default:
       return state
   }

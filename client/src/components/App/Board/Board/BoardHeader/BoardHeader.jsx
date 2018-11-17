@@ -247,7 +247,7 @@ class BoardHeader extends Component {
     };
 
     handleChangeRole(memberId, role) {
-        console.log(memberId, role)
+        this.props.changeRole(memberId, role)
     }
 
     removeMember(memberId) {
@@ -326,7 +326,7 @@ class BoardHeader extends Component {
                                 <Popup
                                     key={this.props.fullName}
                                     trigger={<span
-                                        ><Avatar
+                                    ><Avatar
                                         _id={boardMember.member._id}
                                         fullName={boardMember.member.fullName}
                                         bio={boardMember.member.bio}
@@ -353,14 +353,11 @@ class BoardHeader extends Component {
                                     <Popup.Content>
                                         <Dropdown placeholder='Permissions' selection
                                                   options={this.state.roleOptions}
-                                                  value={this.state.roleOptions.find(role => {
-                                                     const member = this.props.board.members.find
-                                                      (boardMemberDrop => boardMemberDrop.member._id === boardMember.member._id);
-                                                      return member?member.role === role.key:role.key === "Member"
-                                                  }).value}
+                                                  value={this.state.roleOptions.find(roleOption => roleOption.text === boardMember.role).value}
                                                   onChange={(e, {value}) => this.handleChangeRole(boardMember.member._id, value)}
                                         />
-                                        <Button onClick={() => this.removeMember(boardMember.member._id)}>Remove from the board</Button>
+                                        <Button onClick={() => this.removeMember(boardMember.member._id)}>Remove from
+                                            the board</Button>
                                     </Popup.Content>
                                 </Popup>)}
                             <Popup

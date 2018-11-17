@@ -309,10 +309,11 @@ export const actionFailedFetchingSearchedTeams = (error) => {
     }
 };
 
-export const actionDeletedBoardMember = (memberId) => {
+export const actionDeletedBoardMember = (boardId, memberId) => {
     return {
         type: 'DELETED_BOARD_MEMBER',
         payload: {
+            boardId,
             memberId
         }
     }
@@ -323,6 +324,17 @@ export const actionFailedDeletingBoardMember = (error) => {
         type: 'FAILED_DELETING_BOARD_MEMBER',
         payload: {
             error
+        }
+    }
+};
+
+export const actionChangeRoleBoardMember = (boardId, memberId, role) => {
+    return {
+        type: 'UPDATED_BOARD_ROLE_MEMBER',
+        payload: {
+            boardId,
+            memberId,
+            role
         }
     }
 };

@@ -20,7 +20,7 @@ class NewBoardModal extends Component {
     }
 
     componentWillMount() {
-        this.state = {
+        this.setState({
             modalOpen: false,
             currentNameBoard: "",
             currentCategory: this.props.categoryOptions.length > 0 ? this.props.categoryOptions[0].value : "",
@@ -32,7 +32,7 @@ class NewBoardModal extends Component {
             //currentTeam: this.props.teamOptions.length > 0 ? this.props.teamOptions[0].value: ""
             currentTeam: this.props.teamOptions.length > 0 ? this.props.teamOptions.find(
                 team => this.props.teamId ? this.props.teamId === team.key : "No Team" === team.key).value : ""
-        }
+        })
     }
 
     handleChange(e, {id, value}) {

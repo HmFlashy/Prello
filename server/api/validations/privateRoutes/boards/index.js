@@ -10,5 +10,6 @@ module.exports = {
     getForExportBoardValidator: require('./getForExportBoardValidator'),
     getInfoBoardValidator: require('./getInfoBoardValidator'),
     getMemberSearchedBoardValidator: require('./getMemberSearchedBoardValidator'),
-    getTeamSearchedBoardValidator: require('./getTeamSearchedBoardValidator')
+    getTeamSearchedBoardValidator: require('./getTeamSearchedBoardValidator'),
+    updateRoleBoardMemberValidator: require('./updateRoleBoardMemberValidator')
 };
