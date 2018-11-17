@@ -20,7 +20,7 @@ export default class Activity extends Component {
         return (<div>
             <div className={this.props.className + " displayRow"}>
                 <Icon name='tasks' />
-                <p>Activity</p>
+                <p>Comments</p>
             </div>
             {this.props.comments.sort((a, b) => moment(b.date).valueOf() - moment(a.date).valueOf()).map(comment =>
                 <Segment>

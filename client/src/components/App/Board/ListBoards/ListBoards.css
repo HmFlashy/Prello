@@ -10,6 +10,7 @@
 }
 
 .board-flex{
+    height: -webkit-fill-available;
     flex: 1
 }
 

@@ -20,9 +20,9 @@ class ListBoards extends Component {
             currentValues: [],
             categoryOptions: [],
             currentEditValue: null,
-            categoryName: null, 
-            isCreatingTeam:false,
-            currentTeamName:""
+            categoryName: null,
+            isCreatingTeam: false,
+            currentTeamName: ""
         }
     }
 
@@ -118,30 +118,29 @@ class ListBoards extends Component {
                     <h1 className="title-list-boards">Your Teams</h1>
                     {this.props.teams.map(team =>
                         <p><Button className="your-team" onClick={() => this.props.history.push(`/team/${team.team._id}`)}>{team.team.name}</Button><Button icon onClick={() => this.props.deleteTeam(team.team._id)} >
-                        <Icon name='trash alternate' />
-                    </Button></p>
+                            <Icon name='trash alternate' />
+                        </Button></p>
                     )
                     }
                     <p> <Popup
-                            trigger={<Button className="newTeam" icon={"plus"} color="green" inverted circular />
-                            }
-                            on='click'
-                            open={this.state.isCreatingTeam}
-                            onClose={() => this.setState({ isCreatingTeam: false })}
-                            onOpen={() => this.setState({ isCreatingTeam: true })}
-                            position='bottom left'>
-                            <Header icon='user check outline' content='Enter a name' />
-                            <Popup.Content>
-                                <Input onChange={(event, data) => this.setState({ currentTeamName: data.value })} />
-                            </Popup.Content>
-                            <div className={"team-div-add-button"}>
-                                <Button color='green' className={"team-add-button"}
-                                    onClick={() => { this.state.currentTeamName ? this.setState({ isCreatingTeam: false }, () => this.props.addTeam(this.state.currentTeamName, this.props.userId)) : console.log("Please fill the name of the team"); }}>
-                                    <Icon name='add' /> Add
+                        trigger={<Button className="newTeam" icon={"plus"} color="green" inverted circular />
+                        }
+                        on='click'
+                        open={this.state.isCreatingTeam}
+                        onClose={() => this.setState({ isCreatingTeam: false })}
+                        onOpen={() => this.setState({ isCreatingTeam: true })}
+                        position='bottom left'>
+                        <Header icon='user check outline' content='Enter a name' />
+                        <Popup.Content>
+                            <Input onChange={(event, data) => this.setState({ currentTeamName: data.value })} />
+                        </Popup.Content>
+                        <div className={"team-div-add-button"}>
+                            <Button color='green' className={"team-add-button"}
+                                onClick={() => { this.state.currentTeamName ? this.setState({ isCreatingTeam: false }, () => this.props.addTeam(this.state.currentTeamName, this.props.userId)) : console.log("Please fill the name of the team"); }}>
+                                <Icon name='add' /> Add
                                 </Button>
-                            </div>
-                        </Popup></p>
-
+                        </div>
+                    </Popup></p>
                 </div>
                 <div className="board-flex">
                     <h1 className="title-list-boards">Your Boards</h1>

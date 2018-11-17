@@ -6,16 +6,6 @@ const passwordHelper = require("../helper/passwordHelper");
 const ClientApplication = require("../../oauth/server/models").OAuthClients
 const logger = require("../../logger")
 
-const getByEmail = async (email) => {
-    try {
-        const user = await User.findOne({ email: email })
-        return user
-    } catch (error) {
-        logger.error(error.message)
-        throw error
-    }
-}
-
 const getById = async (userId) => {
     try {
         const user = await User.findById(userId).populate([{
@@ -334,7 +324,6 @@ const deleteTeam = async (userId, teamId) => {
 };
 
 module.exports = {
-    getByEmail,
     addUser,
     getById,
     getUserByEmailOrUsername,
