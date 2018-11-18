@@ -47,7 +47,9 @@ class TeamMembers extends Component {
                 <h2>Team members ({this.props.team.members.length})</h2>
                 <Container className="action-team-members">
                     <Input placeholder='Search...' value={this.props.queryMember} onChange={this.updateSearch}/>
-                    <AddMemberModal addUsers={this.addUsers} className="add-member"/>
+                    {this.props.isAdmin
+                    ?<AddMemberModal addUsers={this.addUsers} className="add-member"/>
+                    : ""} 
                 </Container>
                         {
                             this.props.team.members.length > 0 ?
@@ -71,7 +73,10 @@ class TeamMembers extends Component {
                                                                     // value={this.state.currentRole}
                                                                 />
                                                             </div>
-                                                            <Button className="remove-member-button" color="red" onClick={()=>this.props.deleteMember(member.member._id)}>Remove</Button>
+                                                            {this.props.isAdmin
+                                                            ?<Button className="remove-member-button" color="red" onClick={()=>this.props.deleteMember(member.member._id)}>Remove</Button>
+                                                            : ""
+                                                            } 
                                                         </Table.Cell>
                                                     </Table.Row>
                                                 )

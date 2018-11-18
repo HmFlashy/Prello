@@ -172,3 +172,31 @@ export const failedActionTeamUpdateName = (data) => {
         payload:data
     }
 };
+
+export const actionAddUsersToTeam = (data) => {
+    return {
+        type: 'ADD_USERS_TEAM',
+        payload:data
+    }
+};
+
+export const actionChangeRole = (data) => {
+    return {
+        type: 'CHANGE_ROLE_TEAM',
+        payload:data
+    }
+};
+
+export const actionDeleteUsersToTeam = (data) => {
+    return {
+        type: 'DELETE_USERS_TEAM',
+        payload:data
+    }
+};
+
+export const failedActionAddUsersToTeam = (data) => {
+    return {
+        type: 'FAILED_ADD_USERS_TEAM',
+        payload:data
+    }
+};

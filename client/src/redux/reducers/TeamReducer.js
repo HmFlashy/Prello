@@ -25,23 +25,7 @@ export default (state = defaultTeamState, action = { type: null, payload: null }
                         code: action.payload.response ? action.payload.response.status : null
                     }]
             };
-        case "ADDING_USERS_TO_TEAM":
-        case "ADDED_USERS_TO_TEAM":
-            const users = action.payload.users;
-            const teamId = action.payload.teamId;
-            return {
-                ...state,
-                all: state.all.map(team => team._id === teamId ? {...team, members: [...team.members, users]} : team)
-            };
-        case "FAILED_ADD_USERS_TO_TEAM":
-            const userIds = action.payload.users.map(user => user._id);
-            return {
-                ...state,
-                all: state.all.map(team => team._id === action.payload.teamId ? {
-                    ...team,
-                    members: team.members.filter(member => !userIds.includes(member._id))
-                } : team)
-            };
+        
         case "ADD_TEAM":
         case "CREATED_TEAM":
             return {

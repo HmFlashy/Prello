@@ -65,7 +65,7 @@ class TeamDetails extends Component {
                         <Container className="item-info">
                             {
                                 activeItem === "boards" ? <TeamBoards boards={this.props.boards} team={this.props.team} /> :
-                                    activeItem === "members" ? <TeamMembers changeRole={this.changeRole} deleteMember={this.deleteMember}
+                                    activeItem === "members" ? <TeamMembers isAdmin={this.props.isAdmin} changeRole={this.changeRole} deleteMember={this.deleteMember}
                                         updateSearchMembers={this.props.updateSearch}
                                         addUsers={this.addUsers} team={this.props.team} /> :
                                         <div>Error</div>

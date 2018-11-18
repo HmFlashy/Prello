@@ -54,7 +54,7 @@ module.exports = async (req, res) => {
         const teamId = req.params.teamId;
         const memberId = req.params.memberId;
         const team = await TeamsController.deleteMember(teamId, memberId)
-        socketIO.broadcast('action', {
+        socketIO.broadcast('action', { 
             type: 'DELETED_MEMBER_TEAM',
             payload: { _id: teamId, memberId }
         })

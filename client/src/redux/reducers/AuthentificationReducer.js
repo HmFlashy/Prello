@@ -240,6 +240,96 @@ export default (state = defaultAuthentificationState, action = { type: null, pay
                 })
             }
         };
+        case "ADD_USERS_TEAM":
+        console.log(action.payload)
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    teams: state.user.teams.map(team => 
+                    (team.team._id === action.payload.teamId)
+                    ? {...team,
+                        team: {
+                            ...team.team,
+                            members: [
+                                ...team.team.members,
+                                ...action.payload.users.map(user => ({role:"Member", member:user}))
+                            ]                       
+                            }
+                        }
+                    : team
+                    )
+                }
+            };
+        case "CHANGE_ROLE_TEAM":
+            console.log(action.payload)
+                return {
+                    ...state,
+                    user: {
+                        ...state.user,
+                        teams: state.user.teams.map(team => 
+                        (team.team._id === action.payload.teamId)
+                        ? {...team,
+                            team: {
+                                ...team.team,
+                                members: team.team.members.map(member => member.member._id === action.payload.memberId
+                                    ? {
+                                        ...member,
+                                        role:action.payload.role
+                                    }
+                                    : member)                       
+                                }
+                            }
+                        : team
+                        )
+                    }
+                };
+        case "ADD_TEAM":
+                return {
+                    ...state,
+                    user: {
+                        ...state.user,
+                        teams: [
+                            ...state.user.teams,
+                            {role:'Admin', team:action.payload}
+                        ]
+                    }
+                };
+            case "DELETE_TEAM":
+                    return {
+                        ...state,
+                        user: {
+                            ...state.user,
+                            teams: state.user.teams.filter(team => team.team._id !== action.payload._id)
+                        }
+                    };
+        case "DELETE_USERS_TEAM":
+            console.log(action.payload)
+                return {
+                    ...state,
+                    user: {
+                        ...state.user,
+                        teams: state.user.teams.map(team => 
+                        (team.team._id === action.payload.teamId)
+                        ? {...team,
+                            team: {
+                                ...team.team,
+                                members: team.team.members.filter(member => member.member._id !== action.payload.users)
+                                }
+                            }
+                        : team
+                        )
+                    }
+                };
+        case "FAILED_ADD_USERS_TEAM":
+            const userIds = action.payload.users.map(user => user._id);
+            return {
+                ...state,
+                all: state.all.map(team => team._id === action.payload.teamId ? {
+                    ...team,
+                    members: team.members.filter(member => !userIds.includes(member._id))
+                } : team)
+            };
         default:
             return {
                 ...state,
