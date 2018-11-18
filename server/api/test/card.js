@@ -2,9 +2,7 @@
 const Card = require("../models/index").Card;
 const User = require("../models/index").User;
 const Board = require("../models/index").Board;
-const mongoose = require("mongoose");
 require("../../config/db");
-const passwordHelper = require("../../api/helper/passwordHelper");
 
 const chai = require("chai");
 const chaiHttp = require("chai-http");
@@ -70,7 +68,6 @@ describe("Board", () => {
         it("it should not GET a card if the card was not found", (done) => {
             const boardModel = Board({name: "Prello"});
             boardModel.save((err, board) => {
-                if (err) {}
                 chai.request(server)
                     .get(`/api/cards/${board._id}`)
                     .set("Authorization", header)

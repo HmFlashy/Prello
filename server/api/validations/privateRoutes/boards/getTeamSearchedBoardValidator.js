@@ -1,4 +1,4 @@
-const { body, param } = require('express-validator/check');
+const { param } = require('express-validator/check');
 
 module.exports = [
     param('boardId').isString().withMessage(`COMMENTID_MUST_BE_A_STRING`),

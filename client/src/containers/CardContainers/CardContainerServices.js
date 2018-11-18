@@ -50,7 +50,7 @@ export default {
             await cardServices.moveCardApi(cardId, data)
         } catch (error) {
             console.log(error)
-            return dispatch(failedActionMoveCard(data, error))
+            return dispatch(failedActionMoveCard(data))
         }
     }, async deleteCard(cardId, dispatch) {
         try {
@@ -64,7 +64,7 @@ export default {
             await cardServices.addCommentApi(cardId, data)
         } catch (error) {
             console.log(error)
-            return dispatch(failedActionAddComment(data, error))
+            return dispatch(failedActionAddComment(data))
         }
     }, async deleteComment(cardId, commentId, dispatch) {
         try {
@@ -79,7 +79,7 @@ export default {
             await cardServices.updateCommentApi(cardId, commentId, { content: data.comment.content })
         } catch (error) {
             console.log(error)
-            return dispatch(failedActionUpdateComment(oldValue, error))
+            return dispatch(failedActionUpdateComment(oldValue))
         }
     },
     async createChecklist(cardId, data, dispatch) {
@@ -104,7 +104,7 @@ export default {
             await cardServices.updateChecklist(cardId, checklistId, name)
         } catch (error) {
             console.log(error)
-            return dispatch(failedActionCardChecklistUpdated(oldVal, error))
+            return dispatch(failedActionCardChecklistUpdated(oldVal))
         }
     },
     async addItemToChecklist(cardId, checklistId, data, dispatch) {

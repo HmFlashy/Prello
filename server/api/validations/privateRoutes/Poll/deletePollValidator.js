@@ -1,4 +1,4 @@
-const { body, param } = require('express-validator/check');
+const { param } = require('express-validator/check');
 
 module.exports = [
     param("boardId").not().isEmpty().withMessage(`MISSING_BOARDID_PARAMETER`),

@@ -1,4 +1,3 @@
-import * as actions from '../actions/ListActions';
 import listReducer, { defaultListReducer } from './ListReducer';
 
 describe('Unreferenced action', () => {

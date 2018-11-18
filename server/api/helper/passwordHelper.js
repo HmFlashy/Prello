@@ -7,7 +7,7 @@ const passwordHelper = async(password) => {
         const hash = await bcrypt.hash(password, saltRounds)
         return hash
     } catch (error) {
-const logger = require("../../logger")
+        logger(error)
         throw error
     }
 };
