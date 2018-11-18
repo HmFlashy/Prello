@@ -18,7 +18,6 @@ import {
     actionFetchingSearchedMembers,
     actionFetchingMissingMembers,
     actionFailedFetchingMissingMembers,
-    actionDeletedBoardMember,
     actionFailedDeletingBoardMember
 } from "../../redux/actions/BoardActions";
 import { actionStarBoard, actionUnstarBoard } from "../../redux/actions/UserActions";

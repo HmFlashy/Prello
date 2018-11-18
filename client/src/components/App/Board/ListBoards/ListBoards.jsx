@@ -8,14 +8,8 @@ class ListBoards extends Component {
     constructor(props) {
         super(props);
         this.handleChange = this.handleChange.bind(this);
-        this.handleAddition = this.handleAddition.bind(this);
         this.getCurrentValues = this.getCurrentValues.bind(this);
-        this.deleteCategory = this.deleteCategory.bind(this);
         this.getCategoryOptions = this.getCategoryOptions.bind(this);
-        this.handleCategoryName = this.handleCategoryName.bind(this);
-        this.updateCategory = this.updateCategory.bind(this);
-        this.updateCategoryName = this.updateCategoryName.bind(this);
-        this.cancelUpdate = this.cancelUpdate.bind(this);
         this.state = {
             currentValues: [],
             categoryOptions: [],

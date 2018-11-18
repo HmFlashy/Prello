@@ -102,7 +102,7 @@ class Board extends Component {
     render() {
         return (
             <div className="board">
-                <div class="bg">
+                <div className="bg">
                     <img src="http://hdwpro.com/wp-content/uploads/2016/03/1080p-Background-Desktop.jpg" style={{ width: '100%', height: '100%' }} alt="" />
                 </div>
                 <BoardHeaderContainer

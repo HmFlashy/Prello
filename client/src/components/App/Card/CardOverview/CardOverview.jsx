@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './CardOverview.css'
-import { Card, Icon, Ref, Label } from 'semantic-ui-react'
+import { Card, Icon, Label } from 'semantic-ui-react'
 import DynamicInput from '../../Input/DynamicInput'
 import Avatar from '../../Avatar';
 import { GetDueDateColor, SmallDate } from '../../../../helpers/DateHelper'

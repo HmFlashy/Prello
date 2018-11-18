@@ -22,7 +22,8 @@ class MyList extends Component {
         })
     }
 
-    addCard() {
+    addCard(event) {
+        event.target.value = ''
         const posSorted = this.props.list.cards.map(card => card.pos).sort((a, b) => a - b)
         this.props.addCard(this.state.cardName, this.props.listId, posSorted.length !== 0 ? posSorted[posSorted.length - 1] + 100000 : 100000)
     }
@@ -75,7 +76,7 @@ class MyList extends Component {
                                             onChange={(event) => this.changeCardName(event.target.value)}
                                             onKeyDown={(event) => {
                                                 if (event.target.value !== "") {
-                                                    return event.keyCode === 13 ? this.addCard() || (event.target.value = '') : null
+                                                    return event.keyCode === 13 ? this.addCard(event) : null
                                                 }
                                                 else console.log("Please fill the card name")
                                             }

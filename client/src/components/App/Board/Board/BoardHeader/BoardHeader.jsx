@@ -39,11 +39,9 @@ class BoardHeader extends Component {
                 }
             ]
         };
-        this.open = this.open.bind(this);
         this.overStar = this.overStar.bind(this);
         this.unOverStar = this.unOverStar.bind(this);
         this.starBoard = this.starBoard.bind(this);
-        this.close = this.close.bind(this);
         this.clickLabel = this.clickLabel.bind(this);
         this.clickMember = this.clickMember.bind(this);
         this.handleChangeSearchFilter = this.handleChangeSearchFilter.bind(this);
@@ -51,8 +49,6 @@ class BoardHeader extends Component {
         this.clickDueDate = this.clickDueDate.bind(this);
         this.clearFilter = this.clearFilter.bind(this);
         this.openMembersPopup = this.openMembersPopup.bind(this);
-        this.handleCloseFilter = this.handleCloseFilter.bind(this);
-        this.handleOpenFilter = this.handleOpenFilter.bind(this);
         this.handleChangeSearchMember = this.handleChangeSearchMember.bind(this);
         this.getSearchedMembersOptions = this.getSearchedMembersOptions.bind(this);
         this.handleChangeMembers = this.handleChangeMembers.bind(this);

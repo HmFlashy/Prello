@@ -53,7 +53,6 @@ class CardDetail extends Component {
         this.descToInput = this.descToInput.bind(this)
         this.inputToDesc = this.inputToDesc.bind(this)
         this.changeDescription = this.changeDescription.bind(this)
-        this.handleValueChange = this.handleValueChange.bind(this)
 
         this.converter = new Showdown.Converter({
             tables: true,
@@ -230,7 +229,7 @@ class CardDetail extends Component {
                                                 Promise.resolve(this.converter.makeHtml(markdown))
                                             }
                                         />
-                                        <Button className="validate-description" onClick={() => this.inputToDesc() || this.updateCard({ desc: this.props.card.desc, _id: this.props.card._id }, { desc: this.state.descriptionTextArea, _id: this.props.card._id })} >OK</Button>
+                                        <Button className="validate-description" onClick={() => {this.inputToDesc(); this.updateCard({ desc: this.props.card.desc, _id: this.props.card._id }, { desc: this.state.descriptionTextArea, _id: this.props.card._id });}} >OK</Button>
                                     </div>
                                     <Divider />
                                 </div>
