@@ -48,12 +48,11 @@ class Menu extends Component {
                             onClose={() => this.setState({ isMemberClicked: false })}
                             on='click'
                             position='bottom left'>
-                            <Header icon='tags' content="Manage cards members" />
+                            <Header icon='user' content="Manage cards members" />
                             <Popup.Content>
                                 {
                                     this.props.board.members.length > 0 ?
                                         <div>
-                                            <h3>Users:</h3>
                                             <div>
                                                 {
                                                     this.props.board.members.map(user => {
