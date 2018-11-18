@@ -33,7 +33,6 @@ const mapStateToProps = state => {
     const archivedCards = state.cards.all.filter(card => card.isArchived);
     return {
         userId: user._id,
-        userTeams: user.teams,
         archivedCards: archivedCards,
         archivedLists,
         board: state.boards.currentBoard,
