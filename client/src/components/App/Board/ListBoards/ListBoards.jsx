@@ -111,7 +111,7 @@ class ListBoards extends Component {
                 <div className="board-flex-team">
                     <h1 className="title-list-boards">Your Teams</h1>
                     {this.props.teams.map(team =>
-                        <p><Button className="your-team" onClick={() => this.props.history.push(`/team/${team.team._id}`)}>{team.team.name}</Button></p>
+                        <p key={ team.team._id }><Button className="your-team" onClick={() => this.props.history.push(`/team/${team.team._id}`)}>{team.team.name}</Button></p>
                     )
                     }
                     <p> <Popup

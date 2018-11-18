@@ -25,7 +25,7 @@ class PollForm extends Component {
                                 <Dropdown.Menu>
                                     <Dropdown.Item text={"No card"} onClick={() => this.setState({ card: "" })} />
                                     {this.props.cards.map(card =>
-                                        <Dropdown.Item text={card.name} onClick={() => this.setState({ card: card })} />
+                                        <Dropdown.Item key={card._id} text={card.name} onClick={() => this.setState({ card: card })} />
                                     )}
                                 </Dropdown.Menu>
                             </Dropdown>

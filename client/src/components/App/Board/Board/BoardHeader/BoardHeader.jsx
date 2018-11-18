@@ -467,7 +467,7 @@ class BoardHeader extends Component {
                                             </Label>
                                         </List.Item>
                                         {this.props.board.labels.map(label =>
-                                            <List.Item className={"filter-list"}>
+                                            <List.Item key={label._id} className={"filter-list"}>
                                                 <Label className={"filter-item"} id={label._id} color={label.color}
                                                        onClick={this.clickLabel}>
                                                     <div id={label._id} className={"filter-name"}>{label.name}</div>
@@ -498,7 +498,7 @@ class BoardHeader extends Component {
                                             </Label>
                                         </List.Item>
                                         {this.props.board.members.map(boardMember =>
-                                            <List.Item className={"filter-list"}>
+                                            <List.Item key={boardMember.member._id} className={"filter-list"}>
                                                 <Label className={"filter-item"} id={boardMember.member._id}
                                                        onClick={this.clickMember}>
                                                     <span className={"member-avatar"}
