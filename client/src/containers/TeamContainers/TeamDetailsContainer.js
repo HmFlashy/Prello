@@ -1,7 +1,8 @@
 import { connect } from "react-redux";
 import TeamDetails from "../../components/App/Team/TeamDetails"
 import TeamServices from "../../services/TeamServices";
-import { actionUpdateSearch,actionChangeRole, actionDeleteUsersToTeam,actionTeamUpdateName, failedActionTeamUpdateName, actionAddUsersToTeam, failedActionAddUsersToTeam} from "../../redux/actions/UserActions";
+import { actionUpdateSearch,actionChangeRole, actionDeleteUsersToTeam,actionTeamUpdateName, failedActionTeamUpdateName, actionAddUsersToTeam, failedActionAddUsersToTeam, actionDeleteTeam} from "../../redux/actions/UserActions";
+import { withRouter } from "react-router"
 
 const mapStateToProps = (state, ownProps) => {
     const userTeam = state.authentification.user.teams.find(team => team.team._id === ownProps.teamId);
@@ -17,6 +18,7 @@ console.log(userTeam)
     }
     return {
         isAdmin: isAdmin,
+        user: state.authentification.user,
         boards: state.authentification.user.boards,
         team: userTeam ? {
             ...userTeam.team,
@@ -75,11 +77,20 @@ const mapDispatchToProps = (dispatch) => {
                 dispatch(failedActionTeamUpdateName({ _id: teamId, name: oldVal }))
                 console.log(error)
             }
+        },
+        async deleteTeam(teamId){
+            try {
+                const team = await TeamServices.deleteTeam(teamId);
+                dispatch(actionDeleteTeam(team))
+                return team;
+            } catch (error) {
+                console.log(error)
+            }
         }
     }
 };
 
-export default connect(
+export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps
-)(TeamDetails);
+)(TeamDetails));

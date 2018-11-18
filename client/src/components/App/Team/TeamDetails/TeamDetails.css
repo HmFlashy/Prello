@@ -9,6 +9,7 @@
     flex-basis: 20%;
     background-color: #f5f6f7;
     padding-top: 10px;
+    display:inline-block;
 }
 
 .team-content {

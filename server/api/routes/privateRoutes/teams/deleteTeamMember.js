@@ -53,12 +53,17 @@ module.exports = async (req, res) => {
     try {
         const teamId = req.params.teamId;
         const memberId = req.params.memberId;
-        const team = await TeamsController.deleteMember(teamId, memberId)
-        socketIO.broadcast('action', { 
-            type: 'DELETED_MEMBER_TEAM',
-            payload: { _id: teamId, memberId }
-        })
-        return res.status(200).json(team.members)
+        const team = await TeamsController.getTeamById(teamId)
+        const isInTeam = team.members.some(member => member.member._id.toString() === req.user._id.toString())
+        if (isInTeam
+            && team.members.some(member => member.member._id.toString() === req.user._id.toString() && member.role === "Admin")
+            || isInTeam
+            && memberId.toString() === req.user._id.toString()) {
+            const team = await TeamsController.deleteMember(teamId, memberId)
+            return res.status(200).json(team)
+        } else { 
+            return res.status(403)
+        }
     } catch (error) {
         logger.error(error.message)
         res.status(500).json(error.message)

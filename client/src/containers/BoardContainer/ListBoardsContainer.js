@@ -2,7 +2,7 @@ import { connect } from "react-redux";
 import userServices from "../../services/UserServices"
 import teamServices from "../../services/TeamServices"
 import listBoards from "../../components/App/Board/ListBoards/ListBoards"
-import { actionAddCategory, actionDeleteCategory, actionUpdateCategoryName, actionAddTeam, actionDeleteTeam } from "../../redux/actions/UserActions";
+import { actionAddCategory, actionDeleteCategory, actionUpdateCategoryName, actionAddTeam } from "../../redux/actions/UserActions";
 import { withRouter } from 'react-router-dom'
 
 const mapStateToProps = state => {
@@ -48,16 +48,8 @@ const mapDispatchToProps = (dispatch) => {
             } catch (error) {
                 console.log(error)
             }
-        },
-        async deleteTeam(teamId){
-            try {
-                const team = await teamServices.deleteTeam(teamId);
-                dispatch(actionDeleteTeam(team))
-                return team;
-            } catch (error) {
-                console.log(error)
-            }
         }
+        
     }
 };
 

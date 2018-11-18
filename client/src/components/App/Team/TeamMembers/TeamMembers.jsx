@@ -46,7 +46,8 @@ class TeamMembers extends Component {
             <div className="team-members">
                 <h2>Team members ({this.props.team.members.length})</h2>
                 <Container className="action-team-members">
-                    <Input placeholder='Search...' value={this.props.queryMember} onChange={this.updateSearch}/>
+                    <div className="team-members-header"><Input placeholder='Search...' value={this.props.queryMember} onChange={this.updateSearch}/>
+                    <Button className="leave-team-button" color="red" onClick={()=> { this.props.history.push('/home'); this.props.deleteMember(this.props.user._id) }}>Leave Team</Button></div>
                     {this.props.isAdmin
                     ?<AddMemberModal addUsers={this.addUsers} className="add-member"/>
                     : ""} 
