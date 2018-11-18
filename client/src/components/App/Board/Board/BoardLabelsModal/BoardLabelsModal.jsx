@@ -46,7 +46,7 @@ class BoardLabelsModal extends Component {
                             />
                             <Input placeholder="Label name" onChange={(event, data) => this.setState({ newLabelName: data.value })}></Input>
                         </List>
-                        <Button color='green' onClick={() => (this.state.newLabelName && this.state.newLabelColor) ? this.props.onNewLabel(this.state.newLabelName, this.state.newLabelColor) : console.log("Please fill all the fields")}>
+                        <Button color='green' onClick={() => (this.state.newLabelName && this.state.newLabelName.trim() !== "" && this.state.newLabelColor) ? this.props.onNewLabel(this.state.newLabelName, this.state.newLabelColor) : console.log("Please fill all the fields")}>
                             <Icon name='checkmark' /> Validate
                       </Button>
                     </Modal.Content>
@@ -69,14 +69,14 @@ class BoardLabelsModal extends Component {
                     </Modal.Content>
                     <Modal.Actions>
                         <Button color='green' onClick={() => (
-                            this.state.updatedLabelColor === "" || this.state.updatedLabelName === "") ? 
-                                console.log("Please fill all the fields") : 
-                                (
-                                    this.setState({
-                                        isLabelUpdating: false, currentLabel: {},
-                                        updatedLabelName: "", updatedLabelColor: ""
-                                    }) ||
-                                    this.props.onUpdateLabel(this.state.currentLabel._id, this.state.updatedLabelName, this.state.updatedLabelColor)
+                            this.state.updatedLabelColor === "" || this.state.updatedLabelName === "" || this.state.updatedLabelName.trim() === "") ?
+                            console.log("Please fill all the fields") :
+                            (
+                                this.setState({
+                                    isLabelUpdating: false, currentLabel: {},
+                                    updatedLabelName: "", updatedLabelColor: ""
+                                }) ||
+                                this.props.onUpdateLabel(this.state.currentLabel._id, this.state.updatedLabelName, this.state.updatedLabelColor)
                             )}>
                             <Icon name='checkmark' /> Validate
                   </Button>

@@ -1,7 +1,7 @@
-import React, {Component} from "react";
-import { Button, Modal, Header, Dropdown, Input} from "semantic-ui-react"
+import React, { Component } from "react";
+import { Button, Modal, Header, Dropdown, Input } from "semantic-ui-react"
 import NewBoard from "../NewBoard/NewBoard";
-import {withRouter} from "react-router-dom"
+import { withRouter } from "react-router-dom"
 
 class NewBoardModal extends Component {
 
@@ -35,20 +35,20 @@ class NewBoardModal extends Component {
         })
     }
 
-    handleChange(e, {id, value}) {
-        this.setState({[`current${id}`]: value});
+    handleChange(e, { id, value }) {
+        this.setState({ [`current${id}`]: value });
     }
 
     changeVisibility() {
-        this.setState({modalOpen: !this.state.modalOpen})
+        this.setState({ modalOpen: !this.state.modalOpen })
     }
 
     changeVisibilityTeam() {
-        this.setState({modalOpenTeam: !this.state.modalOpenTeam})
+        this.setState({ modalOpenTeam: !this.state.modalOpenTeam })
     }
 
     async addBoard() {
-        if (this.state.currentNameBoard) {
+        if (this.state.currentNameBoard && this.state.currentNameBoard.trim() !== "") {
             const newBoard = await this.props.addBoard(this.state.currentNameBoard, this.state.currentCategory, this.state.currentVisibility, this.state.currentTeam);
             if (newBoard) {
                 this.changeVisibility();
@@ -74,20 +74,20 @@ class NewBoardModal extends Component {
     render() {
         return (
             <Modal open={this.state.modalOpen} onClose={this.changeVisibility}
-                   trigger={<NewBoard changeVisibility={this.changeVisibility}/>} closeIcon>
-                <Header icon='table' content={"Creating a new board"}/>
+                trigger={<NewBoard changeVisibility={this.changeVisibility} />} closeIcon>
+                <Header icon='table' content={"Creating a new board"} />
                 <Input placeholder={"Name"} id={"NameBoard"} value={this.state.currentNameBoard}
-                       onChange={this.handleChange}/>
+                    onChange={this.handleChange} />
                 <Dropdown value={this.state.currentCategory} id={"Category"}
-                          onChange={this.handleChange} defaultValue={this.state.currentCategory} search selection
-                          options={this.props.categoryOptions}/>
+                    onChange={this.handleChange} defaultValue={this.state.currentCategory} search selection
+                    options={this.props.categoryOptions} />
                 <Dropdown placeholder='Visibility' id={"Visibility"}
-                          defaultValue={this.state.currentVisibility} search selection
-                          onChange={this.handleChange}
-                          options={this.props.visibilityOptions}/>
+                    defaultValue={this.state.currentVisibility} search selection
+                    onChange={this.handleChange}
+                    options={this.props.visibilityOptions} />
                 <Dropdown placeholder='Team' id={"Team"}
-                          onChange={this.handleChange}
-                          defaultValue={this.state.currentTeam} search selection options={this.props.teamOptions}/>
+                    onChange={this.handleChange}
+                    defaultValue={this.state.currentTeam} search selection options={this.props.teamOptions} />
                 <Button.Group><Button positive onClick={this.addBoard}>Create the board</Button></Button.Group>
             </Modal>
         )

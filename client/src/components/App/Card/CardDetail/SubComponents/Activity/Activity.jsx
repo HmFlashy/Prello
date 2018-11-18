@@ -40,7 +40,7 @@ export default class Activity extends Component {
                                     type='text'
                                     textToDisplay={<p className="commentP">{comment.content}    </p>}
                                     placeholder={comment.content}
-                                    onValidate={(content) => this.props.onUpdateComment(comment._id, comment, content.target.value)}
+                                    onValidate={(content) => { if (content.target.value !== "" && content.target.value.trim() !== "") this.props.onUpdateComment(comment._id, comment, content.target.value) }}
                                 />
                                     {comment.wasModified
                                         ? <p>Modified : {moment(comment.dateModified).fromNow()}</p>

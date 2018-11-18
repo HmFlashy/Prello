@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import { Button, Modal, Header, Dropdown, Input } from "semantic-ui-react"
 
 class BoardOverviewModal extends Component {
@@ -14,12 +14,12 @@ class BoardOverviewModal extends Component {
         }
     }
 
-    handleChange(e, {id, value}) {
-        this.setState({[`current${id}`]: value});
+    handleChange(e, { id, value }) {
+        this.setState({ [`current${id}`]: value });
     }
 
     updateBoard = async () => {
-        if (this.state.currentNameBoard.length>0) {
+        if (this.state.currentNameBoard.length > 0 && this.state.currentNameBoard.trim() !== "") {
             await this.props.updateBoard(this.state.currentNameBoard, this.props.board.name, this.state.currentCategory,
                 this.props.board.category, this.state.currentVisibility, this.props.board.visibility);
             this.props.closeBoardUpdateModal()
@@ -40,29 +40,29 @@ class BoardOverviewModal extends Component {
     render() {
         return (
             <Modal size="mini" open={this.props.isOpen} onMount={this.refreshValues}
-                   onClose={this.props.closeBoardUpdateModal} closeIcon>
+                onClose={this.props.closeBoardUpdateModal} closeIcon>
                 <Modal.Header>
-                    <Header icon='table' content={"Update the board"}/>
+                    <Header icon='table' content={"Update the board"} />
                 </Modal.Header>
                 <Modal.Content>
                     <div className={"displayColumn"}>
                         <div className={"item"}>
                             Name
                             <Input placeholder={"Name"} id={"NameBoard"} value={this.state.currentNameBoard}
-                                   onChange={this.handleChange}/>
+                                onChange={this.handleChange} />
                         </div>
                         <div className={"item"}>
                             Category
                             <Dropdown value={this.state.currentCategory} id={"Category"}
-                                      onChange={this.handleChange} search selection
-                                      options={this.props.categoryOptions}/>
+                                onChange={this.handleChange} search selection
+                                options={this.props.categoryOptions} />
                         </div>
                         <div className={"item"} >
                             Visibility
                             <Dropdown placeholder='Visibility' id={"Visibility"}
-                                      value={this.state.currentVisibility} search selection
-                                      onChange={this.handleChange}
-                                      options={this.props.visibilityOptions}/>
+                                value={this.state.currentVisibility} search selection
+                                onChange={this.handleChange}
+                                options={this.props.visibilityOptions} />
                         </div>
                     </div>
                 </Modal.Content>

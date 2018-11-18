@@ -50,7 +50,7 @@ class MyList extends Component {
                                                     type='text'
                                                     textToDisplay={this.props.list.name}
                                                     placeholder={this.props.list.name}
-                                                    onValidate={(event) => this.props.updateList(this.props.list._id, { name: event.target.value })}
+                                                    onValidate={(event) => { if (event.target.value !== "" && event.target.value.trim() !== "") this.props.updateList(this.props.list._id, { name: event.target.value }) }}
                                                 />
                                             </h3>
                                             <Label color="olive" className="list-card-nb">{this.props.list.cards.filter(card => !card.isArchived).length}</Label>
@@ -75,7 +75,7 @@ class MyList extends Component {
                                             placeholder="Create a new card"
                                             onChange={(event) => this.changeCardName(event.target.value)}
                                             onKeyDown={(event) => {
-                                                if (event.target.value !== "") {
+                                                if (event.target.value !== "" && event.target.value.trim() !== "") {
                                                     return event.keyCode === 13 ? this.addCard(event) : null
                                                 }
                                                 else console.log("Please fill the card name")

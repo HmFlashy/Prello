@@ -184,7 +184,9 @@ class CardDetail extends Component {
                 <Header
                     name={this.props.card.name}
                     list={this.props.card.list}
-                    validateNewName={(event) => this.updateCard({ name: this.props.card.name, _id: this.props.card._id }, { name: event.target.value, _id: this.props.card._id })}
+                    validateNewName={(event) => {
+                        if (event.target.value !== "" && event.target.value.trim() !== "") this.updateCard({ name: this.props.card.name, _id: this.props.card._id }, { name: event.target.value, _id: this.props.card._id })
+                    }}
                 />
                 <Divider />
                 <div className={this.state.width > 600 ? "displayRow main" : "main"}>
@@ -229,7 +231,7 @@ class CardDetail extends Component {
                                                 Promise.resolve(this.converter.makeHtml(markdown))
                                             }
                                         />
-                                        <Button className="validate-description" onClick={() => {this.inputToDesc(); this.updateCard({ desc: this.props.card.desc, _id: this.props.card._id }, { desc: this.state.descriptionTextArea, _id: this.props.card._id });}} >OK</Button>
+                                        <Button className="validate-description" onClick={() => { this.inputToDesc(); this.updateCard({ desc: this.props.card.desc, _id: this.props.card._id }, { desc: this.state.descriptionTextArea, _id: this.props.card._id }); }} >OK</Button>
                                     </div>
                                     <Divider />
                                 </div>
