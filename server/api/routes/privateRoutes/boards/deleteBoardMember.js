@@ -63,7 +63,7 @@ module.exports = async (req, res) => {
         const board = await boardsController.getBoardById(boardId)
         const isInBoard = board.members.some(member => member.member._id.toString() === req.user._id.toString())
         if (isInBoard
-            && board.members.some(member => member.member._id.toString() === userId.toString() && member.role === "Admin")
+            && board.members.some(member => member.member._id.toString() === req.user._id.toString() && member.role === "Admin")
             || isInBoard
             && userId.toString() === req.user._id.toString()) {
             const board = await boardsController.deleteBoardMember(boardId, userId);
