@@ -228,7 +228,7 @@ export default (state = defaultAuthentificationState, action = { type: null, pay
             user: {
                 ...state.user,
                 teams: state.user.teams.map(team => {
-                if (team.team._id === action.payload._id) {
+                if (team.team._id === action.payload.teamId) {
                     return {
                         ...team,
                         team: {
