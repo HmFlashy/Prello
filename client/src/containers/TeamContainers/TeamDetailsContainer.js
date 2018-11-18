@@ -55,8 +55,8 @@ const mapDispatchToProps = (dispatch) => {
         },
         async updateTeamName(teamId, oldVal, newVal) {
             try {
-                dispatch(actionTeamUpdateName({ _id: teamId, name: newVal }))
-                TeamServices.updateName(teamId, newVal)
+                dispatch(actionTeamUpdateName({ teamId: teamId, name: newVal }))
+                await TeamServices.updateName(teamId, newVal)
             } catch (error) {
                 dispatch(failedActionTeamUpdateName({ _id: teamId, name: oldVal }))
                 console.log(error)

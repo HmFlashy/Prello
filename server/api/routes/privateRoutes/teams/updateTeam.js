@@ -35,11 +35,6 @@ module.exports = async (req, res) => {
         const teamId = req.params.teamId
         const teamUpdated = await TeamsController.updateTeam(teamId, req.body)
         if (teamUpdated) {
-            socketIO.broadcast('action', teamId, {
-                type: 'UPDATED_TEAM',
-                payload: { teamId: teamId, teamUpdated }
-
-            })
             return res.status(200).json({
                 type: "Success",
                 message: "Team found",

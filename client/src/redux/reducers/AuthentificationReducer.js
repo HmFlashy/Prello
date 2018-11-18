@@ -222,6 +222,24 @@ export default (state = defaultAuthentificationState, action = { type: null, pay
                     })
                 }
             }
+        case "UPDATE_TEAM_NAME":
+        return {
+            ...state,
+            user: {
+                ...state.user,
+                teams: state.user.teams.map(team => {
+                if (team.team._id === action.payload._id) {
+                    return {
+                        ...team,
+                        team: {
+                            ...team.team,
+                            name: action.payload.name
+                        }
+                    }
+                } else return team
+                })
+            }
+        };
         default:
             return {
                 ...state,

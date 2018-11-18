@@ -204,6 +204,7 @@ export default (state = defaultBoardReducer, action = { type: null, payload: nul
                 currentBoard: { ...defaultBoardReducer, ...action.payload },
                 error: null
             };
+            
         case "UPDATE_BOARD_NAME":
             return {
                 ...state,

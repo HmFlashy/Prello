@@ -158,13 +158,11 @@ export const actionUpdateSearch = (query) => {
     }
 }
 
-export const actionTeamUpdateName = (boardId, name) => {
+export const actionTeamUpdateName = (data) => {
     return {
         type: 'UPDATE_TEAM_NAME',
-        payload: {
-            name,
-            boardId
-        }
+        payload: data
+        
     }
 };
 
