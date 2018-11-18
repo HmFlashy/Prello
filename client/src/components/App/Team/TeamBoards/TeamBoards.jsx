@@ -7,7 +7,8 @@ class TeamBoards extends Component {
 
     render() {
         return (
-            this.props.boards ?
+            this.props.boards
+             ?
                 <div className="team-boards-overview">
                     {
                         this.props.team.boards.map(board =>

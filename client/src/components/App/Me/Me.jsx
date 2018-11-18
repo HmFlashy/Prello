@@ -30,7 +30,7 @@ export default class Me extends Component {
         if (await this.isFormValid()) {
             if ((!this.state.newPassword && !this.state.newConfirmPassword) || this.state.newPassword && this.state.newConfirmPassword && this.state.newConfirmPassword == this.state.newPassword) {
                 const { fullName, email, username, bio, organization, newPassword } = this.state
-                if (newPassword !== '' && newPassword.length > 8 ){
+                if (newPassword === '' || (newPassword !== '' && newPassword.length > 8 )){
                     this.setState({ formError: false, passwordError: false })
                     return await this.props.updateProfile({
                         fullName, email, username, bio, organization, newPassword
