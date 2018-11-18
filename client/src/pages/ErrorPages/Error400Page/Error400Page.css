@@ -1,6 +1,7 @@
 .error-400 {    
     position: relative;
     background-color: #DADADA;
+    flex: 1;
     height: 100%;
 }
 
