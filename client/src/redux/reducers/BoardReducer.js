@@ -330,20 +330,20 @@ export default (state = defaultBoardReducer, action = { type: null, payload: nul
                 ...state,
                 all: [...state.all, action.payload.board]
             };
-        case "UPDATE_BOARD_NAME":
-            return {
-                ...state,
-                all: state.all.map(board => {
-                    if (board._id === action.payload.boardId) {
-                        return { ...board, name: action.payload.name }
-                    } else return board
-                }),
-                currentBoard: state.currentBoard._id === action.payload.boardId ? {
-                    ...state.currentBoard,
-                    name: action.payload.name
-                } : { ...state.currentBoard }
+        // case "UPDATE_BOARD_NAME":
+        //     return {
+        //         ...state,
+        //         all: state.all.map(board => {
+        //             if (board._id === action.payload.boardId) {
+        //                 return { ...board, name: action.payload.name }
+        //             } else return board
+        //         }),
+        //         currentBoard: state.currentBoard._id === action.payload.boardId ? {
+        //             ...state.currentBoard,
+        //             name: action.payload.name
+        //         } : { ...state.currentBoard }
 
-            };
+        //     };
         case "UPDATE_BOARD_VISIBILITY":
             return {
                 ...state,
@@ -367,7 +367,7 @@ export default (state = defaultBoardReducer, action = { type: null, payload: nul
                     } else return board
                 }),
                 currentBoard: state.currentBoard._id === action.payload._id ? {
-                    ...board,
+                    ...state.currentBoard,
                     visibility: action.payload.visibility
                 } : { ...state.currentBoard }
 
