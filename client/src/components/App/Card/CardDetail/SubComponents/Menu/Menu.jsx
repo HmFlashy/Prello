@@ -81,7 +81,6 @@ class Menu extends Component {
                             trigger={<Button icon labelPosition='left'
                                 onClick={() => {
                                     this.setState({ isLabelClicked: true });
-                                    console.log("Change labels: " + this.state.isLabelClicked)
                                 }}>
                                 <Icon name='tag' />Labels
                                 </Button>}
@@ -137,8 +136,8 @@ class Menu extends Component {
                                                 </Button>*/}
                         <Popup
                             open={this.state.isPickingDate}
-                            onOpen={() => console.log(this.state.isPickingDate) || this.setState({ isPickingDate: true })}
-                            onClose={() => console.log(this.state.isPickingDate) || this.setState({ isPickingDate: false })}
+                            onOpen={() => this.setState({ isPickingDate: true })}
+                            onClose={() => this.setState({ isPickingDate: false })}
                             trigger={<Button icon labelPosition='left'
                                 onClick={() => this.setState({ duedate: moment(new Date()).add(1, "days") }, () => this.setState({ isPickingDate: true }))}>
                                 <Icon name='calendar check' />
@@ -225,7 +224,7 @@ class Menu extends Component {
                                 this.setState({ isMovingCard: false });
                                 this.props.onMove(boardId, this.props.card.list._id, listId, newName, pos)
                             }}
-                            onCancel={() => console.log("cancel") || this.setState({ isMovingCard: false })}
+                            onCancel={() => this.setState({ isMovingCard: false })}
                         />
                         {this.props.isArchived
                             ? <Button icon labelPosition='left' onClick={() => this.setState({ isDeleting: true })}

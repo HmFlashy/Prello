@@ -274,7 +274,6 @@ export default (state = defaultBoardReducer, action = { type: null, payload: nul
                 error: action.payload
             };
         case "USER_BOARD_STAR":
-            console.log(action.payload);
             return {
                 ...state,
                 currentBoard: {
@@ -302,7 +301,6 @@ export default (state = defaultBoardReducer, action = { type: null, payload: nul
                 )
             };
         case "USER_BOARD_UNSTAR":
-            console.log(action.payload);
             return {
                 ...state,
                 currentBoard: {
@@ -414,7 +412,6 @@ export default (state = defaultBoardReducer, action = { type: null, payload: nul
                 }
             };
         case "DELETE_BOARD_FILTER_LABEL":
-            console.log(action.payload.label);
             return {
                 ...state,
                 currentBoard: {
@@ -626,6 +623,20 @@ export default (state = defaultBoardReducer, action = { type: null, payload: nul
                     })
                 }
             };
+        case "DELETED_BOARD_TEAM":
+            return {
+                ...state,
+                all: state.all.map(board => {
+                    return {
+                        ...board,
+                        teams: board.teams.filter(teamId => teamId !== action.payload.teamId)
+                    }
+                }),
+                currentBoard: {
+                    ...state.currentBoard,
+                    teams: state.currentBoard.teams.filter(teamBoard => teamBoard._id !== action.payload.teamId)
+                }
+            }
         default:
             return state
     }

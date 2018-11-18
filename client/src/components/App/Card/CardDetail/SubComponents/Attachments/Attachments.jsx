@@ -27,7 +27,7 @@ export default class Attachments extends Component {
                 <Icon name='paperclip' />
                 <div className="segment-attachments">
                     <p>Attachments</p>
-                    {console.log(this.props.attachments) || this.props.attachments.map(attachment =>
+                    {this.props.attachments.map(attachment =>
                         <div className="attachment">
                             <Segment className="segment-att displayRow">
                                 <div className='image'>
@@ -35,7 +35,6 @@ export default class Attachments extends Component {
                                         onClick={() => {
                                             var parser = document.createElement('a');
                                             parser.href = attachment.url;
-                                            console.log(parser.host)
                                             if ((/^prello-khal\.s3.*\.amazonaws\.com$/).test(parser.host)) {
                                                 try {
                                                     var xhr = new XMLHttpRequest();

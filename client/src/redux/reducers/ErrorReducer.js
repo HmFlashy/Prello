@@ -6,7 +6,6 @@ export default (state = defaultErrorState, action = { type: null, payload: null 
     const splitted = action.type.split('_')
     switch (splitted[0]) {
         case "FAILED":
-            console.log(action)
             return {
                 ...state,
                 all: [

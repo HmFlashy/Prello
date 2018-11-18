@@ -63,10 +63,6 @@ class CardDetail extends Component {
 
     }
 
-    componentWillMount() {
-        console.log(this.props.card)
-    }
-
     componentDidMount() {
         this.props.fetchCard(this.props.match.params.cardId).then(card => {
             this.setState({
@@ -85,7 +81,6 @@ class CardDetail extends Component {
     }
 
     updateWindowDimensions() {
-        console.log(window.innerWidth)
         this.setState({ width: window.innerWidth, height: window.innerHeight });
     }
 
@@ -97,7 +92,6 @@ class CardDetail extends Component {
     }
 
     changeDescription(mdeState) {
-        console.log(mdeState)
         this.setState({
             descriptionTextArea: mdeState.markdown,
             mdeState: mdeState
@@ -122,7 +116,6 @@ class CardDetail extends Component {
 
 
     updateCard(oldValue, data) {
-        console.log(data)
         this.props.updateCard(this.props.card._id, oldValue, data)
     }
 
@@ -182,10 +175,6 @@ class CardDetail extends Component {
         this.props.deleteCard(this.props.card._id)
     }
 
-    validateNewName(event) {
-        console.log(event.target.value)
-    }
-
     render() {
         return this.props.card.name != null ?
             <div className="displayColumn main">
@@ -197,7 +186,7 @@ class CardDetail extends Component {
                     name={this.props.card.name}
                     list={this.props.card.list}
                     validateNewName={(event) => this.updateCard({ name: this.props.card.name, _id: this.props.card._id }, { name: event.target.value, _id: this.props.card._id })}
-                ></Header>
+                />
                 <Divider />
                 <div className={this.state.width > 600 ? "displayRow main" : "main"}>
                     <div className="details main">

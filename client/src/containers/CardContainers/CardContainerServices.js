@@ -33,7 +33,6 @@ export default {
     },
     async updateCard(cardId, oldValue, data, dispatch) {
         try {
-            console.log(data)
             Object.keys(data).forEach(key => {
                 if (key !== "_id") {
                     let toDispatch = actionUpdatingCard({ [key]: data[key], _id: data._id })

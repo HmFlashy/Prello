@@ -68,7 +68,6 @@ class AddMemberModal extends Component {
                                     {
                                         this.state.users.map(user => {
                                             const isChecked = this.state.usersChecked.filter(userChecked => userChecked._id === user._id).length === 1
-                                            console.log(user)
                                             return (
                                                 <div key={user._id} onClick={() => this.checkUser(user, isChecked)} className="container-user-item" >
                                                     <Segment color={isChecked ? "green" : null}  >

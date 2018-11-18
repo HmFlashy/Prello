@@ -15,7 +15,6 @@ export default class Comment extends Component {
     send(event) {
         event.target.blur()
         let comment = this.state.comment
-        console.log(comment)
         if (comment !== "") {
             this.props.onAddComment(comment);
         }

@@ -13,7 +13,6 @@ export default (state = defaultTeamState, action = { type: null, payload: null }
     const splitted = action.type.split("_");
     switch (splitted[0]) {
         case "FETCHED_TEAM":
-            console.log(action);
             return {
                 ...state,
                 all: [

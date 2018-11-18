@@ -164,5 +164,14 @@ export default {
             console.log(error)
             throw error
         }
+    },
+    async deleteTeam(boardId, teamId) {
+        try {
+            const res = await axios.delete(`${UrlConfig.API}/boards/${boardId}/teams/${teamId}`, tokenHeader());
+            return res.data
+        } catch (error) {
+            console.log(error)
+            throw error
+        }
     }
 }

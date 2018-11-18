@@ -2,11 +2,10 @@ import './Error403Page.css'
 import { withRouter } from 'react-router-dom'
 import React, { Component } from 'react'
 
-class Error404Page extends Component {
+class Error403Page extends Component {
 
     constructor(){
         super()
-        this.goToLogin = this.goToLogin.bind(this)
     }
 
     render(){
@@ -21,4 +20,4 @@ class Error404Page extends Component {
     }
 }
 
-export default withRouter(Error404Page)
+export default withRouter(Error403Page)

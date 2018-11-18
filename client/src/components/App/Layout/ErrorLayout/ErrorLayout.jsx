@@ -10,7 +10,6 @@ class ErrorLayout extends Component {
     render(){
         const lastError = this.props.errors.pop()
         const errorCode = lastError? lastError.code : null
-        console.log(errorCode)
         return errorCode ?
             (
                 errorCode === 401 ? <Error401Page /> :

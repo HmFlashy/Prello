@@ -5,8 +5,7 @@ class SecureLayout extends Component {
 
     render(){
         const token = this.props.token
-        console.log(token)
-        return !token ? 
+        return !token ?
             <Error401Page /> :
             this.props.children
     }

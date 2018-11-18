@@ -9,7 +9,6 @@ class MessageCard extends Component {
     }
 
     render() {
-        console.log(this.props.error)
         return (
             <Message negative className="elementToFadeInAndOut" hidden={this.props.error.hidden}>
                 <Message.Header>An error occured !</Message.Header>

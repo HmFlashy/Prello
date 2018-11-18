@@ -11,12 +11,12 @@ const logger =require('../../../../logger')
  *         type: string
  *
  * paths:
- *   /boards/{boardId}/teams:
+ *   /boards/{boardId}/teams/{teamId}:
  *     post:
  *       tags:
  *         - Board
- *       description: Add a team to the board either by giving the name or the teamId
- *       summary: Add a team to the board
+ *       description: Delete a team from a board given the boardId and the teamId
+ *       summary: Delete a team from a board
  *       parameters:
  *         - name: boardId
  *           schema:
@@ -24,24 +24,17 @@ const logger =require('../../../../logger')
  *           description: The id of the board.
  *           in: path
  *           required: true
+ *         - name: teamId
+ *           schema:
+ *             type: string
+ *           description: The id of the team to delete.
+ *           in: path
+ *           required: true
  *       requestBody:
  *         description: Optional description in *Markdown*
- *         required: true
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 _id:
- *                   type: string
- *                 name:
- *                   type: ObjectId
- *             example:
- *               _id: 5bce3aaf84c77d0a433029a9
- *               name: Khal
  *       responses:
  *         200:
- *           description: The updated board with the team added
+ *           description: The updated board
  *           content:
  *             application/json:
  *               schema:
@@ -56,13 +49,26 @@ const logger =require('../../../../logger')
 module.exports = async (req, res) => {
     try {
         const boardId = req.params.boardId;
-        const teamId = req.body.teamId;
-        const board = await boardsController.deleteBoardTeam(boardId, teamId);
+        const teamId = req.params.teamId;
+        const boardInfos = await boardsController.deleteBoardTeam(boardId, teamId);
         socketIO.broadcast("action", boardId, {
             type: "DELETED_BOARD_TEAM",
-            payload: board.teams
+            payload: {
+                teamId: teamId
+            }
         });
-        return res.status(200).json(board)
+
+        boardInfos[1].forEach(memberId => {
+            socketIO.broadcast("action", boardId, {
+                type: "DELETED_BOARD_MEMBER",
+                payload: {
+                    userId: req.user._id.toString(),
+                    memberId
+                }
+            });
+        });
+
+        return res.status(200).json(boardInfos.board)
     } catch (error) {
         logger.error(error.message);
         if (error.code) {

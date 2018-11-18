@@ -68,7 +68,6 @@ class ListBoards extends Component {
 
     handleCategoryName = e => {
         e.stopPropagation()
-        console.log(e.target.value)
         this.setState({ categoryName: e.target.value })
     }
 

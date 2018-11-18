@@ -6,7 +6,6 @@ class PollForm extends Component {
 
     constructor(props) {
         super(props);
-        console.log(props.card)
         this.state = {
             value: this.props.value || "",
             card: this.props.card || "",

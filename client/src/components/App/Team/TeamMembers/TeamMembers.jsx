@@ -56,7 +56,7 @@ class TeamMembers extends Component {
                                 <Table singleLine>  
                                     <Table.Body>
                                         {
-                                             this.props.team.members.map(member => {console.log(this.props.team)
+                                             this.props.team.members.map(member => {
 
                                                 return (
                                                     <Table.Row>
