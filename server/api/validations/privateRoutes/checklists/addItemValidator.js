@@ -5,6 +5,6 @@ module.exports = [
     param('cardId').matches(/^[0-9a-fA-F]{24}$/).withMessage(`CARDID_MALFORMED`),
     param('checklistId').isString().withMessage(`COMMENTID_MUST_BE_A_STRING`),
     param('checklistId').matches(/^[0-9a-fA-F]{24}$/).withMessage(`COMMENTID_MALFORMED`),
-    body("name").not().isEmpty().withMessage(`MISSING_CONTENT_PARAMETER`),
-    body('name').isString().withMessage(`CONTENT_MUST_BE_A_STRING`),
+    body("name").trim().not().isEmpty().withMessage(`MISSING_CONTENT_PARAMETER`),
+    body('name').isString().trim().withMessage(`CONTENT_MUST_BE_A_STRING`),
 ];
