@@ -80,7 +80,7 @@ class DeveloperApplicationDetail extends Component {
                             <List className="text-align-left" verticalAlign="middle">
                                 {
                                     this.props.application.redirectUris.map(redirectUri => 
-                                        <List.Item className="di-redirect-uri">
+                                        <List.Item key={ redirectUri } className="di-redirect-uri">
                                             { redirectUri }
                                             <Button onClick={() => this.removeURI(redirectUri)} className="di-button" color="red">Remove</Button>
                                         </List.Item>

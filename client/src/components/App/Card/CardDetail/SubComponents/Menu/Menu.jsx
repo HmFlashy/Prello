@@ -99,7 +99,7 @@ class Menu extends Component {
                             {this.props.board.labels && this.props.card.labels
                                                 ?
                                                 this.props.board.labels.map(label =>
-                                                    <Label className={"label-card"} id={label._id} color={label.color}
+                                                    <Label key={label._id} className={"label-card"} id={label._id} color={label.color}
                                                         onClick={() => this.props.card.labels.map(cardLabel => cardLabel._id).includes(label._id) ? this.props.onRemoveLabel(label._id) : this.props.onAddLabel(label._id)}>
                                                         <div id={label._id} className={"filter-name"}>{label.name}</div>
                                                         <Icon className={"filter-item-icon"} id={"No Labels"}

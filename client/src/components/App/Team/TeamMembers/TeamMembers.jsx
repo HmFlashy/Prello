@@ -60,7 +60,7 @@ class TeamMembers extends Component {
                                              this.props.team.members.map(member => {
 
                                                 return (
-                                                    <Table.Row>
+                                                    <Table.Row key={ member.member._id }>
                                                         <Table.Cell className="member-cell">
                                                             <div className="member-fullname">
                                                                 <span className="span-fullname">{ member.member.fullName }</span>

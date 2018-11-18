@@ -15,7 +15,7 @@ class NewDeveloperApplication extends Component {
     render(){
         return(
             <div className="do-application-item">
-                <DynamicInput onValidate={this.props.addApplication} maxLength="24"  textToDisplay={<h2>+</h2>} />
+                <DynamicInput onValidate={this.props.addApplication} maxLength={24}  textToDisplay={<h2>+</h2>} />
             </div>
         )
     }

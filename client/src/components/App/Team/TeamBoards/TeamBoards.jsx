@@ -12,7 +12,7 @@ class TeamBoards extends Component {
                     {
                         this.props.team.boards.map(board =>
                             this.props.boards.some(b => b.board === board._id)
-                                ? (<BoardOverviewContainer boardId={board._id} />)
+                                ? (<BoardOverviewContainer key={ board._id } boardId={board._id} />)
                                 : ''
                         )
 

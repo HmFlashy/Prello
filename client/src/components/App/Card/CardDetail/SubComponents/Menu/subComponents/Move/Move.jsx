@@ -35,7 +35,7 @@ export default (props) => (
                             <label>Position</label>
                             <Dropdown text={props.currentPos.userPos} fluid selection>
                                 <Dropdown.Menu>
-                                    {props.currentList.possiblePos.map(pos => <Dropdown.Item onClick={() => props.onPosChange(pos)}>{pos.userPos}</Dropdown.Item>)}
+                                    {props.currentList.possiblePos.map(pos => <Dropdown.Item key={pos.userPos} onClick={() => props.onPosChange(pos)}>{pos.userPos}</Dropdown.Item>)}
                                 </Dropdown.Menu>
                             </Dropdown>
                         </div>

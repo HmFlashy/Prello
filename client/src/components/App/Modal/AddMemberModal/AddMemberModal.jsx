@@ -92,7 +92,7 @@ class AddMemberModal extends Component {
                                     {
                                         this.state.usersChecked.map(userChecked => {
                                             return (
-                                                <Label onClick={() => this.checkUser(userChecked, true)}><span>{userChecked.username}</span><Icon className="user-checked-icon" name='remove' /></Label>
+                                                <Label key={ userChecked._id } onClick={() => this.checkUser(userChecked, true)}><span>{userChecked.username}</span><Icon className="user-checked-icon" name='remove' /></Label>
                                             )
                                         })
                                     }

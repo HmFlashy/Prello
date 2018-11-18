@@ -38,7 +38,7 @@ class DeveloperOverview extends Component {
                     </h1>
                     <div className="do-list">
                         <List divided verticalAlign='middle'>
-                            <div class="arrow-down" />
+                            <div className="arrow-down" />
                             {
                                 this.props.applications.length > 0 ?
                                     this.props.applications.map(application => 
