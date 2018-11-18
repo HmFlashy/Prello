@@ -65,6 +65,8 @@ class TeamMembers extends Component {
                                                                 <span className="span-fullname">{ member.member.fullName }</span>
                                                             </div>
                                                             <div className="member-right-dropdown">
+                                                            {this.props.isAdmin
+                                                            ?
                                                                 <Dropdown
                                                                     defaultValue={member.role}
                                                                     id={member.member._id}
@@ -72,6 +74,8 @@ class TeamMembers extends Component {
                                                                     onChange={this.handleChange}
                                                                     // value={this.state.currentRole}
                                                                 />
+                                                                :member.role}
+                                                                
                                                             </div>
                                                             {this.props.isAdmin
                                                             ?<Button className="remove-member-button" color="red" onClick={()=>this.props.deleteMember(member.member._id)}>Remove</Button>

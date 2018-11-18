@@ -9,9 +9,8 @@ class AddMemberModal extends Component {
         super()
         this.state = {
             users: [],
-            usersChecked: [],
-            isOpen: false
-        }
+            usersChecked: []
+                }
         this.fetchUsers = this.fetchUsers.bind(this)
         this.checkUser = this.checkUser.bind(this)
         this.addUsers = this.addUsers.bind(this)
