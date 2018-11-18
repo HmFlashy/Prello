@@ -157,3 +157,20 @@ export const actionUpdateSearch = (query) => {
         }
     }
 }
+
+export const actionTeamUpdateName = (boardId, name) => {
+    return {
+        type: 'UPDATE_TEAM_NAME',
+        payload: {
+            name,
+            boardId
+        }
+    }
+};
+
+export const failedActionTeamUpdateName = (data) => {
+    return {
+        type: 'FAILED_UPDATE_TEAM_NAME',
+        payload:data
+    }
+};

@@ -3,6 +3,7 @@ import './TeamDetails.css'
 import { Menu, Segment, Container } from 'semantic-ui-react';
 import TeamBoards from '../TeamBoards';
 import TeamMembers from '../TeamMembers';
+import DynamicInput from "../../Input/DynamicInput"
 
 class TeamDetails extends Component {
 
@@ -32,8 +33,6 @@ class TeamDetails extends Component {
         this.props.deleteMember(this.props.team._id, memberId)
     }
     changeRole(userId, role) {
-        console.log(userId)
-        console.log(role)
         this.props.changeRole(this.props.team._id, userId, role)
     }
 
@@ -43,7 +42,13 @@ class TeamDetails extends Component {
         return (
             <div className="team-layout">
                 <div className="team-header">
-                    <h1 className="team-name" style={{ fontWeight: "bold" }}>{this.props.team.name}</h1>
+                    <h1 className="team-name" style={{ fontWeight: "bold" }}><DynamicInput
+                                    type='text'
+                                    textToDisplay={this.props.team.name}
+                                    placeholder={this.props.team.name}
+                                    onValidate={(name) => this.props.updateTeamName(this.props.team._id, this.props.team.name, name.target.value)}
+                                /></h1>
+                    
                 </div>
                 <div className="team-content">
                     <Menu attached='top' color="grey" className="menu-content" tabular>

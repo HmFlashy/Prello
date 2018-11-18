@@ -59,5 +59,14 @@ export default {
             console.log(error)
             throw error
         }
+    },
+    async updateName(teamId, name) {
+        try {
+            const res = await axios.put(`${UrlConfig.API}/teams/${teamId}`, { name }, tokenHeader());
+            return res.data;
+        } catch (error) {
+            console.log(error)
+            throw error
+        }
     }
 }

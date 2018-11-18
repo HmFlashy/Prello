@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import TeamDetails from "../../components/App/Team/TeamDetails"
 import TeamServices from "../../services/TeamServices";
-import { actionUpdateSearch } from "../../redux/actions/UserActions";
+import { actionUpdateSearch, actionTeamUpdateName, failedActionTeamUpdateName} from "../../redux/actions/UserActions";
 
 const mapStateToProps = (state, ownProps) => {
     const userTeam = state.authentification.user.teams.find(team => team.team._id === ownProps.teamId);
@@ -44,7 +44,6 @@ const mapDispatchToProps = (dispatch) => {
         },
         async changeRole(teamId, memberId, role) {
             try {
-                console.log(memberId)
                 const data = await TeamServices.updateMember(teamId, memberId, role)
                 return data
             } catch (error) {
@@ -53,6 +52,15 @@ const mapDispatchToProps = (dispatch) => {
         },
         updateSearch(query) {
             dispatch(actionUpdateSearch(query))
+        },
+        async updateTeamName(teamId, oldVal, newVal) {
+            try {
+                dispatch(actionTeamUpdateName({ _id: teamId, name: newVal }))
+                TeamServices.updateName(teamId, newVal)
+            } catch (error) {
+                dispatch(failedActionTeamUpdateName({ _id: teamId, name: oldVal }))
+                console.log(error)
+            }
         }
     }
 };
