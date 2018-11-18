@@ -16,7 +16,7 @@ const getById = async (userId) => {
         },
         {
             path: "client_applications"
-        }]);
+        }]).select({"hash": 0});
         return user
     } catch (error) {
         logger.error(error.message)
@@ -53,7 +53,7 @@ const addUser = async (firstname, lastname, username, email, password, organizat
 
 const getUserByEmailOrUsername = async (username, email) => {
     try {
-        return await User.findOne({ $or: [{ username: username}, {email: email}] })
+        return await User.findOne({ $or: [{ username: username}, {email: email}] }).select({"hash": 0})
     } catch (error) {
         logger.error(error.message)
         throw error
@@ -64,7 +64,7 @@ const unstarBoard = async (userId, boardId) => {
     try {
         const user = await User.findByIdAndUpdate(userId, {
             $pull: { starred: boardId }
-        });
+        }).select({"hash": 0});
         if (!user) {
             throwError(404, `The user ${userId} was not found`)
         }
@@ -104,7 +104,7 @@ const starBoard = async (userId, boardId) => {
 
 const getUsersWithQuery = async (query) => {
     try {
-        const users = await User.find({ $or: [{ username: new RegExp(query, "i") }, { email: new RegExp(query, "i") }] })
+        const users = await User.find({ $or: [{ username: new RegExp(query, "i") }, { email: new RegExp(query, "i") }] }).select({"hash": 0});
         if (!users) {
             throwError(404, `No users was found`)
         }
@@ -231,10 +231,10 @@ const updateUser = async (userId, fullName, username, email, bio, organization, 
     try {
         const hash = newPassword ? await passwordHelper.passwordHelper(newPassword) : undefined
         if (hash) {
-            return await User.findOneAndUpdate({ _id: userId }, { $set: { fullName, username, email, bio, organization, hash } }, { "new": true })
+            return await User.findOneAndUpdate({ _id: userId }, { $set: { fullName, username, email, bio, organization, hash } }, { "new": true }).select({"hash": 0})
         }
         else {
-            return await User.findOneAndUpdate({ _id: userId }, { $set: { fullName, username, email, bio, organization } }, { "new": true })
+            return await User.findOneAndUpdate({ _id: userId }, { $set: { fullName, username, email, bio, organization } }, { "new": true }).select({"hash": 0})
         }
     } catch (error) {
         logger.error(error.message)
@@ -299,7 +299,7 @@ const getMembersBySearch = async (boardId, query) => {
                         {"email": {$regex: `.*${query}*.`, $options: "i"}}]
                 }
             ]
-        }).sort({"fullName": 1}).limit(10);
+        }).select({"hash": 0}).sort({"fullName": 1}).limit(10);
         return members
     } catch (error) {
         logger.error(error.message)
