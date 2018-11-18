@@ -35,10 +35,6 @@ const updatePoll = async (boardId, pollId, card, title) => {
     try {
         await Poll.findOneAndUpdate({ _id: pollId },
             { $set: { title: title, card: card } }, { "new": true })
-        let newCard
-        if (card) {
-            newCard = await Card.findById(card)
-        }
         return await Poll.findById(pollId).populate(
             [{
                 path: "card",

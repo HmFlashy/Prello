@@ -1,5 +1,4 @@
 const TeamsController = require('../../../controllers/TeamsController');
-const socketIO = require('../../../../socket/index');
 const logger = require('../../../../logger')
 
 /**

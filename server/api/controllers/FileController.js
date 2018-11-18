@@ -9,7 +9,7 @@ const addAttachment = async (name, owner, cardId, url) => {
             card: cardId,
             url
         })
-        attachment = await comment.save()
+        attachment = await attachment.save()
         return [await Attchment.findById(attachment._id).populate(
             [{
                 path: "owner",
