@@ -154,6 +154,18 @@ export default (state = defaultCardReducer, action = { type: null, payload: null
           : { ...card }
         )
       }
+      case 'UPDATED_LABEL':
+      return {
+        ...state,
+        all: state.all.map(
+              card => {
+                return {
+                  ...card,
+                  labels: card.labels.map(label => label._id === action.payload.labelUpdated._id ? action.payload.labelUpdated : label)
+                }
+              }
+            )
+      }
     default:
       return state
   }

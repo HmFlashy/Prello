@@ -1,18 +1,18 @@
 import { connect } from "react-redux";
 import TeamDetails from "../../components/App/Team/TeamDetails"
 import TeamServices from "../../services/TeamServices";
-import { actionUpdateSearch,actionChangeRole, actionDeleteUsersToTeam,actionTeamUpdateName, failedActionTeamUpdateName, actionAddUsersToTeam, failedActionAddUsersToTeam, actionDeleteTeam} from "../../redux/actions/UserActions";
+import { actionUpdateSearch, actionChangeRole, actionDeleteUsersToTeam, actionTeamUpdateName, failedActionTeamUpdateName, actionAddUsersToTeam, failedActionAddUsersToTeam, actionDeleteTeam } from "../../redux/actions/UserActions";
 import { withRouter } from "react-router"
 
 const mapStateToProps = (state, ownProps) => {
     const userTeam = state.authentification.user.teams.find(team => team.team._id === ownProps.teamId);
     const query = state.authentification.queryMember;
     let isAdmin = false
-    if(userTeam){
-console.log(userTeam)
+    if (userTeam) {
+        console.log(userTeam)
         const user = userTeam.team.members.find(member => console.log(member) || member.member._id === state.authentification.user._id)
         console.log(user)
-        if(user){
+        if (user) {
             isAdmin = user.role === "Admin"
         }
     }
@@ -46,7 +46,7 @@ const mapDispatchToProps = (dispatch) => {
                 return data
             } catch (error) {
                 dispatch(failedActionAddUsersToTeam({ teamId: teamId, users: users }))
-                throw error
+                console.log(error)
             }
         },
         async deleteMember(teamId, memberId) {
@@ -55,7 +55,7 @@ const mapDispatchToProps = (dispatch) => {
                 const data = await TeamServices.deleteMember(teamId, memberId)
                 return data
             } catch (error) {
-                throw error
+                console.log(error)
             }
         },
         async changeRole(teamId, memberId, role) {
@@ -64,7 +64,7 @@ const mapDispatchToProps = (dispatch) => {
                 const data = await TeamServices.updateMember(teamId, memberId, role)
                 return data
             } catch (error) {
-                throw error
+                console.log(error)
             }
         },
         updateSearch(query) {
@@ -79,7 +79,7 @@ const mapDispatchToProps = (dispatch) => {
                 console.log(error)
             }
         },
-        async deleteTeam(teamId){
+        async deleteTeam(teamId) {
             try {
                 const team = await TeamServices.deleteTeam(teamId);
                 dispatch(actionDeleteTeam(team))

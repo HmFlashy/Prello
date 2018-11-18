@@ -97,7 +97,7 @@ class Poll extends Component {
                                                     type='text'
                                                     textToDisplay={option.title}
                                                     placeholder={option.title}
-                                                    onValidate={(event) => this.updatePollOption({ pollId: poll._id, optionId: option._id, name: event.target.value, boardId: this.props.boardId })}
+                                                    onValidate={(event) => { if (event.target.value !== "" && event.target.value.trim() !== "") this.updatePollOption({ pollId: poll._id, optionId: option._id, name: event.target.value, boardId: this.props.boardId }) }}
                                                 />
                                             </div>
                                             <div>
@@ -138,7 +138,7 @@ class Poll extends Component {
                                                         </Popup>
                                                         : "",
                                                     poll.owner === this.props.userId
-                                                        ? <Button key={poll._id}  icon='trash' color="red" onClick={() => this.deletePollOption({ _id: poll._id, optionId: option._id, boardId: this.props.boardId })} />
+                                                        ? <Button key={poll._id} icon='trash' color="red" onClick={() => this.deletePollOption({ _id: poll._id, optionId: option._id, boardId: this.props.boardId })} />
                                                         : ""
                                                     ]
                                                 }
@@ -146,7 +146,7 @@ class Poll extends Component {
                                         </Segment>
                                     )}
                                     <Input placeholder='New option' onKeyPress={(event) => {
-                                        if (event.charCode === 13 && event.target.value !== "") {
+                                        if (event.charCode === 13 && event.target.value !== "" && event.target.value.trim() !== "") {
                                             this.addOption({ pollId: poll._id, option: event.target.value, boardId: this.props.boardId })
                                             event.target.value = ""
                                         }

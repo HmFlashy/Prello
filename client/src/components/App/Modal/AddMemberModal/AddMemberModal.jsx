@@ -10,7 +10,7 @@ class AddMemberModal extends Component {
         this.state = {
             users: [],
             usersChecked: []
-                }
+        }
         this.fetchUsers = this.fetchUsers.bind(this)
         this.checkUser = this.checkUser.bind(this)
         this.addUsers = this.addUsers.bind(this)
@@ -50,7 +50,8 @@ class AddMemberModal extends Component {
     }
 
     addUsers() {
-        this.props.addUsers(this.state.usersChecked)
+        if (this.state.usersChecked !== "" && this.state.usersChecked.trim() !== "")
+            this.props.addUsers(this.state.usersChecked)
     }
 
     render() {
@@ -92,7 +93,7 @@ class AddMemberModal extends Component {
                                     {
                                         this.state.usersChecked.map(userChecked => {
                                             return (
-                                                <Label key={ userChecked._id } onClick={() => this.checkUser(userChecked, true)}><span>{userChecked.username}</span><Icon className="user-checked-icon" name='remove' /></Label>
+                                                <Label key={userChecked._id} onClick={() => this.checkUser(userChecked, true)}><span>{userChecked.username}</span><Icon className="user-checked-icon" name='remove' /></Label>
                                             )
                                         })
                                     }

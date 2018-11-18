@@ -7,6 +7,6 @@ module.exports = [
     param('pollId').matches(/^[0-9a-fA-F]{24}$/).withMessage(`POLLID_MALFORMED`),
     param("optionId").not().isEmpty().withMessage(`MISSING_OPTIONID_PARAMETER`),
     param('optionId').matches(/^[0-9a-fA-F]{24}$/).withMessage(`OPTIONID_MALFORMED`),
-    body("name").not().isEmpty().withMessage(`MISSING_OPTION_PARAMETER`),
-    body('name').isString().withMessage(`OPTION_MUST_BE_A_STRING`),
+    body("name").trim().not().isEmpty().withMessage(`MISSING_OPTION_PARAMETER`),
+    body('name').isString().trim().withMessage(`OPTION_MUST_BE_A_STRING`),
 ];

@@ -33,7 +33,6 @@ const mapStateToProps = state => {
     const archivedCards = state.cards.all.filter(card => card.isArchived);
     return {
         userId: user._id,
-        userTeams: user.teams,
         archivedCards: archivedCards,
         archivedLists,
         board: state.boards.currentBoard,
@@ -174,7 +173,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             try {
                 await BoardServices.changeRoleBoardMember(ownProps.board._id, memberId, role);
             } catch (error) {
-                throw error
+                console.log(error)
             }
         },
         async removeMember(memberId) {
@@ -182,7 +181,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
                 await BoardServices.deleteMember(ownProps.board._id, memberId);
             } catch (error) {
                 dispatch(actionFailedDeletingBoardMember(error))
-                throw error
+                console.log(error)
             }
         },
         async removeTeam(teamId) {
@@ -190,7 +189,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
                 await BoardServices.deleteTeam(ownProps.board._id, teamId);
             } catch (error) {
                 dispatch(actionFailedDeletingBoardMember(error))
-                throw error
+                console.log(error)
             }
         },
         async deleteBoard() {
@@ -198,7 +197,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
                 await BoardServices.deleteBoard(ownProps.board._id);
             } catch (error) {
                 dispatch(actionFailedDeletingBoardMember(error))
-                throw error
+                console.log(error)
             }
         }
     }

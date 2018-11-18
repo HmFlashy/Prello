@@ -9,12 +9,16 @@ import DynamicInput from "../../../Input/DynamicInput"
 import axios from "axios"
 import UrlConfig from "../../../../../config/UrlConfig"
 import {tokenHeader} from "../../../../../helpers/HeaderHelper"
+import ValidationInput from "../../../Input/ValidationInput/ValidationInput";
 
 class BoardHeader extends Component {
 
     constructor() {
         super();
         this.state = {
+            isDeletingBoard: false,
+            isDeletingTeam: false,
+            isDeletingMember: false,
             openArchived: false,
             openLabels: false,
             isHoverStar: false,
@@ -266,7 +270,7 @@ class BoardHeader extends Component {
                                     type='text'
                                     textToDisplay={this.props.board.name}
                                     placeholder={this.props.board.name}
-                                    onValidate={(name) => this.props.updateName(this.props.board._id, this.props.board.name, name.target.value)}
+                                    onValidate={(name) => { if (name.target.value !== "" && name.target.value.trim() !== "") this.props.updateName(this.props.board._id, this.props.board.name, name.target.value) }}
                                 />
                             </div>
                             <div className="header-board-star">
@@ -285,19 +289,20 @@ class BoardHeader extends Component {
                             </div>
                             <div className="header-board-member">
                                 {this.props.board.teams.map(team =>
-                                    <Popup
-                                        key={this.props.fullName}
-                                        trigger={<span
-                                        ><Avatar
-                                            _id={team._id}
-                                            fullName={team.name}
-                                            round
-                                            size="25"
-                                            textSizeRatio={1.8}/></span>}
-                                        position={"bottom right"}
-                                        flowing
-                                        on='click'>
-                                        <Popup.Header>
+                                    <div>
+                                        <Popup
+                                            key={this.props.fullName}
+                                            trigger={<span
+                                            ><Avatar
+                                                _id={team._id}
+                                                fullName={team.name}
+                                                round
+                                                size="25"
+                                                textSizeRatio={1.8}/></span>}
+                                            position={"bottom right"}
+                                            flowing
+                                            on='click'>
+                                            <Popup.Header>
                                             <span className={"popup-edit-member"}><Avatar
                                                 _id={team._id}
                                                 fullName={team.name}
@@ -308,17 +313,26 @@ class BoardHeader extends Component {
                                                     {team.name}
                                                 </div>
                                             </span>
-                                        </Popup.Header>
-                                        <Popup.Content>
-                                            <Button onClick={() => {
+                                            </Popup.Header>
+                                            <Popup.Content>
+                                                <Button onClick={() => {
+                                                    this.setState({isDeletingTeam: true})
+                                                }}>
+                                                    Remove Team
+                                                </Button>
+                                            </Popup.Content>
+                                        </Popup>
+                                        <ValidationInput
+                                            isVisible={this.state.isDeletingTeam}
+                                            header={"Delete team"}
+                                            content={"Are you sure you want to delete this team ?"}
+                                            onResult={(isValidated) => isValidated ? this.setState({isDeletingTeam: false}, () => {
                                                 this.removeTeam(team._id);
-                                                if (this.props.userTeams.includes(team._id))
+                                                if (team.members.some(member => member.member._id === this.props.userId))
                                                     this.props.history.push(`/home`);
-                                            }}>
-                                                Remove Team
-                                            </Button>
-                                        </Popup.Content>
-                                    </Popup>
+                                            }) : this.setState({isDeletingTeam: false})}
+                                        />
+                                    </div>
                                 )}
                                 <Popup
                                     flowing={true}
@@ -355,60 +369,63 @@ class BoardHeader extends Component {
                             </div>
                             < div className="header-board-member">
                                 {this.props.board.members.map(boardMember =>
-                                    <Popup
-                                        key={this.props.fullName}
-                                        trigger={<span
-                                        ><Avatar
-                                            _id={boardMember.member._id}
-                                            fullName={boardMember.member.fullName}
-                                            bio={boardMember.member.bio}
-                                            round
-                                            size="25"
-                                            textSizeRatio={1.4}/></span>}
-                                        position={"bottom right"}
-                                        flowing
-                                        on='click'>
-                                        <Popup.Header>
-                                    <span className={"popup-edit-member"}><Avatar
-                                        _id={boardMember.member._id}
-                                        fullName={boardMember.member.fullName}
-                                        bio={boardMember.member.bio}
-                                        round
-                                        size="25"
-                                        textSizeRatio={1.4}/>
-                                    <div className={"popup-member-information"}>
-                                    {boardMember.member.fullName}
-                                        {boardMember.member.username}
-                                    </div>
-                                    </span>
-                                        </Popup.Header>
-                                        <Popup.Content>
-                                            <Dropdown placeholder='Permissions' selection
-                                                      options={this.state.roleOptions}
-                                                      value={this.state.roleOptions.find(roleOption => roleOption.text === boardMember.role).value}
-                                                      onChange={(e, {value}) => this.handleChangeRole(boardMember.member._id, value)}
-                                                      disabled={!this.props.board.members.some(boardMember => this.props.userId === boardMember.member._id && boardMember.role === "Admin")}
-                                            />
-                                            {this.props.board.members.some(boardMember => this.props.userId === boardMember.member._id && boardMember.role === "Admin")
-                                                ? <Button onClick={() => {
-                                                    this.removeMember(boardMember.member._id);
-                                                    if (this.props.userId === boardMember.member._id)
-                                                        this.props.history.push(`/home`);
-                                                }}>
-                                                    {this.props.userId === boardMember.member._id ? "Leave board" : "Remove from the board"}
-                                                </Button>
-                                                : this.props.userId === boardMember.member._id
+                                    <div>
+                                        <Popup
+                                            key={this.props.fullName}
+                                            trigger={<span
+                                            ><Avatar
+                                                _id={boardMember.member._id}
+                                                fullName={boardMember.member.fullName}
+                                                bio={boardMember.member.bio}
+                                                round
+                                                size="25"
+                                                textSizeRatio={1.4}/></span>}
+                                            position={"bottom right"}
+                                            flowing
+                                            on='click'>
+                                            <Popup.Header>
+                                            <span className={"popup-edit-member"}><Avatar
+                                                _id={boardMember.member._id}
+                                                fullName={boardMember.member.fullName}
+                                                bio={boardMember.member.bio}
+                                                round
+                                                size="25"
+                                                textSizeRatio={1.4}/>
+                                                <div className={"popup-member-information"}>
+                                                    {boardMember.member.fullName}
+                                                    {boardMember.member.username}
+                                                </div>
+                                            </span>
+                                            </Popup.Header>
+                                            <Popup.Content>
+                                                <Dropdown placeholder='Permissions' selection
+                                                          options={this.state.roleOptions}
+                                                          value={this.state.roleOptions.find(roleOption => roleOption.text === boardMember.role).value}
+                                                          onChange={(e, {value}) => this.handleChangeRole(boardMember.member._id, value)}
+                                                          disabled={!this.props.board.members.some(boardMember => this.props.userId === boardMember.member._id && boardMember.role === "Admin")}
+                                                />
+                                                {this.props.board.members.some(boardMember => this.props.userId === boardMember.member._id && boardMember.role === "Admin")
                                                     ? <Button onClick={() => {
                                                         this.removeMember(boardMember.member._id);
                                                         if (this.props.userId === boardMember.member._id)
                                                             this.props.history.push(`/home`);
                                                     }}>
-                                                        Leave board
+                                                        {this.props.userId === boardMember.member._id ? "Leave board" : "Remove from the board"}
                                                     </Button>
-                                                    : ""
-                                            }
-                                        </Popup.Content>
-                                    </Popup>)}
+                                                    : this.props.userId === boardMember.member._id
+                                                        ? <Button onClick={() => {
+                                                            this.removeMember(boardMember.member._id);
+                                                            if (this.props.userId === boardMember.member._id)
+                                                                this.props.history.push(`/home`);
+                                                        }}>
+                                                            Leave board
+                                                        </Button>
+                                                        : ""
+                                                }
+                                            </Popup.Content>
+                                        </Popup>
+                                    </div>
+                                )}
                                 <Popup
                                     flowing={true}
                                     trigger={<Icon name={"add user"}/>}
@@ -482,16 +499,16 @@ class BoardHeader extends Component {
                                         <List.Item className={"filter-list"}>
                                             <Label className={"filter-item"} id={"No Members"} color={"#008080"}
                                                    onClick={this.clickMember}>
-                                    <span className={"member-avatar"} id={"No Members"}><Avatar
-                                        id={"No Members"}
-                                        _id={"No Members"}
-                                        fullName={"No Members"}
-                                        key={"No Members"}
-                                        name={"?"}
-                                        color={"gray"}
-                                        round
-                                        size="25"
-                                        textSizeRatio={1.8}/></span>
+                                                <span className={"member-avatar"} id={"No Members"}><Avatar
+                                                    id={"No Members"}
+                                                    _id={"No Members"}
+                                                    fullName={"No Members"}
+                                                    key={"No Members"}
+                                                    name={"?"}
+                                                    color={"gray"}
+                                                    round
+                                                    size="25"
+                                                    textSizeRatio={1.8}/></span>
                                                 <div className={"filter-name"} id={"No Members"}> No Members</div>
                                                 <Icon id={"No Members"} className={"filter-item-icon"}
                                                       name={this.props.board.membersFilter.includes("No Members") ? "check" : ""}/>
@@ -672,13 +689,21 @@ class BoardHeader extends Component {
                         </Button>
                         {this.props.board.members.some(boardMember => this.props.userId === boardMember.member._id && boardMember.role === "Admin")
                             ? <Button className="button-header" onClick={() => {
-                                this.props.deleteBoard();
-                                this.props.history.push(`/home`)
+                                this.setState({isDeletingBoard: true})
                             }}>
                                 Delete
                             </Button>
                             : ""
                         }
+                        <ValidationInput
+                            isVisible={this.state.isDeletingBoard}
+                            header={"Delete board"}
+                            content={"Are you sure you want to delete this board ?"}
+                            onResult={(isValidated) => isValidated ? this.setState({isDeletingBoard: false}, () => {
+                                this.props.deleteBoard();
+                                this.props.history.push(`/home`)
+                            }) : this.setState({isDeletingBoard: false})}
+                        />
 
                     </div>
                 )

@@ -197,6 +197,11 @@ export default (state = defaultCardModalState, action = { type: null, payload: n
                     ...state,
                     members: state.members.filter(member => member._id !== action.payload.members)
                 }) : state
+        case 'UPDATED_LABEL':
+            return {
+                ...state,
+                labels: state.labels.map(label => label._id === action.payload.labelUpdated._id ? action.payload.labelUpdated : label)
+            }
         default:
             return state
     }

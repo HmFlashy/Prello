@@ -26,7 +26,7 @@ class CardOverview extends Component {
     }
 
     validateNewName(event) {
-        if (event.target.value !== "") {
+        if (event.target.value.trim() !== "") {
             this.updateCard({ name: this.props.card.name, _id: this.props.card._id }, { name: event.target.value, _id: this.props.card._id })
         }
         else console.log("Please fill the card name field")

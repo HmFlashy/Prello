@@ -5,6 +5,6 @@ module.exports = [
     param('teamId').matches(/^[0-9a-fA-F]{24}$/).withMessage(`CARDID_MALFORMED`),
     param('memberId').isString().withMessage(`COMMENTID_MUST_BE_A_STRING`),
     param('memberId').matches(/^[0-9a-fA-F]{24}$/).withMessage(`COMMENTID_MALFORMED`),
-    body("role").not().isEmpty().withMessage(`MISSING_NAME_PARAMETER`),
-    body('role').isString().withMessage(`NAME_MUST_BE_A_STRING`),
+    body("role").trim().not().isEmpty().withMessage(`MISSING_NAME_PARAMETER`),
+    body('role').isString().trim().withMessage(`NAME_MUST_BE_A_STRING`),
 ];

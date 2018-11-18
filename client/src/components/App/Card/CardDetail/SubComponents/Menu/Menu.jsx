@@ -124,7 +124,7 @@ class Menu extends Component {
                             </Popup.Content>
                             <div className={"checklist-div-add-button"}>
                                 <Button color='green' className={"checklist-add-button"}
-                                    onClick={() => { this.state.checklistName ? this.setState({ isCreatingChecklist: false }, () => this.props.onChecklist(this.state.checklistName)) : console.log("Please fill the name of the checklist"); }}>
+                                    onClick={() => { this.state.checklistName && this.state.checklistName.trim() !== "" ? this.setState({ isCreatingChecklist: false }, () => this.props.onChecklist(this.state.checklistName)) : console.log("Please fill the name of the checklist"); }}>
                                     <Icon name='add' /> add
                                 </Button>
                             </div>

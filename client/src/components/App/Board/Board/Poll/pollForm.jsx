@@ -34,7 +34,7 @@ class PollForm extends Component {
                 </div>
                 <Modal.Actions>
                     <Button icon='cancel' content='Cancel' color='red' onClick={this.props.onCancel} />
-                    <Button icon='check' content='Validate' color='green' onClick={() => this.state.value !== "" ? this.props.onSuccess({ name: this.state.value, card: this.state.card._id }) : this.props.onCancel()} />
+                    <Button icon='check' content='Validate' color='green' onClick={() => this.state.value !== "" && this.state.value.trim() !== "" ? this.props.onSuccess({ name: this.state.value, card: this.state.card._id }) : this.props.onCancel()} />
                 </Modal.Actions>
             </div>
         )

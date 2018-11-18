@@ -38,7 +38,7 @@ module.exports = async (req, res) => {
         if (labelUpdated) {
             socketIO.broadcast('action', boardId, {
                 type: 'UPDATED_LABEL',
-                payload: { boardId: boardId, labelUpdated }
+                payload: { boardId: boardId, labelUpdated: labelUpdated }
 
             })
             return res.status(200).json({

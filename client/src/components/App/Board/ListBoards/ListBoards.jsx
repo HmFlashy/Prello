@@ -84,7 +84,7 @@ class ListBoards extends Component {
                         <input onClick={(event) => event.stopPropagation()} value={this.state.categoryName}
                             onChange={this.handleCategoryName} />
                         <Button icon={"check"} size={"mini"}
-                            onClick={(event) => this.updateCategoryName(event, category._id)}
+                            onClick={(event) => { if (event.target.value !== "" && event.target.value.trim() !== "") this.updateCategoryName(event, category._id) }}
                             positive />
                         <Button icon={"redo"} size={"mini"} onClick={this.cancelUpdate} negative />
                     </div>
@@ -111,7 +111,7 @@ class ListBoards extends Component {
                 <div className="board-flex-team">
                     <h1 className="title-list-boards">Your Teams</h1>
                     {this.props.teams.map(team =>
-                        <p key={ team.team._id }><Button className="your-team" onClick={() => this.props.history.push(`/team/${team.team._id}`)}>{team.team.name}</Button></p>
+                        <p key={team.team._id}><Button className="your-team" onClick={() => this.props.history.push(`/team/${team.team._id}`)}>{team.team.name}</Button></p>
                     )
                     }
                     <p> <Popup
@@ -124,7 +124,7 @@ class ListBoards extends Component {
                         position='bottom left'>
                         <Header icon='user check outline' content='Enter a name' />
                         <Popup.Content>
-                            <Input onChange={(event, data) => this.setState({ currentTeamName: data.value })} />
+                            <Input onChange={(event, data) => { if (event.target.value !== "" && event.target.value.trim() !== "") this.setState({ currentTeamName: data.value }) }} />
                         </Popup.Content>
                         <div className={"team-div-add-button"}>
                             <Button color='green' className={"team-add-button"}

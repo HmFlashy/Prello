@@ -27,7 +27,7 @@ export default class CheckList extends Component {
     render() {
         return <div className={this.props.className}>
             {this.props.checklists.map(checklist =>
-                <div key={ checklist._id } className="checklist displayRow">
+                <div key={checklist._id} className="checklist displayRow">
                     <Icon name='check square outline' />
                     <div className="progress">
                         <div
@@ -37,14 +37,16 @@ export default class CheckList extends Component {
                                 textToDisplay={checklist.title}
                                 placeholder={checklist.title}
                                 onValidate={(event) => {
-                                    const newVal = [...this.props.checklists]
-                                    for (let index = 0; index < Object.keys(newVal).length; index++) {
-                                        if (newVal[index]._id == checklist._id) {
-                                            newVal[index].title = event.target.value
+                                    if (event.target.value !== "" && event.target.value.trim() !== "") {
+                                        const newVal = [...this.props.checklists]
+                                        for (let index = 0; index < Object.keys(newVal).length; index++) {
+                                            if (newVal[index]._id === checklist._id) {
+                                                newVal[index].title = event.target.value
+                                            }
                                         }
+                                        checklist.title === "" ? console.log("Please fill the checklist name") :
+                                            this.validateNewChecklistName(checklist._id, this.props.checklists, { checklists: newVal }, event.target.value)
                                     }
-                                    checklist.title === "" ? console.log("Please fill the checklist name") :
-                                        this.validateNewChecklistName(checklist._id, this.props.checklists, { checklists: newVal }, event.target.value)
                                 }}>
                             </DynamicInput>
                             <Button onClick={() => this.props.onDelete(checklist._id)}>Delete</Button>
@@ -72,25 +74,27 @@ export default class CheckList extends Component {
                                         textToDisplay={item.name}
                                         placeholder={item.name}
                                         onValidate={(event) => {
-                                            const newVal = [...this.props.checklists]
-                                            for (let index = 0; index < Object.keys(newVal).length; index++) {
-                                                if (newVal[index]._id == checklist._id) {
-                                                    for (let ind = 0; ind < Object.keys(newVal[index].items).length; ind++) {
-                                                        if (newVal[index].items[ind]._id == item._id) {
-                                                            newVal[index].items[ind].name = event.target.value
+                                            if (event.target.value !== "" && event.target.value.trim() !== "") {
+                                                const newVal = [...this.props.checklists]
+                                                for (let index = 0; index < Object.keys(newVal).length; index++) {
+                                                    if (newVal[index]._id == checklist._id) {
+                                                        for (let ind = 0; ind < Object.keys(newVal[index].items).length; ind++) {
+                                                            if (newVal[index].items[ind]._id === item._id) {
+                                                                newVal[index].items[ind].name = event.target.value
+                                                            }
                                                         }
                                                     }
                                                 }
+                                                item.name === "" ? console.log("Please fill the item name") :
+                                                    this.updateItem(checklist._id, item._id, this.props.checklists, { checklists: newVal }, { name: event.target.value })
                                             }
-                                            item.name === "" ? console.log("Please fill the item name") :
-                                                this.updateItem(checklist._id, item._id, this.props.checklists, { checklists: newVal }, { name: event.target.value })
                                         }} />
                                 </div>
                                 <Button icon='cancel' size="mini" onClick={() => this.props.onDeleteItem(checklist._id, item._id)} />
                             </div>)}
                         </div>
                         {this.state.isAddingItem && this.state.isAddingItem[checklist._id]
-                            ? <Input className="addItemTF" value={this.state.newItemName} onKeyPress={(event) => event.charCode === 13 && this.state.newItemName !== "" ? this.props.onAddItem(checklist._id, this.state.newItemName) || this.setState({ newItemName: "" }) : ""} onChange={(event, target) => this.setState({ newItemName: target.value })}></Input>
+                            ? <Input className="addItemTF" value={this.state.newItemName} onKeyPress={(event) => event.charCode === 13 && this.state.newItemName !== "" && this.state.newItemName.trim() !== "" ? this.props.onAddItem(checklist._id, this.state.newItemName) || this.setState({ newItemName: "" }) : ""} onChange={(event, target) => this.setState({ newItemName: target.value })}></Input>
                             : ""
                         }
                         <Button className="addItem" onClick={() => {

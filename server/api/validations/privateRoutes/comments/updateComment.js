@@ -7,6 +7,6 @@ module.exports = [
     param("commentId").not().isEmpty().withMessage(`MISSING_COMMENTID_PARAMETER`),
     param('commentId').isString().withMessage(`COMMENTID_MUST_BE_A_STRING`),
     param('commentId').matches(/^[0-9a-fA-F]{24}$/).withMessage(`COMMENTID_MALFORMED`),
-    body("content").not().isEmpty().withMessage(`MISSING_CONTENT_PARAMETER`),
-    body('content').isString().withMessage(`CONTENT_MUST_BE_A_STRING`),
+    body("content").trim().not().isEmpty().withMessage(`MISSING_CONTENT_PARAMETER`),
+    body('content').isString().trim().withMessage(`CONTENT_MUST_BE_A_STRING`),
 ];
