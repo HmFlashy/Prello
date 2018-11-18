@@ -102,7 +102,6 @@ class AddMemberModal extends Component {
                     }
                 </Modal.Content>
                 <Modal.Actions>
-                    <Button negative>No</Button>
                     <Button positive icon='checkmark' labelPosition='right' content='Add' onClick={this.addUsers} />
                 </Modal.Actions>
             </Modal>
