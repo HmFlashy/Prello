@@ -23,9 +23,7 @@ class TeamMembers extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.updateSearch = this.updateSearch.bind(this);
         this.state = {
-            currentRole: "",
-            currentUserId: ""
-         }
+                    }
     }
 
     componentWillMount() {
@@ -36,8 +34,7 @@ class TeamMembers extends Component {
         this.props.addUsers(users)
     }
     handleChange(e, {value, id}) {
-        this.setState({currentRole: value, currentUserId: id});
-        this.props.changeRole(this.state.currentUserId, value)
+        this.props.changeRole(id, value)
     }
 
     updateSearch(e, { value }) {

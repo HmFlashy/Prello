@@ -44,6 +44,7 @@ const mapDispatchToProps = (dispatch) => {
         },
         async changeRole(teamId, memberId, role) {
             try {
+                console.log(memberId)
                 const data = await TeamServices.updateMember(teamId, memberId, role)
                 return data
             } catch (error) {

@@ -32,6 +32,8 @@ class TeamDetails extends Component {
         this.props.deleteMember(this.props.team._id, memberId)
     }
     changeRole(userId, role) {
+        console.log(userId)
+        console.log(role)
         this.props.changeRole(this.props.team._id, userId, role)
     }
 
