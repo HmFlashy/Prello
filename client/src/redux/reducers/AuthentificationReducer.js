@@ -21,6 +21,14 @@ const defaultAuthentificationState = {
 export default (state = defaultAuthentificationState, action = { type: null, payload: null }) => {
     const data = action.payload;
     switch (action.type) {
+        case "@@router/LOCATION_CHANGE":
+            if(action.payload.location.pathname === "/login" && action.payload.action === "PUSH"){
+                return {
+                    ...state,
+                    token: null
+                }
+            }
+            return state
         case "LOGIN_FAILED":
         case "REGISTER_FAILED":
             return {

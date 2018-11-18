@@ -57,11 +57,11 @@ class TeamDetails extends Component {
                     <Segment attached='bottom' className="item-content">
                         <Container className="item-info">
                             {
-                                activeItem === "boards" ? <TeamBoards team={this.props.team} /> :
+                                activeItem === "boards" ? <TeamBoards boards={this.props.boards} team={this.props.team} /> :
                                     activeItem === "members" ? <TeamMembers changeRole={this.changeRole} deleteMember={this.deleteMember}
-                                                                            updateSearchMembers={this.props.updateSearch}
-                                                                            addUsers={this.addUsers} team={this.props.team} /> :
-                                         <div>Error</div>
+                                        updateSearchMembers={this.props.updateSearch}
+                                        addUsers={this.addUsers} team={this.props.team} /> :
+                                        <div>Error</div>
 
                             }
                         </Container>

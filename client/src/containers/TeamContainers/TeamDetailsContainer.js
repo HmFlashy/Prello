@@ -1,12 +1,13 @@
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import TeamDetails from "../../components/App/Team/TeamDetails"
 import TeamServices from "../../services/TeamServices";
-import {actionUpdateSearch} from "../../redux/actions/UserActions";
+import { actionUpdateSearch } from "../../redux/actions/UserActions";
 
 const mapStateToProps = (state, ownProps) => {
     const userTeam = state.authentification.user.teams.find(team => team.team._id === ownProps.teamId);
     const query = state.authentification.queryMember;
     return {
+        boards: state.authentification.user.boards,
         team: userTeam ? {
             ...userTeam.team,
             members: query.length > 0 ? userTeam.team.members.filter(teamMember => teamMember.member.fullName.toLowerCase().includes(query.toLowerCase())) : userTeam.team.members
