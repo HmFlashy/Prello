@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './Menu.css'
-import { Button, Icon, Divider, Modal, Header, Input, Popup, Loader, Dimmer, Label } from 'semantic-ui-react'
+import { Button, Icon, Divider, Modal, Header, Input, Popup, Loader, Dimmer, Label, Container, Segment, Checkbox } from 'semantic-ui-react'
 import DatePicker from './datepicker';
 import Move from './subComponents/Move/MoveContainer.js'
 import moment from 'moment';
@@ -22,6 +22,7 @@ class Menu extends Component {
             isDeleting: false,
             isSharing: false,
             isAttaching: false,
+            isMemberClicked: false,
             newCardLabels: []
         };
         autoBind(this);
@@ -38,11 +39,44 @@ class Menu extends Component {
                 <div>
                     <p>Add to card</p>
                     <Button.Group vertical size='medium' compact>
-                        <Button icon labelPosition='left'>
-                            <Icon name='users' />
-                            Members
-                        </Button>
-
+                        <Popup
+                            trigger={<Button icon labelPosition='left' onClick={() => this.setState({ isMemberClicked: true })}>
+                                <Icon name='users' />
+                                Members
+                            </Button>}
+                            open={this.state.isMemberClicked}
+                            onClose={() => this.setState({ isMemberClicked: false })}
+                            on='click'
+                            position='bottom left'>
+                            <Header icon='tags' content="Manage cards members" />
+                            <Popup.Content>
+                                {
+                                    this.props.board.members.length > 0 ?
+                                        <div>
+                                            <h3>Users:</h3>
+                                            <div>
+                                                {
+                                                    this.props.board.members.map(user => {
+                                                        user = user.member
+                                                        const isChecked = this.props.card.members.some(member => member._id === user._id)
+                                                        return (
+                                                            <div key={user._id} onClick={() => this.props.manageMembers(user, !isChecked)} className="manage-member">
+                                                                <Segment color={isChecked ? "green" : null}  >
+                                                                    <span className="user-item">
+                                                                        <span className="user-item-info">{user.fullName} ({user.username})</span>
+                                                                        <Checkbox className="user-item-checkbox" checked={isChecked} />
+                                                                    </span>
+                                                                </Segment>
+                                                            </div>
+                                                        )
+                                                    })
+                                                }
+                                            </div>
+                                        </div> :
+                                        null
+                                }
+                            </Popup.Content>
+                        </Popup>
 
                         <Popup
                             trigger={<Button icon labelPosition='left'
@@ -74,8 +108,6 @@ class Menu extends Component {
                                                             name={this.props.card.labels.map(cardLabel => cardLabel._id).includes(label._id) ? "check" : ""} />
                                                     </Label>)
                                                 : ""}</div></div>}
-
-
                             </Popup.Content>
                         </Popup>
                         <Popup

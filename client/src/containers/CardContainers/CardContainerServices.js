@@ -172,6 +172,22 @@ export default {
             console.log(error)
             return dispatch(failedActionCardRemoveLabel(error))
         }
+    },
+    async addMember(cardId, user, dispatch) {
+        try {
+            return await cardServices.addMember(cardId, user)
+        } catch (error) {
+            console.log(error)
+            return dispatch(failedActionCardRemoveLabel(error))
+        }
+    },
+    async removeMember(cardId, user, dispatch) {
+        try {
+            return await cardServices.removeMember(cardId, user)
+        } catch (error) {
+            console.log(error)
+            return dispatch(failedActionCardRemoveLabel(error))
+        }
     }
 
 }

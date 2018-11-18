@@ -299,6 +299,7 @@ class CardDetail extends Component {
                         }}
                         onUploadLocalFile={(file) => this.props.uploadLocalFile(this.props.card._id, file)}
                         onUploadFile={(data) => this.props.uploadFile(this.props.card._id, data)}
+                        manageMembers={(user, isAdding) => this.props.manageMember(this.props.card._id, user, isAdding)}
                     />
                 </div>
             </div>

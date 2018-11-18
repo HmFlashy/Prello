@@ -1,7 +1,7 @@
 const CardController = require('../../../../controllers/CardsController')
 const socketIO = require('../../../../../socket/index')
 const throwError = require('../../../../helper/RequestHelper').throwError;
-const logger =require('../../../../../logger')
+const logger = require('../../../../../logger')
 
 
 const fields = {
@@ -68,10 +68,13 @@ module.exports = async (req, res) => {
     try {
         const idCard = req.params.cardId
         if (fields[req.params.field]) {
-            const card = await CardController.removeToArray(idCard, req.params.field, req.body.payload)
+            const card = await CardController.removeToArray(idCard, req.params.field, req.params.value)
             socketIO.broadcast('action', card.board, {
                 type: fields[req.params.field],
-                payload: req.body.label
+                payload: {
+                    _id: idCard,
+                    [req.params.field]: req.params.value
+                }
             })
             return res.status(200).json(card)
         }

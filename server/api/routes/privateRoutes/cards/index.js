@@ -14,7 +14,7 @@ router.put('/:cardId/move', cardValidator.moveCardValidator, checkRequest, check
 router.delete('/:cardId', cardValidator.deleteCardValidator, checkRequest, checkRightsFromCard(["in:Board"]), require('./deleteCard'));
 
 router.post('/:cardId/field/:field', cardValidator.addValToFieldCardValidator, checkRequest, checkRightsFromCard(["in:Board"]), require('./arrays/addValToField'));
-router.delete('/:cardId/field/:field', cardValidator.removeValToFieldCardValidator, checkRequest, checkRightsFromCard(["in:Board"]), require('./arrays/removeValToField'));
+router.delete('/:cardId/field/:field/:value', cardValidator.removeValToFieldCardValidator, checkRequest, checkRightsFromCard(["in:Board"]), require('./arrays/removeValToField'));
 
 router.post('/:cardId/checklists', checklistsValidator.addChecklistValidator, checkRequest, checkRightsFromCard(["in:Board"]), require('../checklists/addChecklist'));
 router.delete('/:cardId/checklists/:checklistId', checklistsValidator.deleteChecklistValidator, checkRequest, checkRightsFromCard(["in:Board"]), require('../checklists/deleteChecklist'));

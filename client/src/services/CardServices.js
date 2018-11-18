@@ -185,5 +185,23 @@ export default {
             console.log(error)
             throw error
         }
+    },
+    async addMember(cardId, user) {
+        try {
+            const res = await axios.post(`${UrlConfig.API}/cards/${cardId}/field/members`, { payload: user._id }, tokenHeader())
+            return res.data
+        } catch (error) {
+            console.log(error)
+            throw error
+        }
+    },
+    async removeMember(cardId, user) {
+        try {
+            const res = await axios.delete(`${UrlConfig.API}/cards/${cardId}/field/members/${user._id}`, tokenHeader())
+            return res.data
+        } catch (error) {
+            console.log(error)
+            throw error
+        }
     }
 }

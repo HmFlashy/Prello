@@ -1,7 +1,8 @@
 const CardController = require('../../../../controllers/CardsController')
+const UserController = require('../../../../controllers/UserController')
 const socketIO = require('../../../../../socket/index')
 const throwError = require('../../../../helper/RequestHelper').throwError;
-const logger =require('../../../../../logger')
+const logger = require('../../../../../logger')
 
 
 const fields = {
@@ -69,11 +70,27 @@ module.exports = async (req, res) => {
         const idCard = req.params.cardId
         if (fields[req.params.field]) {
             const card = await CardController.addToArray(idCard, req.params.field, req.body.payload)
-            socketIO.broadcast('action', card.board, {
-                type: fields[req.params.field],
-                payload: req.body.label
-            })
-            return res.status(200).json(card)
+            if (req.params.field === "members") {
+                const user = await UserController.getById(req.body.payload)
+                socketIO.broadcast('action', card.board, {
+                    type: fields[req.params.field],
+                    payload: {
+                        _id: idCard,
+                        [req.params.field]: user
+                    }
+                })
+                return res.status(200).json(card)
+            }
+            else {
+                socketIO.broadcast('action', card.board, {
+                    type: fields[req.params.field],
+                    payload: {
+                        _id: idCard,
+                        [req.params.field]: req.body.payload
+                    }
+                })
+                return res.status(200).json(card)
+            }
         }
         else {
             throwError(400, "Bad Request unknown field")

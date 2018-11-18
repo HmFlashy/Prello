@@ -26,3 +26,7 @@
     margin-bottom: 5px !important;
     flex-direction: row !important
 }
+
+.manage-member{
+    width: 300px
+}

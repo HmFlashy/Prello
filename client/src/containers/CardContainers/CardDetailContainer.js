@@ -82,6 +82,11 @@ const mapDispatchToProps = dispatch => {
         },
         async deleteAttachment(cardId, attachmentId) {
             await cardContainerServices.deleteAttachment(cardId, attachmentId, dispatch)
+        },
+        async manageMember(cardId, user, isAdding) {
+            isAdding
+                ? await cardContainerServices.addMember(cardId, user, dispatch)
+                : await cardContainerServices.removeMember(cardId, user, dispatch)
         }
     }
 }
