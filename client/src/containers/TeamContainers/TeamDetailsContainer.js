@@ -40,8 +40,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         async addUsersToTeam(teamId, users) {
             try {
-                dispatch(actionAddUsersToTeam({ teamId: teamId, users: users }))
-                const data = await TeamServices.addUsersToTeam(teamId, users)
+                const usersFiltered = users.filter(user => !this.team.members.some(member => member.member._id === user._id))
+                dispatch(actionAddUsersToTeam({ teamId: teamId, users: usersFiltered }))
+                const data = await TeamServices.addUsersToTeam(teamId, usersFiltered)
                 return data
             } catch (error) {
                 dispatch(failedActionAddUsersToTeam({ teamId: teamId, users: users }))
