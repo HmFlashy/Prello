@@ -94,7 +94,7 @@ export default class CheckList extends Component {
                             : ""
                         }
                         <Button className="addItem" onClick={() => {
-                            if (this.state.isAddingItem[checklist._id]) {
+                            if (this.state.isAddingItem && this.state.isAddingItem[checklist._id]) {
                                 if (this.state.newItemName !== "")
                                     return this.props.onAddItem(checklist._id, this.state.newItemName) || this.setState({ newItemName: "" })
                             }

@@ -107,7 +107,7 @@ class ListBoards extends Component {
         const currentValues = this.getCurrentValues();
         return (
             <div className="displayRow board-flex">
-                <div class="bg background-color-list" />
+                <div className="bg background-color-list" />
                 <div className="board-flex-team">
                     <h1 className="title-list-boards">Your Teams</h1>
                     {this.props.teams.map(team =>

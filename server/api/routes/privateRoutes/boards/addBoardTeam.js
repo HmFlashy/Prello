@@ -1,6 +1,5 @@
 const boardsController = require('../../../controllers/BoardsController');
 const socketIO = require('../../../../socket/index');
-const throwError = require('../../../helper/RequestHelper').throwError;
 const logger =require('../../../../logger')
 
 /**
