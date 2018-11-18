@@ -18,7 +18,6 @@ import {
     actionFetchingSearchedMembers,
     actionFetchingMissingMembers,
     actionFailedFetchingMissingMembers,
-    actionDeletedBoardMember,
     actionFailedDeletingBoardMember
 } from "../../redux/actions/BoardActions";
 import { actionStarBoard, actionUnstarBoard } from "../../redux/actions/UserActions";
@@ -34,6 +33,7 @@ const mapStateToProps = state => {
     const archivedCards = state.cards.all.filter(card => card.isArchived);
     return {
         userId: user._id,
+        userTeams: user.teams,
         archivedCards: archivedCards,
         archivedLists,
         board: state.boards.currentBoard,
@@ -180,6 +180,14 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         async removeMember(memberId) {
             try {
                 await BoardServices.deleteMember(ownProps.board._id, memberId);
+            } catch (error) {
+                dispatch(actionFailedDeletingBoardMember(error))
+                throw error
+            }
+        },
+        async removeTeam(teamId) {
+            try {
+                await BoardServices.deleteTeam(ownProps.board._id, teamId);
             } catch (error) {
                 dispatch(actionFailedDeletingBoardMember(error))
                 throw error

@@ -1,11 +1,10 @@
-.error-400 {    
+.error-403 {    
     position: relative;
     background-color: #DADADA;
-    flex: 1;
     height: 100%;
 }
 
-.error-400-content {
+.error-403-content {
     position: absolute;
     top: 50%;
     transform: translate(-50%, -50%);

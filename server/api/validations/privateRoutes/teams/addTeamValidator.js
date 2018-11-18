@@ -1,4 +1,4 @@
-const { body, param } = require('express-validator/check');
+const { body } = require('express-validator/check');
 
 module.exports = [
     body('creator').isString().withMessage(`CARDID_MUST_BE_A_STRING`),

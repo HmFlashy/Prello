@@ -33,7 +33,6 @@ export default {
     },
     async updateCard(cardId, oldValue, data, dispatch) {
         try {
-            console.log(data)
             Object.keys(data).forEach(key => {
                 if (key !== "_id") {
                     let toDispatch = actionUpdatingCard({ [key]: data[key], _id: data._id })
@@ -51,7 +50,7 @@ export default {
             await cardServices.moveCardApi(cardId, data)
         } catch (error) {
             console.log(error)
-            return dispatch(failedActionMoveCard(data, error))
+            return dispatch(failedActionMoveCard(data))
         }
     }, async deleteCard(cardId, dispatch) {
         try {
@@ -65,7 +64,7 @@ export default {
             await cardServices.addCommentApi(cardId, data)
         } catch (error) {
             console.log(error)
-            return dispatch(failedActionAddComment(data, error))
+            return dispatch(failedActionAddComment(data))
         }
     }, async deleteComment(cardId, commentId, dispatch) {
         try {
@@ -80,7 +79,7 @@ export default {
             await cardServices.updateCommentApi(cardId, commentId, { content: data.comment.content })
         } catch (error) {
             console.log(error)
-            return dispatch(failedActionUpdateComment(oldValue, error))
+            return dispatch(failedActionUpdateComment(oldValue))
         }
     },
     async createChecklist(cardId, data, dispatch) {
@@ -105,7 +104,7 @@ export default {
             await cardServices.updateChecklist(cardId, checklistId, name)
         } catch (error) {
             console.log(error)
-            return dispatch(failedActionCardChecklistUpdated(oldVal, error))
+            return dispatch(failedActionCardChecklistUpdated(oldVal))
         }
     },
     async addItemToChecklist(cardId, checklistId, data, dispatch) {
@@ -168,6 +167,22 @@ export default {
     async deleteAttachment(cardId, attachmentId, dispatch) {
         try {
             return await cardServices.deleteAttachment(cardId, attachmentId)
+        } catch (error) {
+            console.log(error)
+            return dispatch(failedActionCardRemoveLabel(error))
+        }
+    },
+    async addMember(cardId, user, dispatch) {
+        try {
+            return await cardServices.addMember(cardId, user)
+        } catch (error) {
+            console.log(error)
+            return dispatch(failedActionCardRemoveLabel(error))
+        }
+    },
+    async removeMember(cardId, user, dispatch) {
+        try {
+            return await cardServices.removeMember(cardId, user)
         } catch (error) {
             console.log(error)
             return dispatch(failedActionCardRemoveLabel(error))

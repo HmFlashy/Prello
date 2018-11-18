@@ -8,14 +8,8 @@ class ListBoards extends Component {
     constructor(props) {
         super(props);
         this.handleChange = this.handleChange.bind(this);
-        this.handleAddition = this.handleAddition.bind(this);
         this.getCurrentValues = this.getCurrentValues.bind(this);
-        this.deleteCategory = this.deleteCategory.bind(this);
         this.getCategoryOptions = this.getCategoryOptions.bind(this);
-        this.handleCategoryName = this.handleCategoryName.bind(this);
-        this.updateCategory = this.updateCategory.bind(this);
-        this.updateCategoryName = this.updateCategoryName.bind(this);
-        this.cancelUpdate = this.cancelUpdate.bind(this);
         this.state = {
             currentValues: [],
             categoryOptions: [],
@@ -68,7 +62,6 @@ class ListBoards extends Component {
 
     handleCategoryName = e => {
         e.stopPropagation()
-        console.log(e.target.value)
         this.setState({ categoryName: e.target.value })
     }
 
@@ -113,13 +106,12 @@ class ListBoards extends Component {
     render() {
         const currentValues = this.getCurrentValues();
         return (
-            <div className="displayRow board-flex background-color-list">
+            <div className="displayRow board-flex">
+                <div class="bg background-color-list" />
                 <div className="board-flex-team">
                     <h1 className="title-list-boards">Your Teams</h1>
                     {this.props.teams.map(team =>
-                        <p><Button className="your-team" onClick={() => this.props.history.push(`/team/${team.team._id}`)}>{team.team.name}</Button><Button icon onClick={() => this.props.deleteTeam(team.team._id)} >
-                            <Icon name='trash alternate' />
-                        </Button></p>
+                        <p key={ team.team._id }><Button className="your-team" onClick={() => this.props.history.push(`/team/${team.team._id}`)}>{team.team.name}</Button></p>
                     )
                     }
                     <p> <Popup

@@ -3,12 +3,6 @@ const socketIO = require("../../../../socket/index");
 const throwError = require("../../../helper/RequestHelper").throwError;
 const logger =require('../../../../logger')
 
-const types = {
-    name: "UPDATE_BOARD_NAME",
-    visibility: "UPDATE_BOARD_VISIBILITY",
-    isClosed: "UPDATE_BOARD_ISCLOSED"
-};
-
 /**
  * @swagger
  * definition:

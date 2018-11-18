@@ -160,7 +160,7 @@ const updateCategoryName = async (userId, categoryId, name) => {
     let user = null;
     try {
         const newCategory = await Category.findOneAndUpdate({ _id: categoryId }, { $set: { name: name } }, { new: true })
-        user = await User.findByIdAndUpdate({ _id: userId }, { $pull: { categories: { _id: categoryId } } });
+        await User.findByIdAndUpdate({ _id: userId }, { $pull: { categories: { _id: categoryId } } });
         user = await User.findByIdAndUpdate({ _id: userId }, { $push: { categories: newCategory } });
         const newUserBoards = user.boards.map(board => {
             if (board.category) {

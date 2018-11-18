@@ -53,7 +53,6 @@ class CardDetail extends Component {
         this.descToInput = this.descToInput.bind(this)
         this.inputToDesc = this.inputToDesc.bind(this)
         this.changeDescription = this.changeDescription.bind(this)
-        this.handleValueChange = this.handleValueChange.bind(this)
 
         this.converter = new Showdown.Converter({
             tables: true,
@@ -61,10 +60,6 @@ class CardDetail extends Component {
         });
 
 
-    }
-
-    componentWillMount() {
-        console.log(this.props.card)
     }
 
     componentDidMount() {
@@ -85,7 +80,6 @@ class CardDetail extends Component {
     }
 
     updateWindowDimensions() {
-        console.log(window.innerWidth)
         this.setState({ width: window.innerWidth, height: window.innerHeight });
     }
 
@@ -97,7 +91,6 @@ class CardDetail extends Component {
     }
 
     changeDescription(mdeState) {
-        console.log(mdeState)
         this.setState({
             descriptionTextArea: mdeState.markdown,
             mdeState: mdeState
@@ -122,7 +115,6 @@ class CardDetail extends Component {
 
 
     updateCard(oldValue, data) {
-        console.log(data)
         this.props.updateCard(this.props.card._id, oldValue, data)
     }
 
@@ -182,10 +174,6 @@ class CardDetail extends Component {
         this.props.deleteCard(this.props.card._id)
     }
 
-    validateNewName(event) {
-        console.log(event.target.value)
-    }
-
     render() {
         return this.props.card.name != null ?
             <div className="displayColumn main">
@@ -197,7 +185,7 @@ class CardDetail extends Component {
                     name={this.props.card.name}
                     list={this.props.card.list}
                     validateNewName={(event) => this.updateCard({ name: this.props.card.name, _id: this.props.card._id }, { name: event.target.value, _id: this.props.card._id })}
-                ></Header>
+                />
                 <Divider />
                 <div className={this.state.width > 600 ? "displayRow main" : "main"}>
                     <div className="details main">
@@ -241,7 +229,7 @@ class CardDetail extends Component {
                                                 Promise.resolve(this.converter.makeHtml(markdown))
                                             }
                                         />
-                                        <Button className="validate-description" onClick={() => this.inputToDesc() || this.updateCard({ desc: this.props.card.desc, _id: this.props.card._id }, { desc: this.state.descriptionTextArea, _id: this.props.card._id })} >OK</Button>
+                                        <Button className="validate-description" onClick={() => {this.inputToDesc(); this.updateCard({ desc: this.props.card.desc, _id: this.props.card._id }, { desc: this.state.descriptionTextArea, _id: this.props.card._id });}} >OK</Button>
                                     </div>
                                     <Divider />
                                 </div>
@@ -299,6 +287,7 @@ class CardDetail extends Component {
                         }}
                         onUploadLocalFile={(file) => this.props.uploadLocalFile(this.props.card._id, file)}
                         onUploadFile={(data) => this.props.uploadFile(this.props.card._id, data)}
+                        manageMembers={(user, isAdding) => this.props.manageMember(this.props.card._id, user, isAdding)}
                     />
                 </div>
             </div>

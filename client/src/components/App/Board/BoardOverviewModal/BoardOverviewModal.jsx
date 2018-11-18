@@ -6,7 +6,6 @@ class BoardOverviewModal extends Component {
     constructor() {
         super();
         this.handleChange = this.handleChange.bind(this);
-        this.updateBoard = this.updateBoard.bind(this);
         this.refreshValues = this.refreshValues.bind(this);
         this.state = {
             currentNameBoard: "",

@@ -7,7 +7,7 @@ export default (props) => (
         <div className="displayRow">
             {props.card.labels
                 ?
-                props.card.labels.map(label => <p><Label color={label.color} horizontal>
+                props.card.labels.map(label => <p key={label._id}><Label color={label.color} horizontal>
                     {label.name}
                 </Label></p>)
                 : ""}

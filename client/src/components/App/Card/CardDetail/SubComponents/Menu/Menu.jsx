@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './Menu.css'
-import { Button, Icon, Divider, Modal, Header, Input, Popup, Loader, Dimmer, Label } from 'semantic-ui-react'
+import { Button, Icon, Divider, Modal, Header, Input, Popup, Loader, Dimmer, Label, Container, Segment, Checkbox } from 'semantic-ui-react'
 import DatePicker from './datepicker';
 import Move from './subComponents/Move/MoveContainer.js'
 import moment from 'moment';
@@ -22,6 +22,7 @@ class Menu extends Component {
             isDeleting: false,
             isSharing: false,
             isAttaching: false,
+            isMemberClicked: false,
             newCardLabels: []
         };
         autoBind(this);
@@ -38,17 +39,48 @@ class Menu extends Component {
                 <div>
                     <p>Add to card</p>
                     <Button.Group vertical size='medium' compact>
-                        <Button icon labelPosition='left'>
-                            <Icon name='users' />
-                            Members
-                        </Button>
-
+                        <Popup
+                            trigger={<Button icon labelPosition='left' onClick={() => this.setState({ isMemberClicked: true })}>
+                                <Icon name='users' />
+                                Members
+                            </Button>}
+                            open={this.state.isMemberClicked}
+                            onClose={() => this.setState({ isMemberClicked: false })}
+                            on='click'
+                            position='bottom left'>
+                            <Header icon='user' content="Manage cards members" />
+                            <Popup.Content>
+                                {
+                                    this.props.board.members.length > 0 ?
+                                        <div>
+                                            <div>
+                                                {
+                                                    this.props.board.members.map(user => {
+                                                        user = user.member
+                                                        const isChecked = this.props.card.members.some(member => member._id === user._id)
+                                                        return (
+                                                            <div key={user._id} onClick={() => this.props.manageMembers(user, !isChecked)} className="manage-member">
+                                                                <Segment color={isChecked ? "green" : null}  >
+                                                                    <span className="user-item">
+                                                                        <span className="user-item-info">{user.fullName} ({user.username})</span>
+                                                                        <Checkbox className="user-item-checkbox" checked={isChecked} />
+                                                                    </span>
+                                                                </Segment>
+                                                            </div>
+                                                        )
+                                                    })
+                                                }
+                                            </div>
+                                        </div> :
+                                        null
+                                }
+                            </Popup.Content>
+                        </Popup>
 
                         <Popup
                             trigger={<Button icon labelPosition='left'
                                 onClick={() => {
                                     this.setState({ isLabelClicked: true });
-                                    console.log("Change labels: " + this.state.isLabelClicked)
                                 }}>
                                 <Icon name='tag' />Labels
                                 </Button>}
@@ -67,15 +99,13 @@ class Menu extends Component {
                             {this.props.board.labels && this.props.card.labels
                                                 ?
                                                 this.props.board.labels.map(label =>
-                                                    <Label className={"label-card"} id={label._id} color={label.color}
+                                                    <Label key={label._id} className={"label-card"} id={label._id} color={label.color}
                                                         onClick={() => this.props.card.labels.map(cardLabel => cardLabel._id).includes(label._id) ? this.props.onRemoveLabel(label._id) : this.props.onAddLabel(label._id)}>
                                                         <div id={label._id} className={"filter-name"}>{label.name}</div>
                                                         <Icon className={"filter-item-icon"} id={"No Labels"}
                                                             name={this.props.card.labels.map(cardLabel => cardLabel._id).includes(label._id) ? "check" : ""} />
                                                     </Label>)
                                                 : ""}</div></div>}
-
-
                             </Popup.Content>
                         </Popup>
                         <Popup
@@ -106,8 +136,8 @@ class Menu extends Component {
                                                 </Button>*/}
                         <Popup
                             open={this.state.isPickingDate}
-                            onOpen={() => console.log(this.state.isPickingDate) || this.setState({ isPickingDate: true })}
-                            onClose={() => console.log(this.state.isPickingDate) || this.setState({ isPickingDate: false })}
+                            onOpen={() => this.setState({ isPickingDate: true })}
+                            onClose={() => this.setState({ isPickingDate: false })}
                             trigger={<Button icon labelPosition='left'
                                 onClick={() => this.setState({ duedate: moment(new Date()).add(1, "days") }, () => this.setState({ isPickingDate: true }))}>
                                 <Icon name='calendar check' />
@@ -194,7 +224,7 @@ class Menu extends Component {
                                 this.setState({ isMovingCard: false });
                                 this.props.onMove(boardId, this.props.card.list._id, listId, newName, pos)
                             }}
-                            onCancel={() => console.log("cancel") || this.setState({ isMovingCard: false })}
+                            onCancel={() => this.setState({ isMovingCard: false })}
                         />
                         {this.props.isArchived
                             ? <Button icon labelPosition='left' onClick={() => this.setState({ isDeleting: true })}

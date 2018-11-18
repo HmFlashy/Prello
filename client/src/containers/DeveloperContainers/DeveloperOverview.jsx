@@ -14,7 +14,6 @@ import {
 } from '../../redux/actions/UserActions'
 
 const mapStateToProps = state => {
-    console.log(state.authentification.user)
     return {
         applications: state.authentification.user.client_applications
     }

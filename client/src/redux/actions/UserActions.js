@@ -157,3 +157,46 @@ export const actionUpdateSearch = (query) => {
         }
     }
 }
+
+export const actionTeamUpdateName = (data) => {
+    return {
+        type: 'UPDATE_TEAM_NAME',
+        payload: data
+        
+    }
+};
+
+export const failedActionTeamUpdateName = (data) => {
+    return {
+        type: 'FAILED_UPDATE_TEAM_NAME',
+        payload:data
+    }
+};
+
+export const actionAddUsersToTeam = (data) => {
+    return {
+        type: 'ADD_USERS_TEAM',
+        payload:data
+    }
+};
+
+export const actionChangeRole = (data) => {
+    return {
+        type: 'CHANGE_ROLE_TEAM',
+        payload:data
+    }
+};
+
+export const actionDeleteUsersToTeam = (data) => {
+    return {
+        type: 'DELETE_USERS_TEAM',
+        payload:data
+    }
+};
+
+export const failedActionAddUsersToTeam = (data) => {
+    return {
+        type: 'FAILED_ADD_USERS_TEAM',
+        payload:data
+    }
+};

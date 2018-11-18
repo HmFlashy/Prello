@@ -9,6 +9,7 @@
     flex-basis: 20%;
     background-color: #f5f6f7;
     padding-top: 10px;
+    display:inline-block;
 }
 
 .team-content {
@@ -51,5 +52,6 @@
 
 .team-name{
     margin-top:40px !important;
+    margin-bottom:40px !important;
     font-size:200% !important;
 }

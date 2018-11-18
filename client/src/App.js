@@ -6,7 +6,6 @@ import BoardPage from './pages/BoardPage'
 import { ConnectedRouter } from 'connected-react-router'
 import { history } from './history'
 import HomePage from './pages/HomePage'
-import WelcomePage from "./pages/WelcomePage";
 import DeveloperPage from './pages/DeveloperPage'
 
 import { Provider } from 'react-redux'
@@ -26,9 +25,8 @@ class App extends Component {
 
         <Provider store={configureStore()}>
           <ConnectedRouter history={history}>
-            <div className="App fillheight">
+            <div className="App">
               <Switch>
-                <Route exact path="/welcome" component={WelcomePage} />
                 <Route exact path="/login" component={AuthentificationPage} />
                 <Route exact path="/register" component={AuthentificationPage} />
                 <Route exact path="/home" component={HomePage} />
@@ -38,7 +36,7 @@ class App extends Component {
                 <Route exact path="/me" component={MePage} />
                 <Route exact path="/developer/app/:idApp" component={DeveloperPage} />
                 <Route exact path="/developer" component={DeveloperPage} />
-                <Redirect to="/welcome" />
+                <Redirect to="/login" />
               </Switch>
             </div>
           </ConnectedRouter >

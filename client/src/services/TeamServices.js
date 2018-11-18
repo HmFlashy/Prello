@@ -5,7 +5,7 @@ import { tokenHeader } from '../helpers/HeaderHelper'
 export default {
     async addUsersToTeam(teamId, users) {
         try {
-            return await users.forEach(user => axios.put(`${UrlConfig.API}/teams/${teamId}/members/${user._id}`, tokenHeader()))
+            return await users.forEach(user => axios.post(`${UrlConfig.API}/teams/${teamId}/members/${user._id}`, null, tokenHeader()))
         } catch(error) {
             console.log(error)
             throw error
@@ -55,6 +55,15 @@ export default {
         try {
             const res = await axios.put(`${UrlConfig.API}/teams/${teamId}/members/${memberId}`, {role}, tokenHeader());
             return res.data
+        } catch (error) {
+            console.log(error)
+            throw error
+        }
+    },
+    async updateName(teamId, name) {
+        try {
+            const res = await axios.put(`${UrlConfig.API}/teams/${teamId}`, { name }, tokenHeader());
+            return res.data;
         } catch (error) {
             console.log(error)
             throw error

@@ -27,15 +27,14 @@ export default class Attachments extends Component {
                 <Icon name='paperclip' />
                 <div className="segment-attachments">
                     <p>Attachments</p>
-                    {console.log(this.props.attachments) || this.props.attachments.map(attachment =>
-                        <div className="attachment">
+                    {this.props.attachments.map(attachment =>
+                        <div key={ attachment.name } className="attachment">
                             <Segment className="segment-att displayRow">
                                 <div className='image'>
                                     <Image src={this.imageThumbnail[attachment.name.split('.')[attachment.name.split('.').length - 1]]}
                                         onClick={() => {
                                             var parser = document.createElement('a');
                                             parser.href = attachment.url;
-                                            console.log(parser.host)
                                             if ((/^prello-khal\.s3.*\.amazonaws\.com$/).test(parser.host)) {
                                                 try {
                                                     var xhr = new XMLHttpRequest();

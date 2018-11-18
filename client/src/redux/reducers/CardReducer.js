@@ -128,16 +128,32 @@ export default (state = defaultCardReducer, action = { type: null, payload: null
         ...state,
         all: state.all.map(card => card._id === action.payload._id ? { ...card, cardInformation: { ...card.cardInformation, nbAttachments: card.cardInformation.nbAttachments - 1 } } : card)
       }
-      case 'DELETED_BOARD_MEMBER':
+    case 'DELETED_BOARD_MEMBER':
+      return {
+        ...state,
+        all: state.all.map(card => {
           return {
-              ...state,
-              all: state.all.map(card => {
-                return {
-                    ...card,
-                    members: card.members.filter(member => member._id !== action.payload.memberId)
-                }
-              })
+            ...card,
+            members: card.members.filter(member => member._id !== action.payload.memberId)
           }
+        })
+      }
+    case 'ADD_CARD_MEMBER':
+      return {
+        ...state,
+        all: state.all.map(card => card._id === action.payload._id
+          ? { ...card, members: [...card.members, action.payload.members] }
+          : { ...card }
+        )
+      }
+    case 'REMOVE_CARD_MEMBER':
+      return {
+        ...state,
+        all: state.all.map(card => card._id === action.payload._id
+          ? { ...card, members: card.members.filter(member => member._id !== action.payload.members) }
+          : { ...card }
+        )
+      }
     default:
       return state
   }

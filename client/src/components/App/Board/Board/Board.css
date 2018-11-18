@@ -46,7 +46,7 @@
     height: 100%;
 }
 
-#bg {
+.bg {
   position: fixed; 
   top: 0; 
   left: 0; 

@@ -1,4 +1,4 @@
-const { body, param } = require('express-validator/check');
+const { param } = require('express-validator/check');
 
 module.exports = [
     param('cardId').matches(/^[0-9a-fA-F]{24}$/).withMessage(`CARDID_MALFORMED`),

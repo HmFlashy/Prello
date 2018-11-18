@@ -32,7 +32,6 @@ export const getDueDateMode = (date, isCompleted, dueDateMode) => {
             else if (isCompleted) return false;
             else {
                 const diff = moment(date).diff(moment(), "minutes");
-                console.log(diff)
                 return (diff <= 60 * 24 && diff >= 0)
             }
         case "DUE_NEXT_WEEK":

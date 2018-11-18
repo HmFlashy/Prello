@@ -65,7 +65,7 @@ class Poll extends Component {
                             <Button icon='add' color="green" onClick={() => this.setState({ isFormOpened: true, isOpened: false, formCard: false, formName: "", updatingId: "" })}>Create new poll</Button>
                         </div>
                         {this.props.polls.map(poll =>
-                            <Segment>
+                            <Segment key={poll._id}>
                                 <div className="displayRow spacebetween" >
                                     <p>{poll.title}</p>
                                     {poll.owner === this.props.userId
@@ -86,7 +86,7 @@ class Poll extends Component {
                                 </div>
                                 <Form.Group>
                                     {poll.options.map(option =>
-                                        <Segment className="displayRow spacebetween">
+                                        <Segment key={option.title} className="displayRow spacebetween">
                                             <div className="displayRow">
                                                 <Form.Field
                                                     control={Checkbox}
@@ -124,7 +124,7 @@ class Poll extends Component {
                                                             <Popup.Header>Other voters</Popup.Header>
                                                             <Popup.Content>
                                                                 {option.voters.slice(4).map(voter =>
-                                                                    <div className="displayRow">
+                                                                    <div key={voter._id} className="displayRow">
                                                                         <p>{voter.fullName}</p>
                                                                         <Avatar
                                                                             _id={voter._id}
@@ -138,7 +138,7 @@ class Poll extends Component {
                                                         </Popup>
                                                         : "",
                                                     poll.owner === this.props.userId
-                                                        ? <Button icon='trash' color="red" onClick={() => this.deletePollOption({ _id: poll._id, optionId: option._id, boardId: this.props.boardId })} />
+                                                        ? <Button key={poll._id}  icon='trash' color="red" onClick={() => this.deletePollOption({ _id: poll._id, optionId: option._id, boardId: this.props.boardId })} />
                                                         : ""
                                                     ]
                                                 }

@@ -1,7 +1,4 @@
-const UserController = require('../../controllers/UserController')
 const throwError = require('../../helper/RequestHelper').throwError;
-const jwt = require('jsonwebtoken')
-const bcrypt = require('bcrypt')
 const request = require('request-promise')
 const logger = require('../../../logger')
 

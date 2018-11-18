@@ -29,7 +29,7 @@ class BoardLabelsModal extends Component {
                             {
                                 this.props.boardLabels ?
 
-                                    this.props.boardLabels.map(label => <p><Label className="label-board" color={label.color} size='big' horizontal onClick={() => this.setState({ isLabelUpdating: true, currentLabel: label, updatedLabelName: label.name, updatedLabelColor: label.color })} >
+                                    this.props.boardLabels.map(label => <p key={label._id}><Label className="label-board" color={label.color} size='big' horizontal onClick={() => this.setState({ isLabelUpdating: true, currentLabel: label, updatedLabelName: label.name, updatedLabelColor: label.color })} >
                                         {label.name}
                                     </Label><Button icon onClick={() => this.props.onDeleteLabel(label._id)} >
                                             <Icon name='trash alternate' />

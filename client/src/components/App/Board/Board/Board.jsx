@@ -42,7 +42,6 @@ class Board extends Component {
     onDragUpdate = () => {
     };
     onDragEnd = (data) => {
-        console.log(data)
         const findPosition = (array, index, isUp) => {
             if (array.length === 0) {
                 return 100000
@@ -65,7 +64,6 @@ class Board extends Component {
                     let list = this.props.lists.find(list => list._id === data.source.droppableId)
                     const sorted = list.cards.sort((a, b) => a.pos - b.pos)
                     const targetIndex = sorted.findIndex(list => list._id === data.draggableId) + movement
-                    console.log(sorted)
                     this.props.moveCard(cardId, { boardId: this.props.board._id, oldListId: data.source.droppableId, newListId: data.source.droppableId, pos: findPosition(sorted.map(ele => ele.pos), targetIndex, movement > 0), _id: cardId })
                 }
                 else {
@@ -98,14 +96,13 @@ class Board extends Component {
     };
 
     changeFullLabelDisplay() {
-        console.log(this)
         this.setState({ fullLabelDisplay: !this.state.fullLabelDisplay })
     }
 
     render() {
         return (
             <div className="board">
-                <div id="bg">
+                <div className="bg">
                     <img src="http://hdwpro.com/wp-content/uploads/2016/03/1080p-Background-Desktop.jpg" style={{ width: '100%', height: '100%' }} alt="" />
                 </div>
                 <BoardHeaderContainer
@@ -127,7 +124,7 @@ class Board extends Component {
                                 className="myLists">
                                 <List className='lists'>
                                     {this.props.board.lists.sort((a, b) => a.pos - b.pos).map(list => (
-                                        console.log(list.isArchived) || !list.isArchived
+                                        !list.isArchived
                                             ? <List.Item key={list._id} className='no-padding-top'><ListContainer key={list._id} listId={list._id} fullLabelDisplay={this.state.fullLabelDisplay} changeFullLabelDisplay={() => this.changeFullLabelDisplay()} /></List.Item>
                                             : ""
                                     ))}

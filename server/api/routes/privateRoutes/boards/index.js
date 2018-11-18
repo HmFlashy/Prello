@@ -25,7 +25,7 @@ router.put("/:boardId", boardsValidator.updateBoardValidator, checkRequest, chec
 router.delete('/:boardId', boardsValidator.deleteBoardValidator, checkRequest, checkRightsFromBoard(["in:Board", "status:Board:Admin"]), require('./deleteBoard'));
 
 router.put("/:boardId/teams", boardsValidator.addTeamBoardValidator, checkRequest, checkRightsFromBoard(["in:Board", "status:Board:Admin"]), require('./addBoardTeam'));
-router.delete("/:boardId/teams", boardsValidator.deleteTeamBoardValidator, checkRequest, checkRightsFromBoard(["in:Board", "status:Board:Admin"]), require('./deleteBoardTeam'));
+router.delete("/:boardId/teams/:teamId", boardsValidator.deleteTeamBoardValidator, checkRequest, checkRightsFromBoard(["in:Board", "status:Board:Admin"]), require('./deleteBoardTeam'));
 router.get('/:boardId/teams/:query', boardsValidator.getTeamSearchedBoardValidator, checkRequest, require('./getTeamsSearched'));
 
 router.post('/:boardId/labels', labelValidator.createLabelBoardValidator, checkRequest, checkRightsFromBoard(["in:Board"]), require('../labels/Board/createLabel'));

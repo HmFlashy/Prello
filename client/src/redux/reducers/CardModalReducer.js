@@ -185,6 +185,18 @@ export default (state = defaultCardModalState, action = { type: null, payload: n
                     ...state,
                     labels: state.labels.filter(label => label._id !== action.payload.labelId)
                 }) : state
+        case 'ADD_CARD_MEMBER':
+            return (state._id && state._id === action.payload._id) ?
+                ({
+                    ...state,
+                    members: [...state.members, action.payload.members]
+                }) : state
+        case 'REMOVE_CARD_MEMBER':
+            return (state._id && state._id === action.payload._id) ?
+                ({
+                    ...state,
+                    members: state.members.filter(member => member._id !== action.payload.members)
+                }) : state
         default:
             return state
     }

@@ -61,10 +61,6 @@ const addPoll = async (boardId, title, card, owner) => {
         poll = await poll.save()
         await Board.findOneAndUpdate({ _id: boardId },
             { $push: { polls: poll } }, { "new": true })
-        let newCard
-        if (card) {
-            newCard = await Card.findById(card)
-        }
         return await Poll.findById(poll._id).populate(
             [{
                 path: "card",

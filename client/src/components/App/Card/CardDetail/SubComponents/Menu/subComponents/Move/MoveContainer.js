@@ -44,7 +44,6 @@ export default class MoveContainer extends React.Component {
     }
 
     onChangePos(pos) {
-        console.log(pos)
         this.setState({ currentPos: pos })
     }
 

@@ -15,8 +15,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = (dispatch) => {
     return {
         vote(data) {
-            console.log("VOTE : " + data)
-            console.log(data)
             try {
                 pollServices.vote(data)
             }
@@ -25,8 +23,6 @@ const mapDispatchToProps = (dispatch) => {
             }
         },
         addOption(data) {
-            console.log("ADD OPTION :" + data)
-            console.log(data)
             try {
                 pollServices.addOption(data)
             }
@@ -35,8 +31,6 @@ const mapDispatchToProps = (dispatch) => {
             }
         },
         updatePoll(data) {
-            console.log("UPDATING :" + data)
-            console.log(data)
             try {
                 pollServices.updatePoll(data)
             }
@@ -45,8 +39,6 @@ const mapDispatchToProps = (dispatch) => {
             }
         },
         addPoll(data) {
-            console.log("ADDING :" + data)
-            console.log(data)
             try {
                 pollServices.addPoll(data)
             }
@@ -55,8 +47,6 @@ const mapDispatchToProps = (dispatch) => {
             }
         },
         deletePoll(data) {
-            console.log("DELETE POLL :")
-            console.log(data)
             try {
                 pollServices.deletePoll(data)
             }
@@ -65,8 +55,6 @@ const mapDispatchToProps = (dispatch) => {
             }
         },
         deletePollOption(data) {
-            console.log("DELETE POLL OPTION:")
-            console.log(data)
             try {
                 pollServices.deletePollOption(data)
             }
@@ -75,8 +63,6 @@ const mapDispatchToProps = (dispatch) => {
             }
         },
         updatePollOption(data) {
-            console.log("UPDATE POLL OPTION:")
-            console.log(data)
             try {
                 pollServices.updatePollOption(data)
             }

@@ -27,7 +27,7 @@ class DynamicInput extends Component {
     inputToText(event) {
         this.setState({
             isInput: false,
-
+            name: this.props.placeholder
         })
     }
 
@@ -41,9 +41,7 @@ class DynamicInput extends Component {
     setNode(node) {
         this.node = node
         document.addEventListener('mousedown', (event) => {
-            return this.node.contains(event.target) ? event.stopPropagation() : this.inputToText() || this.setState({
-                name: this.props.placeholder
-            })
+            return this.node.contains(event.target) ? event.stopPropagation() : this.inputToText()
         })
         this.node.children[0].focus()
     }

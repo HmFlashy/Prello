@@ -86,7 +86,6 @@ class LoginForm extends Component {
                     (!this.state.polytechChecked ? "The username or email is required" : "Your name and lastname is required") :
                 error.data === "INTERVAL_SERVER_ISSUE" ? (!this.state.polytechChecked ? "Email, username or password is wrong" : "Your name or password is wrong") :
                 "Unknown error"
-                console.log(errorMessage)
             this.setState({
                 error: errorMessage
             })

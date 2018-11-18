@@ -6,7 +6,6 @@ class PollForm extends Component {
 
     constructor(props) {
         super(props);
-        console.log(props.card)
         this.state = {
             value: this.props.value || "",
             card: this.props.card || "",
@@ -26,7 +25,7 @@ class PollForm extends Component {
                                 <Dropdown.Menu>
                                     <Dropdown.Item text={"No card"} onClick={() => this.setState({ card: "" })} />
                                     {this.props.cards.map(card =>
-                                        <Dropdown.Item text={card.name} onClick={() => this.setState({ card: card })} />
+                                        <Dropdown.Item key={card._id} text={card.name} onClick={() => this.setState({ card: card })} />
                                     )}
                                 </Dropdown.Menu>
                             </Dropdown>

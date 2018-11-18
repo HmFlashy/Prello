@@ -1,8 +1,6 @@
 const CardController = require("../../../controllers/CardsController")
-const ListController = require("../../../controllers/ListsController")
 const socketIO = require("../../../../socket/index")
 const throwError = require("../../../helper/RequestHelper").throwError;
-const { validationResult } = require('express-validator/check');
 const logger =require('../../../../logger')
 
 /**
