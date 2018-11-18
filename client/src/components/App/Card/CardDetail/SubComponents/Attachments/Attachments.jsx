@@ -28,7 +28,7 @@ export default class Attachments extends Component {
                 <div className="segment-attachments">
                     <p>Attachments</p>
                     {this.props.attachments.map(attachment =>
-                        <div className="attachment">
+                        <div key={ attachment.name } className="attachment">
                             <Segment className="segment-att displayRow">
                                 <div className='image'>
                                     <Image src={this.imageThumbnail[attachment.name.split('.')[attachment.name.split('.').length - 1]]}

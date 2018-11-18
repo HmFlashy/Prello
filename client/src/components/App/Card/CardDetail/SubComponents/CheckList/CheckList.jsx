@@ -27,7 +27,7 @@ export default class CheckList extends Component {
     render() {
         return <div className={this.props.className}>
             {this.props.checklists.map(checklist =>
-                <div className="checklist displayRow">
+                <div key={ checklist._id } className="checklist displayRow">
                     <Icon name='check square outline' />
                     <div className="progress">
                         <div
@@ -51,7 +51,7 @@ export default class CheckList extends Component {
                         </div>
                         <Progress total={checklist.items.length} percent={checklist.items.length == 0 ? 100 : checklist.items.filter(item => item.isChecked).length / checklist.items.length * 100} indicating size='tiny' progress />
                         <div>{checklist.items.map(item =>
-                            <div className="displayRow title">
+                            <div key={item._id} className="displayRow title">
                                 <div className="displayRow">
                                     <Form.Checkbox checked={item.isChecked} onClick={() => {
                                         const newVal = [...this.props.checklists]
@@ -89,13 +89,13 @@ export default class CheckList extends Component {
                                 <Button icon='cancel' size="mini" onClick={() => this.props.onDeleteItem(checklist._id, item._id)} />
                             </div>)}
                         </div>
-                        {this.state.isAddingItem[checklist._id]
+                        {this.state.isAddingItem && this.state.isAddingItem[checklist._id]
                             ? <Input className="addItemTF" value={this.state.newItemName} onKeyPress={(event) => event.charCode === 13 && this.state.newItemName !== "" ? this.props.onAddItem(checklist._id, this.state.newItemName) || this.setState({ newItemName: "" }) : ""} onChange={(event, target) => this.setState({ newItemName: target.value })}></Input>
                             : ""
                         }
                         <Button className="addItem" onClick={() => {
                             if (this.state.isAddingItem[checklist._id]) {
-                                if (!this.state.newItemName == "")
+                                if (this.state.newItemName !== "")
                                     return this.props.onAddItem(checklist._id, this.state.newItemName) || this.setState({ newItemName: "" })
                             }
                             else {
@@ -106,7 +106,7 @@ export default class CheckList extends Component {
                         }
                         }>Add item</Button>
 
-                        {this.state.isAddingItem
+                        {this.state && this.state.isAddingItem
                             ? <Button icon='cancel' onClick={() => this.setState({ isAddingItem: [] })} />
                             : ""
                         }

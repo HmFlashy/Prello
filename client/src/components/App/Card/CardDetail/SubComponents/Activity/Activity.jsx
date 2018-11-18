@@ -23,7 +23,7 @@ export default class Activity extends Component {
                 <p>Comments</p>
             </div>
             {this.props.comments.sort((a, b) => moment(b.date).valueOf() - moment(a.date).valueOf()).map(comment =>
-                <Segment>
+                <Segment key={comment._id}>
                     <div className="displayRow commentDiv">
                         <div className="displayRow">
                             <Avatar
