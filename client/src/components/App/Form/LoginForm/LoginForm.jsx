@@ -78,9 +78,9 @@ class LoginForm extends Component {
             await this.props.authenticate(this.state.email, this.state.password, ldapOptions)
             this.props.history.push(this.props.location.redirect || { pathname: '/home' })
         } catch(error) {
-            console.log(error)
             const errorMessage = 
                 error.data === "LDAP_SERVER_ERROR" ? "Can't contact LDAP server, connect with regular credentials" :
+                error.data === "EMAIL_MALFORMED" ? "Email malformed" :
                 error.data === "PASSWORD_EMPTY" ? "The password is required" :
                 error.data === "EMAIL_EMPTY" ? 
                     (!this.state.polytechChecked ? "The username or email is required" : "Your name and lastname is required") :
