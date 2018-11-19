@@ -50,7 +50,7 @@ class AddMemberModal extends Component {
     }
 
     addUsers() {
-        if (this.state.usersChecked !== "" && this.state.usersChecked.trim() !== "")
+        if (this.state.usersChecked.length !== 0)
             this.props.addUsers(this.state.usersChecked)
     }
 
