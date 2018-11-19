@@ -53,7 +53,7 @@ module.exports = async (req, res) => {
             throwError(400, "MISSING_EMAIL")
         }
         const trimedEmail = email.trim().toLowerCase()
-        if(!trimedEmail.match(emailRegEx)) {
+        if(req.body.ldap !== "true" && !trimedEmail.match(emailRegEx)) {
             throwError(400, "EMAIL_MALFORMED")
         }
         if(!password){
