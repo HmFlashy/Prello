@@ -191,8 +191,9 @@ class BoardHeader extends Component {
         this.props.addMembers(this.props.board._id, this.state.currentMembers.map(member => member.key));
         this.setState({
             currentMembers: [],
-            currentMembersValues: []
-        })
+            currentMembersValues: [],
+            searchMember: ""
+        }, () => {console.log(this.state)})
     }
 
     openTeamsPopup() {
