@@ -4,6 +4,7 @@ import {Button, Divider, Dropdown, Icon, Input, Label, List, Popup, Loader, Dimm
 import CardsArchivedModal from "../CardsArchivedModal";
 import PollContainer from "../../../../../containers/BoardContainer/PollContainer";
 import Avatar from "../../../Avatar";
+import ReactAvatar from "react-avatar";
 import BoardLabelsModal from "../BoardLabelsModal"
 import DynamicInput from "../../../Input/DynamicInput"
 import axios from "axios"
@@ -337,7 +338,13 @@ class BoardHeader extends Component {
                                 )}
                                 <Popup
                                     flowing={true}
-                                    trigger={<Icon name={"add team"}/>}
+                                    trigger={
+                                        <Icon circular className={"add-button"}>
+                                            <Icon.Group>
+                                                <Icon name='group'/>
+                                                <Icon corner name='add team'/>
+                                            </Icon.Group>
+                                        </Icon>}
                                     on='click'
                                     open={this.state.isTeamOpen}
                                     onClose={() => this.setState({isTeamOpen: false})}
@@ -429,7 +436,7 @@ class BoardHeader extends Component {
                                 )}
                                 <Popup
                                     flowing={true}
-                                    trigger={<Icon name={"add user"}/>}
+                                    trigger={<Icon circular className={"add-button"} name={"add user"}/>}
                                     on='click'
                                     open={this.state.isMemberOpen}
                                     onClose={() => this.setState({isMemberOpen: false})}
