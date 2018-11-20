@@ -246,7 +246,7 @@ export default (state = defaultAuthentificationState, action = { type: null, pay
                 ...state,
                 user: {
                     ...state.user,
-                    teams: state.user.teams.map(team => 
+                    teams: state.user.teams.map(team =>
                     (team.team._id === action.payload.teamId)
                     ? {...team,
                         team: {
@@ -254,7 +254,7 @@ export default (state = defaultAuthentificationState, action = { type: null, pay
                             members: [
                                 ...team.team.members,
                                 ...action.payload.users.map(user => ({role:"Member", member:user}))
-                            ]                       
+                            ]
                             }
                         }
                     : team
@@ -267,7 +267,7 @@ export default (state = defaultAuthentificationState, action = { type: null, pay
                     ...state,
                     user: {
                         ...state.user,
-                        teams: state.user.teams.map(team => 
+                        teams: state.user.teams.map(team =>
                         (team.team._id === action.payload.teamId)
                         ? {...team,
                             team: {
@@ -277,7 +277,7 @@ export default (state = defaultAuthentificationState, action = { type: null, pay
                                         ...member,
                                         role:action.payload.role
                                     }
-                                    : member)                       
+                                    : member)
                                 }
                             }
                         : team
@@ -303,22 +303,22 @@ export default (state = defaultAuthentificationState, action = { type: null, pay
                             teams: state.user.teams.filter(team => team.team._id !== action.payload._id)
                         }
                     };
-        case "DELETE_USERS_TEAM":
-            console.log(action.payload)
+        case "DELETE_USER_TEAM":
+            const currentUserId = state.user._id;
                 return {
                     ...state,
                     user: {
                         ...state.user,
-                        teams: state.user.teams.map(team => 
+                        teams: action.payload.userId !== currentUserId ? state.user.teams.map(team =>
                         (team.team._id === action.payload.teamId)
                         ? {...team,
                             team: {
                                 ...team.team,
-                                members: team.team.members.filter(member => member.member._id !== action.payload.users)
+                                members: team.team.members.filter(member => member.member._id !== action.payload.userId)
                                 }
                             }
                         : team
-                        )
+                        ) : state.user.teams.filter(team => team.team._id !== action.payload.teamId)
                     }
                 };
         case "FAILED_ADD_USERS_TEAM":

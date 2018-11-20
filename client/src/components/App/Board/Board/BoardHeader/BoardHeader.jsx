@@ -4,7 +4,6 @@ import {Button, Divider, Dropdown, Icon, Input, Label, List, Popup, Loader, Dimm
 import CardsArchivedModal from "../CardsArchivedModal";
 import PollContainer from "../../../../../containers/BoardContainer/PollContainer";
 import Avatar from "../../../Avatar";
-import ReactAvatar from "react-avatar";
 import BoardLabelsModal from "../BoardLabelsModal"
 import DynamicInput from "../../../Input/DynamicInput"
 import axios from "axios"
@@ -413,16 +412,16 @@ class BoardHeader extends Component {
                                                           disabled={!this.props.board.members.some(boardMember => this.props.userId === boardMember.member._id && boardMember.role === "Admin")}
                                                 />
                                                 {this.props.board.members.some(boardMember => this.props.userId === boardMember.member._id && boardMember.role === "Admin")
-                                                    ? <Button onClick={() => {
-                                                        this.removeMember(boardMember.member._id);
+                                                    ? <Button onClick={async () => {
+                                                        await this.removeMember(boardMember.member._id);
                                                         if (this.props.userId === boardMember.member._id)
                                                             this.props.history.push(`/home`);
                                                     }}>
                                                         {this.props.userId === boardMember.member._id ? "Leave board" : "Remove from the board"}
                                                     </Button>
                                                     : this.props.userId === boardMember.member._id
-                                                        ? <Button onClick={() => {
-                                                            this.removeMember(boardMember.member._id);
+                                                        ? <Button onClick={async () => {
+                                                            await this.removeMember(boardMember.member._id);
                                                             if (this.props.userId === boardMember.member._id)
                                                                 this.props.history.push(`/home`);
                                                         }}>

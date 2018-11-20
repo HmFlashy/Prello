@@ -9,9 +9,7 @@ const mapStateToProps = (state, ownProps) => {
     const query = state.authentification.queryMember;
     let isAdmin = false
     if (userTeam) {
-        console.log(userTeam)
-        const user = userTeam.team.members.find(member => console.log(member) || member.member._id === state.authentification.user._id)
-        console.log(user)
+        const user = userTeam.team.members.find(member => member.member._id === state.authentification.user._id)
         if (user) {
             isAdmin = user.role === "Admin"
         }
@@ -51,7 +49,7 @@ const mapDispatchToProps = (dispatch) => {
         },
         async deleteMember(teamId, memberId) {
             try {
-                dispatch(actionDeleteUsersToTeam({ teamId: teamId, users: memberId }))
+                dispatch(actionDeleteUsersToTeam({ teamId: teamId, userId: memberId }))
                 const data = await TeamServices.deleteMember(teamId, memberId)
                 return data
             } catch (error) {
