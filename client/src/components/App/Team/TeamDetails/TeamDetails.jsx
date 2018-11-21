@@ -29,8 +29,8 @@ class TeamDetails extends Component {
     addUsers(users) {
         this.props.addUsersToTeam(this.props.team._id, users)
     }
-    deleteMember(memberId) {
-        this.props.deleteMember(this.props.team._id, memberId)
+    async deleteMember(memberId) {
+        await this.props.deleteMember(this.props.team._id, memberId)
     }
     changeRole(userId, role) {
         this.props.changeRole(this.props.team._id, userId, role)

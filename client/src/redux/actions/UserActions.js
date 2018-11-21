@@ -189,8 +189,8 @@ export const actionChangeRole = (data) => {
 
 export const actionDeleteUsersToTeam = (data) => {
     return {
-        type: 'DELETE_USERS_TEAM',
-        payload:data
+        type: 'DELETE_USER_TEAM',
+        payload: data
     }
 };
 

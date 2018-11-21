@@ -399,12 +399,23 @@ const deleteBoardMember = async (boardId, userId) => {
         if (!user) {
             throwError(404, `The user ${userId} was not found`)
         }
-        const board = await Board.findOneAndUpdate({_id: boardId}, {
+
+        let board = await Board.findOneAndUpdate({_id: boardId}, {
             $pull: {
                 members: {member: userId},
                 starred: userId
+            },
+            $inc: {
+                "boardInformation.nbMembers": -1
             }
         }, {new: true});
+
+        board = await Board.findOneAndUpdate({_id: boardId}, {
+            $set: {
+                "boardInformation.nbStars": board.starred.length
+            }
+        }, {new: true});
+
         if (!board) {
             throwError(404, `The board ${boardId} was not found`)
         }

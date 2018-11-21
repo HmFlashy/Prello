@@ -191,8 +191,9 @@ class BoardHeader extends Component {
         this.props.addMembers(this.props.board._id, this.state.currentMembers.map(member => member.key));
         this.setState({
             currentMembers: [],
-            currentMembersValues: []
-        })
+            currentMembersValues: [],
+            searchMember: ""
+        }, () => {console.log(this.state)})
     }
 
     openTeamsPopup() {
@@ -336,7 +337,13 @@ class BoardHeader extends Component {
                                 )}
                                 <Popup
                                     flowing={true}
-                                    trigger={<Icon name={"add team"}/>}
+                                    trigger={
+                                        <Icon circular className={"add-button"}>
+                                            <Icon.Group>
+                                                <Icon name='group'/>
+                                                <Icon corner name='add team'/>
+                                            </Icon.Group>
+                                        </Icon>}
                                     on='click'
                                     open={this.state.isTeamOpen}
                                     onClose={() => this.setState({isTeamOpen: false})}
@@ -405,16 +412,16 @@ class BoardHeader extends Component {
                                                           disabled={!this.props.board.members.some(boardMember => this.props.userId === boardMember.member._id && boardMember.role === "Admin")}
                                                 />
                                                 {this.props.board.members.some(boardMember => this.props.userId === boardMember.member._id && boardMember.role === "Admin")
-                                                    ? <Button onClick={() => {
-                                                        this.removeMember(boardMember.member._id);
+                                                    ? <Button onClick={async () => {
+                                                        await this.removeMember(boardMember.member._id);
                                                         if (this.props.userId === boardMember.member._id)
                                                             this.props.history.push(`/home`);
                                                     }}>
                                                         {this.props.userId === boardMember.member._id ? "Leave board" : "Remove from the board"}
                                                     </Button>
                                                     : this.props.userId === boardMember.member._id
-                                                        ? <Button onClick={() => {
-                                                            this.removeMember(boardMember.member._id);
+                                                        ? <Button onClick={async () => {
+                                                            await this.removeMember(boardMember.member._id);
                                                             if (this.props.userId === boardMember.member._id)
                                                                 this.props.history.push(`/home`);
                                                         }}>
@@ -428,7 +435,7 @@ class BoardHeader extends Component {
                                 )}
                                 <Popup
                                     flowing={true}
-                                    trigger={<Icon name={"add user"}/>}
+                                    trigger={<Icon circular className={"add-button"} name={"add user"}/>}
                                     on='click'
                                     open={this.state.isMemberOpen}
                                     onClose={() => this.setState({isMemberOpen: false})}
