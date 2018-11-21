@@ -27,7 +27,6 @@ const search = async (name, password, section, year) => {
             password: password
         }, (err) => {
             if(err) {
-                logger.error(err.message)
                 reject(err)
             } else {
                 const search_options = {
@@ -37,7 +36,7 @@ const search = async (name, password, section, year) => {
                     attrs: '*'
                 }
                 ldap.search(search_options, (err, data) => {
-                    if(err) return logger.error(err.message) || reject(err)
+                    if(err) return reject(err)
                     return resolve(data)
                 });
             }
